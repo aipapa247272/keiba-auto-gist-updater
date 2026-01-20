@@ -1,0 +1,48 @@
+name: Update Gists
+
+on:
+  workflow_dispatch:
+    inputs:
+      race_content:
+        description: "Content to write to race_log.md"
+        required: true
+        default: "TEST_RACE"
+      audit_content:
+        description: "Content to write to audit_log.md"
+        required: true
+        default: "TEST_AUDIT"
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update race_log gist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIST_TOKEN }}
+          GIST_ID: ${{ secrets.RACE_GIST_ID }}
+          CONTENT: ${{ github.event.inputs.race_content }}
+        run: |
+          set -euo pipefail
+          jq -n --arg c "$CONTENT" '{"files":{"race_log.md":{"content":$c}}}' > payload.json
+          curl -sS -X PATCH \
+            -H "Authorization: token ${GITHUB_TOKEN}" \
+            -H "Content-Type: application/json" \
+            --data @payload.json \
+            "https://api.github.com/gists/${GIST_ID}" > /dev/null
+
+      - name: Update audit_log gist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIST_TOKEN }}
+          GIST_ID: ${{ secrets.AUDIT_GIST_ID }}
+          CONTENT: ${{ github.event.inputs.audit_content }}
+        run: |
+          set -euo pipefail
+          jq -n --arg c "$CONTENT" '{"files":{"audit_log.md":{"content":$c}}}' > payload.json
+          curl -sS -X PATCH \
+            -H "Authorization: token ${GITHUB_TOKEN}" \
+            -H "Content-Type: application/json" \
+            --data @payload.json \
+            "https://api.github.com/gists/${GIST_ID}" > /dev/null
+
+      - name: Done
+        run: echo "Gists updated."
