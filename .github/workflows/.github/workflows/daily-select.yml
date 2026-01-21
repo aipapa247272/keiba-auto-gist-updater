@@ -2,6 +2,9 @@ name: Daily Select (manual)
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/daily-select.yml"
 
 permissions:
   contents: read
