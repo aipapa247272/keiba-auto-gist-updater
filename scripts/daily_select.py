@@ -18,7 +18,7 @@ NETKEIBA_SHUTUBA_PC = "https://nar.netkeiba.com/race/shutuba.html?race_id={race_
 NETKEIBA_SHUTUBA_SP = "https://nar.sp.netkeiba.com/race/shutuba.html?race_id={race_id}"
 
 KASAII_ID_RE = re.compile(r"kaisai_id=(\d+)")
-RACE_ID_RE   = re.compile(r"race_id=(20\d{10})")
+RACE_ID_RE = re.compile(r"race_id=(\d{12})")
 
 def http_get(url: str, timeout=20) -> str:
     headers = {"User-Agent": "Mozilla/5.0"}
@@ -62,7 +62,8 @@ def get_raceid_map_for_day(jyo_cd: str, ymd: str) -> dict:
 
     url = NETKEIBA_RACE_LIST_URL.format(ymd=ymd, kaisai_id=kaisai_id)
     html = http_get(url)
-
+    print("contains race_id?:", "race_id=" in html)
+  
     race_ids = list(dict.fromkeys(RACE_ID_RE.findall(html)))
     m = {}
     for rid in race_ids:
