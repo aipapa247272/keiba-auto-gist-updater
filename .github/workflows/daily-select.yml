@@ -7,7 +7,7 @@ on:
       - ".github/workflows/daily-select.yml"
 
 permissions:
-  contents: read
+  contents: write  # read から write に変更
 
 jobs:
   daily_select:
@@ -27,5 +27,13 @@ jobs:
           python -m pip install requests
 
       - name: Run daily_select.py
+            - name: Commit today_jobs.latest.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add today_jobs.latest.json
+          git diff --cached --quiet || git commit -m "chore: update today_jobs.latest.json [skip ci]"
+          git push
+
         run: |
           python scripts/daily_select.py
