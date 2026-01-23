@@ -56,21 +56,21 @@ def get_kaisai_id_from_calendar(jyo_cd: str, ymd: str):
     return m.group(1) if m else None
 
 def get_raceid_map_for_day(jyo_cd: str, ymd: str) -> dict:
-    kaisai_id = get_kaisai_id_from_calendar(jyo_cd, ymd)
-    if not kaisai_id:
-        return {}
-
-    url = NETKEIBA_RACE_LIST_URL.format(ymd=ymd, kaisai_id=kaisai_id)
+    # race_list は race_id がHTMLにいないことがあるので、race_trend を使う
+    url = f"https://nar.netkeiba.com/top/race_trend.html?kaisai_date={ymd}"
     html = http_get(url)
+
     print("contains race_id?:", "race_id=" in html)
-  
+
     race_ids = list(dict.fromkeys(RACE_ID_RE.findall(html)))
+
     m = {}
     for rid in race_ids:
         rno = race_no_from_race_id(rid)
         if rno is None:
             continue
         m.setdefault(rno, rid)
+
     return m
 
 def demo():
