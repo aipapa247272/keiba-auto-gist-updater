@@ -21,13 +21,15 @@ KASAII_ID_RE = re.compile(r"kaisai_id=(\d+)")
 RACE_ID_RE   = re.compile(r"race_id=(20\d{10})")
 
 def http_get(url: str, timeout=20) -> str:
-    headers = {"User-Agent": "Mozilla/5.0", "Accept-Language": "ja,en;q=0.8"}
+    headers = {"User-Agent": "Mozilla/5.0"}
     r = requests.get(url, headers=headers, timeout=timeout)
-print("fetch_url:", url)
-print("status:", r.status_code)
-print("len:", len(r.text))
-print("head:", r.text[:200].replace("\n"," ") )
-  r.raise_for_status()
+
+    print("fetch_url:", url)
+    print("status:", r.status_code)
+    print("len:", len(r.text))
+    print("head:", r.text[:200].replace("\n", " "))
+
+    r.raise_for_status()
     return r.text
 
 def race_no_from_race_id(race_id: str):
