@@ -59,6 +59,8 @@ def get_raceid_map_for_day(jyo_cd: str, ymd: str) -> dict:
     # race_list は race_id がHTMLにいないことがあるので、race_trend を使う
     url = f"https://nar.netkeiba.com/top/race_trend.html?kaisai_date={ymd}"
     html = http_get(url)
+    print("contains shutuba?:", "shutuba.html" in html)
+    print("contains /race/?:", "/race/" in html)
     print("contains shutuba?:", "/race/shutuba" in html)
     print("contains shutuba html?:", "shutuba.html" in html)
     print("contains race_id?:", "race_id=" in html)
