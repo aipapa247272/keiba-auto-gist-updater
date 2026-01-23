@@ -37,6 +37,3 @@ jobs:
           git add today_jobs.latest.json
           git diff --cached --quiet || git commit -m "chore: update today_jobs.latest.json [skip ci]"
           git push
-
-        run: |
-          python scripts/daily_select.py
