@@ -22,6 +22,25 @@ import requests
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
+# 場コード → 場名のマッピング（NAR地方競馬）
+JYO_CODE_TO_NAME = {
+    "30": "門別",
+    "35": "盛岡",
+    "36": "水沢",
+    "42": "浦和",
+    "43": "船橋",
+    "44": "大井",
+    "45": "川崎",
+    "46": "金沢",
+    "47": "笠松",
+    "48": "名古屋",
+    "50": "園田",
+    "51": "姫路",
+    "54": "高知",
+    "55": "佐賀",
+    "65": "帯広ば"
+}
+
 # ---- netkeiba / keiba.go.jp basic config ----
 BABACODE_TO_NETKEIBA_JYOCD = {
   "19": "43",  # 船橋
@@ -113,7 +132,11 @@ def get_raceid_map_for_day(ymd: str) -> dict:
 import json
 
 def demo():
-    # 今日の日付（JST）で船橋を取得
+    import json
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+    
+    # 今日の日付（JST）
     jst = ZoneInfo("Asia/Tokyo")
     ymd = datetime.now(jst).strftime("%Y%m%d")
     
@@ -135,3 +158,7 @@ def demo():
         json.dump(output, f, ensure_ascii=False, indent=2)
     
     print("✅ today_jobs.latest.json created")
+
+
+if __name__ == "__main__":
+    demo()
