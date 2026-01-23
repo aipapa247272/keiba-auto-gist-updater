@@ -37,3 +37,15 @@ jobs:
           git add today_jobs.latest.json
           git diff --cached --quiet || git commit -m "chore: update today_jobs.latest.json [skip ci]"
           git push
+
+      - name: Fetch shutuba data
+        run: |
+          python scripts/fetch_shutuba.py
+
+      - name: Commit race_data JSON
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add race_data_*.json
+          git diff --cached --quiet || git commit -m "chore: update race_data [skip ci]"
+          git push
