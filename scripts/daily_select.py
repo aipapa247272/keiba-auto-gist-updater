@@ -56,28 +56,24 @@ def get_kaisai_id_from_calendar(jyo_cd: str, ymd: str):
     return m.group(1) if m else None
 
 def get_raceid_map_for_day(jyo_cd: str, ymd: str) -> dict:
-    # race_list は race_id がHTMLにいないことがあるので、race_trend を使う
-    url = f"https://nar.netkeiba.com/top/race_trend.html?kaisai_date={ymd}"
+    # まず calendar から kaisai_id を取る（あなたの既存関数を利用）
+    kaisai_id = get_kaisai_id_from_calendar(jyo_cd=jyo_cd, ymd=ymd)
+    print("kaisai_id:", kaisai_id)
+
+    if not kaisai_id:
+        return {}
+
+    url = f"https://nar.netkeiba.com/top/race_list.html?kaisai_date={ymd}&kaisai_id={kaisai_id}"
     html = http_get(url)
+
+    print("fetch_url(race_list):", url)
     print("contains /race/?:", "/race/" in html)
     print("contains shutuba.html?:", "shutuba.html" in html)
     print("contains race_id=?:", "race_id=" in html)
-    print("contains shutuba?:", "shutuba.html" in html)
-    print("contains /race/?:", "/race/" in html)
-    print("contains shutuba?:", "/race/shutuba" in html)
-    print("contains shutuba html?:", "shutuba.html" in html)
-    print("contains race_id?:", "race_id=" in html)
+    print("len(race_list html):", len(html))
 
-    race_ids = list(dict.fromkeys(RACE_ID_RE.findall(html)))
-
-    m = {}
-    for rid in race_ids:
-        rno = race_no_from_race_id(rid)
-        if rno is None:
-            continue
-        m.setdefault(rno, rid)
-
-    return m
+    # ここではまだ抽出はせず、まず「入っているか」だけを見る
+    return {}
 
 def demo():
     # まずは動作確認用：今日の日付(JST)で船橋のrace_id mapを取る
