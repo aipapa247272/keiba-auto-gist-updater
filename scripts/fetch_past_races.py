@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-過去走データ取得スクリプト
+過去走データ取得スクリプト（デバッグ版）
 
 馬柱ページ（shutuba_past.html）から各馬の過去5走データを取得し、
 race_data_{ymd}.json に追加する
@@ -12,6 +12,7 @@ import re
 import sys
 import time
 from pathlib import Path
+import shutil
 
 import requests
 from bs4 import BeautifulSoup
@@ -88,14 +89,7 @@ def parse_past_races_html(html, horse_id):
     # tr 要素全体のテキストを取得
     text = tr.get_text(separator="\n", strip=True)
     
-    # レースデータのパターン（改行区切り）:
-    # 2026.01.12 高知
-    # 5
-    # 3歳ー5
-    # ダ1300 1:29.5
-    # 良
-    # 8頭 8番 8人 西森将司 55.0
-    # 4-4-5-4 (40.9) 392(-1)
+    # レースデータのパターン（改行区切り）
     pattern = re.compile(
         r"(\d{4}\.\d{2}\.\d{2})\s+(\S+)\s*\n"  # 開催日 競馬場
         r"(\d+)\s*\n"                        # レース番号
@@ -151,10 +145,20 @@ def main():
         print(f"[ERROR] {input_file} が見つかりません", file=sys.stderr)
         sys.exit(1)
     
+    # バックアップを作成
+    backup_file = f"{input_file}.backup"
+    shutil.copy(input_file, backup_file)
+    print(f"[INFO] バックアップを作成しました: {backup_file}")
+    
     with open(input_file, "r", encoding="utf-8") as f:
         race_data = json.load(f)
     
     print(f"[INFO] {input_file} を読み込みました")
+    print(f"[DEBUG] レース数: {len(race_data.get('races', []))}")
+    
+    # 過去走データ取得カウンター
+    total_horses = 0
+    total_past_races = 0
     
     # 各レースを処理
     for race in race_data["races"]:
@@ -174,6 +178,7 @@ def main():
         for horse in race.get("horses", []):
             horse_id = horse.get("horse_id")
             if not horse_id:
+                print(f"[WARN] {horse.get('馬名', '不明')} の horse_id が見つかりません")
                 continue
             
             # 過去走データを抽出
@@ -182,6 +187,9 @@ def main():
             # 馬データに追加
             horse["past_races"] = past_races
             
+            total_horses += 1
+            total_past_races += len(past_races)
+            
             print(f"  - {horse['馬名']}: {len(past_races)}走分取得")
         
         # レート制限（1秒待機）
@@ -189,10 +197,36 @@ def main():
     
     # 結果を保存
     output_file = input_file
+    
+    print(f"\n[DEBUG] 保存前の確認:")
+    print(f"  - 対象馬数: {total_horses}")
+    print(f"  - 取得過去走数: {total_past_races}")
+    print(f"  - 保存先: {output_file}")
+    
     with open(output_file, "w", encoding="utf-8") as f:
         json.dump(race_data, f, ensure_ascii=False, indent=2)
     
     print(f"\n[SUCCESS] {output_file} に過去走データを保存しました")
+    
+    # 保存後の確認
+    with open(output_file, "r", encoding="utf-8") as f:
+        saved_data = json.load(f)
+    
+    # past_races フィールドの存在確認
+    has_past_races = False
+    for race in saved_data.get("races", []):
+        for horse in race.get("horses", []):
+            if "past_races" in horse:
+                has_past_races = True
+                break
+        if has_past_races:
+            break
+    
+    if has_past_races:
+        print(f"[SUCCESS] past_races フィールドの存在を確認しました")
+    else:
+        print(f"[ERROR] past_races フィールドが見つかりません！")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
