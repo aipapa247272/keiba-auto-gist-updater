@@ -15,23 +15,37 @@ def http_get(url: str) -> str:
     resp.encoding = 'EUC-JP'
     return resp.text
 
+def extract_horse_id(horse_name_cell) -> str:
+    """
+    馬名セルから horse_id を抽出
+    例: <a href="https://db.netkeiba.com/horse/2023101194">馬名</a>
+    """
+    link = horse_name_cell.find('a')
+    if link and link.get('href'):
+        href = link.get('href')
+        # horse_id を抽出（例: /horse/2023101194 → 2023101194）
+        match = re.search(r'/horse/(\d{10})', href)
+        if match:
+            return match.group(1)
+    return None
+
 def parse_shutuba_html(html: str, race_id: str) -> Dict:
-    """BeautifulSoupで出馬表HTMLを解析（完成版）"""
+    """BeautifulSoupで出馬表HTMLを解析（horse_id 追加版）"""
     soup = BeautifulSoup(html, 'html.parser')
     
     # レース情報を取得
     race_column = soup.find('div', class_='RaceColumn01')
     race_info_text = race_column.get_text(strip=True) if race_column else ""
     
-    # レース名を抽出（例: "サラ系3歳"）
+    # レース名を抽出
     race_name_match = re.search(r'サラ系\S+|オープン\S*|[A-Z]\d+|新馬|未勝利', race_info_text)
     race_name = race_name_match.group(0) if race_name_match else "不明"
     
-    # 距離を抽出（例: "ダ1400m"）
+    # 距離を抽出
     distance_match = re.search(r'(ダ|芝)(\d+)m', race_info_text)
     distance = f"{distance_match.group(1)}{distance_match.group(2)}m" if distance_match else "不明"
     
-    # 発走時刻を抽出（例: "14:50"）
+    # 発走時刻を抽出
     time_match = re.search(r'(\d{1,2}:\d{2})発走', race_info_text)
     race_time = time_match.group(1) if time_match else "不明"
     
@@ -47,15 +61,16 @@ def parse_shutuba_html(html: str, race_id: str) -> Dict:
             if len(cells) < 8:
                 continue
             
-            # 馬名を取得（<a> タグの中）
+            # 馬名と horse_id を取得
             horse_name_tag = cells[3].find('a')
             horse_name = horse_name_tag.get_text(strip=True) if horse_name_tag else cells[3].get_text(strip=True)
+            horse_id = extract_horse_id(cells[3])  # ★ 追加
             
-            # 騎手を取得（<a> タグの中）
+            # 騎手を取得
             jockey_tag = cells[6].find('a')
             jockey = jockey_tag.get_text(strip=True) if jockey_tag else cells[6].get_text(strip=True)
             
-            # 厩舎を取得（<a> タグの中）
+            # 厩舎を取得
             trainer_tag = cells[7].find('a')
             trainer = trainer_tag.get_text(strip=True) if trainer_tag else cells[7].get_text(strip=True)
             
@@ -63,6 +78,7 @@ def parse_shutuba_html(html: str, race_id: str) -> Dict:
                 "枠番": cells[0].get_text(strip=True),
                 "馬番": cells[1].get_text(strip=True),
                 "馬名": horse_name,
+                "horse_id": horse_id,  # ★ 追加
                 "性齢": cells[4].get_text(strip=True),
                 "斤量": cells[5].get_text(strip=True),
                 "騎手": jockey,
@@ -129,7 +145,11 @@ def main():
             # レース情報を表示
             info = race_data['race_info']
             print(f"  {rno}R: {info['レース名']} {info['発走時刻']}")
-            print(f"    距離: {info['距離']}, 頭数: {info['頭数']}頭\n")
+            print(f"    距離: {info['距離']}, 頭数: {info['頭数']}頭")
+            
+            # horse_id 取得状況を確認
+            horses_with_id = [h for h in race_data.get('horses', []) if h.get('horse_id')]
+            print(f"    horse_id 取得: {len(horses_with_id)}/{info['頭数']}頭\n")
     
     output = {
         "ymd": ymd,
