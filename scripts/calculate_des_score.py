@@ -324,7 +324,7 @@ def main():
             print(f"      総合: {score['total_score']}点 (D:{score['distance_score']} E:{score['experience_score']} S:{score['speed_score']})")
     
     # 結果を保存
-    output_file = f"race_data_{ymd}_with_scores.json"
+    output_file = f"race_data_{ymd}.json"
     print(f"\n[INFO] {output_file} に保存中...")
     
     with open(output_file, 'w', encoding='utf-8') as f:
