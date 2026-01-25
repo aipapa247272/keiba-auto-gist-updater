@@ -46,6 +46,11 @@ jobs:
         run: |
           python scripts/calculate_des_score.py ${{ steps.get_ymd.outputs.ymd }}
       
+      - name: Select predictions
+        run: |
+          python scripts/select_predictions.py ${{ steps.get_ymd.outputs.ymd }}
+
+      
       - name: Commit race_data JSON
         run: |
           git config user.name "github-actions[bot]"
