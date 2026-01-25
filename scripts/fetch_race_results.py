@@ -127,10 +127,10 @@ def process_results(ymd):
         return False
     with open(pred_file, 'r', encoding='utf-8') as f:
         predictions = json.load(f)
-    if 'selected_races' not in predictions:
+    if 'selected_predictions' not in predictions:
         logging.error("選定レースなし")
         return False
-    selected_races = predictions['selected_races']
+    selected_races = predictions['selected_predictions']
     logging.info(f"選定レース数: {len(selected_races)}")
     
     results_data = {
