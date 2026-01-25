@@ -1,0 +1,52 @@
+{
+  "date": "20260126",
+  "generated_at": "2026-01-25T18:13:05.033241",
+  "summary": {
+    "total_races": 5,
+    "hit_count": 0,
+    "miss_count": 0,
+    "unavailable_count": 5,
+    "total_investment": 0,
+    "total_return": 0,
+    "total_profit": 0,
+    "hit_rate": 0.0,
+    "recovery_rate": 0.0
+  },
+  "results": [
+    {
+      "race_id": "202648012611",
+      "race_name": " R2",
+      "result_available": false,
+      "status": "unavailable",
+      "note": "結果取得不可"
+    },
+    {
+      "race_id": "202648012610",
+      "race_name": " R2",
+      "result_available": false,
+      "status": "unavailable",
+      "note": "結果取得不可"
+    },
+    {
+      "race_id": "202644012601",
+      "race_name": " R2",
+      "result_available": false,
+      "status": "unavailable",
+      "note": "結果取得不可"
+    },
+    {
+      "race_id": "202648012609",
+      "race_name": " R2",
+      "result_available": false,
+      "status": "unavailable",
+      "note": "結果取得不可"
+    },
+    {
+      "race_id": "202648012601",
+      "race_name": " R2",
+      "result_available": false,
+      "status": "unavailable",
+      "note": "結果取得不可"
+    }
+  ]
+}
