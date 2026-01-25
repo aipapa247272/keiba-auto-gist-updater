@@ -2,7 +2,7 @@ name: Daily Select
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 5 * * *'  # 毎日14:00 JST
+    - cron: '30 0 * * *'  # 毎日 09:30 JST（UTC 0:30）
 
 jobs:
   daily-select:
