@@ -58,6 +58,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add race_data_*.json today_jobs.latest.json
-          git diff --cached --quiet || git commit -m "chore: update race data with DES scores [skip ci]"
+          git add race_data_*.json today_jobs.latest.json predictions_*.md final_predictions_*.json
+          git diff --cached --quiet || git commit -m "chore: update race data with predictions"
           git push
