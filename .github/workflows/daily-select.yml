@@ -31,7 +31,6 @@ jobs:
         run: |
           python scripts/fetch_shutuba.py
       
-      # 🆕 今日の日付を取得
       - name: Get YMD from today_jobs
         id: get_ymd
         run: |
@@ -39,15 +38,18 @@ jobs:
           echo "ymd=$YMD" >> $GITHUB_OUTPUT
           echo "取得した日付: $YMD"
       
-      # 🔧 修正：取得した日付を使用
       - name: Fetch past races data
         run: |
           python scripts/fetch_past_races.py ${{ steps.get_ymd.outputs.ymd }}
+      
+      - name: Calculate DES scores
+        run: |
+          python scripts/calculate_des_score.py ${{ steps.get_ymd.outputs.ymd }}
       
       - name: Commit race_data JSON
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add race_data_*.json today_jobs.latest.json
-          git diff --cached --quiet || git commit -m "chore: update race data with past races [skip ci]"
+          git diff --cached --quiet || git commit -m "chore: update race data with DES scores [skip ci]"
           git push
