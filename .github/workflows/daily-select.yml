@@ -50,6 +50,9 @@ jobs:
         run: |
           python scripts/select_predictions.py ${{ steps.get_ymd.outputs.ymd }}
 
+      - name: Generate final output
+        run: |
+          python scripts/generate_final_output.py ${{ steps.get_ymd.outputs.ymd }}
       
       - name: Commit race_data JSON
         run: |
