@@ -704,7 +704,9 @@
           "experience_score": 29.9,
           "speed_score": 27.0,
           "total_score": 82.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
         },
         {
           "horse_id": "2023105442",
@@ -715,7 +717,9 @@
           "experience_score": 30.0,
           "speed_score": 29.0,
           "total_score": 69.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
         },
         {
           "horse_id": "2023101957",
@@ -726,7 +730,9 @@
           "experience_score": 30.0,
           "speed_score": 27.0,
           "total_score": 67.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
         },
         {
           "horse_id": "2023102253",
@@ -737,7 +743,9 @@
           "experience_score": 27.8,
           "speed_score": 27.0,
           "total_score": 64.8,
-          "past_race_count": 4
+          "past_race_count": 4,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2023100255",
@@ -748,7 +756,9 @@
           "experience_score": 27.8,
           "speed_score": 27.0,
           "total_score": 64.8,
-          "past_race_count": 4
+          "past_race_count": 4,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2023101284",
@@ -759,7 +769,9 @@
           "experience_score": 30.0,
           "speed_score": 24.0,
           "total_score": 64.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2023100872",
@@ -770,7 +782,9 @@
           "experience_score": 12.6,
           "speed_score": 32.0,
           "total_score": 54.6,
-          "past_race_count": 3
+          "past_race_count": 3,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2023100528",
@@ -1520,7 +1534,9 @@
           "experience_score": 30.0,
           "speed_score": 29.0,
           "total_score": 69.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "中"
         },
         {
           "horse_id": "2023104061",
@@ -1531,7 +1547,9 @@
           "experience_score": 30.0,
           "speed_score": 29.0,
           "total_score": 69.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
         },
         {
           "horse_id": "2023104530",
@@ -1542,7 +1560,9 @@
           "experience_score": 30.0,
           "speed_score": 24.0,
           "total_score": 64.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
         },
         {
           "horse_id": "2023104112",
@@ -1553,7 +1573,9 @@
           "experience_score": 30.0,
           "speed_score": 24.0,
           "total_score": 64.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2023104089",
@@ -1564,7 +1586,9 @@
           "experience_score": 30.0,
           "speed_score": 24.0,
           "total_score": 64.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2023105511",
@@ -1575,7 +1599,9 @@
           "experience_score": 25.8,
           "speed_score": 27.0,
           "total_score": 62.8,
-          "past_race_count": 3
+          "past_race_count": 3,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2023104088",
@@ -1586,7 +1612,9 @@
           "experience_score": 30.0,
           "speed_score": 18.0,
           "total_score": 58.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2023106679",
@@ -1597,7 +1625,9 @@
           "experience_score": 30.0,
           "speed_score": 18.0,
           "total_score": 58.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         }
       ]
     },
@@ -2227,7 +2257,9 @@
           "experience_score": 30.0,
           "speed_score": 32.0,
           "total_score": 72.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
         },
         {
           "horse_id": "2023105773",
@@ -2238,7 +2270,9 @@
           "experience_score": 26.5,
           "speed_score": 27.0,
           "total_score": 71.5,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
         },
         {
           "horse_id": "2023100549",
@@ -2249,7 +2283,9 @@
           "experience_score": 29.8,
           "speed_score": 27.0,
           "total_score": 66.8,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
         },
         {
           "horse_id": "2023101981",
@@ -2260,7 +2296,9 @@
           "experience_score": 30.0,
           "speed_score": 24.0,
           "total_score": 64.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2023100499",
@@ -2271,7 +2309,9 @@
           "experience_score": 30.0,
           "speed_score": 18.0,
           "total_score": 58.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2023101952",
@@ -2282,7 +2322,9 @@
           "experience_score": 25.8,
           "speed_score": 18.0,
           "total_score": 53.8,
-          "past_race_count": 3
+          "past_race_count": 3,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2023101745",
@@ -2293,7 +2335,9 @@
           "experience_score": 14.6,
           "speed_score": 26.0,
           "total_score": 50.6,
-          "past_race_count": 4
+          "past_race_count": 4,
+          "mark": "△",
+          "confidence": "穴"
         }
       ]
     },
@@ -3157,7 +3201,9 @@
           "experience_score": 30.0,
           "speed_score": 32.0,
           "total_score": 96.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
         },
         {
           "horse_id": "2016101330",
@@ -3168,7 +3214,9 @@
           "experience_score": 30.0,
           "speed_score": 29.0,
           "total_score": 93.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
         },
         {
           "horse_id": "2021104134",
@@ -3179,7 +3227,9 @@
           "experience_score": 30.0,
           "speed_score": 29.0,
           "total_score": 85.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
         },
         {
           "horse_id": "2017105815",
@@ -3190,7 +3240,9 @@
           "experience_score": 29.9,
           "speed_score": 29.0,
           "total_score": 84.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2021102209",
@@ -3201,7 +3253,9 @@
           "experience_score": 29.9,
           "speed_score": 29.0,
           "total_score": 84.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2017103402",
@@ -3212,7 +3266,9 @@
           "experience_score": 30.0,
           "speed_score": 26.0,
           "total_score": 82.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2018104872",
@@ -3223,7 +3279,9 @@
           "experience_score": 30.0,
           "speed_score": 26.0,
           "total_score": 82.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2021105300",
@@ -3234,7 +3292,9 @@
           "experience_score": 30.0,
           "speed_score": 26.0,
           "total_score": 82.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2020106593",
@@ -3245,7 +3305,9 @@
           "experience_score": 26.6,
           "speed_score": 26.0,
           "total_score": 78.6,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         }
       ]
     },
@@ -4090,7 +4152,9 @@
           "experience_score": 30.0,
           "speed_score": 26.0,
           "total_score": 90.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
         },
         {
           "horse_id": "2016101161",
@@ -4101,7 +4165,9 @@
           "experience_score": 30.0,
           "speed_score": 26.0,
           "total_score": 90.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
         },
         {
           "horse_id": "2021101210",
@@ -4112,7 +4178,9 @@
           "experience_score": 30.0,
           "speed_score": 26.0,
           "total_score": 90.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
         },
         {
           "horse_id": "2021101243",
@@ -4123,7 +4191,9 @@
           "experience_score": 29.9,
           "speed_score": 29.0,
           "total_score": 84.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2018102902",
@@ -4134,7 +4204,9 @@
           "experience_score": 29.9,
           "speed_score": 29.0,
           "total_score": 84.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2021110043",
@@ -4145,7 +4217,9 @@
           "experience_score": 29.9,
           "speed_score": 29.0,
           "total_score": 84.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2022101955",
@@ -4156,7 +4230,9 @@
           "experience_score": 25.8,
           "speed_score": 32.0,
           "total_score": 78.8,
-          "past_race_count": 3
+          "past_race_count": 3,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2021102442",
@@ -4167,7 +4243,9 @@
           "experience_score": 26.5,
           "speed_score": 32.0,
           "total_score": 68.5,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2021102954",
@@ -5063,7 +5141,9 @@
           "experience_score": 23.3,
           "speed_score": 29.0,
           "total_score": 65.3,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "中"
         },
         {
           "horse_id": "2023100122",
@@ -5074,7 +5154,9 @@
           "experience_score": 19.2,
           "speed_score": 32.0,
           "total_score": 64.2,
-          "past_race_count": 3
+          "past_race_count": 3,
+          "mark": "○",
+          "confidence": "中"
         },
         {
           "horse_id": "2023101075",
@@ -5085,7 +5167,9 @@
           "experience_score": 21.3,
           "speed_score": 19.0,
           "total_score": 48.3,
-          "past_race_count": 4
+          "past_race_count": 4,
+          "mark": "▲",
+          "confidence": "極低"
         },
         {
           "horse_id": "2023100675",
@@ -5096,7 +5180,9 @@
           "experience_score": 21.3,
           "speed_score": 19.0,
           "total_score": 48.3,
-          "past_race_count": 4
+          "past_race_count": 4,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2023105770",
@@ -6005,7 +6091,9 @@
           "experience_score": 30.0,
           "speed_score": 32.0,
           "total_score": 88.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
         },
         {
           "horse_id": "2017105224",
@@ -6016,7 +6104,9 @@
           "experience_score": 29.9,
           "speed_score": 32.0,
           "total_score": 87.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
         },
         {
           "horse_id": "2019104685",
@@ -6027,7 +6117,9 @@
           "experience_score": 29.9,
           "speed_score": 32.0,
           "total_score": 87.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
         },
         {
           "horse_id": "2020100985",
@@ -6038,7 +6130,9 @@
           "experience_score": 29.9,
           "speed_score": 29.0,
           "total_score": 84.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2018102101",
@@ -6049,7 +6143,9 @@
           "experience_score": 27.9,
           "speed_score": 29.0,
           "total_score": 82.9,
-          "past_race_count": 4
+          "past_race_count": 4,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2022103068",
@@ -6060,7 +6156,9 @@
           "experience_score": 29.9,
           "speed_score": 26.0,
           "total_score": 81.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2019101531",
@@ -6071,7 +6169,9 @@
           "experience_score": 29.9,
           "speed_score": 27.0,
           "total_score": 74.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2020100551",
@@ -6082,7 +6182,9 @@
           "experience_score": 26.5,
           "speed_score": 29.0,
           "total_score": 73.5,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2022100145",
@@ -6093,7 +6195,9 @@
           "experience_score": 24.5,
           "speed_score": 26.0,
           "total_score": 68.5,
-          "past_race_count": 4
+          "past_race_count": 4,
+          "mark": "△",
+          "confidence": "穴"
         }
       ]
     },
@@ -7047,7 +7151,9 @@
           "experience_score": 29.9,
           "speed_score": 29.0,
           "total_score": 92.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
         },
         {
           "horse_id": "2020104385",
@@ -7058,7 +7164,9 @@
           "experience_score": 30.0,
           "speed_score": 23.0,
           "total_score": 87.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
         },
         {
           "horse_id": "2020101681",
@@ -7069,7 +7177,9 @@
           "experience_score": 29.9,
           "speed_score": 29.0,
           "total_score": 84.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
         },
         {
           "horse_id": "2018105392",
@@ -7080,7 +7190,9 @@
           "experience_score": 29.9,
           "speed_score": 29.0,
           "total_score": 84.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2017103912",
@@ -7091,7 +7203,9 @@
           "experience_score": 29.9,
           "speed_score": 29.0,
           "total_score": 84.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2021100748",
@@ -7102,7 +7216,9 @@
           "experience_score": 29.9,
           "speed_score": 29.0,
           "total_score": 84.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2018106031",
@@ -7113,7 +7229,9 @@
           "experience_score": 26.6,
           "speed_score": 26.0,
           "total_score": 78.6,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2020101587",
@@ -7124,7 +7242,9 @@
           "experience_score": 18.0,
           "speed_score": 32.0,
           "total_score": 76.0,
-          "past_race_count": 4
+          "past_race_count": 4,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2021102423",
@@ -7135,7 +7255,9 @@
           "experience_score": 26.5,
           "speed_score": 26.0,
           "total_score": 70.5,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2018106077",
@@ -7146,7 +7268,9 @@
           "experience_score": 24.6,
           "speed_score": 26.0,
           "total_score": 68.6,
-          "past_race_count": 4
+          "past_race_count": 4,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2016102904",
@@ -7726,7 +7850,9 @@
           "experience_score": 30.0,
           "speed_score": 23.0,
           "total_score": 87.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
         },
         {
           "horse_id": "2019103439",
@@ -7737,7 +7863,9 @@
           "experience_score": 29.9,
           "speed_score": 23.0,
           "total_score": 86.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
         },
         {
           "horse_id": "2021102002",
@@ -7748,7 +7876,9 @@
           "experience_score": 30.0,
           "speed_score": 26.0,
           "total_score": 86.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
         },
         {
           "horse_id": "2018103898",
@@ -7759,7 +7889,9 @@
           "experience_score": 29.9,
           "speed_score": 26.0,
           "total_score": 84.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2019100288",
@@ -7770,7 +7902,9 @@
           "experience_score": 29.9,
           "speed_score": 23.0,
           "total_score": 81.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2021103566",
@@ -7781,7 +7915,9 @@
           "experience_score": 24.6,
           "speed_score": 32.0,
           "total_score": 77.6,
-          "past_race_count": 4
+          "past_race_count": 4,
+          "mark": "△",
+          "confidence": "穴"
         }
       ]
     },
@@ -8456,7 +8592,9 @@
           "experience_score": 26.6,
           "speed_score": 32.0,
           "total_score": 84.6,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
         },
         {
           "horse_id": "2017109026",
@@ -8467,7 +8605,9 @@
           "experience_score": 26.6,
           "speed_score": 32.0,
           "total_score": 84.6,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
         },
         {
           "horse_id": "2018104574",
@@ -8478,7 +8618,9 @@
           "experience_score": 26.6,
           "speed_score": 32.0,
           "total_score": 84.6,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
         },
         {
           "horse_id": "2019101929",
@@ -8489,7 +8631,9 @@
           "experience_score": 23.3,
           "speed_score": 32.0,
           "total_score": 73.3,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2020106661",
@@ -8500,7 +8644,9 @@
           "experience_score": 23.3,
           "speed_score": 23.0,
           "total_score": 64.3,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2020102375",
@@ -8511,7 +8657,9 @@
           "experience_score": 15.9,
           "speed_score": 30.0,
           "total_score": 55.9,
-          "past_race_count": 3
+          "past_race_count": 3,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2020100733",
@@ -8522,7 +8670,9 @@
           "experience_score": 15.9,
           "speed_score": 30.0,
           "total_score": 55.9,
-          "past_race_count": 3
+          "past_race_count": 3,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2019100206",
@@ -8533,7 +8683,9 @@
           "experience_score": 15.9,
           "speed_score": 26.0,
           "total_score": 51.9,
-          "past_race_count": 3
+          "past_race_count": 3,
+          "mark": "△",
+          "confidence": "穴"
         }
       ]
     },
@@ -9644,7 +9796,9 @@
           "experience_score": 30.0,
           "speed_score": 32.0,
           "total_score": 96.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
         },
         {
           "horse_id": "2018102350",
@@ -9655,7 +9809,9 @@
           "experience_score": 30.0,
           "speed_score": 32.0,
           "total_score": 96.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
         },
         {
           "horse_id": "2021101140",
@@ -9666,7 +9822,9 @@
           "experience_score": 30.0,
           "speed_score": 26.0,
           "total_score": 90.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
         },
         {
           "horse_id": "2021104848",
@@ -9677,7 +9835,9 @@
           "experience_score": 29.9,
           "speed_score": 32.0,
           "total_score": 87.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2018100510",
@@ -9688,7 +9848,9 @@
           "experience_score": 29.9,
           "speed_score": 32.0,
           "total_score": 87.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2017103008",
@@ -9699,7 +9861,9 @@
           "experience_score": 29.9,
           "speed_score": 29.0,
           "total_score": 84.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2021100398",
@@ -9710,7 +9874,9 @@
           "experience_score": 29.9,
           "speed_score": 29.0,
           "total_score": 84.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2016101473",
@@ -9721,7 +9887,9 @@
           "experience_score": 29.9,
           "speed_score": 29.0,
           "total_score": 84.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2021105053",
@@ -9732,7 +9900,9 @@
           "experience_score": 29.9,
           "speed_score": 29.0,
           "total_score": 84.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2020106830",
@@ -9743,7 +9913,9 @@
           "experience_score": 29.9,
           "speed_score": 29.0,
           "total_score": 84.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2019109146",
@@ -10828,7 +11000,9 @@
           "experience_score": 30.0,
           "speed_score": 29.0,
           "total_score": 85.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
         },
         {
           "horse_id": "2022102221",
@@ -10839,7 +11013,9 @@
           "experience_score": 30.0,
           "speed_score": 32.0,
           "total_score": 80.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
         },
         {
           "horse_id": "2018102243",
@@ -10850,7 +11026,9 @@
           "experience_score": 29.8,
           "speed_score": 32.0,
           "total_score": 71.8,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
         },
         {
           "horse_id": "2022101291",
@@ -10861,7 +11039,9 @@
           "experience_score": 27.9,
           "speed_score": 23.0,
           "total_score": 68.9,
-          "past_race_count": 4
+          "past_race_count": 4,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2020103982",
@@ -10872,7 +11052,9 @@
           "experience_score": 30.0,
           "speed_score": 27.0,
           "total_score": 67.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2022100023",
@@ -10883,7 +11065,9 @@
           "experience_score": 30.0,
           "speed_score": 24.0,
           "total_score": 64.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2022107274",
@@ -10894,7 +11078,9 @@
           "experience_score": 29.9,
           "speed_score": 24.0,
           "total_score": 63.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2020102415",
@@ -10905,7 +11091,9 @@
           "experience_score": 29.9,
           "speed_score": 21.0,
           "total_score": 60.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2020100474",
@@ -10916,7 +11104,9 @@
           "experience_score": 19.9,
           "speed_score": 26.0,
           "total_score": 55.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2022100237",
@@ -10927,7 +11117,9 @@
           "experience_score": 16.6,
           "speed_score": 29.0,
           "total_score": 55.6,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2018106518",
@@ -12076,7 +12268,9 @@
           "experience_score": 30.0,
           "speed_score": 26.0,
           "total_score": 82.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
         },
         {
           "horse_id": "2022107118",
@@ -12087,7 +12281,9 @@
           "experience_score": 30.0,
           "speed_score": 23.0,
           "total_score": 79.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
         },
         {
           "horse_id": "2022103685",
@@ -12098,7 +12294,9 @@
           "experience_score": 30.0,
           "speed_score": 29.0,
           "total_score": 77.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
         },
         {
           "horse_id": "2020107126",
@@ -12109,7 +12307,9 @@
           "experience_score": 26.6,
           "speed_score": 26.0,
           "total_score": 70.6,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2022106787",
@@ -12120,7 +12320,9 @@
           "experience_score": 26.5,
           "speed_score": 26.0,
           "total_score": 70.5,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2022101507",
@@ -12131,7 +12333,9 @@
           "experience_score": 30.0,
           "speed_score": 27.0,
           "total_score": 67.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2022101702",
@@ -12142,7 +12346,9 @@
           "experience_score": 30.0,
           "speed_score": 27.0,
           "total_score": 67.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2022102329",
@@ -12153,7 +12359,9 @@
           "experience_score": 23.2,
           "speed_score": 23.0,
           "total_score": 64.2,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2017106105",
@@ -12164,7 +12372,9 @@
           "experience_score": 23.2,
           "speed_score": 26.0,
           "total_score": 62.2,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2021109149",
@@ -12175,7 +12385,9 @@
           "experience_score": 30.0,
           "speed_score": 21.0,
           "total_score": 61.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2022100117",
@@ -13247,7 +13459,9 @@
           "experience_score": 30.0,
           "speed_score": 32.0,
           "total_score": 96.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
         },
         {
           "horse_id": "2022106782",
@@ -13258,7 +13472,9 @@
           "experience_score": 30.0,
           "speed_score": 29.0,
           "total_score": 93.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
         },
         {
           "horse_id": "2018101240",
@@ -13269,7 +13485,9 @@
           "experience_score": 30.0,
           "speed_score": 32.0,
           "total_score": 92.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
         },
         {
           "horse_id": "2022104848",
@@ -13280,7 +13498,9 @@
           "experience_score": 30.0,
           "speed_score": 26.0,
           "total_score": 90.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2022101828",
@@ -13291,7 +13511,9 @@
           "experience_score": 30.0,
           "speed_score": 29.0,
           "total_score": 89.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2022102367",
@@ -13302,7 +13524,9 @@
           "experience_score": 23.2,
           "speed_score": 32.0,
           "total_score": 81.2,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2019102527",
@@ -13313,7 +13537,9 @@
           "experience_score": 23.3,
           "speed_score": 29.0,
           "total_score": 78.3,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2022100967",
@@ -13324,7 +13550,9 @@
           "experience_score": 19.9,
           "speed_score": 32.0,
           "total_score": 77.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2020102656",
@@ -13335,7 +13563,9 @@
           "experience_score": 23.3,
           "speed_score": 21.0,
           "total_score": 69.3,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2021106455",
@@ -13346,7 +13576,9 @@
           "experience_score": 20.0,
           "speed_score": 24.0,
           "total_score": 69.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2018101369",
@@ -14407,7 +14639,9 @@
           "experience_score": 30.0,
           "speed_score": 35.0,
           "total_score": 95.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
         },
         {
           "horse_id": "2022109094",
@@ -14418,7 +14652,9 @@
           "experience_score": 30.0,
           "speed_score": 35.0,
           "total_score": 94.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
         },
         {
           "horse_id": "2020102457",
@@ -14429,7 +14665,9 @@
           "experience_score": 30.0,
           "speed_score": 32.0,
           "total_score": 92.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
         },
         {
           "horse_id": "2020101049",
@@ -14440,7 +14678,9 @@
           "experience_score": 29.9,
           "speed_score": 26.0,
           "total_score": 89.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2019101947",
@@ -14451,7 +14691,9 @@
           "experience_score": 26.6,
           "speed_score": 29.0,
           "total_score": 89.6,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2021102769",
@@ -14462,7 +14704,9 @@
           "experience_score": 23.2,
           "speed_score": 29.0,
           "total_score": 86.2,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2022103583",
@@ -14473,7 +14717,9 @@
           "experience_score": 30.0,
           "speed_score": 26.0,
           "total_score": 86.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2021104116",
@@ -14484,7 +14730,9 @@
           "experience_score": 30.0,
           "speed_score": 29.0,
           "total_score": 85.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2022101773",
@@ -14495,7 +14743,9 @@
           "experience_score": 30.0,
           "speed_score": 27.0,
           "total_score": 82.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2021106775",
@@ -14506,7 +14756,9 @@
           "experience_score": 30.0,
           "speed_score": 27.0,
           "total_score": 82.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2022101806",
@@ -15288,7 +15540,9 @@
           "experience_score": 30.0,
           "speed_score": 26.0,
           "total_score": 90.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
         },
         {
           "horse_id": "2022100534",
@@ -15299,7 +15553,9 @@
           "experience_score": 30.0,
           "speed_score": 26.0,
           "total_score": 90.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
         },
         {
           "horse_id": "2021103454",
@@ -15310,7 +15566,9 @@
           "experience_score": 19.9,
           "speed_score": 32.0,
           "total_score": 85.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
         },
         {
           "horse_id": "2021104493",
@@ -15321,7 +15579,9 @@
           "experience_score": 30.0,
           "speed_score": 26.0,
           "total_score": 82.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2019102594",
@@ -15332,7 +15592,9 @@
           "experience_score": 30.0,
           "speed_score": 27.0,
           "total_score": 82.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2018102826",
@@ -15343,7 +15605,9 @@
           "experience_score": 30.0,
           "speed_score": 21.0,
           "total_score": 76.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2020102083",
@@ -15354,7 +15618,9 @@
           "experience_score": 30.0,
           "speed_score": 21.0,
           "total_score": 76.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2022105833",
@@ -15365,7 +15631,9 @@
           "experience_score": 23.2,
           "speed_score": 21.0,
           "total_score": 68.2,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         }
       ]
     },
@@ -16428,7 +16696,9 @@
           "experience_score": 25.8,
           "speed_score": 21.0,
           "total_score": 67.8,
-          "past_race_count": 3
+          "past_race_count": 3,
+          "mark": "◎",
+          "confidence": "中"
         },
         {
           "horse_id": "2022103695",
@@ -16439,7 +16709,9 @@
           "experience_score": 26.5,
           "speed_score": 26.0,
           "total_score": 62.5,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
         },
         {
           "horse_id": "2021100219",
@@ -16450,7 +16722,9 @@
           "experience_score": 23.2,
           "speed_score": 24.0,
           "total_score": 60.2,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
         },
         {
           "horse_id": "2020102570",
@@ -16461,7 +16735,9 @@
           "experience_score": 6.0,
           "speed_score": 32.0,
           "total_score": 48.0,
-          "past_race_count": 3
+          "past_race_count": 3,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2020104025",
@@ -17311,7 +17587,9 @@
           "experience_score": 13.3,
           "speed_score": 26.0,
           "total_score": 52.3,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "中"
         },
         {
           "horse_id": "2023102729",
@@ -17322,7 +17600,9 @@
           "experience_score": 23.2,
           "speed_score": 16.0,
           "total_score": 44.2,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "低"
         },
         {
           "horse_id": "2023101531",
@@ -17333,7 +17613,9 @@
           "experience_score": 18.0,
           "speed_score": 14.0,
           "total_score": 32.0,
-          "past_race_count": 4
+          "past_race_count": 4,
+          "mark": "▲",
+          "confidence": "極低"
         },
         {
           "horse_id": "2023105922",
@@ -18378,7 +18660,9 @@
           "experience_score": 30.0,
           "speed_score": 32.0,
           "total_score": 92.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
         },
         {
           "horse_id": "2017101877",
@@ -18389,7 +18673,9 @@
           "experience_score": 30.0,
           "speed_score": 32.0,
           "total_score": 92.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
         },
         {
           "horse_id": "2019101860",
@@ -18400,7 +18686,9 @@
           "experience_score": 23.3,
           "speed_score": 32.0,
           "total_score": 85.3,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
         },
         {
           "horse_id": "2019103581",
@@ -18411,7 +18699,9 @@
           "experience_score": 30.0,
           "speed_score": 27.0,
           "total_score": 82.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2020104447",
@@ -18422,7 +18712,9 @@
           "experience_score": 29.9,
           "speed_score": 29.0,
           "total_score": 79.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2021104652",
@@ -18433,7 +18725,9 @@
           "experience_score": 30.0,
           "speed_score": 24.0,
           "total_score": 79.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2022105033",
@@ -18444,7 +18738,9 @@
           "experience_score": 23.2,
           "speed_score": 32.0,
           "total_score": 76.2,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2019105218",
@@ -18455,7 +18751,9 @@
           "experience_score": 20.0,
           "speed_score": 26.0,
           "total_score": 76.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2021101803",
@@ -18466,7 +18764,9 @@
           "experience_score": 23.3,
           "speed_score": 32.0,
           "total_score": 73.3,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2020100962",
@@ -18477,7 +18777,9 @@
           "experience_score": 23.3,
           "speed_score": 22.0,
           "total_score": 50.3,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         }
       ]
     },
@@ -19495,7 +19797,9 @@
           "experience_score": 30.0,
           "speed_score": 35.0,
           "total_score": 99.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
         },
         {
           "horse_id": "2018103831",
@@ -19506,7 +19810,9 @@
           "experience_score": 29.9,
           "speed_score": 32.0,
           "total_score": 95.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
         },
         {
           "horse_id": "2018101619",
@@ -19517,7 +19823,9 @@
           "experience_score": 30.0,
           "speed_score": 32.0,
           "total_score": 92.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
         },
         {
           "horse_id": "2021106542",
@@ -19528,7 +19836,9 @@
           "experience_score": 30.0,
           "speed_score": 32.0,
           "total_score": 92.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2020102668",
@@ -19539,7 +19849,9 @@
           "experience_score": 30.0,
           "speed_score": 27.0,
           "total_score": 82.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2022107203",
@@ -19550,7 +19862,9 @@
           "experience_score": 30.0,
           "speed_score": 27.0,
           "total_score": 82.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2021101953",
@@ -19561,7 +19875,9 @@
           "experience_score": 29.9,
           "speed_score": 32.0,
           "total_score": 79.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2019101107",
@@ -19572,7 +19888,9 @@
           "experience_score": 30.0,
           "speed_score": 24.0,
           "total_score": 79.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2018105117",
@@ -19583,7 +19901,9 @@
           "experience_score": 23.3,
           "speed_score": 26.0,
           "total_score": 78.3,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2018102148",
@@ -19594,7 +19914,9 @@
           "experience_score": 25.8,
           "speed_score": 29.0,
           "total_score": 75.8,
-          "past_race_count": 3
+          "past_race_count": 3,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2017101674",
@@ -20075,7 +20397,9 @@
           "experience_score": 30.0,
           "speed_score": 24.0,
           "total_score": 79.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
         },
         {
           "horse_id": "2023106760",
@@ -20086,7 +20410,9 @@
           "experience_score": 25.8,
           "speed_score": 27.0,
           "total_score": 76.8,
-          "past_race_count": 3
+          "past_race_count": 3,
+          "mark": "○",
+          "confidence": "中"
         },
         {
           "horse_id": "2023105968",
@@ -20097,7 +20423,9 @@
           "experience_score": 21.2,
           "speed_score": 32.0,
           "total_score": 74.2,
-          "past_race_count": 4
+          "past_race_count": 4,
+          "mark": "▲",
+          "confidence": "低"
         },
         {
           "horse_id": "2023100319",
@@ -20108,7 +20436,9 @@
           "experience_score": 21.2,
           "speed_score": 32.0,
           "total_score": 74.2,
-          "past_race_count": 4
+          "past_race_count": 4,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2023105165",
@@ -20119,7 +20449,9 @@
           "experience_score": 17.2,
           "speed_score": 24.0,
           "total_score": 57.2,
-          "past_race_count": 2
+          "past_race_count": 2,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2023105894",
@@ -20130,7 +20462,9 @@
           "experience_score": 10.6,
           "speed_score": 21.0,
           "total_score": 47.6,
-          "past_race_count": 2
+          "past_race_count": 2,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2023106307",
@@ -21098,7 +21432,9 @@
           "experience_score": 30.0,
           "speed_score": 35.0,
           "total_score": 94.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
         },
         {
           "horse_id": "2021101050",
@@ -21109,7 +21445,9 @@
           "experience_score": 30.0,
           "speed_score": 35.0,
           "total_score": 94.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
         },
         {
           "horse_id": "2021102160",
@@ -21120,7 +21458,9 @@
           "experience_score": 30.0,
           "speed_score": 35.0,
           "total_score": 91.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
         },
         {
           "horse_id": "2021106081",
@@ -21131,7 +21471,9 @@
           "experience_score": 30.0,
           "speed_score": 35.0,
           "total_score": 91.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2021107236",
@@ -21142,7 +21484,9 @@
           "experience_score": 30.0,
           "speed_score": 35.0,
           "total_score": 91.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2021106804",
@@ -21153,7 +21497,9 @@
           "experience_score": 30.0,
           "speed_score": 35.0,
           "total_score": 91.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2020102534",
@@ -21164,7 +21510,9 @@
           "experience_score": 30.0,
           "speed_score": 30.0,
           "total_score": 85.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2020109114",
@@ -21175,7 +21523,9 @@
           "experience_score": 30.0,
           "speed_score": 27.0,
           "total_score": 82.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2020107022",
@@ -21186,7 +21536,9 @@
           "experience_score": 30.0,
           "speed_score": 21.0,
           "total_score": 76.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2021107089",
@@ -21197,7 +21549,9 @@
           "experience_score": 26.5,
           "speed_score": 26.0,
           "total_score": 70.5,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         }
       ]
     },
@@ -22215,7 +22569,9 @@
           "experience_score": 30.0,
           "speed_score": 32.0,
           "total_score": 96.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
         },
         {
           "horse_id": "2022102332",
@@ -22226,7 +22582,9 @@
           "experience_score": 30.0,
           "speed_score": 29.0,
           "total_score": 93.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
         },
         {
           "horse_id": "2022101042",
@@ -22237,7 +22595,9 @@
           "experience_score": 29.9,
           "speed_score": 32.0,
           "total_score": 87.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
         },
         {
           "horse_id": "2019106031",
@@ -22248,7 +22608,9 @@
           "experience_score": 29.9,
           "speed_score": 32.0,
           "total_score": 79.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2022101295",
@@ -22259,7 +22621,9 @@
           "experience_score": 30.0,
           "speed_score": 23.0,
           "total_score": 71.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2022103309",
@@ -22270,7 +22634,9 @@
           "experience_score": 23.3,
           "speed_score": 26.0,
           "total_score": 59.3,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2021100712",
@@ -22281,7 +22647,9 @@
           "experience_score": 20.0,
           "speed_score": 29.0,
           "total_score": 59.0,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2022106370",
@@ -22292,7 +22660,9 @@
           "experience_score": 19.9,
           "speed_score": 29.0,
           "total_score": 58.9,
-          "past_race_count": 5
+          "past_race_count": 5,
+          "mark": "△",
+          "confidence": "穴"
         },
         {
           "horse_id": "2022107068",
@@ -23729,6 +24099,3424 @@
       "競馬場": "帯広ば",
       "レース番号": "12",
       "des_scores": []
+    }
+  ],
+  "predictions": [
+    {
+      "race_id": "202654012501",
+      "race_info": {
+        "レース名": "R2",
+        "距離": "ダ1400m",
+        "発走時刻": "15:25",
+        "頭数": 8,
+        "venue": "高知"
+      },
+      "turbulence": "低",
+      "turbulence_reason": "1位が13.9点差で圧倒的",
+      "status": "予想完了",
+      "predictions": {
+        "honmei": {
+          "horse_id": "2023105702",
+          "馬名": "レディアエラ",
+          "枠番": "5",
+          "馬番": "5",
+          "distance_score": 26.0,
+          "experience_score": 29.9,
+          "speed_score": 27.0,
+          "total_score": 82.9,
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
+        },
+        "taikou": {
+          "horse_id": "2023105442",
+          "馬名": "テンサラ",
+          "枠番": "8",
+          "馬番": "8",
+          "distance_score": 10.0,
+          "experience_score": 30.0,
+          "speed_score": 29.0,
+          "total_score": 69.0,
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
+        },
+        "ana": {
+          "horse_id": "2023101957",
+          "馬名": "オリヴィオリヴィ",
+          "枠番": "1",
+          "馬番": "1",
+          "distance_score": 10.0,
+          "experience_score": 30.0,
+          "speed_score": 27.0,
+          "total_score": 67.0,
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
+        },
+        "hole_candidates": [
+          {
+            "horse_id": "2023102253",
+            "馬名": "ランギロア",
+            "枠番": "2",
+            "馬番": "2",
+            "distance_score": 10.0,
+            "experience_score": 27.8,
+            "speed_score": 27.0,
+            "total_score": 64.8,
+            "past_race_count": 4,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2023100255",
+            "馬名": "チュラリヴァル",
+            "枠番": "6",
+            "馬番": "6",
+            "distance_score": 10.0,
+            "experience_score": 27.8,
+            "speed_score": 27.0,
+            "total_score": 64.8,
+            "past_race_count": 4,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2023101284",
+            "馬名": "ヴィルアヴァンセ",
+            "枠番": "4",
+            "馬番": "4",
+            "distance_score": 10.0,
+            "experience_score": 30.0,
+            "speed_score": 24.0,
+            "total_score": 64.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2023100872",
+            "馬名": "シデレウス",
+            "枠番": "3",
+            "馬番": "3",
+            "distance_score": 10.0,
+            "experience_score": 12.6,
+            "speed_score": 32.0,
+            "total_score": 54.6,
+            "past_race_count": 3,
+            "mark": "△",
+            "confidence": "穴"
+          }
+        ]
+      },
+      "betting_suggestions": {
+        "main": {
+          "type": "三連複フォーメーション",
+          "axis": [
+            "5",
+            "8",
+            "1"
+          ],
+          "aite": [
+            "2",
+            "6",
+            "4",
+            "3"
+          ],
+          "points": 13,
+          "unit_price": 100,
+          "total_investment": 1300,
+          "combinations": "◎-○-▲ BOX + (◎○▲ × △4頭)"
+        },
+        "axis_box_note": {
+          "enabled": false,
+          "reason": "スコア差 15.9点（5点超）",
+          "note": "スコア差が大きいため、軸3頭は同格扱いしません"
+        },
+        "total_investment": 1300
+      }
+    },
+    {
+      "race_id": "202654012502",
+      "race_info": {
+        "レース名": "R2",
+        "距離": "ダ1400m",
+        "発走時刻": "16:05",
+        "頭数": 8,
+        "venue": "高知"
+      },
+      "turbulence": "高",
+      "turbulence_reason": "1位と3位の差が5.0点（5点以内）で団子状態",
+      "status": "予想完了",
+      "predictions": {
+        "honmei": {
+          "horse_id": "2023106047",
+          "馬名": "オーシンミリオン",
+          "枠番": "1",
+          "馬番": "1",
+          "distance_score": 10.0,
+          "experience_score": 30.0,
+          "speed_score": 29.0,
+          "total_score": 69.0,
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "中"
+        },
+        "taikou": {
+          "horse_id": "2023104061",
+          "馬名": "ガディスビクトリア",
+          "枠番": "3",
+          "馬番": "3",
+          "distance_score": 10.0,
+          "experience_score": 30.0,
+          "speed_score": 29.0,
+          "total_score": 69.0,
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
+        },
+        "ana": {
+          "horse_id": "2023104530",
+          "馬名": "ソレユケカツコ",
+          "枠番": "2",
+          "馬番": "2",
+          "distance_score": 10.0,
+          "experience_score": 30.0,
+          "speed_score": 24.0,
+          "total_score": 64.0,
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
+        },
+        "hole_candidates": [
+          {
+            "horse_id": "2023104112",
+            "馬名": "ミアソレイユ",
+            "枠番": "4",
+            "馬番": "4",
+            "distance_score": 10.0,
+            "experience_score": 30.0,
+            "speed_score": 24.0,
+            "total_score": 64.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2023104089",
+            "馬名": "ジョウショージェニ",
+            "枠番": "6",
+            "馬番": "6",
+            "distance_score": 10.0,
+            "experience_score": 30.0,
+            "speed_score": 24.0,
+            "total_score": 64.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2023105511",
+            "馬名": "ハクノセブン",
+            "枠番": "5",
+            "馬番": "5",
+            "distance_score": 10.0,
+            "experience_score": 25.8,
+            "speed_score": 27.0,
+            "total_score": 62.8,
+            "past_race_count": 3,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2023104088",
+            "馬名": "ジョウショーレーヴ",
+            "枠番": "7",
+            "馬番": "7",
+            "distance_score": 10.0,
+            "experience_score": 30.0,
+            "speed_score": 18.0,
+            "total_score": 58.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2023106679",
+            "馬名": "キンデアポチャン",
+            "枠番": "8",
+            "馬番": "8",
+            "distance_score": 10.0,
+            "experience_score": 30.0,
+            "speed_score": 18.0,
+            "total_score": 58.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          }
+        ]
+      },
+      "betting_suggestions": {
+        "main": {
+          "type": "三連複フォーメーション",
+          "axis": [
+            "1",
+            "3",
+            "2"
+          ],
+          "aite": [
+            "4",
+            "6",
+            "5",
+            "7",
+            "8"
+          ],
+          "points": 16,
+          "unit_price": 100,
+          "total_investment": 1600,
+          "combinations": "◎-○-▲ BOX + (◎○▲ × △5頭)"
+        },
+        "axis_box_note": {
+          "enabled": true,
+          "reason": "スコア差 5.0点（5点以内）",
+          "note": "軸3頭BOXは三連複フォーメーションに含まれています"
+        },
+        "total_investment": 1600
+      }
+    },
+    {
+      "race_id": "202654012503",
+      "race_info": {
+        "レース名": "R2",
+        "距離": "ダ1400m",
+        "発走時刻": "16:35",
+        "頭数": 7,
+        "venue": "高知"
+      },
+      "turbulence": "中",
+      "turbulence_reason": "1位と2位の差が0.5点（5〜10点）で拮抗",
+      "status": "予想完了",
+      "predictions": {
+        "honmei": {
+          "horse_id": "2023107427",
+          "馬名": "クロシオバンザイ",
+          "枠番": "2",
+          "馬番": "2",
+          "distance_score": 10.0,
+          "experience_score": 30.0,
+          "speed_score": 32.0,
+          "total_score": 72.0,
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
+        },
+        "taikou": {
+          "horse_id": "2023105773",
+          "馬名": "ジョウショーブリエ",
+          "枠番": "4",
+          "馬番": "4",
+          "distance_score": 18.0,
+          "experience_score": 26.5,
+          "speed_score": 27.0,
+          "total_score": 71.5,
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
+        },
+        "ana": {
+          "horse_id": "2023100549",
+          "馬名": "バーニングホット",
+          "枠番": "7",
+          "馬番": "7",
+          "distance_score": 10.0,
+          "experience_score": 29.8,
+          "speed_score": 27.0,
+          "total_score": 66.8,
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
+        },
+        "hole_candidates": [
+          {
+            "horse_id": "2023101981",
+            "馬名": "ハルウタ",
+            "枠番": "1",
+            "馬番": "1",
+            "distance_score": 10.0,
+            "experience_score": 30.0,
+            "speed_score": 24.0,
+            "total_score": 64.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2023100499",
+            "馬名": "ユミッチラブ",
+            "枠番": "3",
+            "馬番": "3",
+            "distance_score": 10.0,
+            "experience_score": 30.0,
+            "speed_score": 18.0,
+            "total_score": 58.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2023101952",
+            "馬名": "ブラックオレンジ",
+            "枠番": "6",
+            "馬番": "6",
+            "distance_score": 10.0,
+            "experience_score": 25.8,
+            "speed_score": 18.0,
+            "total_score": 53.8,
+            "past_race_count": 3,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2023101745",
+            "馬名": "エートゥージー",
+            "枠番": "5",
+            "馬番": "5",
+            "distance_score": 10.0,
+            "experience_score": 14.6,
+            "speed_score": 26.0,
+            "total_score": 50.6,
+            "past_race_count": 4,
+            "mark": "△",
+            "confidence": "穴"
+          }
+        ]
+      },
+      "betting_suggestions": {
+        "main": {
+          "type": "三連複フォーメーション",
+          "axis": [
+            "2",
+            "4",
+            "7"
+          ],
+          "aite": [
+            "1",
+            "3",
+            "6",
+            "5"
+          ],
+          "points": 13,
+          "unit_price": 100,
+          "total_investment": 1300,
+          "combinations": "◎-○-▲ BOX + (◎○▲ × △4頭)"
+        },
+        "axis_box_note": {
+          "enabled": false,
+          "reason": "スコア差 5.2点（5点超）",
+          "note": "スコア差が大きいため、軸3頭は同格扱いしません"
+        },
+        "total_investment": 1300
+      }
+    },
+    {
+      "race_id": "202654012504",
+      "race_info": {
+        "レース名": "R2",
+        "距離": "ダ1400m",
+        "発走時刻": "17:05",
+        "頭数": 9,
+        "venue": "高知"
+      },
+      "turbulence": "中",
+      "turbulence_reason": "1位と2位の差が3.0点（5〜10点）で拮抗",
+      "status": "予想完了",
+      "predictions": {
+        "honmei": {
+          "horse_id": "2019105645",
+          "馬名": "プレストバローズ",
+          "枠番": "8",
+          "馬番": "9",
+          "distance_score": 34.0,
+          "experience_score": 30.0,
+          "speed_score": 32.0,
+          "total_score": 96.0,
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
+        },
+        "taikou": {
+          "horse_id": "2016101330",
+          "馬名": "ジョーパイロライト",
+          "枠番": "7",
+          "馬番": "7",
+          "distance_score": 34.0,
+          "experience_score": 30.0,
+          "speed_score": 29.0,
+          "total_score": 93.0,
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
+        },
+        "ana": {
+          "horse_id": "2021104134",
+          "馬名": "ジーズデイズ",
+          "枠番": "1",
+          "馬番": "1",
+          "distance_score": 26.0,
+          "experience_score": 30.0,
+          "speed_score": 29.0,
+          "total_score": 85.0,
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
+        },
+        "hole_candidates": [
+          {
+            "horse_id": "2017105815",
+            "馬名": "アンダーザスター",
+            "枠番": "2",
+            "馬番": "2",
+            "distance_score": 26.0,
+            "experience_score": 29.9,
+            "speed_score": 29.0,
+            "total_score": 84.9,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2021102209",
+            "馬名": "ビビットピンク",
+            "枠番": "4",
+            "馬番": "4",
+            "distance_score": 26.0,
+            "experience_score": 29.9,
+            "speed_score": 29.0,
+            "total_score": 84.9,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2017103402",
+            "馬名": "フルゴリラ",
+            "枠番": "3",
+            "馬番": "3",
+            "distance_score": 26.0,
+            "experience_score": 30.0,
+            "speed_score": 26.0,
+            "total_score": 82.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2018104872",
+            "馬名": "アクアマリンブルー",
+            "枠番": "5",
+            "馬番": "5",
+            "distance_score": 26.0,
+            "experience_score": 30.0,
+            "speed_score": 26.0,
+            "total_score": 82.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2021105300",
+            "馬名": "エレガントウインク",
+            "枠番": "6",
+            "馬番": "6",
+            "distance_score": 26.0,
+            "experience_score": 30.0,
+            "speed_score": 26.0,
+            "total_score": 82.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2020106593",
+            "馬名": "ジークシュベルト",
+            "枠番": "8",
+            "馬番": "8",
+            "distance_score": 26.0,
+            "experience_score": 26.6,
+            "speed_score": 26.0,
+            "total_score": 78.6,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          }
+        ]
+      },
+      "betting_suggestions": {
+        "main": {
+          "type": "三連複フォーメーション",
+          "axis": [
+            "9",
+            "7",
+            "1"
+          ],
+          "aite": [
+            "2",
+            "4",
+            "3",
+            "5",
+            "6",
+            "8"
+          ],
+          "points": 19,
+          "unit_price": 100,
+          "total_investment": 1900,
+          "combinations": "◎-○-▲ BOX + (◎○▲ × △6頭)"
+        },
+        "axis_box_note": {
+          "enabled": false,
+          "reason": "スコア差 11.0点（5点超）",
+          "note": "スコア差が大きいため、軸3頭は同格扱いしません"
+        },
+        "total_investment": 1900
+      }
+    },
+    {
+      "race_id": "202654012505",
+      "race_info": {
+        "レース名": "R2",
+        "距離": "ダ1400m",
+        "発走時刻": "17:40",
+        "頭数": 10,
+        "venue": "高知"
+      },
+      "turbulence": "高",
+      "turbulence_reason": "1位と3位の差が0.0点（5点以内）で団子状態",
+      "status": "予想完了",
+      "predictions": {
+        "honmei": {
+          "horse_id": "2019100470",
+          "馬名": "マツリダショパン",
+          "枠番": "3",
+          "馬番": "3",
+          "distance_score": 34.0,
+          "experience_score": 30.0,
+          "speed_score": 26.0,
+          "total_score": 90.0,
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
+        },
+        "taikou": {
+          "horse_id": "2016101161",
+          "馬名": "ロードアブソルート",
+          "枠番": "5",
+          "馬番": "5",
+          "distance_score": 34.0,
+          "experience_score": 30.0,
+          "speed_score": 26.0,
+          "total_score": 90.0,
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
+        },
+        "ana": {
+          "horse_id": "2021101210",
+          "馬名": "ジェンマ",
+          "枠番": "8",
+          "馬番": "9",
+          "distance_score": 34.0,
+          "experience_score": 30.0,
+          "speed_score": 26.0,
+          "total_score": 90.0,
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
+        },
+        "hole_candidates": [
+          {
+            "horse_id": "2021101243",
+            "馬名": "クリノオリオン",
+            "枠番": "4",
+            "馬番": "4",
+            "distance_score": 26.0,
+            "experience_score": 29.9,
+            "speed_score": 29.0,
+            "total_score": 84.9,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2018102902",
+            "馬名": "スギノマジェスティ",
+            "枠番": "7",
+            "馬番": "8",
+            "distance_score": 26.0,
+            "experience_score": 29.9,
+            "speed_score": 29.0,
+            "total_score": 84.9,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2021110043",
+            "馬名": "カポデテュティカピ",
+            "枠番": "8",
+            "馬番": "10",
+            "distance_score": 26.0,
+            "experience_score": 29.9,
+            "speed_score": 29.0,
+            "total_score": 84.9,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2022101955",
+            "馬名": "オリーブブランチ",
+            "枠番": "1",
+            "馬番": "1",
+            "distance_score": 21.0,
+            "experience_score": 25.8,
+            "speed_score": 32.0,
+            "total_score": 78.8,
+            "past_race_count": 3,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2021102442",
+            "馬名": "オールラウンダー",
+            "枠番": "2",
+            "馬番": "2",
+            "distance_score": 10.0,
+            "experience_score": 26.5,
+            "speed_score": 32.0,
+            "total_score": 68.5,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          }
+        ]
+      },
+      "betting_suggestions": {
+        "main": {
+          "type": "三連複フォーメーション",
+          "axis": [
+            "3",
+            "5",
+            "9"
+          ],
+          "aite": [
+            "4",
+            "8",
+            "10",
+            "1",
+            "2"
+          ],
+          "points": 16,
+          "unit_price": 100,
+          "total_investment": 1600,
+          "combinations": "◎-○-▲ BOX + (◎○▲ × △5頭)"
+        },
+        "axis_box_note": {
+          "enabled": true,
+          "reason": "スコア差 0.0点（5点以内）",
+          "note": "軸3頭BOXは三連複フォーメーションに含まれています"
+        },
+        "total_investment": 1600
+      }
+    },
+    {
+      "race_id": "202654012506",
+      "race_info": {
+        "レース名": "R2",
+        "距離": "ダ1600m",
+        "発走時刻": "18:15",
+        "頭数": 11,
+        "venue": "高知"
+      },
+      "turbulence": "中",
+      "turbulence_reason": "1位と2位の差が1.1点（5〜10点）で拮抗",
+      "status": "予想完了",
+      "predictions": {
+        "honmei": {
+          "horse_id": "2023105768",
+          "馬名": "カントリービクター",
+          "枠番": "3",
+          "馬番": "3",
+          "distance_score": 13.0,
+          "experience_score": 23.3,
+          "speed_score": 29.0,
+          "total_score": 65.3,
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "中"
+        },
+        "taikou": {
+          "horse_id": "2023100122",
+          "馬名": "ジョウショーボビー",
+          "枠番": "8",
+          "馬番": "10",
+          "distance_score": 13.0,
+          "experience_score": 19.2,
+          "speed_score": 32.0,
+          "total_score": 64.2,
+          "past_race_count": 3,
+          "mark": "○",
+          "confidence": "中"
+        },
+        "ana": {
+          "horse_id": "2023101075",
+          "馬名": "メイジョウエナジー",
+          "枠番": "4",
+          "馬番": "4",
+          "distance_score": 8.0,
+          "experience_score": 21.3,
+          "speed_score": 19.0,
+          "total_score": 48.3,
+          "past_race_count": 4,
+          "mark": "▲",
+          "confidence": "極低"
+        },
+        "hole_candidates": [
+          {
+            "horse_id": "2023100675",
+            "馬名": "シーザソング",
+            "枠番": "8",
+            "馬番": "11",
+            "distance_score": 8.0,
+            "experience_score": 21.3,
+            "speed_score": 19.0,
+            "total_score": 48.3,
+            "past_race_count": 4,
+            "mark": "△",
+            "confidence": "穴"
+          }
+        ]
+      },
+      "betting_suggestions": {
+        "main": {
+          "type": "三連複フォーメーション",
+          "axis": [
+            "3",
+            "10",
+            "4"
+          ],
+          "aite": [
+            "11"
+          ],
+          "points": 4,
+          "unit_price": 100,
+          "total_investment": 400,
+          "combinations": "◎-○-▲ BOX + (◎○▲ × △1頭)"
+        },
+        "axis_box_note": {
+          "enabled": false,
+          "reason": "スコア差 17.0点（5点超）",
+          "note": "スコア差が大きいため、軸3頭は同格扱いしません"
+        },
+        "total_investment": 400
+      }
+    },
+    {
+      "race_id": "202654012507",
+      "race_info": {
+        "レース名": "R2",
+        "距離": "ダ1400m",
+        "発走時刻": "18:45",
+        "頭数": 9,
+        "venue": "高知"
+      },
+      "turbulence": "高",
+      "turbulence_reason": "1位と3位の差が0.1点（5点以内）で団子状態",
+      "status": "予想完了",
+      "predictions": {
+        "honmei": {
+          "horse_id": "2017104819",
+          "馬名": "ダノンファスト",
+          "枠番": "2",
+          "馬番": "2",
+          "distance_score": 26.0,
+          "experience_score": 30.0,
+          "speed_score": 32.0,
+          "total_score": 88.0,
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
+        },
+        "taikou": {
+          "horse_id": "2017105224",
+          "馬名": "キングダムウイナー",
+          "枠番": "3",
+          "馬番": "3",
+          "distance_score": 26.0,
+          "experience_score": 29.9,
+          "speed_score": 32.0,
+          "total_score": 87.9,
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
+        },
+        "ana": {
+          "horse_id": "2019104685",
+          "馬名": "ルージュブラゾン",
+          "枠番": "5",
+          "馬番": "5",
+          "distance_score": 26.0,
+          "experience_score": 29.9,
+          "speed_score": 32.0,
+          "total_score": 87.9,
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
+        },
+        "hole_candidates": [
+          {
+            "horse_id": "2020100985",
+            "馬名": "マライアガーネット",
+            "枠番": "1",
+            "馬番": "1",
+            "distance_score": 26.0,
+            "experience_score": 29.9,
+            "speed_score": 29.0,
+            "total_score": 84.9,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2018102101",
+            "馬名": "マイネルボーダレス",
+            "枠番": "8",
+            "馬番": "9",
+            "distance_score": 26.0,
+            "experience_score": 27.9,
+            "speed_score": 29.0,
+            "total_score": 82.9,
+            "past_race_count": 4,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2022103068",
+            "馬名": "スピードイエロー",
+            "枠番": "7",
+            "馬番": "7",
+            "distance_score": 26.0,
+            "experience_score": 29.9,
+            "speed_score": 26.0,
+            "total_score": 81.9,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2019101531",
+            "馬名": "アウゲンブリック",
+            "枠番": "6",
+            "馬番": "6",
+            "distance_score": 18.0,
+            "experience_score": 29.9,
+            "speed_score": 27.0,
+            "total_score": 74.9,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2020100551",
+            "馬名": "ディーン",
+            "枠番": "4",
+            "馬番": "4",
+            "distance_score": 18.0,
+            "experience_score": 26.5,
+            "speed_score": 29.0,
+            "total_score": 73.5,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2022100145",
+            "馬名": "ナムラクレープ",
+            "枠番": "8",
+            "馬番": "8",
+            "distance_score": 18.0,
+            "experience_score": 24.5,
+            "speed_score": 26.0,
+            "total_score": 68.5,
+            "past_race_count": 4,
+            "mark": "△",
+            "confidence": "穴"
+          }
+        ]
+      },
+      "betting_suggestions": {
+        "main": {
+          "type": "三連複フォーメーション",
+          "axis": [
+            "2",
+            "3",
+            "5"
+          ],
+          "aite": [
+            "1",
+            "9",
+            "7",
+            "6",
+            "4",
+            "8"
+          ],
+          "points": 19,
+          "unit_price": 100,
+          "total_investment": 1900,
+          "combinations": "◎-○-▲ BOX + (◎○▲ × △6頭)"
+        },
+        "axis_box_note": {
+          "enabled": true,
+          "reason": "スコア差 0.1点（5点以内）",
+          "note": "軸3頭BOXは三連複フォーメーションに含まれています"
+        },
+        "total_investment": 1900
+      }
+    },
+    {
+      "race_id": "202654012508",
+      "race_info": {
+        "レース名": "R2",
+        "距離": "ダ1400m",
+        "発走時刻": "19:20",
+        "頭数": 11,
+        "venue": "高知"
+      },
+      "turbulence": "中",
+      "turbulence_reason": "1位と2位の差が5.9点（5〜10点）で拮抗",
+      "status": "予想完了",
+      "predictions": {
+        "honmei": {
+          "horse_id": "2020103034",
+          "馬名": "ドライブアローカス",
+          "枠番": "1",
+          "馬番": "1",
+          "distance_score": 34.0,
+          "experience_score": 29.9,
+          "speed_score": 29.0,
+          "total_score": 92.9,
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
+        },
+        "taikou": {
+          "horse_id": "2020104385",
+          "馬名": "トロルトゥンガ",
+          "枠番": "8",
+          "馬番": "10",
+          "distance_score": 34.0,
+          "experience_score": 30.0,
+          "speed_score": 23.0,
+          "total_score": 87.0,
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
+        },
+        "ana": {
+          "horse_id": "2020101681",
+          "馬名": "ロードイモータル",
+          "枠番": "3",
+          "馬番": "3",
+          "distance_score": 26.0,
+          "experience_score": 29.9,
+          "speed_score": 29.0,
+          "total_score": 84.9,
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
+        },
+        "hole_candidates": [
+          {
+            "horse_id": "2018105392",
+            "馬名": "レゾンドゥスリール",
+            "枠番": "5",
+            "馬番": "5",
+            "distance_score": 26.0,
+            "experience_score": 29.9,
+            "speed_score": 29.0,
+            "total_score": 84.9,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2017103912",
+            "馬名": "アキノスマート",
+            "枠番": "6",
+            "馬番": "6",
+            "distance_score": 26.0,
+            "experience_score": 29.9,
+            "speed_score": 29.0,
+            "total_score": 84.9,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2021100748",
+            "馬名": "ワクワクドリーム",
+            "枠番": "7",
+            "馬番": "9",
+            "distance_score": 26.0,
+            "experience_score": 29.9,
+            "speed_score": 29.0,
+            "total_score": 84.9,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2018106031",
+            "馬名": "ゲンパチハマジ",
+            "枠番": "8",
+            "馬番": "11",
+            "distance_score": 26.0,
+            "experience_score": 26.6,
+            "speed_score": 26.0,
+            "total_score": 78.6,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2020101587",
+            "馬名": "ガルムキャット",
+            "枠番": "4",
+            "馬番": "4",
+            "distance_score": 26.0,
+            "experience_score": 18.0,
+            "speed_score": 32.0,
+            "total_score": 76.0,
+            "past_race_count": 4,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2021102423",
+            "馬名": "ビービーバシリス",
+            "枠番": "6",
+            "馬番": "7",
+            "distance_score": 18.0,
+            "experience_score": 26.5,
+            "speed_score": 26.0,
+            "total_score": 70.5,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2018106077",
+            "馬名": "イルクオーレ",
+            "枠番": "7",
+            "馬番": "8",
+            "distance_score": 18.0,
+            "experience_score": 24.6,
+            "speed_score": 26.0,
+            "total_score": 68.6,
+            "past_race_count": 4,
+            "mark": "△",
+            "confidence": "穴"
+          }
+        ]
+      },
+      "betting_suggestions": {
+        "main": {
+          "type": "三連複フォーメーション",
+          "axis": [
+            "1",
+            "10",
+            "3"
+          ],
+          "aite": [
+            "5",
+            "6",
+            "9",
+            "11",
+            "4",
+            "7",
+            "8"
+          ],
+          "points": 22,
+          "unit_price": 100,
+          "total_investment": 2200,
+          "combinations": "◎-○-▲ BOX + (◎○▲ × △7頭)"
+        },
+        "axis_box_note": {
+          "enabled": false,
+          "reason": "スコア差 8.0点（5点超）",
+          "note": "スコア差が大きいため、軸3頭は同格扱いしません"
+        },
+        "total_investment": 2200
+      }
+    },
+    {
+      "race_id": "202654012509",
+      "race_info": {
+        "レース名": "R2",
+        "距離": "ダ1400m",
+        "発走時刻": "19:50",
+        "頭数": 6,
+        "venue": "高知"
+      },
+      "turbulence": "高",
+      "turbulence_reason": "1位と3位の差が1.0点（5点以内）で団子状態",
+      "status": "予想完了",
+      "predictions": {
+        "honmei": {
+          "horse_id": "2018104491",
+          "馬名": "エコロファルコン",
+          "枠番": "5",
+          "馬番": "5",
+          "distance_score": 34.0,
+          "experience_score": 30.0,
+          "speed_score": 23.0,
+          "total_score": 87.0,
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
+        },
+        "taikou": {
+          "horse_id": "2019103439",
+          "馬名": "エイシンツーリング",
+          "枠番": "1",
+          "馬番": "1",
+          "distance_score": 34.0,
+          "experience_score": 29.9,
+          "speed_score": 23.0,
+          "total_score": 86.9,
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
+        },
+        "ana": {
+          "horse_id": "2021102002",
+          "馬名": "スカイライト",
+          "枠番": "2",
+          "馬番": "2",
+          "distance_score": 30.0,
+          "experience_score": 30.0,
+          "speed_score": 26.0,
+          "total_score": 86.0,
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
+        },
+        "hole_candidates": [
+          {
+            "horse_id": "2018103898",
+            "馬名": "キャッスルトップ",
+            "枠番": "4",
+            "馬番": "4",
+            "distance_score": 29.0,
+            "experience_score": 29.9,
+            "speed_score": 26.0,
+            "total_score": 84.9,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2019100288",
+            "馬名": "ヤマイチエスポ",
+            "枠番": "3",
+            "馬番": "3",
+            "distance_score": 29.0,
+            "experience_score": 29.9,
+            "speed_score": 23.0,
+            "total_score": 81.9,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2021103566",
+            "馬名": "アムレートゥム",
+            "枠番": "6",
+            "馬番": "6",
+            "distance_score": 21.0,
+            "experience_score": 24.6,
+            "speed_score": 32.0,
+            "total_score": 77.6,
+            "past_race_count": 4,
+            "mark": "△",
+            "confidence": "穴"
+          }
+        ]
+      },
+      "betting_suggestions": {
+        "main": {
+          "type": "三連複フォーメーション",
+          "axis": [
+            "5",
+            "1",
+            "2"
+          ],
+          "aite": [
+            "4",
+            "3",
+            "6"
+          ],
+          "points": 10,
+          "unit_price": 100,
+          "total_investment": 1000,
+          "combinations": "◎-○-▲ BOX + (◎○▲ × △3頭)"
+        },
+        "axis_box_note": {
+          "enabled": true,
+          "reason": "スコア差 1.0点（5点以内）",
+          "note": "軸3頭BOXは三連複フォーメーションに含まれています"
+        },
+        "total_investment": 1000
+      }
+    },
+    {
+      "race_id": "202654012510",
+      "race_info": {
+        "レース名": "R2",
+        "距離": "ダ1600m",
+        "発走時刻": "20:20",
+        "頭数": 8,
+        "venue": "高知"
+      },
+      "turbulence": "高",
+      "turbulence_reason": "1位と3位の差が0.0点（5点以内）で団子状態",
+      "status": "予想完了",
+      "predictions": {
+        "honmei": {
+          "horse_id": "2020101161",
+          "馬名": "ミズワリヲクダサイ",
+          "枠番": "1",
+          "馬番": "1",
+          "distance_score": 26.0,
+          "experience_score": 26.6,
+          "speed_score": 32.0,
+          "total_score": 84.6,
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
+        },
+        "taikou": {
+          "horse_id": "2017109026",
+          "馬名": "ワイドカント",
+          "枠番": "3",
+          "馬番": "3",
+          "distance_score": 26.0,
+          "experience_score": 26.6,
+          "speed_score": 32.0,
+          "total_score": 84.6,
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
+        },
+        "ana": {
+          "horse_id": "2018104574",
+          "馬名": "ローズボウル",
+          "枠番": "5",
+          "馬番": "5",
+          "distance_score": 26.0,
+          "experience_score": 26.6,
+          "speed_score": 32.0,
+          "total_score": 84.6,
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
+        },
+        "hole_candidates": [
+          {
+            "horse_id": "2019101929",
+            "馬名": "モズゴールドメダル",
+            "枠番": "4",
+            "馬番": "4",
+            "distance_score": 18.0,
+            "experience_score": 23.3,
+            "speed_score": 32.0,
+            "total_score": 73.3,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2020106661",
+            "馬名": "フォーサイドナイン",
+            "枠番": "8",
+            "馬番": "8",
+            "distance_score": 18.0,
+            "experience_score": 23.3,
+            "speed_score": 23.0,
+            "total_score": 64.3,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2020102375",
+            "馬名": "ニクソンテソーロ",
+            "枠番": "2",
+            "馬番": "2",
+            "distance_score": 10.0,
+            "experience_score": 15.9,
+            "speed_score": 30.0,
+            "total_score": 55.9,
+            "past_race_count": 3,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2020100733",
+            "馬名": "ティアップエックス",
+            "枠番": "6",
+            "馬番": "6",
+            "distance_score": 10.0,
+            "experience_score": 15.9,
+            "speed_score": 30.0,
+            "total_score": 55.9,
+            "past_race_count": 3,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2019100206",
+            "馬名": "ウインヴェルデ",
+            "枠番": "7",
+            "馬番": "7",
+            "distance_score": 10.0,
+            "experience_score": 15.9,
+            "speed_score": 26.0,
+            "total_score": 51.9,
+            "past_race_count": 3,
+            "mark": "△",
+            "confidence": "穴"
+          }
+        ]
+      },
+      "betting_suggestions": {
+        "main": {
+          "type": "三連複フォーメーション",
+          "axis": [
+            "1",
+            "3",
+            "5"
+          ],
+          "aite": [
+            "4",
+            "8",
+            "2",
+            "6",
+            "7"
+          ],
+          "points": 16,
+          "unit_price": 100,
+          "total_investment": 1600,
+          "combinations": "◎-○-▲ BOX + (◎○▲ × △5頭)"
+        },
+        "axis_box_note": {
+          "enabled": true,
+          "reason": "スコア差 0.0点（5点以内）",
+          "note": "軸3頭BOXは三連複フォーメーションに含まれています"
+        },
+        "total_investment": 1600
+      }
+    },
+    {
+      "race_id": "202654012511",
+      "race_info": {
+        "レース名": "R2",
+        "距離": "ダ1400m",
+        "発走時刻": "20:50",
+        "頭数": 12,
+        "venue": "高知"
+      },
+      "turbulence": "中",
+      "turbulence_reason": "1位と2位の差が0.0点（5〜10点）で拮抗",
+      "status": "予想完了",
+      "predictions": {
+        "honmei": {
+          "horse_id": "2021100291",
+          "馬名": "パシュミナ",
+          "枠番": "7",
+          "馬番": "10",
+          "distance_score": 34.0,
+          "experience_score": 30.0,
+          "speed_score": 32.0,
+          "total_score": 96.0,
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
+        },
+        "taikou": {
+          "horse_id": "2018102350",
+          "馬名": "テーオールノワール",
+          "枠番": "8",
+          "馬番": "11",
+          "distance_score": 34.0,
+          "experience_score": 30.0,
+          "speed_score": 32.0,
+          "total_score": 96.0,
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
+        },
+        "ana": {
+          "horse_id": "2021101140",
+          "馬名": "イエスゴーオン",
+          "枠番": "5",
+          "馬番": "5",
+          "distance_score": 34.0,
+          "experience_score": 30.0,
+          "speed_score": 26.0,
+          "total_score": 90.0,
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
+        },
+        "hole_candidates": [
+          {
+            "horse_id": "2021104848",
+            "馬名": "バイユーラン",
+            "枠番": "4",
+            "馬番": "4",
+            "distance_score": 26.0,
+            "experience_score": 29.9,
+            "speed_score": 32.0,
+            "total_score": 87.9,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2018100510",
+            "馬名": "スパイスアップ",
+            "枠番": "6",
+            "馬番": "8",
+            "distance_score": 26.0,
+            "experience_score": 29.9,
+            "speed_score": 32.0,
+            "total_score": 87.9,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2017103008",
+            "馬名": "ヤマノマタカ",
+            "枠番": "1",
+            "馬番": "1",
+            "distance_score": 26.0,
+            "experience_score": 29.9,
+            "speed_score": 29.0,
+            "total_score": 84.9,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2021100398",
+            "馬名": "コルテデフィート",
+            "枠番": "2",
+            "馬番": "2",
+            "distance_score": 26.0,
+            "experience_score": 29.9,
+            "speed_score": 29.0,
+            "total_score": 84.9,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2016101473",
+            "馬名": "ゴールデンチョイス",
+            "枠番": "3",
+            "馬番": "3",
+            "distance_score": 26.0,
+            "experience_score": 29.9,
+            "speed_score": 29.0,
+            "total_score": 84.9,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2021105053",
+            "馬名": "キープインマインド",
+            "枠番": "7",
+            "馬番": "9",
+            "distance_score": 26.0,
+            "experience_score": 29.9,
+            "speed_score": 29.0,
+            "total_score": 84.9,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2020106830",
+            "馬名": "クラシカルタイプ",
+            "枠番": "8",
+            "馬番": "12",
+            "distance_score": 26.0,
+            "experience_score": 29.9,
+            "speed_score": 29.0,
+            "total_score": 84.9,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          }
+        ]
+      },
+      "betting_suggestions": {
+        "main": {
+          "type": "三連複フォーメーション",
+          "axis": [
+            "10",
+            "11",
+            "5"
+          ],
+          "aite": [
+            "4",
+            "8",
+            "1",
+            "2",
+            "3",
+            "9",
+            "12"
+          ],
+          "points": 22,
+          "unit_price": 100,
+          "total_investment": 2200,
+          "combinations": "◎-○-▲ BOX + (◎○▲ × △7頭)"
+        },
+        "axis_box_note": {
+          "enabled": false,
+          "reason": "スコア差 6.0点（5点超）",
+          "note": "スコア差が大きいため、軸3頭は同格扱いしません"
+        },
+        "total_investment": 2200
+      }
+    },
+    {
+      "race_id": "202655012501",
+      "race_info": {
+        "レース名": "R2",
+        "距離": "ダ1300m",
+        "発走時刻": "14:45",
+        "頭数": 12,
+        "venue": "佐賀"
+      },
+      "turbulence": "中",
+      "turbulence_reason": "1位と2位の差が5.0点（5〜10点）で拮抗",
+      "status": "予想完了",
+      "predictions": {
+        "honmei": {
+          "horse_id": "2022104322",
+          "馬名": "メイズ",
+          "枠番": "6",
+          "馬番": "8",
+          "distance_score": 26.0,
+          "experience_score": 30.0,
+          "speed_score": 29.0,
+          "total_score": 85.0,
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
+        },
+        "taikou": {
+          "horse_id": "2022102221",
+          "馬名": "ニシノイッキサス",
+          "枠番": "6",
+          "馬番": "7",
+          "distance_score": 18.0,
+          "experience_score": 30.0,
+          "speed_score": 32.0,
+          "total_score": 80.0,
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
+        },
+        "ana": {
+          "horse_id": "2018102243",
+          "馬名": "ブラーブサージュ",
+          "枠番": "5",
+          "馬番": "6",
+          "distance_score": 10.0,
+          "experience_score": 29.8,
+          "speed_score": 32.0,
+          "total_score": 71.8,
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
+        },
+        "hole_candidates": [
+          {
+            "horse_id": "2022101291",
+            "馬名": "クラウンテック",
+            "枠番": "7",
+            "馬番": "9",
+            "distance_score": 18.0,
+            "experience_score": 27.9,
+            "speed_score": 23.0,
+            "total_score": 68.9,
+            "past_race_count": 4,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2020103982",
+            "馬名": "スターウイン",
+            "枠番": "3",
+            "馬番": "3",
+            "distance_score": 10.0,
+            "experience_score": 30.0,
+            "speed_score": 27.0,
+            "total_score": 67.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2022100023",
+            "馬名": "リュウノシャモニー",
+            "枠番": "8",
+            "馬番": "12",
+            "distance_score": 10.0,
+            "experience_score": 30.0,
+            "speed_score": 24.0,
+            "total_score": 64.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2022107274",
+            "馬名": "ソラトブツバメ",
+            "枠番": "1",
+            "馬番": "1",
+            "distance_score": 10.0,
+            "experience_score": 29.9,
+            "speed_score": 24.0,
+            "total_score": 63.9,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2020102415",
+            "馬名": "メイクアストーリー",
+            "枠番": "8",
+            "馬番": "11",
+            "distance_score": 10.0,
+            "experience_score": 29.9,
+            "speed_score": 21.0,
+            "total_score": 60.9,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2020100474",
+            "馬名": "ロマンチックタイム",
+            "枠番": "5",
+            "馬番": "5",
+            "distance_score": 10.0,
+            "experience_score": 19.9,
+            "speed_score": 26.0,
+            "total_score": 55.9,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2022100237",
+            "馬名": "アユツリムスメ",
+            "枠番": "2",
+            "馬番": "2",
+            "distance_score": 10.0,
+            "experience_score": 16.6,
+            "speed_score": 29.0,
+            "total_score": 55.6,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          }
+        ]
+      },
+      "betting_suggestions": {
+        "main": {
+          "type": "三連複フォーメーション",
+          "axis": [
+            "8",
+            "7",
+            "6"
+          ],
+          "aite": [
+            "9",
+            "3",
+            "12",
+            "1",
+            "11",
+            "5",
+            "2"
+          ],
+          "points": 22,
+          "unit_price": 100,
+          "total_investment": 2200,
+          "combinations": "◎-○-▲ BOX + (◎○▲ × △7頭)"
+        },
+        "axis_box_note": {
+          "enabled": false,
+          "reason": "スコア差 13.2点（5点超）",
+          "note": "スコア差が大きいため、軸3頭は同格扱いしません"
+        },
+        "total_investment": 2200
+      }
+    },
+    {
+      "race_id": "202655012502",
+      "race_info": {
+        "レース名": "R2",
+        "距離": "ダ1300m",
+        "発走時刻": "15:20",
+        "頭数": 12,
+        "venue": "佐賀"
+      },
+      "turbulence": "高",
+      "turbulence_reason": "1位と3位の差が5.0点（5点以内）で団子状態",
+      "status": "予想完了",
+      "predictions": {
+        "honmei": {
+          "horse_id": "2022105886",
+          "馬名": "エールヴェガ",
+          "枠番": "5",
+          "馬番": "5",
+          "distance_score": 26.0,
+          "experience_score": 30.0,
+          "speed_score": 26.0,
+          "total_score": 82.0,
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
+        },
+        "taikou": {
+          "horse_id": "2022107118",
+          "馬名": "モリデンドーター",
+          "枠番": "5",
+          "馬番": "6",
+          "distance_score": 26.0,
+          "experience_score": 30.0,
+          "speed_score": 23.0,
+          "total_score": 79.0,
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
+        },
+        "ana": {
+          "horse_id": "2022103685",
+          "馬名": "マリアブーケ",
+          "枠番": "3",
+          "馬番": "3",
+          "distance_score": 18.0,
+          "experience_score": 30.0,
+          "speed_score": 29.0,
+          "total_score": 77.0,
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
+        },
+        "hole_candidates": [
+          {
+            "horse_id": "2020107126",
+            "馬名": "ラフト",
+            "枠番": "7",
+            "馬番": "9",
+            "distance_score": 18.0,
+            "experience_score": 26.6,
+            "speed_score": 26.0,
+            "total_score": 70.6,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2022106787",
+            "馬名": "ガーンディーヴァ",
+            "枠番": "6",
+            "馬番": "8",
+            "distance_score": 18.0,
+            "experience_score": 26.5,
+            "speed_score": 26.0,
+            "total_score": 70.5,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2022101507",
+            "馬名": "ナックグランデ",
+            "枠番": "4",
+            "馬番": "4",
+            "distance_score": 10.0,
+            "experience_score": 30.0,
+            "speed_score": 27.0,
+            "total_score": 67.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2022101702",
+            "馬名": "レインチェック",
+            "枠番": "7",
+            "馬番": "10",
+            "distance_score": 10.0,
+            "experience_score": 30.0,
+            "speed_score": 27.0,
+            "total_score": 67.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2022102329",
+            "馬名": "ニンマリ",
+            "枠番": "8",
+            "馬番": "11",
+            "distance_score": 18.0,
+            "experience_score": 23.2,
+            "speed_score": 23.0,
+            "total_score": 64.2,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2017106105",
+            "馬名": "フェールアシュバル",
+            "枠番": "8",
+            "馬番": "12",
+            "distance_score": 13.0,
+            "experience_score": 23.2,
+            "speed_score": 26.0,
+            "total_score": 62.2,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2021109149",
+            "馬名": "カシノフロイデ",
+            "枠番": "1",
+            "馬番": "1",
+            "distance_score": 10.0,
+            "experience_score": 30.0,
+            "speed_score": 21.0,
+            "total_score": 61.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          }
+        ]
+      },
+      "betting_suggestions": {
+        "main": {
+          "type": "三連複フォーメーション",
+          "axis": [
+            "5",
+            "6",
+            "3"
+          ],
+          "aite": [
+            "9",
+            "8",
+            "4",
+            "10",
+            "11",
+            "12",
+            "1"
+          ],
+          "points": 22,
+          "unit_price": 100,
+          "total_investment": 2200,
+          "combinations": "◎-○-▲ BOX + (◎○▲ × △7頭)"
+        },
+        "axis_box_note": {
+          "enabled": true,
+          "reason": "スコア差 5.0点（5点以内）",
+          "note": "軸3頭BOXは三連複フォーメーションに含まれています"
+        },
+        "total_investment": 2200
+      }
+    },
+    {
+      "race_id": "202655012503",
+      "race_info": {
+        "レース名": "R2",
+        "距離": "ダ1400m",
+        "発走時刻": "15:55",
+        "頭数": 11,
+        "venue": "佐賀"
+      },
+      "turbulence": "高",
+      "turbulence_reason": "1位と3位の差が4.0点（5点以内）で団子状態",
+      "status": "予想完了",
+      "predictions": {
+        "honmei": {
+          "horse_id": "2021101268",
+          "馬名": "マリノカサブランカ",
+          "枠番": "6",
+          "馬番": "7",
+          "distance_score": 34.0,
+          "experience_score": 30.0,
+          "speed_score": 32.0,
+          "total_score": 96.0,
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
+        },
+        "taikou": {
+          "horse_id": "2022106782",
+          "馬名": "コスモシンテイ",
+          "枠番": "4",
+          "馬番": "4",
+          "distance_score": 34.0,
+          "experience_score": 30.0,
+          "speed_score": 29.0,
+          "total_score": 93.0,
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
+        },
+        "ana": {
+          "horse_id": "2018101240",
+          "馬名": "フィーリウスワン",
+          "枠番": "8",
+          "馬番": "11",
+          "distance_score": 30.0,
+          "experience_score": 30.0,
+          "speed_score": 32.0,
+          "total_score": 92.0,
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
+        },
+        "hole_candidates": [
+          {
+            "horse_id": "2022104848",
+            "馬名": "ラストプリンセス",
+            "枠番": "8",
+            "馬番": "10",
+            "distance_score": 34.0,
+            "experience_score": 30.0,
+            "speed_score": 26.0,
+            "total_score": 90.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2022101828",
+            "馬名": "ミスキュウシュウ",
+            "枠番": "3",
+            "馬番": "3",
+            "distance_score": 30.0,
+            "experience_score": 30.0,
+            "speed_score": 29.0,
+            "total_score": 89.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2022102367",
+            "馬名": "ユイダイナソー",
+            "枠番": "2",
+            "馬番": "2",
+            "distance_score": 26.0,
+            "experience_score": 23.2,
+            "speed_score": 32.0,
+            "total_score": 81.2,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2019102527",
+            "馬名": "スマートアクシオン",
+            "枠番": "7",
+            "馬番": "9",
+            "distance_score": 26.0,
+            "experience_score": 23.3,
+            "speed_score": 29.0,
+            "total_score": 78.3,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2022100967",
+            "馬名": "エメラルドシティー",
+            "枠番": "7",
+            "馬番": "8",
+            "distance_score": 26.0,
+            "experience_score": 19.9,
+            "speed_score": 32.0,
+            "total_score": 77.9,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2020102656",
+            "馬名": "サルサロマンティカ",
+            "枠番": "6",
+            "馬番": "6",
+            "distance_score": 25.0,
+            "experience_score": 23.3,
+            "speed_score": 21.0,
+            "total_score": 69.3,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2021106455",
+            "馬名": "キタノレガーロ",
+            "枠番": "1",
+            "馬番": "1",
+            "distance_score": 25.0,
+            "experience_score": 20.0,
+            "speed_score": 24.0,
+            "total_score": 69.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          }
+        ]
+      },
+      "betting_suggestions": {
+        "main": {
+          "type": "三連複フォーメーション",
+          "axis": [
+            "7",
+            "4",
+            "11"
+          ],
+          "aite": [
+            "10",
+            "3",
+            "2",
+            "9",
+            "8",
+            "6",
+            "1"
+          ],
+          "points": 22,
+          "unit_price": 100,
+          "total_investment": 2200,
+          "combinations": "◎-○-▲ BOX + (◎○▲ × △7頭)"
+        },
+        "axis_box_note": {
+          "enabled": true,
+          "reason": "スコア差 4.0点（5点以内）",
+          "note": "軸3頭BOXは三連複フォーメーションに含まれています"
+        },
+        "total_investment": 2200
+      }
+    },
+    {
+      "race_id": "202655012504",
+      "race_info": {
+        "レース名": "R2",
+        "距離": "ダ1400m",
+        "発走時刻": "16:30",
+        "頭数": 11,
+        "venue": "佐賀"
+      },
+      "turbulence": "高",
+      "turbulence_reason": "1位と3位の差が3.0点（5点以内）で団子状態",
+      "status": "予想完了",
+      "predictions": {
+        "honmei": {
+          "horse_id": "2022101694",
+          "馬名": "イズジョーレイナス",
+          "枠番": "7",
+          "馬番": "9",
+          "distance_score": 30.0,
+          "experience_score": 30.0,
+          "speed_score": 35.0,
+          "total_score": 95.0,
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
+        },
+        "taikou": {
+          "horse_id": "2022109094",
+          "馬名": "アトラーレ",
+          "枠番": "1",
+          "馬番": "1",
+          "distance_score": 29.0,
+          "experience_score": 30.0,
+          "speed_score": 35.0,
+          "total_score": 94.0,
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
+        },
+        "ana": {
+          "horse_id": "2020102457",
+          "馬名": "アーティスティック",
+          "枠番": "7",
+          "馬番": "8",
+          "distance_score": 30.0,
+          "experience_score": 30.0,
+          "speed_score": 32.0,
+          "total_score": 92.0,
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
+        },
+        "hole_candidates": [
+          {
+            "horse_id": "2020101049",
+            "馬名": "セルリアンロケット",
+            "枠番": "6",
+            "馬番": "7",
+            "distance_score": 34.0,
+            "experience_score": 29.9,
+            "speed_score": 26.0,
+            "total_score": 89.9,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2019101947",
+            "馬名": "サンドファルコン",
+            "枠番": "6",
+            "馬番": "6",
+            "distance_score": 34.0,
+            "experience_score": 26.6,
+            "speed_score": 29.0,
+            "total_score": 89.6,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2021102769",
+            "馬名": "ジャヴァンナ",
+            "枠番": "4",
+            "馬番": "4",
+            "distance_score": 34.0,
+            "experience_score": 23.2,
+            "speed_score": 29.0,
+            "total_score": 86.2,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2022103583",
+            "馬名": "メイブロッサム",
+            "枠番": "8",
+            "馬番": "10",
+            "distance_score": 30.0,
+            "experience_score": 30.0,
+            "speed_score": 26.0,
+            "total_score": 86.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2021104116",
+            "馬名": "イエローサファイア",
+            "枠番": "2",
+            "馬番": "2",
+            "distance_score": 26.0,
+            "experience_score": 30.0,
+            "speed_score": 29.0,
+            "total_score": 85.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2022101773",
+            "馬名": "モズボーン",
+            "枠番": "5",
+            "馬番": "5",
+            "distance_score": 25.0,
+            "experience_score": 30.0,
+            "speed_score": 27.0,
+            "total_score": 82.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2021106775",
+            "馬名": "マイネルガンナー",
+            "枠番": "8",
+            "馬番": "11",
+            "distance_score": 25.0,
+            "experience_score": 30.0,
+            "speed_score": 27.0,
+            "total_score": 82.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          }
+        ]
+      },
+      "betting_suggestions": {
+        "main": {
+          "type": "三連複フォーメーション",
+          "axis": [
+            "9",
+            "1",
+            "8"
+          ],
+          "aite": [
+            "7",
+            "6",
+            "4",
+            "10",
+            "2",
+            "5",
+            "11"
+          ],
+          "points": 22,
+          "unit_price": 100,
+          "total_investment": 2200,
+          "combinations": "◎-○-▲ BOX + (◎○▲ × △7頭)"
+        },
+        "axis_box_note": {
+          "enabled": true,
+          "reason": "スコア差 3.0点（5点以内）",
+          "note": "軸3頭BOXは三連複フォーメーションに含まれています"
+        },
+        "total_investment": 2200
+      }
+    },
+    {
+      "race_id": "202655012505",
+      "race_info": {
+        "レース名": "R2",
+        "距離": "ダ1400m",
+        "発走時刻": "17:00",
+        "頭数": 8,
+        "venue": "佐賀"
+      },
+      "turbulence": "高",
+      "turbulence_reason": "1位と3位の差が4.1点（5点以内）で団子状態",
+      "status": "予想完了",
+      "predictions": {
+        "honmei": {
+          "horse_id": "2021106499",
+          "馬名": "キーナイス",
+          "枠番": "3",
+          "馬番": "3",
+          "distance_score": 34.0,
+          "experience_score": 30.0,
+          "speed_score": 26.0,
+          "total_score": 90.0,
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
+        },
+        "taikou": {
+          "horse_id": "2022100534",
+          "馬名": "テリオスミナ",
+          "枠番": "5",
+          "馬番": "5",
+          "distance_score": 34.0,
+          "experience_score": 30.0,
+          "speed_score": 26.0,
+          "total_score": 90.0,
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
+        },
+        "ana": {
+          "horse_id": "2021103454",
+          "馬名": "リオサラ",
+          "枠番": "2",
+          "馬番": "2",
+          "distance_score": 34.0,
+          "experience_score": 19.9,
+          "speed_score": 32.0,
+          "total_score": 85.9,
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
+        },
+        "hole_candidates": [
+          {
+            "horse_id": "2021104493",
+            "馬名": "カズマ",
+            "枠番": "4",
+            "馬番": "4",
+            "distance_score": 26.0,
+            "experience_score": 30.0,
+            "speed_score": 26.0,
+            "total_score": 82.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2019102594",
+            "馬名": "サンサンタイヨウ",
+            "枠番": "7",
+            "馬番": "7",
+            "distance_score": 25.0,
+            "experience_score": 30.0,
+            "speed_score": 27.0,
+            "total_score": 82.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2018102826",
+            "馬名": "アウトレイジング",
+            "枠番": "6",
+            "馬番": "6",
+            "distance_score": 25.0,
+            "experience_score": 30.0,
+            "speed_score": 21.0,
+            "total_score": 76.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2020102083",
+            "馬名": "ウイニングザソウル",
+            "枠番": "8",
+            "馬番": "8",
+            "distance_score": 25.0,
+            "experience_score": 30.0,
+            "speed_score": 21.0,
+            "total_score": 76.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2022105833",
+            "馬名": "ヴィアトル",
+            "枠番": "1",
+            "馬番": "1",
+            "distance_score": 24.0,
+            "experience_score": 23.2,
+            "speed_score": 21.0,
+            "total_score": 68.2,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          }
+        ]
+      },
+      "betting_suggestions": {
+        "main": {
+          "type": "三連複フォーメーション",
+          "axis": [
+            "3",
+            "5",
+            "2"
+          ],
+          "aite": [
+            "4",
+            "7",
+            "6",
+            "8",
+            "1"
+          ],
+          "points": 16,
+          "unit_price": 100,
+          "total_investment": 1600,
+          "combinations": "◎-○-▲ BOX + (◎○▲ × △5頭)"
+        },
+        "axis_box_note": {
+          "enabled": true,
+          "reason": "スコア差 4.1点（5点以内）",
+          "note": "軸3頭BOXは三連複フォーメーションに含まれています"
+        },
+        "total_investment": 1600
+      }
+    },
+    {
+      "race_id": "202655012506",
+      "race_info": {
+        "レース名": "R2",
+        "距離": "ダ1750m",
+        "発走時刻": "17:30",
+        "頭数": 12,
+        "venue": "佐賀"
+      },
+      "turbulence": "中",
+      "turbulence_reason": "1位と2位の差が5.3点（5〜10点）で拮抗",
+      "status": "予想完了",
+      "predictions": {
+        "honmei": {
+          "horse_id": "2022100946",
+          "馬名": "スーパーフルール",
+          "枠番": "8",
+          "馬番": "12",
+          "distance_score": 21.0,
+          "experience_score": 25.8,
+          "speed_score": 21.0,
+          "total_score": 67.8,
+          "past_race_count": 3,
+          "mark": "◎",
+          "confidence": "中"
+        },
+        "taikou": {
+          "horse_id": "2022103695",
+          "馬名": "ラディアンテ",
+          "枠番": "7",
+          "馬番": "9",
+          "distance_score": 10.0,
+          "experience_score": 26.5,
+          "speed_score": 26.0,
+          "total_score": 62.5,
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
+        },
+        "ana": {
+          "horse_id": "2021100219",
+          "馬名": "ジャズダンス",
+          "枠番": "7",
+          "馬番": "10",
+          "distance_score": 13.0,
+          "experience_score": 23.2,
+          "speed_score": 24.0,
+          "total_score": 60.2,
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
+        },
+        "hole_candidates": [
+          {
+            "horse_id": "2020102570",
+            "馬名": "ディアマイサン",
+            "枠番": "3",
+            "馬番": "3",
+            "distance_score": 10.0,
+            "experience_score": 6.0,
+            "speed_score": 32.0,
+            "total_score": 48.0,
+            "past_race_count": 3,
+            "mark": "△",
+            "confidence": "穴"
+          }
+        ]
+      },
+      "betting_suggestions": {
+        "main": {
+          "type": "三連複フォーメーション",
+          "axis": [
+            "12",
+            "9",
+            "10"
+          ],
+          "aite": [
+            "3"
+          ],
+          "points": 4,
+          "unit_price": 100,
+          "total_investment": 400,
+          "combinations": "◎-○-▲ BOX + (◎○▲ × △1頭)"
+        },
+        "axis_box_note": {
+          "enabled": false,
+          "reason": "スコア差 7.6点（5点超）",
+          "note": "スコア差が大きいため、軸3頭は同格扱いしません"
+        },
+        "total_investment": 400
+      }
+    },
+    {
+      "race_id": "202655012507",
+      "race_info": {
+        "レース名": "R2",
+        "距離": "ダ1800m",
+        "発走時刻": "18:05",
+        "頭数": 11,
+        "venue": "佐賀"
+      },
+      "turbulence": "中",
+      "turbulence_reason": "1位と2位の差が8.1点（5〜10点）で拮抗",
+      "status": "予想完了",
+      "predictions": {
+        "honmei": {
+          "horse_id": "2023102277",
+          "馬名": "ピースドライブ",
+          "枠番": "5",
+          "馬番": "5",
+          "distance_score": 13.0,
+          "experience_score": 13.3,
+          "speed_score": 26.0,
+          "total_score": 52.3,
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "中"
+        },
+        "taikou": {
+          "horse_id": "2023102729",
+          "馬名": "テクノストロベリー",
+          "枠番": "2",
+          "馬番": "2",
+          "distance_score": 5.0,
+          "experience_score": 23.2,
+          "speed_score": 16.0,
+          "total_score": 44.2,
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "低"
+        },
+        "ana": {
+          "horse_id": "2023101531",
+          "馬名": "ナッククィーン",
+          "枠番": "3",
+          "馬番": "3",
+          "distance_score": 0.0,
+          "experience_score": 18.0,
+          "speed_score": 14.0,
+          "total_score": 32.0,
+          "past_race_count": 4,
+          "mark": "▲",
+          "confidence": "極低"
+        },
+        "hole_candidates": []
+      },
+      "betting_suggestions": {
+        "main": {
+          "type": "三連複フォーメーション",
+          "axis": [
+            "5",
+            "2",
+            "3"
+          ],
+          "aite": [],
+          "points": 1,
+          "unit_price": 100,
+          "total_investment": 100,
+          "combinations": "◎-○-▲ BOX のみ"
+        },
+        "axis_box_note": {
+          "enabled": false,
+          "reason": "スコア差 20.3点（5点超）",
+          "note": "スコア差が大きいため、軸3頭は同格扱いしません"
+        },
+        "total_investment": 100
+      }
+    },
+    {
+      "race_id": "202655012508",
+      "race_info": {
+        "レース名": "R2",
+        "距離": "ダ1400m",
+        "発走時刻": "18:40",
+        "頭数": 10,
+        "venue": "佐賀"
+      },
+      "turbulence": "中",
+      "turbulence_reason": "1位と2位の差が0.0点（5〜10点）で拮抗",
+      "status": "予想完了",
+      "predictions": {
+        "honmei": {
+          "horse_id": "2022101377",
+          "馬名": "カシノナイスガイ",
+          "枠番": "8",
+          "馬番": "9",
+          "distance_score": 30.0,
+          "experience_score": 30.0,
+          "speed_score": 32.0,
+          "total_score": 92.0,
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
+        },
+        "taikou": {
+          "horse_id": "2017101877",
+          "馬名": "マイネルイリャルギ",
+          "枠番": "8",
+          "馬番": "10",
+          "distance_score": 30.0,
+          "experience_score": 30.0,
+          "speed_score": 32.0,
+          "total_score": 92.0,
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
+        },
+        "ana": {
+          "horse_id": "2019101860",
+          "馬名": "スピリットワールド",
+          "枠番": "1",
+          "馬番": "1",
+          "distance_score": 30.0,
+          "experience_score": 23.3,
+          "speed_score": 32.0,
+          "total_score": 85.3,
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
+        },
+        "hole_candidates": [
+          {
+            "horse_id": "2019103581",
+            "馬名": "ポケットカラキュン",
+            "枠番": "4",
+            "馬番": "4",
+            "distance_score": 25.0,
+            "experience_score": 30.0,
+            "speed_score": 27.0,
+            "total_score": 82.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2020104447",
+            "馬名": "アニマルキリシマ",
+            "枠番": "2",
+            "馬番": "2",
+            "distance_score": 21.0,
+            "experience_score": 29.9,
+            "speed_score": 29.0,
+            "total_score": 79.9,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2021104652",
+            "馬名": "オンリエド",
+            "枠番": "6",
+            "馬番": "6",
+            "distance_score": 25.0,
+            "experience_score": 30.0,
+            "speed_score": 24.0,
+            "total_score": 79.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2022105033",
+            "馬名": "ジュンアサヒソラ",
+            "枠番": "7",
+            "馬番": "8",
+            "distance_score": 21.0,
+            "experience_score": 23.2,
+            "speed_score": 32.0,
+            "total_score": 76.2,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2019105218",
+            "馬名": "フェズカズマ",
+            "枠番": "3",
+            "馬番": "3",
+            "distance_score": 30.0,
+            "experience_score": 20.0,
+            "speed_score": 26.0,
+            "total_score": 76.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2021101803",
+            "馬名": "メトゥス",
+            "枠番": "7",
+            "馬番": "7",
+            "distance_score": 18.0,
+            "experience_score": 23.3,
+            "speed_score": 32.0,
+            "total_score": 73.3,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2020100962",
+            "馬名": "レットイットゴー",
+            "枠番": "5",
+            "馬番": "5",
+            "distance_score": 5.0,
+            "experience_score": 23.3,
+            "speed_score": 22.0,
+            "total_score": 50.3,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          }
+        ]
+      },
+      "betting_suggestions": {
+        "main": {
+          "type": "三連複フォーメーション",
+          "axis": [
+            "9",
+            "10",
+            "1"
+          ],
+          "aite": [
+            "4",
+            "2",
+            "6",
+            "8",
+            "3",
+            "7",
+            "5"
+          ],
+          "points": 22,
+          "unit_price": 100,
+          "total_investment": 2200,
+          "combinations": "◎-○-▲ BOX + (◎○▲ × △7頭)"
+        },
+        "axis_box_note": {
+          "enabled": false,
+          "reason": "スコア差 6.7点（5点超）",
+          "note": "スコア差が大きいため、軸3頭は同格扱いしません"
+        },
+        "total_investment": 2200
+      }
+    },
+    {
+      "race_id": "202655012509",
+      "race_info": {
+        "レース名": "R2",
+        "距離": "ダ1400m",
+        "発走時刻": "19:10",
+        "頭数": 11,
+        "venue": "佐賀"
+      },
+      "turbulence": "中",
+      "turbulence_reason": "1位と2位の差が3.1点（5〜10点）で拮抗",
+      "status": "予想完了",
+      "predictions": {
+        "honmei": {
+          "horse_id": "2017101746",
+          "馬名": "マイネルデステリョ",
+          "枠番": "7",
+          "馬番": "9",
+          "distance_score": 34.0,
+          "experience_score": 30.0,
+          "speed_score": 35.0,
+          "total_score": 99.0,
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
+        },
+        "taikou": {
+          "horse_id": "2018103831",
+          "馬名": "イサチルプリンス",
+          "枠番": "4",
+          "馬番": "4",
+          "distance_score": 34.0,
+          "experience_score": 29.9,
+          "speed_score": 32.0,
+          "total_score": 95.9,
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
+        },
+        "ana": {
+          "horse_id": "2018101619",
+          "馬名": "ウインヒメユリ",
+          "枠番": "5",
+          "馬番": "5",
+          "distance_score": 30.0,
+          "experience_score": 30.0,
+          "speed_score": 32.0,
+          "total_score": 92.0,
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
+        },
+        "hole_candidates": [
+          {
+            "horse_id": "2021106542",
+            "馬名": "タガノヒナタ",
+            "枠番": "6",
+            "馬番": "6",
+            "distance_score": 30.0,
+            "experience_score": 30.0,
+            "speed_score": 32.0,
+            "total_score": 92.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2020102668",
+            "馬名": "メダルラッシュ",
+            "枠番": "2",
+            "馬番": "2",
+            "distance_score": 25.0,
+            "experience_score": 30.0,
+            "speed_score": 27.0,
+            "total_score": 82.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2022107203",
+            "馬名": "ニシノリンダ",
+            "枠番": "8",
+            "馬番": "10",
+            "distance_score": 25.0,
+            "experience_score": 30.0,
+            "speed_score": 27.0,
+            "total_score": 82.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2021101953",
+            "馬名": "カガカプチーノ",
+            "枠番": "1",
+            "馬番": "1",
+            "distance_score": 18.0,
+            "experience_score": 29.9,
+            "speed_score": 32.0,
+            "total_score": 79.9,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2019101107",
+            "馬名": "ファーストリッキー",
+            "枠番": "7",
+            "馬番": "8",
+            "distance_score": 25.0,
+            "experience_score": 30.0,
+            "speed_score": 24.0,
+            "total_score": 79.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2018105117",
+            "馬名": "カズロレアート",
+            "枠番": "8",
+            "馬番": "11",
+            "distance_score": 29.0,
+            "experience_score": 23.3,
+            "speed_score": 26.0,
+            "total_score": 78.3,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2018102148",
+            "馬名": "マイネルダグラス",
+            "枠番": "6",
+            "馬番": "7",
+            "distance_score": 21.0,
+            "experience_score": 25.8,
+            "speed_score": 29.0,
+            "total_score": 75.8,
+            "past_race_count": 3,
+            "mark": "△",
+            "confidence": "穴"
+          }
+        ]
+      },
+      "betting_suggestions": {
+        "main": {
+          "type": "三連複フォーメーション",
+          "axis": [
+            "9",
+            "4",
+            "5"
+          ],
+          "aite": [
+            "6",
+            "2",
+            "10",
+            "1",
+            "8",
+            "11",
+            "7"
+          ],
+          "points": 22,
+          "unit_price": 100,
+          "total_investment": 2200,
+          "combinations": "◎-○-▲ BOX + (◎○▲ × △7頭)"
+        },
+        "axis_box_note": {
+          "enabled": false,
+          "reason": "スコア差 7.0点（5点超）",
+          "note": "スコア差が大きいため、軸3頭は同格扱いしません"
+        },
+        "total_investment": 2200
+      }
+    },
+    {
+      "race_id": "202655012510",
+      "race_info": {
+        "レース名": "R2",
+        "距離": "ダ1400m",
+        "発走時刻": "19:40",
+        "頭数": 7,
+        "venue": "佐賀"
+      },
+      "turbulence": "高",
+      "turbulence_reason": "1位と3位の差が4.8点（5点以内）で団子状態",
+      "status": "予想完了",
+      "predictions": {
+        "honmei": {
+          "horse_id": "2023102314",
+          "馬名": "イッペイソツ",
+          "枠番": "7",
+          "馬番": "7",
+          "distance_score": 25.0,
+          "experience_score": 30.0,
+          "speed_score": 24.0,
+          "total_score": 79.0,
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
+        },
+        "taikou": {
+          "horse_id": "2023106760",
+          "馬名": "タケノツルギ",
+          "枠番": "6",
+          "馬番": "6",
+          "distance_score": 24.0,
+          "experience_score": 25.8,
+          "speed_score": 27.0,
+          "total_score": 76.8,
+          "past_race_count": 3,
+          "mark": "○",
+          "confidence": "中"
+        },
+        "ana": {
+          "horse_id": "2023105968",
+          "馬名": "ワイズポーシャ",
+          "枠番": "2",
+          "馬番": "2",
+          "distance_score": 21.0,
+          "experience_score": 21.2,
+          "speed_score": 32.0,
+          "total_score": 74.2,
+          "past_race_count": 4,
+          "mark": "▲",
+          "confidence": "低"
+        },
+        "hole_candidates": [
+          {
+            "horse_id": "2023100319",
+            "馬名": "ホーンバッファロー",
+            "枠番": "4",
+            "馬番": "4",
+            "distance_score": 21.0,
+            "experience_score": 21.2,
+            "speed_score": 32.0,
+            "total_score": 74.2,
+            "past_race_count": 4,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2023105165",
+            "馬名": "マテラブルース",
+            "枠番": "3",
+            "馬番": "3",
+            "distance_score": 16.0,
+            "experience_score": 17.2,
+            "speed_score": 24.0,
+            "total_score": 57.2,
+            "past_race_count": 2,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2023105894",
+            "馬名": "ミコニス",
+            "枠番": "5",
+            "馬番": "5",
+            "distance_score": 16.0,
+            "experience_score": 10.6,
+            "speed_score": 21.0,
+            "total_score": 47.6,
+            "past_race_count": 2,
+            "mark": "△",
+            "confidence": "穴"
+          }
+        ]
+      },
+      "betting_suggestions": {
+        "main": {
+          "type": "三連複フォーメーション",
+          "axis": [
+            "7",
+            "6",
+            "2"
+          ],
+          "aite": [
+            "4",
+            "3",
+            "5"
+          ],
+          "points": 10,
+          "unit_price": 100,
+          "total_investment": 1000,
+          "combinations": "◎-○-▲ BOX + (◎○▲ × △3頭)"
+        },
+        "axis_box_note": {
+          "enabled": true,
+          "reason": "スコア差 4.8点（5点以内）",
+          "note": "軸3頭BOXは三連複フォーメーションに含まれています"
+        },
+        "total_investment": 1000
+      }
+    },
+    {
+      "race_id": "202655012511",
+      "race_info": {
+        "レース名": "R2",
+        "距離": "ダ1400m",
+        "発走時刻": "20:10",
+        "頭数": 10,
+        "venue": "佐賀"
+      },
+      "turbulence": "高",
+      "turbulence_reason": "1位と3位の差が3.0点（5点以内）で団子状態",
+      "status": "予想完了",
+      "predictions": {
+        "honmei": {
+          "horse_id": "2022103678",
+          "馬名": "テイエムダイタカ",
+          "枠番": "5",
+          "馬番": "5",
+          "distance_score": 29.0,
+          "experience_score": 30.0,
+          "speed_score": 35.0,
+          "total_score": 94.0,
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
+        },
+        "taikou": {
+          "horse_id": "2021101050",
+          "馬名": "コスモビオラ",
+          "枠番": "7",
+          "馬番": "7",
+          "distance_score": 29.0,
+          "experience_score": 30.0,
+          "speed_score": 35.0,
+          "total_score": 94.0,
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
+        },
+        "ana": {
+          "horse_id": "2021102160",
+          "馬名": "テイエムデンセツ",
+          "枠番": "4",
+          "馬番": "4",
+          "distance_score": 26.0,
+          "experience_score": 30.0,
+          "speed_score": 35.0,
+          "total_score": 91.0,
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
+        },
+        "hole_candidates": [
+          {
+            "horse_id": "2021106081",
+            "馬名": "アマルフィー",
+            "枠番": "7",
+            "馬番": "8",
+            "distance_score": 26.0,
+            "experience_score": 30.0,
+            "speed_score": 35.0,
+            "total_score": 91.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2021107236",
+            "馬名": "エクセレンアーサー",
+            "枠番": "8",
+            "馬番": "9",
+            "distance_score": 26.0,
+            "experience_score": 30.0,
+            "speed_score": 35.0,
+            "total_score": 91.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2021106804",
+            "馬名": "グレンノアラシ",
+            "枠番": "8",
+            "馬番": "10",
+            "distance_score": 26.0,
+            "experience_score": 30.0,
+            "speed_score": 35.0,
+            "total_score": 91.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2020102534",
+            "馬名": "ロッソ",
+            "枠番": "6",
+            "馬番": "6",
+            "distance_score": 25.0,
+            "experience_score": 30.0,
+            "speed_score": 30.0,
+            "total_score": 85.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2020109114",
+            "馬名": "アネロイド",
+            "枠番": "2",
+            "馬番": "2",
+            "distance_score": 25.0,
+            "experience_score": 30.0,
+            "speed_score": 27.0,
+            "total_score": 82.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2020107022",
+            "馬名": "ナニーピオニー",
+            "枠番": "1",
+            "馬番": "1",
+            "distance_score": 25.0,
+            "experience_score": 30.0,
+            "speed_score": 21.0,
+            "total_score": 76.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2021107089",
+            "馬名": "ニシノアウェイク",
+            "枠番": "3",
+            "馬番": "3",
+            "distance_score": 18.0,
+            "experience_score": 26.5,
+            "speed_score": 26.0,
+            "total_score": 70.5,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          }
+        ]
+      },
+      "betting_suggestions": {
+        "main": {
+          "type": "三連複フォーメーション",
+          "axis": [
+            "5",
+            "7",
+            "4"
+          ],
+          "aite": [
+            "8",
+            "9",
+            "10",
+            "6",
+            "2",
+            "1",
+            "3"
+          ],
+          "points": 22,
+          "unit_price": 100,
+          "total_investment": 2200,
+          "combinations": "◎-○-▲ BOX + (◎○▲ × △7頭)"
+        },
+        "axis_box_note": {
+          "enabled": true,
+          "reason": "スコア差 3.0点（5点以内）",
+          "note": "軸3頭BOXは三連複フォーメーションに含まれています"
+        },
+        "total_investment": 2200
+      }
+    },
+    {
+      "race_id": "202655012512",
+      "race_info": {
+        "レース名": "R2",
+        "距離": "ダ1300m",
+        "発走時刻": "20:40",
+        "頭数": 11,
+        "venue": "佐賀"
+      },
+      "turbulence": "中",
+      "turbulence_reason": "1位と2位の差が3.0点（5〜10点）で拮抗",
+      "status": "予想完了",
+      "predictions": {
+        "honmei": {
+          "horse_id": "2021103071",
+          "馬名": "ノボリサクラ",
+          "枠番": "2",
+          "馬番": "2",
+          "distance_score": 34.0,
+          "experience_score": 30.0,
+          "speed_score": 32.0,
+          "total_score": 96.0,
+          "past_race_count": 5,
+          "mark": "◎",
+          "confidence": "高"
+        },
+        "taikou": {
+          "horse_id": "2022102332",
+          "馬名": "フミタツブーケトス",
+          "枠番": "3",
+          "馬番": "3",
+          "distance_score": 34.0,
+          "experience_score": 30.0,
+          "speed_score": 29.0,
+          "total_score": 93.0,
+          "past_race_count": 5,
+          "mark": "○",
+          "confidence": "中"
+        },
+        "ana": {
+          "horse_id": "2022101042",
+          "馬名": "シリウスライト",
+          "枠番": "7",
+          "馬番": "8",
+          "distance_score": 26.0,
+          "experience_score": 29.9,
+          "speed_score": 32.0,
+          "total_score": 87.9,
+          "past_race_count": 5,
+          "mark": "▲",
+          "confidence": "低"
+        },
+        "hole_candidates": [
+          {
+            "horse_id": "2019106031",
+            "馬名": "サンマルソムニア",
+            "枠番": "8",
+            "馬番": "11",
+            "distance_score": 18.0,
+            "experience_score": 29.9,
+            "speed_score": 32.0,
+            "total_score": 79.9,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2022101295",
+            "馬名": "シルヴァーレディ",
+            "枠番": "7",
+            "馬番": "9",
+            "distance_score": 18.0,
+            "experience_score": 30.0,
+            "speed_score": 23.0,
+            "total_score": 71.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2022103309",
+            "馬名": "ロッピス",
+            "枠番": "5",
+            "馬番": "5",
+            "distance_score": 10.0,
+            "experience_score": 23.3,
+            "speed_score": 26.0,
+            "total_score": 59.3,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2021100712",
+            "馬名": "レインボーカロル",
+            "枠番": "6",
+            "馬番": "7",
+            "distance_score": 10.0,
+            "experience_score": 20.0,
+            "speed_score": 29.0,
+            "total_score": 59.0,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          },
+          {
+            "horse_id": "2022106370",
+            "馬名": "バチェラーパーティ",
+            "枠番": "8",
+            "馬番": "10",
+            "distance_score": 10.0,
+            "experience_score": 19.9,
+            "speed_score": 29.0,
+            "total_score": 58.9,
+            "past_race_count": 5,
+            "mark": "△",
+            "confidence": "穴"
+          }
+        ]
+      },
+      "betting_suggestions": {
+        "main": {
+          "type": "三連複フォーメーション",
+          "axis": [
+            "2",
+            "3",
+            "8"
+          ],
+          "aite": [
+            "11",
+            "9",
+            "5",
+            "7",
+            "10"
+          ],
+          "points": 16,
+          "unit_price": 100,
+          "total_investment": 1600,
+          "combinations": "◎-○-▲ BOX + (◎○▲ × △5頭)"
+        },
+        "axis_box_note": {
+          "enabled": false,
+          "reason": "スコア差 8.1点（5点超）",
+          "note": "スコア差が大きいため、軸3頭は同格扱いしません"
+        },
+        "total_investment": 1600
+      }
     }
   ]
 }
