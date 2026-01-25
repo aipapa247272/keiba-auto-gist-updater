@@ -1,0 +1,39 @@
+name: Fetch Race Results
+
+on:
+  schedule:
+    - cron: '0 13 * * *'  # 毎日 22:00 JST（UTC 13:00）
+  workflow_dispatch:
+
+jobs:
+  fetch-results:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+          
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          
+      - name: Get date
+        id: get_ymd
+        run: |
+          ymd=$(TZ=Asia/Tokyo date +%Y%m%d)
+          echo "ymd=${ymd}" >> $GITHUB_OUTPUT
+          
+      - name: Fetch race results
+        run: |
+          python scripts/fetch_race_results.py ${{ steps.get_ymd.outputs.ymd }}
+          
+      - name: Commit results
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add race_results_*.json
+          git diff --cached --quiet || git commit -m 'chore: add race results'
+          git push
