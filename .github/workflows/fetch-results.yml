@@ -23,7 +23,7 @@ jobs:
       - name: Get date
         id: get_ymd
         run: |
-          ymd=20260125
+          ymd=$(TZ=Asia/Tokyo date +%Y%m%d)
           echo "ymd=${ymd}" >> $GITHUB_OUTPUT
           
       - name: Fetch race results
