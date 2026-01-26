@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-generate_final_output.py - Phase 2-4: 買い目提示の最終調整 (超見やすいスマホ最適化版)
+generate_final_output.py - Phase 2-4: 買い目提示の最終調整 (FINAL版)
 
 機能:
 - レース選定（1日3〜5レース）
-- 超見やすい最終出力（Markdown + JSON）
+- 競馬場とレース番号を明確に表示 (パターンA)
+- 超シンプルで見やすい出力（Markdown + JSON）
 - 統合ルールに基づく運用
 """
 
@@ -68,13 +69,6 @@ def select_races(predictions: List[Dict], min_races: int = 3, max_races: int = 5
     
     return selected
 
-def score_to_bar(score: float, max_score: float = 30.0) -> str:
-    """スコアをプログレスバー風に変換"""
-    ratio = min(score / max_score, 1.0)
-    filled = int(ratio * 10)
-    empty = 10 - filled
-    return "█" * filled + "░" * empty
-
 def get_number_emoji(num: int) -> str:
     """馬番を絵文字に変換"""
     emoji_map = {
@@ -83,41 +77,34 @@ def get_number_emoji(num: int) -> str:
         11: "1️⃣1️⃣", 12: "1️⃣2️⃣", 13: "1️⃣3️⃣", 14: "1️⃣4️⃣", 15: "1️⃣5️⃣",
         16: "1️⃣6️⃣", 17: "1️⃣7️⃣", 18: "1️⃣8️⃣"
     }
-    return emoji_map.get(num, f"{num}番")
+    return emoji_map.get(num, f"{num}")
 
 def format_race_report(pred: Dict, index: int) -> str:
-    """レースレポートをMarkdown形式で生成 (超見やすいスマホ最適化)"""
+    """レースレポートをMarkdown形式で生成 (FINAL版)"""
     race_info = pred["race_info"]
     turbulence = pred["turbulence"]
     preds = pred["predictions"]
     betting = pred["betting_suggestions"]
     
-    # ヘッダー (ボックス化)
+    # ヘッダー
     venue = race_info.get('venue') or '不明'
     race_name = race_info.get('レース名', 'N/A')
-    
-    report = f"\n╔{'═' * 35}╗\n"
-    report += f"║   🏇 予想 {index}   {venue} {race_name}{'  ' * (25 - len(venue) - len(race_name))}║\n"
-    report += f"╚{'═' * 35}╝\n\n"
-    
-    # レース基本情報 (1行にまとめる)
     distance = race_info.get('距離', 'N/A')
     post_time = race_info.get('発走時刻', 'N/A')
     
-    report += f"📍 {venue}  📏 {distance}  ⏰ {post_time}\n"
+    report = f"\n🏇 予想 {index}\n\n"
+    report += f"📍 {venue} {race_name} | 📏 {distance} | ⏰ {post_time}\n"
     
-    # 波乱度 (絵文字強調)
+    # 波乱度
     turb_emoji = {"低": "🟢", "中": "🟡", "高": "🔴"}.get(turbulence, "⚪")
     turb_text = {"低": "(本命有利)", "中": "(拮抗)", "高": "(荒れる)"}.get(turbulence, "")
-    report += f"🌊 波乱度: {turb_emoji} **{turbulence}** {turb_text}\n\n"
+    report += f"🌊 波乱度: {turb_emoji} {turbulence} {turb_text}\n\n"
     
     if pred["status"] != "予想完了":
-        report += f"⚠️ **状態**: {pred['status']}\n\n"
+        report += f"⚠️ 状態: {pred['status']}\n\n"
         return report
     
-    report += f"{'━' * 40}\n\n"
-    
-    # 予想印 (プログレスバー付きカード)
+    # 予想印
     mark_labels = {
         "honmei": ("◎", "本命"),
         "taikou": ("○", "対抗"),
@@ -132,55 +119,43 @@ def format_race_report(pred: Dict, index: int) -> str:
         horse_num = horse.get('馬番', 0)
         horse_name = horse.get('馬名', 'N/A')
         total_score = horse.get('total_score', 0)
-        
-        # ヘッダー
-        report += f"**{mark_symbol} {mark_name}**  {get_number_emoji(horse_num)}  **{horse_name}**\n\n"
-        
-        # 総合点 (ボックス + プログレスバー)
-        report += f"┏{'━' * 30}┓\n"
-        report += f"┃  📊 総合点: **{total_score:.1f}** / 100  ┃\n"
-        report += f"┃  {score_to_bar(total_score, 100)}  ┃\n"
-        report += f"┗{'━' * 30}┛\n\n"
-        
-        # 各スコア (コンパクト表示 + ミニバー)
         d_score = horse.get('distance_score', 0)
         e_score = horse.get('experience_score', 0)
         s_score = horse.get('speed_score', 0)
         confidence = horse.get('confidence', 'N/A')
         
-        report += f"📏 距離  {d_score:>5.1f}  {score_to_bar(d_score)}\n"
-        report += f"📈 経験  {e_score:>5.1f}  {score_to_bar(e_score)}\n"
-        report += f"⚡ 速度  {s_score:>5.1f}  {score_to_bar(s_score)}\n"
+        percentage = int(total_score)
         
-        # 信頼度を絵文字で
+        report += f"{mark_symbol} {mark_name} {get_number_emoji(horse_num)} {horse_name}\n"
+        report += f"　📊 総合点: {total_score:.1f} / 100 ({percentage}%)\n"
+        report += f"　📏 距離適性: {d_score:.1f} / 30\n"
+        report += f"　📈 経験値: {e_score:.1f} / 30\n"
+        report += f"　⚡ スピード: {s_score:.1f} / 30\n"
+        
         conf_emoji = {"高": "🟢", "中": "🟡", "低": "🔴", "極低": "🔴"}.get(confidence, "⚪")
-        report += f"🎯 信頼度: {conf_emoji} **{confidence}**\n\n"
-        
-        report += f"{'━' * 40}\n\n"
+        report += f"　🎯 信頼度: {conf_emoji} {confidence}\n\n"
     
-    # 穴候補 (簡潔に)
+    # 穴候補
     if preds.get("hole_candidates"):
-        report += "**【穴候補】**\n\n"
+        report += "【穴候補】\n"
         for hole in preds["hole_candidates"]:
             horse_num = hole.get('馬番', 0)
             horse_name = hole.get('馬名', 'N/A')
             hole_score = hole.get('total_score', 0)
-            report += f"△ {get_number_emoji(horse_num)} {horse_name} ({hole_score:.1f})\n"
+            report += f"△ {get_number_emoji(horse_num)} {horse_name} ({hole_score:.1f}点)\n"
         report += "\n"
-        report += f"{'━' * 40}\n\n"
     
-    # 買い目提案 (ボックス化)
+    report += "---\n\n"
+    
+    # 買い目提案
     main = betting["main"]
-    report += "**🎯 買い目提案**\n\n"
+    report += f"🎯 買い目提案\n\n"
+    report += f"**{main['type']}**\n\n"
     
-    report += f"┌{'─' * 32}┐\n"
-    report += f"│  {main['type']:<28}  │\n"
-    report += f"└{'─' * 32}┘\n\n"
-    
-    # 軸馬 (絵文字で表示)
+    # 軸馬
     axis = main.get('axis', [])
     if axis:
-        report += "**【軸馬】**\n"
+        report += "【軸馬】\n"
         axis_parts = []
         marks = ["◎", "○", "▲"]
         for i, num in enumerate(axis[:3]):
@@ -191,75 +166,71 @@ def format_race_report(pred: Dict, index: int) -> str:
     # 相手
     aite = main.get('aite', [])
     if aite:
-        report += "**【相手】**\n"
+        report += "【相手】\n"
         aite_parts = [f"△ {get_number_emoji(int(h))}" for h in aite]
         report += "  ".join(aite_parts) + "\n\n"
     else:
-        report += "**【相手】**\n"
+        report += "【相手】\n"
         report += "なし (軸3頭BOXのみ)\n\n"
     
-    # 投資プラン (強調)
+    # 投資プラン
     points = main.get('points', 0)
     unit = main.get('unit_price', 100)
     total = main.get('total_investment', points * unit)
     
-    report += "**💰 投資プラン**\n"
-    report += f"**{points}点** × **{unit:,}円** = **{total:,}円**\n\n"
+    report += "【投資プラン】\n"
+    report += f"💰 {points}点 × {unit:,}円 = {total:,}円\n\n"
     
     # 組み合わせ
     combinations = main.get('combinations', 'N/A')
-    report += "**📋 組み合わせ**\n"
+    report += "【組み合わせ】\n"
     report += f"{combinations}\n\n"
     
-    # 軸3頭の評価 (警告ボックス)
+    # 軸3頭の評価
     axis_box = betting.get("axis_box_note", {})
     if axis_box:
-        report += "**⚠️ 軸3頭の評価**\n"
+        report += "⚠️ **軸3頭の評価**\n"
         if axis_box.get("enabled"):
-            report += f"✅ **同格** ({axis_box.get('reason', 'N/A')})\n"
-            report += "   → 3連複BOXで手堅く\n\n"
+            report += f"✅ 同格 ({axis_box.get('reason', 'N/A')})\n"
+            report += "→ 3連複BOXで手堅く狙える\n\n"
         else:
             reason = axis_box.get('reason', 'N/A')
-            report += f"❌ **力差大** ({reason})\n"
-            report += "   → 荒れる可能性あり\n\n"
+            report += f"❌ 力差あり ({reason})\n"
+            report += "→ 荒れる可能性があります\n\n"
     
     # 波乱度「高」の警告
     if turbulence == "高":
-        report += "┏━━━━━━━━━━━━━━━━━━┓\n"
-        report += "┃ ⚠️  見送り推奨  ⚠️    ┃\n"
-        report += "┗━━━━━━━━━━━━━━━━━━┛\n"
-        report += "投資ON時は見送り推奨\n"
-        report += "(統合ルール §9)\n\n"
+        report += "⚠️⚠️ **見送り推奨** ⚠️⚠️\n"
+        report += "投資ON時は見送り推奨 (統合ルール §9)\n\n"
     
-    report += f"{'━' * 40}\n\n"
+    report += "---\n"
+    
     return report
 
 def generate_summary(selected_races: List[Dict], total_races: int, skipped_races: int) -> str:
-    """最終サマリーを生成 (スマホ最適化)"""
-    summary = "\n" + "="*40 + "\n"
-    summary += "# 📊 本日の予想サマリー\n\n"
+    """最終サマリーを生成"""
+    summary = "# 📊 本日の予想サマリー\n\n"
     summary += f"**日付**: {datetime.now().strftime('%Y年%m月%d日')}\n\n"
     
-    summary += f"**総レース数**: {total_races}レース\n"
-    summary += f"**データ不足**: {skipped_races}レース\n"
-    summary += f"**予想対象**: {len(selected_races)}レース\n\n"
+    summary += f"- **総レース数**: {total_races}レース\n"
+    summary += f"- **データ不足**: {skipped_races}レース\n"
+    summary += f"- **予想対象**: {len(selected_races)}レース\n\n"
     
     # 波乱度別集計
     low = sum(1 for r in selected_races if r.get("turbulence") == "低")
     mid = sum(1 for r in selected_races if r.get("turbulence") == "中")
     high = sum(1 for r in selected_races if r.get("turbulence") == "高")
     
-    summary += "## 【波乱度別内訳】\n\n"
-    summary += f"🟢 **低**: {low}レース (本命有利)\n"
-    summary += f"🟡 **中**: {mid}レース (拮抗)\n"
-    summary += f"🔴 **高**: {high}レース (荒れる可能性)\n\n"
+    summary += "【波乱度別内訳】\n"
+    summary += f"- 🟢 低: {low}レース (本命有利)\n"
+    summary += f"- 🟡 中: {mid}レース (拮抗)\n"
+    summary += f"- 🔴 高: {high}レース (荒れる可能性)\n\n"
     
     # 合計投資額
     total_investment = sum(r["betting_suggestions"]["total_investment"] for r in selected_races)
-    summary += "## 【合計投資額】\n\n"
-    summary += f"**{total_investment:,}円**\n"
-    summary += "(投資OFFのため実購入なし)\n\n"
-    summary += "="*40 + "\n\n"
+    summary += "【合計投資額】\n"
+    summary += f"💰 **{total_investment:,}円** (投資OFFのため実購入なし)\n\n"
+    summary += "---\n"
     return summary
 
 def main():
