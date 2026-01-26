@@ -1,6 +1,8 @@
 name: Daily Select
+# Updated on 2026-01-26 to re-trigger cron
 on:
   workflow_dispatch:
+
   schedule:
     - cron: '30 0 * * *'  # 毎日 09:30 JST（UTC 0:30）
 
