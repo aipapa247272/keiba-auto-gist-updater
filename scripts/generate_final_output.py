@@ -139,12 +139,12 @@ def format_race_report(pred: Dict, index: int) -> str:
     
     # 穴候補
     if preds.get("hole_candidates"):
-        report += "【穴候補】\n"
+        report += "【穴候補】  \n"
         for hole in preds["hole_candidates"]:
             horse_num = hole.get('馬番', 0)
             horse_name = hole.get('馬名', 'N/A')
             hole_score = hole.get('total_score', 0)
-            report += f"△ {get_number_emoji(horse_num)} {horse_name} ({hole_score:.1f}点)\n"
+            report += f"△ {get_number_emoji(horse_num)} {horse_name} ({hole_score:.1f}点)  \n"
         report += "\n"
     
     report += "---\n\n"
