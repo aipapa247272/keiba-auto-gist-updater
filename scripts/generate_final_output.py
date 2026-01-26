@@ -102,7 +102,7 @@ def format_race_report(pred: Dict, index: int) -> str:
     # レース基本情報
     print(f"DEBUG: race_info keys = {race_info.keys()}")  # 追加
     print(f"DEBUG: venue = {race_info.get('venue')}")    # 追加
-    report += f"**📍 競馬場**: {race_info.get('venue', '不明')}\n"
+    report += f"**📍 競馬場**: {race_info.get('venue') or '不明'}\n"
     report += f"**🏁 レース名**: {race_info.get('レース名', 'N/A')}  \n"
     report += f"**📏 距離**: {race_info.get('距離', 'N/A')}  \n"
     report += f"**⏰ 発走時刻**: {race_info.get('発走時刻', 'N/A')}  \n"
