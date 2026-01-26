@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-generate_final_output.py - Phase 2-4: 買い目提示の最終調整 (FINAL版)
+generate_final_output.py - Phase 2-4: 買い目提示の最終調整 (修正版 v8)
 
 機能:
 - レース選定（1日3〜5レース）
-- 競馬場とレース番号を明確に表示 (パターンA)
-- 超シンプルで見やすい出力（Markdown + JSON）
+- 競馬場とレース番号を明確に表示
+- 各項目を縦並びで改行表示（修正版）
+- 馬名を太字で強調
 - 統合ルールに基づく運用
 """
 
@@ -80,7 +81,7 @@ def get_number_emoji(num: int) -> str:
     return emoji_map.get(num, f"{num}")
 
 def format_race_report(pred: Dict, index: int) -> str:
-    """レースレポートをMarkdown形式で生成 (FINAL版)"""
+    """レースレポートをMarkdown形式で生成 (修正版 v8)"""
     race_info = pred["race_info"]
     turbulence = pred["turbulence"]
     preds = pred["predictions"]
@@ -126,11 +127,12 @@ def format_race_report(pred: Dict, index: int) -> str:
         
         percentage = int(total_score)
         
-        report += f"{mark_symbol} {mark_name} {get_number_emoji(horse_num)} {horse_name}\n"
-        report += f"　📊 総合点: {total_score:.1f} / 100 ({percentage}%)\n"
-        report += f"　📏 距離適性: {d_score:.1f} / 30\n"
-        report += f"　📈 経験値: {e_score:.1f} / 30\n"
-        report += f"　⚡ スピード: {s_score:.1f} / 30\n"
+        # 馬名を太字で強調（**で囲む）
+        report += f"**{mark_symbol} {mark_name} {get_number_emoji(horse_num)} {horse_name}**  \n"
+        report += f"　📊 総合点: {total_score:.1f} / 100 ({percentage}%)  \n"
+        report += f"　📏 距離適性: {d_score:.1f} / 30  \n"
+        report += f"　📈 経験値: {e_score:.1f} / 30  \n"
+        report += f"　⚡ スピード: {s_score:.1f} / 30  \n"
         
         conf_emoji = {"高": "🟢", "中": "🟡", "低": "🔴", "極低": "🔴"}.get(confidence, "⚪")
         report += f"　🎯 信頼度: {conf_emoji} {confidence}\n\n"
