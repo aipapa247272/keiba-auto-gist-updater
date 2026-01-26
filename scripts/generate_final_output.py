@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-generate_final_output.py - Phase 2-4: 買い目提示の最終調整
+generate_final_output.py - Phase 2-4: 買い目提示の最終調整 (スマホ最適化版)
 
 機能:
 - レース選定（1日3〜5レース）
-- 見やすい最終出力（Markdown + JSON）
+- スマホ向け見やすい最終出力（Markdown + JSON）
 - 統合ルールに基づく運用
 """
 
@@ -89,87 +89,138 @@ def select_races(predictions: List[Dict], min_races: int = 3, max_races: int = 5
 
 def format_race_report(pred: Dict, index: int) -> str:
     """
-    レースレポートをMarkdown形式で生成
+    レースレポートをMarkdown形式で生成 (スマホ最適化)
     """
     race_info = pred["race_info"]
     turbulence = pred["turbulence"]
     preds = pred["predictions"]
     betting = pred["betting_suggestions"]
     
-    report = f"\n{'='*80}\n"
-    report += f"## 【予想 {index}】レース {pred['race_id']}\n\n"
+    # ヘッダー
+    report = f"\n{'━' * 40}\n"
+    report += f"# 【予想 {index}】レース\n"
+    report += f"`{pred['race_id']}`\n\n"
     
-    # レース基本情報
-    print(f"DEBUG: race_info keys = {race_info.keys()}")  # 追加
-    print(f"DEBUG: venue = {race_info.get('venue')}")    # 追加
-    report += f"**📍 競馬場**: {race_info.get('venue') or '不明'}\n"
-    report += f"**🏁 レース名**: {race_info.get('レース名', 'N/A')}  \n"
-    report += f"**📏 距離**: {race_info.get('距離', 'N/A')}  \n"
-    report += f"**⏰ 発走時刻**: {race_info.get('発走時刻', 'N/A')}  \n"
-    report += f"**🌊 波乱度**: **{turbulence}** ({pred.get('turbulence_reason', '')})  \n\n"
+    # レース基本情報 (スマホ向けシンプル表示)
+    venue = race_info.get('venue') or '不明'
+    race_name = race_info.get('レース名', 'N/A')
+    distance = race_info.get('距離', 'N/A')
+    post_time = race_info.get('発走時刻', 'N/A')
+    
+    report += f"📍 **競馬場**: {venue} 🏁 **レース名**: {race_name}\n"
+    report += f"📏 **距離**: {distance}\n"
+    report += f"⏰ **発走時刻**: {post_time}\n"
+    
+    # 波乱度 (絵文字で視覚化)
+    turb_emoji = {"低": "🟢", "中": "🟡", "高": "🔴"}.get(turbulence, "⚪")
+    report += f"🌊 **波乱度**: {turb_emoji} **{turbulence}** ({pred.get('turbulence_reason', '')})\n\n"
     
     if pred["status"] != "予想完了":
-        report += f"**⚠️ 状態**: {pred['status']}\n"
-        report += f"{'='*80}\n"
+        report += f"⚠️ **状態**: {pred['status']}\n"
+        report += f"{'━' * 40}\n\n"
         return report
     
-    # 予想印
-    report += "### 【予想印】\n\n"
-    report += "| 印 | 馬番 | 馬名 | 総合点 | D | E | S | 信頼度 |\n"
-    report += "|:--:|:----:|:-----|:------:|:-:|:-:|:-:|:------:|\n"
+    # 予想印 (カード形式)
+    report += "## 【予想印】\n\n"
     
-    for mark_key, mark_label in [("honmei", "◎"), ("taikou", "○"), ("ana", "▲")]:
+    mark_labels = {
+        "honmei": ("◎", "本命"),
+        "taikou": ("○", "対抗"),
+        "ana": ("▲", "単穴")
+    }
+    
+    for mark_key, (mark_symbol, mark_name) in mark_labels.items():
+        if mark_key not in preds:
+            continue
+        
         horse = preds[mark_key]
-        report += f"| **{mark_label}** | **{horse['馬番']}** | **{horse['馬名']}** | "
-        report += f"**{horse['total_score']:.1f}** | "
-        report += f"{horse['distance_score']:.1f} | "
-        report += f"{horse['experience_score']:.1f} | "
-        report += f"{horse['speed_score']:.1f} | "
-        report += f"{horse['confidence']} |\n"
+        report += f"### {mark_symbol} {mark_name}\n"
+        report += f"{'─' * 30}\n"
+        report += f"**{horse.get('馬番', 'N/A')}番 {horse.get('馬名', 'N/A')}**\n\n"
+        report += f"📊 総合点: **{horse.get('total_score', 0):.1f}**\n"
+        report += f"├ 📏 距離適性(D): {horse.get('distance_score', 0):.1f}\n"
+        report += f"├ 📈 経験値(E): {horse.get('experience_score', 0):.1f}\n"
+        report += f"├ ⚡ スピード(S): {horse.get('speed_score', 0):.1f}\n"
+        report += f"└ 🎯 信頼度: {horse.get('confidence', 'N/A')}\n\n"
     
-    # 穴候補
-    if preds["hole_candidates"]:
-        report += "\n### 【穴候補 △】\n\n"
-        report += "| 馬番 | 馬名 | 総合点 |\n"
-        report += "|:----:|:-----|:------:|\n"
-        for horse in preds["hole_candidates"]:
-            report += f"| {horse['馬番']} | {horse['馬名']} | {horse['total_score']:.1f} |\n"
+    # 穴候補 (コンパクト表示)
+    if preds.get("hole_candidates"):
+        report += "## 【穴候補】\n\n"
+        for hole in preds["hole_candidates"]:
+            report += f"△ **{hole.get('馬番')}番 {hole.get('馬名')}** "
+            report += f"({hole.get('total_score', 0):.1f}点)\n"
+        report += "\n"
     
-    # 買い目提案
+    # 買い目提案 (スマホ向け)
     main = betting["main"]
-    report += "\n### 【買い目提案】\n\n"
-    report += f"**📝 {main['type']}**\n\n"
-    report += f"- **軸**: {', '.join(main['axis'])} (◎○▲)\n"
-    if main['aite']:
-        report += f"- **相手**: {', '.join(main['aite'])} (△)\n"
+    report += "## 【買い目提案】\n\n"
+    report += f"🎯 **{main['type']}**\n\n"
+    
+    # 軸馬
+    axis = main.get('axis', [])
+    if axis:
+        report += "### 軸馬\n"
+        axis_parts = []
+        if len(axis) > 0:
+            axis_parts.append(f"◎{axis[0]}番")
+        if len(axis) > 1:
+            axis_parts.append(f"○{axis[1]}番")
+        if len(axis) > 2:
+            axis_parts.append(f"▲{axis[2]}番")
+        report += " ".join(axis_parts) + "\n\n"
+    
+    # 相手
+    aite = main.get('aite', [])
+    if aite:
+        report += "### 相手\n"
+        aite_str = " ".join([f"△{h}番" for h in aite])
+        report += f"{aite_str}\n\n"
     else:
-        report += f"- **相手**: なし\n"
-    report += f"- **組み合わせ**: {main['combinations']}\n"
-    report += f"- **点数**: {main['points']}点\n"
-    report += f"- **投資額**: **{main['total_investment']:,}円** ({main['unit_price']}円×{main['points']}点)\n"
+        report += "### 相手\n"
+        report += "なし (軸3頭BOXのみ)\n\n"
+    
+    # 投資プラン
+    points = main.get('points', 0)
+    unit = main.get('unit_price', 100)
+    total = main.get('total_investment', points * unit)
+    
+    report += "### 投資プラン\n"
+    report += f"💰 **{points}点** × **{unit:,}円** = **{total:,}円**\n\n"
+    
+    # 組み合わせ
+    combinations = main.get('combinations', 'N/A')
+    report += "### 組み合わせ\n"
+    report += f"{combinations}\n\n"
     
     # 軸3頭の評価
-    axis_box = betting["axis_box_note"]
-    report += f"\n**軸3頭の評価**: "
-    if axis_box["enabled"]:
-        report += f"✅ 同格 ({axis_box['reason']})\n"
-    else:
-        report += f"❌ 力差あり ({axis_box['reason']})\n"
+    axis_box = betting.get("axis_box_note", {})
+    if axis_box:
+        report += "---\n\n"
+        report += "### 軸3頭の評価\n"
+        if axis_box.get("enabled"):
+            report += f"✅ **同格** ({axis_box.get('reason', 'N/A')})\n"
+            report += "→ 3連複BOXで手堅く\n\n"
+        else:
+            report += f"❌ **力差あり** ({axis_box.get('reason', 'N/A')})\n"
+            report += "→ 5点以上の差: 荒れる可能性\n\n"
     
     # 波乱度「高」の警告
     if turbulence == "高":
-        report += f"\n**⚠️ 注意**: 波乱度「高」のため、投資ON時は見送り推奨（統合ルール §9）\n"
+        report += "---\n\n"
+        report += "⚠️ **注意**: 波乱度「高」のため、投資ON時は見送り推奨\n"
+        report += "(統合ルール §9)\n\n"
     
-    report += f"\n{'='*80}\n"
+    report += f"{'━' * 40}\n\n"
     return report
 
 def generate_summary(selected_races: List[Dict], total_races: int, skipped_races: int) -> str:
     """
-    最終サマリーを生成
+    最終サマリーを生成 (スマホ最適化)
     """
-    summary = "\n" + "="*80 + "\n"
+    summary = "\n" + "="*40 + "\n"
     summary += "# 📊 本日の予想サマリー\n\n"
     summary += f"**日付**: {datetime.now().strftime('%Y年%m月%d日')}\n\n"
+    
     summary += f"**総レース数**: {total_races}レース\n"
     summary += f"**データ不足**: {skipped_races}レース\n"
     summary += f"**予想対象**: {len(selected_races)}レース\n\n"
@@ -179,16 +230,17 @@ def generate_summary(selected_races: List[Dict], total_races: int, skipped_races
     mid = sum(1 for r in selected_races if r.get("turbulence") == "中")
     high = sum(1 for r in selected_races if r.get("turbulence") == "高")
     
-    summary += "### 【波乱度別内訳】\n\n"
-    summary += f"- 🟢 **低**: {low}レース（本命有利）\n"
-    summary += f"- 🟡 **中**: {mid}レース（拮抗）\n"
-    summary += f"- 🔴 **高**: {high}レース（荒れる可能性）\n\n"
+    summary += "## 【波乱度別内訳】\n\n"
+    summary += f"🟢 **低**: {low}レース (本命有利)\n"
+    summary += f"🟡 **中**: {mid}レース (拮抗)\n"
+    summary += f"🔴 **高**: {high}レース (荒れる可能性)\n\n"
     
     # 合計投資額
     total_investment = sum(r["betting_suggestions"]["total_investment"] for r in selected_races)
-    summary += f"### 【合計投資額】\n\n"
-    summary += f"**{total_investment:,}円** (投資OFFのため実購入なし)\n\n"
-    summary += "="*80 + "\n"
+    summary += "## 【合計投資額】\n\n"
+    summary += f"**{total_investment:,}円**\n"
+    summary += "(投資OFFのため実購入なし)\n\n"
+    summary += "="*40 + "\n\n"
     return summary
 
 def main():
