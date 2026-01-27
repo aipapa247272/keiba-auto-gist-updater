@@ -1,166 +1,297 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+出馬表データ取得スクリプト（改善版 v2.0）
+- オッズ・人気順位の取得を追加
+- 枠番の取得を追加
+- レース条件（頭数、重量条件）の取得を追加
+"""
+
 import json
+import re
+import time
+import sys
+from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
-from typing import Dict, List
-import re
 
-HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
-}
-
-def http_get(url: str) -> str:
-    """HTTPリクエストを送信してHTMLを取得"""
-    resp = requests.get(url, headers=HEADERS, timeout=30)
-    resp.raise_for_status()
-    resp.encoding = 'EUC-JP'
-    return resp.text
-
-def extract_horse_id(horse_name_cell) -> str:
+def fetch_race_data(race_id):
     """
-    馬名セルから horse_id を抽出
-    例: <a href="https://db.netkeiba.com/horse/2023101194">馬名</a>
+    指定されたrace_idの出馬表データを取得
     """
-    link = horse_name_cell.find('a')
-    if link and link.get('href'):
-        href = link.get('href')
-        # horse_id を抽出（例: /horse/2023101194 → 2023101194）
-        match = re.search(r'/horse/(\d{10})', href)
-        if match:
-            return match.group(1)
-    return None
-
-def parse_shutuba_html(html: str, race_id: str) -> Dict:
-    """BeautifulSoupで出馬表HTMLを解析（horse_id 追加版）"""
-    soup = BeautifulSoup(html, 'html.parser')
-    
-    # レース情報を取得
-    race_column = soup.find('div', class_='RaceColumn01')
-    race_info_text = race_column.get_text(strip=True) if race_column else ""
-    
-    # レース名を抽出
-    race_name_match = re.search(r'サラ系\S+|オープン\S*|[A-Z]\d+|新馬|未勝利', race_info_text)
-    race_name = race_name_match.group(0) if race_name_match else "不明"
-    
-    # 距離を抽出
-    distance_match = re.search(r'(ダ|芝)(\d+)m', race_info_text)
-    distance = f"{distance_match.group(1)}{distance_match.group(2)}m" if distance_match else "不明"
-    
-    # 発走時刻を抽出
-    time_match = re.search(r'(\d{1,2}:\d{2})発走', race_info_text)
-    race_time = time_match.group(1) if time_match else "不明"
-    
-    # 馬のデータを取得
-    horses = []
-    horse_table = soup.find('table', class_='RaceTable01')
-    
-    if horse_table:
-        horse_rows = horse_table.find_all('tr')
-        
-        for row in horse_rows[1:]:  # ヘッダー行をスキップ
-            cells = row.find_all('td')
-            if len(cells) < 8:
-                continue
-            
-            # 馬名と horse_id を取得
-            horse_name_tag = cells[3].find('a')
-            horse_name = horse_name_tag.get_text(strip=True) if horse_name_tag else cells[3].get_text(strip=True)
-            horse_id = extract_horse_id(cells[3])  # ★ 追加
-            
-            # 騎手を取得
-            jockey_tag = cells[6].find('a')
-            jockey = jockey_tag.get_text(strip=True) if jockey_tag else cells[6].get_text(strip=True)
-            
-            # 厩舎を取得
-            trainer_tag = cells[7].find('a')
-            trainer = trainer_tag.get_text(strip=True) if trainer_tag else cells[7].get_text(strip=True)
-            
-            horse_data = {
-                "枠番": cells[0].get_text(strip=True),
-                "馬番": cells[1].get_text(strip=True),
-                "馬名": horse_name,
-                "horse_id": horse_id,  # ★ 追加
-                "性齢": cells[4].get_text(strip=True),
-                "斤量": cells[5].get_text(strip=True),
-                "騎手": jockey,
-                "厩舎": trainer,
-                "馬主": cells[8].get_text(strip=True) if len(cells) > 8 else "不明"
-            }
-            horses.append(horse_data)
-    
-    return {
-        "race_id": race_id,
-        "race_info": {
-            "レース名": race_name,
-            "距離": distance,
-            "発走時刻": race_time,
-            "頭数": len(horses)
-        },
-        "horses": horses
-    }
-
-def fetch_race_data(race_id: str) -> Dict:
-    """race_id から出馬表データを取得"""
     url = f"https://nar.netkeiba.com/race/shutuba.html?race_id={race_id}"
-    print(f"Fetching: {url}")
+    
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+    }
     
     try:
-        html = http_get(url)
-        return parse_shutuba_html(html, race_id)
+        resp = requests.get(url, headers=headers, timeout=10)
+        resp.encoding = 'EUC-JP'  # 重要: netkeibaはEUC-JP
+        
+        if resp.status_code != 200:
+            print(f"❌ HTTP Error {resp.status_code} for race_id={race_id}")
+            return None
+        
+        soup = BeautifulSoup(resp.text, 'html.parser')
+        
+        # レース基本情報の取得
+        race_info = extract_race_info(soup, race_id)
+        if not race_info:
+            print(f"⚠️ レース情報を取得できませんでした: {race_id}")
+            return None
+        
+        # 馬データの取得
+        horses = extract_horses(soup)
+        if not horses:
+            print(f"⚠️ 馬データを取得できませんでした: {race_id}")
+            return None
+        
+        race_info['horses'] = horses
+        race_info['取得頭数'] = len(horses)
+        
+        print(f"✅ {race_info.get('レース名', 'N/A')}: {len(horses)}頭")
+        
+        return race_info
+        
     except Exception as e:
-        print(f"  ❌ エラー: {e}")
-        return {
-            "race_id": race_id,
-            "race_info": {
-                "レース名": "取得失敗",
-                "距離": "不明",
-                "発走時刻": "不明",
-                "頭数": 0
-            },
-            "horses": [],
-            "error": str(e)
-        }
+        print(f"❌ エラー: {race_id} - {str(e)}")
+        return None
 
-def main():
-    """today_jobs.latest.json を読み込んで出馬表を取得"""
-    with open("today_jobs.latest.json", "r", encoding="utf-8") as f:
-        data = json.load(f)
-    
-    ymd = data["ymd"]
-    print(f"対象日: {ymd}\n")
-    
-    races_output = []
-    
-    for jyo_cd, jyo_data in data["races"].items():
-        jyo_name = jyo_data["name"]
-        race_id_map = jyo_data["race_id_map"]
-        
-        print(f"=== {jyo_name}({jyo_cd}) ===")
-        
-        for rno, race_id in race_id_map.items():
-            race_data = fetch_race_data(race_id)
-            race_data["競馬場"] = jyo_name
-            race_data["レース番号"] = rno
-            races_output.append(race_data)
-            
-            # レース情報を表示
-            info = race_data['race_info']
-            print(f"  {rno}R: {info['レース名']} {info['発走時刻']}")
-            print(f"    距離: {info['距離']}, 頭数: {info['頭数']}頭")
-            
-            # horse_id 取得状況を確認
-            horses_with_id = [h for h in race_data.get('horses', []) if h.get('horse_id')]
-            print(f"    horse_id 取得: {len(horses_with_id)}/{info['頭数']}頭\n")
-    
-    output = {
-        "ymd": ymd,
-        "races": races_output
+
+def extract_race_info(soup, race_id):
+    """
+    レース基本情報を抽出
+    """
+    race_data = {
+        'race_id': race_id
     }
     
-    output_file = f"race_data_{ymd}.json"
-    with open(output_file, "w", encoding="utf-8") as f:
-        json.dump(output, f, ensure_ascii=False, indent=2)
+    # レース名
+    race_title = soup.find('div', class_='RaceName')
+    if race_title:
+        race_data['レース名'] = race_title.get_text(strip=True)
     
-    print(f"✅ {output_file} を作成しました ({len(races_output)}レース)")
+    # レースデータ（距離、発走時刻など）
+    race_data_div = soup.find('div', class_='RaceData01')
+    if race_data_div:
+        race_text = race_data_div.get_text(strip=True)
+        
+        # 距離の抽出（例: ダ1400m）
+        distance_match = re.search(r'([ダ芝])(\d+)m', race_text)
+        if distance_match:
+            race_data['トラック'] = distance_match.group(1)
+            race_data['距離'] = int(distance_match.group(2))
+        
+        # 発走時刻（例: 10:55発走）
+        time_match = re.search(r'(\d{1,2}):(\d{2})発走', race_text)
+        if time_match:
+            race_data['発走時刻'] = f"{time_match.group(1)}:{time_match.group(2)}"
+        
+        # 重量条件の抽出（別定、定量、ハンデ）
+        if '別定' in race_text:
+            race_data['重量条件'] = '別定'
+        elif '定量' in race_text:
+            race_data['重量条件'] = '定量'
+        elif 'ハンデ' in race_text or 'ハンディ' in race_text:
+            race_data['重量条件'] = 'ハンデ'
+        else:
+            race_data['重量条件'] = '不明'
+    
+    # 競馬場の判定（race_idから）
+    venue_code = race_id[4:6]
+    venue_map = {
+        '30': '門別', '35': '盛岡', '36': '水沢', '42': '浦和', '43': '船橋',
+        '44': '大井', '45': '川崎', '46': '金沢', '47': '笠松', '48': '高知',
+        '50': '佐賀', '51': '帯広'
+    }
+    race_data['競馬場'] = venue_map.get(venue_code, '不明')
+    
+    # レース番号（race_idの末尾2桁）
+    race_data['レース番号'] = int(race_id[-2:])
+    
+    return race_data
 
-if __name__ == "__main__":
+
+def extract_horses(soup):
+    """
+    出馬表から馬データを抽出（オッズ・人気・枠番を含む）
+    """
+    horses = []
+    
+    # 出馬表のテーブルを取得
+    horse_table = soup.find('table', class_='Shutuba_Table')
+    if not horse_table:
+        return horses
+    
+    rows = horse_table.find_all('tr')
+    
+    for row in rows:
+        # データ行のみ処理（ヘッダー行をスキップ）
+        if not row.find('td', class_='Waku'):
+            continue
+        
+        horse_data = {}
+        
+        # 枠番
+        waku_td = row.find('td', class_='Waku')
+        if waku_td:
+            waku_text = waku_td.get_text(strip=True)
+            try:
+                horse_data['枠番'] = int(waku_text)
+            except:
+                horse_data['枠番'] = None
+        
+        # 馬番
+        umaban_td = row.find('td', class_='Umaban')
+        if umaban_td:
+            umaban_text = umaban_td.get_text(strip=True)
+            try:
+                horse_data['馬番'] = int(umaban_text)
+            except:
+                horse_data['馬番'] = None
+        
+        # 馬名とhorse_id
+        horse_name_td = row.find('td', class_='Horse_Name')
+        if horse_name_td:
+            horse_link = horse_name_td.find('a')
+            if horse_link:
+                horse_data['馬名'] = horse_link.get_text(strip=True)
+                # horse_idの抽出
+                href = horse_link.get('href', '')
+                horse_id_match = re.search(r'/horse/(\d+)', href)
+                if horse_id_match:
+                    horse_data['horse_id'] = horse_id_match.group(1)
+        
+        # 性齢
+        sex_age_td = row.find('td', class_='Barei')
+        if sex_age_td:
+            horse_data['性齢'] = sex_age_td.get_text(strip=True)
+        
+        # 斤量
+        weight_td = row.find('td', class_='Weight')
+        if weight_td:
+            weight_text = weight_td.get_text(strip=True)
+            try:
+                horse_data['斤量'] = float(weight_text)
+            except:
+                horse_data['斤量'] = None
+        
+        # 騎手
+        jockey_td = row.find('td', class_='Jockey')
+        if jockey_td:
+            jockey_link = jockey_td.find('a')
+            if jockey_link:
+                horse_data['騎手'] = jockey_link.get_text(strip=True)
+        
+        # 厩舎（調教師）
+        trainer_td = row.find('td', class_='Trainer')
+        if trainer_td:
+            trainer_link = trainer_td.find('a')
+            if trainer_link:
+                horse_data['厩舎'] = trainer_link.get_text(strip=True)
+        
+        # オッズ（単勝）
+        odds_td = row.find('td', class_='Odds')
+        if odds_td:
+            odds_text = odds_td.get_text(strip=True)
+            try:
+                horse_data['オッズ'] = float(odds_text)
+            except:
+                horse_data['オッズ'] = None
+        
+        # 人気順位
+        popular_td = row.find('td', class_='Popular')
+        if popular_td:
+            popular_text = popular_td.get_text(strip=True)
+            try:
+                horse_data['人気'] = int(popular_text)
+            except:
+                horse_data['人気'] = None
+        
+        # 馬主（オーナー）
+        owner_td = row.find('td', class_='Owner')
+        if owner_td:
+            horse_data['馬主'] = owner_td.get_text(strip=True)
+        
+        # 最低限のデータがあれば追加
+        if horse_data.get('馬番') and horse_data.get('馬名'):
+            horses.append(horse_data)
+    
+    return horses
+
+
+def main():
+    """
+    メイン処理
+    """
+    # today_jobs.latest.json から race_id リストを読み込み
+    try:
+        with open('today_jobs.latest.json', 'r', encoding='utf-8') as f:
+            jobs_data = json.load(f)
+        
+        race_ids = jobs_data.get('race_ids', [])
+        ymd = jobs_data.get('ymd', '')
+        
+        if not race_ids:
+            print("❌ race_idsが見つかりません")
+            sys.exit(1)
+        
+        print(f"📅 対象日: {ymd}")
+        print(f"📊 対象レース数: {len(race_ids)}")
+        print("-" * 50)
+        
+    except FileNotFoundError:
+        print("❌ today_jobs.latest.json が見つかりません")
+        sys.exit(1)
+    except json.JSONDecodeError:
+        print("❌ today_jobs.latest.json の形式が不正です")
+        sys.exit(1)
+    
+    # 各レースのデータを取得
+    all_races = []
+    success_count = 0
+    
+    for i, race_id in enumerate(race_ids, 1):
+        print(f"[{i}/{len(race_ids)}] {race_id} を取得中...")
+        
+        race_data = fetch_race_data(race_id)
+        
+        if race_data:
+            all_races.append(race_data)
+            success_count += 1
+        
+        # サーバー負荷軽減のため待機
+        if i < len(race_ids):
+            time.sleep(1)
+    
+    # 結果を保存
+    output_file = f"race_data_{ymd}.json"
+    
+    # バックアップ作成
+    import os
+    if os.path.exists(output_file):
+        backup_file = f"race_data_{ymd}.backup.json"
+        os.rename(output_file, backup_file)
+        print(f"📦 バックアップ作成: {backup_file}")
+    
+    # 新しいデータを保存
+    with open(output_file, 'w', encoding='utf-8') as f:
+        json.dump({
+            'ymd': ymd,
+            '取得日時': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            'レース数': len(all_races),
+            'races': all_races
+        }, f, ensure_ascii=False, indent=2)
+    
+    print("-" * 50)
+    print(f"✅ 完了: {success_count}/{len(race_ids)} レース")
+    print(f"💾 保存先: {output_file}")
+    
+    # 統計情報
+    total_horses = sum(race.get('取得頭数', 0) for race in all_races)
+    print(f"🐴 総馬数: {total_horses}頭")
+
+
+if __name__ == '__main__':
     main()
