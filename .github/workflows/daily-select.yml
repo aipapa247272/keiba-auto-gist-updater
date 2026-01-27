@@ -1,5 +1,5 @@
 name: Daily Select
-# Updated on 2026-01-26 to re-trigger cron
+# Updated on 2026-01-27 - コマンドライン引数対応 & date/ymdキー両対応
 on:
   workflow_dispatch:
 
@@ -25,20 +25,20 @@ jobs:
         run: |
           pip install requests beautifulsoup4
       
+      - name: Get date
+        id: get_ymd
+        run: |
+          ymd=$(TZ=Asia/Tokyo date +%Y%m%d)
+          echo "ymd=${ymd}" >> $GITHUB_OUTPUT
+          echo "📅 対象日付: ${ymd}"
+      
       - name: Run daily select
         run: |
-          python scripts/daily_select.py
+          python scripts/daily_select.py ${{ steps.get_ymd.outputs.ymd }}
       
       - name: Fetch shutuba data
         run: |
-          python scripts/fetch_shutuba.py
-      
-      - name: Get YMD from today_jobs
-        id: get_ymd
-        run: |
-          YMD=$(jq -r '.ymd' today_jobs.latest.json)
-          echo "ymd=$YMD" >> $GITHUB_OUTPUT
-          echo "取得した日付: $YMD"
+          python scripts/fetch_shutuba.py ${{ steps.get_ymd.outputs.ymd }}
       
       - name: Fetch past races data
         run: |
@@ -47,7 +47,6 @@ jobs:
       - name: Calculate DES scores
         run: |
           python scripts/calculate_des_score.py ${{ steps.get_ymd.outputs.ymd }}
-          
       
       - name: Select predictions
         run: |
@@ -65,6 +64,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add race_data_*.json today_jobs.latest.json predictions_*.md final_predictions_*.json
-          git diff --cached --quiet || git commit -m "chore: update race data with predictions"
+          git add race_data_*.json today_jobs.latest.json predictions_*.md final_predictions_*.json warnings_report_*.md
+          git diff --cached --quiet || git commit -m "chore: update race data with predictions for ${{ steps.get_ymd.outputs.ymd }}"
           git push
+++5b+cICYgZGF0ZS95bWTjgq3jg7zkuKHlr77lv5wKb246CiAgd29ya2Zsb3dfZGlzcGF0Y2g6CgogIHNjaGVkdWxlOgogICAgLSBjcm9uOiAnMzAgMCAqICogKicgICMg5q+O5pelIDA5OjMwIEpTVO+8iFVUQyAwOjMw77yJCgpqb2JzOgogIGRhaWx5LXNlbGVjdDoKICAgIHJ1bnMtb246IHVidW50dS1sYXRlc3QKICAgIHBlcm1pc3Npb25zOgogICAgICBjb250ZW50czogd3JpdGUKICAgIAogICAgc3RlcHM6CiAgICAgIC0gbmFtZTogQ2hlY2tvdXQKICAgICAgICB1c2VzOiBhY3Rpb25zL2NoZWNrb3V0QHY0CiAgICAgIAogICAgICAtIG5hbWU6IFNldCB1cCBQeXRob24KICAgICAgICB1c2VzOiBhY3Rpb25zL3NldHVwLXB5dGhvbkB2NQogICAgICAgIHdpdGg6CiAgICAgICAgICBweXRob24tdmVyc2lvbjogJzMuMTEnCiAgICAgIAogICAgICAtIG5hbWU6IEluc3RhbGwgZGVwZW5kZW5jaWVzCiAgICAgICAgcnVuOiB8CiAgICAgICAgICBwaXAgaW5zdGFsbCByZXF1ZXN0cyBiZWF1dGlmdWxzb3VwNAogICAgICAKICAgICAgLSBuYW1lOiBHZXQgZGF0ZQogICAgICAgIGlkOiBnZXRfeW1kCiAgICAgICAgcnVuOiB8CiAgICAgICAgICB5bWQ9JChUWj1Bc2lhL1Rva3lvIGRhdGUgKyVZJW0lZCkKICAgICAgICAgIGVjaG8gInltZD0ke3ltZH0iID4+ICRHSVRIVUJfT1VUUFVUCiAgICAgICAgICBlY2hvICLwn5OFIOWvvuixoeaXpeS7mDogJHt5bWR9IgogICAgICAKICAgICAgLSBuYW1lOiBSdW4gZGFpbHkgc2VsZWN0CiAgICAgICAgcnVuOiB8CiAgICAgICAgICBweXRob24gc2NyaXB0cy9kYWlseV9zZWxlY3QucHkgJHt7IHN0ZXBzLmdldF95bWQub3V0cHV0cy55bWQgfX0KICAgICAgCiAgICAgIC0gbmFtZTogRmV0Y2ggc2h1dHViYSBkYXRhCiAgICAgICAgcnVuOiB8CiAgICAgICAgICBweXRob24gc2NyaXB0cy9mZXRjaF9zaHV0dWJhLnB5ICR7eyBzdGVwcy5nZXRfeW1kLm91dHB1dHMueW1kIH19CiAgICAgIAogICAgICAtIG5hbWU6IEZldGNoIHBhc3QgcmFjZXMgZGF0YQogICAgICAgIHJ1bjogfAogICAgICAgICAgcHl0aG9uIHNjcmlwdHMvZmV0Y2hfcGFzdF9yYWNlcy5weSAke3sgc3RlcHMuZ2V0X3ltZC5vdXRwdXRzLnltZCB9fQogICAgICAKICAgICAgLSBuYW1lOiBDYWxjdWxhdGUgREVTIHNjb3JlcwogICAgICAgIHJ1bjogfAogICAgICAgICAgcHl0aG9uIHNjcmlwdHMvY2FsY3VsYXRlX2Rlc19zY29yZS5weSAke3sgc3RlcHMuZ2V0X3ltZC5vdXRwdXRzLnltZCB9fQogICAgICAKICAgICAgLSBuYW1lOiBTZWxlY3QgcHJlZGljdGlvbnMKICAgICAgICBydW46IHwKICAgICAgICAgIHB5dGhvbiBzY3JpcHRzL3NlbGVjdF9wcmVkaWN0aW9ucy5weSAke3sgc3RlcHMuZ2V0X3ltZC5vdXRwdXRzLnltZCB9fQoKICAgICAgLSBuYW1lOiBHZW5lcmF0ZSBmaW5hbCBvdXRwdXQKICAgICAgICBydW46IHwKICAgICAgICAgIHB5dGhvbiBzY3JpcHRzL2dlbmVyYXRlX2ZpbmFsX291dHB1dC5weSAke3sgc3RlcHMuZ2V0X3ltZC5vdXRwdXRzLnltZCB9fQoKICAgICAgLSBuYW1lOiBWYWxpZGF0ZSBwcmVkaWN0aW9ucwogICAgICAgIHJ1bjogfAogICAgICAgICAgcHl0aG9uIHNjcmlwdHMvdmFsaWRhdGVfcHJlZGljdGlvbnMucHkgJHt7IHN0ZXBzLmdldF95bWQub3V0cHV0cy55bWQgfX0KCiAgICAgIC0gbmFtZTogQ29tbWl0IHJhY2VfZGF0YSBKU09OCiAgICAgICAgcnVuOiB8CiAgICAgICAgICBnaXQgY29uZmlnIHVzZXIubmFtZSAiZ2l0aHViLWFjdGlvbnNbYm90XSIKICAgICAgICAgIGdpdCBjb25maWcgdXNlci5lbWFpbCAiZ2l0aHViLWFjdGlvbnNbYm90XUB1c2Vycy5ub3JlcGx5LmdpdGh1Yi5jb20iCiAgICAgICAgICBnaXQgYWRkIHJhY2VfZGF0YV8qLmpzb24gdG9kYXlfam9icy5sYXRlc3QuanNvbiBwcmVkaWN0aW9uc18qLm1kIGZpbmFsX3ByZWRpY3Rpb25zXyouanNvbiB3YXJuaW5nc19yZXBvcnRfKi5tZAogICAgICAgICAgZ2l0IGRpZmYgLS1jYWNoZWQgLS1xdWlldCB8fCBnaXQgY29tbWl0IC1tICJjaG9yZTogdXBkYXRlIHJhY2UgZGF0YSB3aXRoIHByZWRpY3Rpb25zIGZvciAke3sgc3RlcHMuZ2V0X3ltZC5vdXRwdXRzLnltZCB9fSIKICAgICAgICAgIGdpdCBwdXNoCg==
