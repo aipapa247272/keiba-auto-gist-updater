@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""レース結果自動取得スクリプト（Phase 3-1 改善版）"""
+"""レース結果自動取得スクリプト（Phase 3-1 修正版）"""
 
 import os
 import sys
 import json
 import time
 import logging
-import re
 from datetime import datetime
 from urllib import request, error
+from bs4 import BeautifulSoup
 
 logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(message)s')
 
@@ -37,42 +37,67 @@ def http_get(url, encoding='EUC-JP', timeout=REQUEST_TIMEOUT):
     return None
 
 def extract_race_results(html):
-    """HTMLから着順と払戻を抽出（改善版）"""
+    """HTMLから着順と払戻を抽出（BeautifulSoup版）"""
     results = {'finishing_order': [], 'payouts': {}}
     
-    # 着順の抽出（正規表現を使用）
-    # パターン: 1着、2着、3着の馬番を探す
-    order_pattern = r'<td[^>]*class="[^"]*txt_l[^"]*"[^>]*>.*?<a[^>]*>(\d+)</a>'
-    matches = re.findall(order_pattern, html)
-    
-    if len(matches) >= 3:
-        results['finishing_order'] = matches[:3]
-        logging.info(f"  着順抽出成功: {'-'.join(results['finishing_order'])}")
-    else:
-        # 代替パターン: より広範囲に馬番を探す
-        alt_pattern = r'umaban["\']?>(\d+)</span>'
-        alt_matches = re.findall(alt_pattern, html)
-        if len(alt_matches) >= 3:
-            results['finishing_order'] = alt_matches[:3]
-            logging.info(f"  着順抽出成功（代替）: {'-'.join(results['finishing_order'])}")
-    
-    # 三連複の払戻を抽出
-    # パターン: 三連複の行から払戻金を探す
-    sanrenpuku_pattern = r'三連複.*?(\d+(?:,\d+)*)\s*円'
-    payout_match = re.search(sanrenpuku_pattern, html)
-    
-    if payout_match:
-        payout_str = payout_match.group(1).replace(',', '')
-        results['payouts']['sanrenpuku'] = int(payout_str)
-        logging.info(f"  三連複払戻: {results['payouts']['sanrenpuku']:,}円")
-    else:
-        # 代替パターン
-        alt_payout_pattern = r'<td[^>]*>\s*(\d+(?:,\d+)*)\s*</td>.*?三連複'
-        alt_match = re.search(alt_payout_pattern, html, re.DOTALL)
-        if alt_match:
-            payout_str = alt_match.group(1).replace(',', '')
-            results['payouts']['sanrenpuku'] = int(payout_str)
-            logging.info(f"  三連複払戻（代替）: {results['payouts']['sanrenpuku']:,}円")
+    try:
+        soup = BeautifulSoup(html, 'html.parser')
+        
+        # 着順テーブルを探す（正しいクラス名を使用）
+        result_table = soup.find('table', id='All_Result_Table')
+        if not result_table:
+            result_table = soup.find('table', class_='ResultMain')
+        
+        if result_table:
+            rows = result_table.find_all('tr')
+            
+            # 1着、2着、3着の馬番を取得
+            for row in rows[1:4]:  # ヘッダーをスキップして最初の3行
+                cols = row.find_all('td')
+                if len(cols) >= 3:
+                    # 3列目（馬番）を取得
+                    umaban_td = cols[2]
+                    umaban = umaban_td.get_text(strip=True)
+                    
+                    if umaban.isdigit():
+                        results['finishing_order'].append(umaban)
+            
+            if len(results['finishing_order']) >= 3:
+                logging.info(f"  着順抽出成功: {'-'.join(results['finishing_order'][:3])}")
+            else:
+                logging.warning(f"  着順抽出失敗: {len(results['finishing_order'])}頭のみ")
+        else:
+            logging.warning("  着順テーブルが見つかりません")
+        
+        # 払戻テーブルを探す（テーブル2の行0が三連複）
+        payout_tables = soup.find_all('table', class_='Payout_Detail_Table')
+        
+        if len(payout_tables) >= 2:
+            # 2番目のテーブルの最初の行が三連複
+            sanren_table = payout_tables[1]
+            first_row = sanren_table.find('tr')
+            
+            if first_row:
+                cols = first_row.find_all('td')
+                if len(cols) >= 2:
+                    payout_text = cols[1].get_text(strip=True)
+                    
+                    # "520円210円2,370円" の最初の金額を抽出
+                    import re
+                    payout_match = re.search(r'([\d,]+)円', payout_text)
+                    
+                    if payout_match:
+                        payout_str = payout_match.group(1).replace(',', '')
+                        
+                        if payout_str.isdigit():
+                            results['payouts']['sanrenpuku'] = int(payout_str)
+                            logging.info(f"  三連複払戻: {results['payouts']['sanrenpuku']:,}円")
+        
+        if not results['payouts'].get('sanrenpuku'):
+            logging.warning("  三連複払戻が見つかりません")
+        
+    except Exception as e:
+        logging.error(f"  HTML解析エラー: {e}")
     
     return results
 
