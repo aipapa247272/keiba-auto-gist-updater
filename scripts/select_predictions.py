@@ -1,347 +1,227 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-select_predictions.py - Phase 2-3: 本命・対抗選定 + 買い目提案
-
-統合ルール（/競馬予想AI/1_AI予想ルール/統合ルール.md）に準拠：
-- 主：三連複フォーメーション（軸◎○▲、相手△6〜7頭）
-- オプション：軸3頭BOX（スコア差5点以内）
-- 波乱度判定（スコア拮抗度）
-- 投資OFF運用（買い目は構造として提示、実購入はしない）
-- データ不足レースは自動除外
+予想選定スクリプト（改善版 v2.0）
+- 波乱度判定ロジックの改善
+- 頭数・重量条件・脚質構成を考慮
 """
 
 import json
 import sys
-from typing import List, Dict, Any
+from typing import Dict, List
 
-def load_race_data(ymd: str) -> Dict[str, Any]:
-    """race_data_{ymd}.json を読み込み"""
-    input_file = f"race_data_{ymd}.json"
-    try:
-        with open(input_file, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        print(f"[INFO] {input_file} を読み込みました（{len(data['races'])} レース）")
-        return data
-    except FileNotFoundError:
-        print(f"[ERROR] {input_file} が見つかりません")
-        sys.exit(1)
 
-def calculate_turbulence(scores: List[Dict]) -> tuple[str, str]:
+def calculate_turbulence_level(race: Dict, top3_horses: List[Dict]) -> str:
     """
-    波乱度を判定（統合ルール §9）
-    - オッズを使わず、スコアの拮抗度で判定
-    - 低：1位が圧倒的（1位と2位の差が10点以上）
-    - 中：上位が拮抗（1位と2位の差が5〜10点）
-    - 高：団子状態（1位と3位の差が5点以内）
+    波乱度を判定（低・中・高）
     
-    Returns:
-        tuple[str, str]: (波乱度, 理由)
+    判定要素:
+    1. 頭数（少頭数=堅い、多頭数=荒れる）
+    2. 重量条件（別定=堅い、ハンデ=荒れる）
+    3. 上位3頭のスコア差（大きい=堅い、小さい=荒れる）
+    4. 脚質構成（逃げ馬3頭以上=荒れる）
+    5. データ品質（欠損多い=荒れる）
     """
-    if len(scores) < 3:
-        return "低", "出走頭数不足"
+    base_score = 50  # 中立スコア
     
-    top1 = scores[0]["total_score"]
-    top2 = scores[1]["total_score"]
-    top3 = scores[2]["total_score"]
+    # 1. 頭数による補正
+    head_count = race.get('取得頭数', 8)
+    if head_count <= 8:
+        base_score -= 10  # 少頭数 → 堅くなる
+    elif head_count >= 14:
+        base_score += 10  # 多頭数 → 荒れやすい
     
-    diff_1_2 = top1 - top2
-    diff_1_3 = top1 - top3
+    # 2. 重量条件
+    weight_condition = race.get('重量条件', '不明')
+    if weight_condition in ['別定', '定量']:
+        base_score -= 15  # 実力差が出やすい
+    elif weight_condition == 'ハンデ':
+        base_score += 15  # 実力が均衡
     
-    if diff_1_3 <= 5:
-        reason = f"1位と3位の差が{diff_1_3:.1f}点（5点以内）で団子状態"
-        return "高", reason
-    elif diff_1_2 >= 10:
-        reason = f"1位が{diff_1_2:.1f}点差で圧倒的"
-        return "低", reason
+    # 3. 上位3頭のスコア差
+    if len(top3_horses) >= 3:
+        score1 = top3_horses[0].get('des_score', {}).get('total', 0)
+        score3 = top3_horses[2].get('des_score', {}).get('total', 0)
+        score_diff = score1 - score3
+        
+        if score_diff >= 20:
+            base_score -= 10  # 本命が抜けている
+        elif score_diff <= 5:
+            base_score += 10  # 大混戦
+    
+    # 4. 脚質構成
+    race_analysis = race.get('レース分析', {})
+    style_count = race_analysis.get('脚質構成', {})
+    
+    nige_count = style_count.get('逃げ', 0)
+    if nige_count >= 3:
+        base_score += 5  # 逃げ争い → ハイペース消耗戦
+    elif nige_count == 0:
+        base_score += 5  # 逃げ不在 → スローペース瞬発力勝負
+    
+    # 5. データ品質
+    horses = race.get('horses', [])
+    total_horses = len(horses)
+    horses_with_data = sum(1 for h in horses if len(h.get('past_races', [])) >= 2)
+    
+    if total_horses > 0:
+        data_quality = horses_with_data / total_horses
+        if data_quality < 0.7:
+            base_score += 20  # データ不足 → 予測困難
+    
+    # 6. 信頼度チェック
+    top3_confidence = [h.get('des_score', {}).get('信頼度', '極低') for h in top3_horses[:3]]
+    low_confidence_count = sum(1 for c in top3_confidence if c in ['低', '極低'])
+    
+    if low_confidence_count >= 2:
+        base_score += 10  # 上位馬の信頼度が低い
+    
+    # 最終判定
+    if base_score < 30:
+        return '低'  # 堅い
+    elif base_score < 70:
+        return '中'
     else:
-        reason = f"1位と2位の差が{diff_1_2:.1f}点（5〜10点）で拮抗"
-        return "中", reason
+        return '高'  # 荒れる
 
-def select_hole_candidates(scores: List[Dict], top3_ids: List[str]) -> List[Dict]:
-    """
-    穴候補（△）を選定
-    - 4〜10位でスコア45点以上の馬
-    - 最大7頭まで選定
-    """
-    candidates = []
-    for horse in scores:
-        if horse["horse_id"] in top3_ids:
-            continue  # 軸（◎○▲）は除外
-        if horse["total_score"] >= 45:
-            candidates.append(horse)
-        if len(candidates) >= 7:
-            break
-    return candidates
 
-def generate_sanrenpuku_formation(
-    honmei: Dict,
-    taikou: Dict,
-    ana: Dict,
-    hole_candidates: List[Dict]
-) -> Dict[str, Any]:
+def select_predictions(races: List[Dict], max_races: int = 5) -> List[Dict]:
     """
-    三連複フォーメーションの買い目を生成
-    - 軸：◎○▲（3頭）
-    - 相手：△候補（6〜7頭）
+    1日のレースから予想対象を選定
+    
+    選定基準:
+    - 基本: 3レース
+    - 例外: 同格（データ品質が良い）レースが多い場合は最大5レース
+    - 優先順位: 波乱度「低」「中」> 「高」
+    - 波乱度「高」は原則見送り
     """
-    axis = [honmei["馬番"], taikou["馬番"], ana["馬番"]]
-    aite = [h["馬番"] for h in hole_candidates]
+    # データ品質でフィルタリング
+    valid_races = []
     
-    # 点数計算（軸3頭ボックス + 軸3頭×相手）
-    axis_box = 1  # ◎-○-▲
-    axis_aite = len(aite) * 3 if aite else 0  # 軸各1頭×相手
-    total_points = axis_box + axis_aite
+    for race in races:
+        horses = race.get('horses', [])
+        if len(horses) < 5:
+            continue  # 馬が少なすぎるレースは除外
+        
+        # 上位3頭のスコアを確認
+        top3 = horses[:3]
+        if not all(h.get('des_score') for h in top3):
+            continue  # スコアがない馬がいる場合は除外
+        
+        # 波乱度を計算
+        turbulence = calculate_turbulence_level(race, top3)
+        race['波乱度'] = turbulence
+        
+        # データ品質スコアを計算
+        horses_with_good_data = sum(
+            1 for h in horses 
+            if len(h.get('past_races', [])) >= 2 
+            and h.get('des_score', {}).get('total', 0) >= 30
+        )
+        data_quality_score = horses_with_good_data / len(horses) if horses else 0
+        race['データ品質スコア'] = data_quality_score
+        
+        valid_races.append(race)
     
-    # 投資額（1点100円）
-    unit_price = 100
-    total_investment = total_points * unit_price
+    # 波乱度と データ品質で優先順位付け
+    def race_priority(race):
+        turbulence = race.get('波乱度', '高')
+        quality = race.get('データ品質スコア', 0)
+        
+        # 優先度スコア（高いほど優先）
+        if turbulence == '低':
+            turb_score = 100
+        elif turbulence == '中':
+            turb_score = 50
+        else:  # 高
+            turb_score = 0
+        
+        return turb_score + (quality * 20)
     
-    return {
-        "type": "三連複フォーメーション",
-        "axis": axis,
-        "aite": aite,
-        "points": total_points,
-        "unit_price": unit_price,
-        "total_investment": total_investment,
-        "combinations": f"◎-○-▲ BOX + (◎○▲ × △{len(aite)}頭)" if aite else "◎-○-▲ BOX のみ"
-    }
+    valid_races.sort(key=race_priority, reverse=True)
+    
+    # 波乱度「高」は原則除外（データ品質が極めて高い場合のみ例外）
+    filtered_races = []
+    for race in valid_races:
+        if race.get('波乱度') == '高' and race.get('データ品質スコア', 0) < 0.8:
+            continue  # 見送り（ただしログには残す）
+        filtered_races.append(race)
+    
+    # 最大5レースまで
+    selected = filtered_races[:max_races]
+    
+    return selected
 
-def check_axis_box_option(honmei: Dict, taikou: Dict, ana: Dict) -> Dict[str, Any]:
-    """
-    軸3頭BOXオプションの採用可否を判定
-    - 条件：◎○▲のスコア差が5点以内
-    """
-    scores = [
-        honmei["total_score"],
-        taikou["total_score"],
-        ana["total_score"]
-    ]
-    max_score = max(scores)
-    min_score = min(scores)
-    score_diff = max_score - min_score
-    
-    if score_diff <= 5:
-        return {
-            "enabled": True,
-            "reason": f"スコア差 {score_diff:.1f}点（5点以内）",
-            "note": "軸3頭BOXは三連複フォーメーションに含まれています"
-        }
-    else:
-        return {
-            "enabled": False,
-            "reason": f"スコア差 {score_diff:.1f}点（5点超）",
-            "note": "スコア差が大きいため、軸3頭は同格扱いしません"
-        }
-
-def assign_prediction_marks(race_id: str, race_info: Dict, scores: List[Dict]) -> Dict[str, Any]:
-    """
-    予想印を付与し、買い目を生成
-    """
-    if not scores:
-        return {
-            "race_id": race_id,
-            "race_info": race_info,
-            "turbulence": "不明",
-            "turbulence_reason": "データなし",
-            "status": "スコアなし",
-            "predictions": {},
-            "betting_suggestions": {}
-        }
-    
-    # 上位3頭を選定
-    top3 = scores[:3]
-    honmei = top3[0] if len(top3) > 0 else None
-    taikou = top3[1] if len(top3) > 1 else None
-    ana = top3[2] if len(top3) > 2 else None
-    
-    if not all([honmei, taikou, ana]):
-        return {
-            "race_id": race_id,
-            "race_info": race_info,
-            "turbulence": "不明",
-            "turbulence_reason": "データ不足",
-            "status": "データ不足（3頭未満）",
-            "predictions": {},
-            "betting_suggestions": {}
-        }
-    
-    # 予想印を付与
-    honmei["mark"] = "◎"
-    taikou["mark"] = "○"
-    ana["mark"] = "▲"
-    
-    # 信頼度を設定
-    honmei["confidence"] = "高" if honmei["total_score"] >= 70 else "中"
-    taikou["confidence"] = "中" if taikou["total_score"] >= 60 else "低"
-    ana["confidence"] = "低" if ana["total_score"] >= 50 else "極低"
-    
-    # 波乱度判定
-    turbulence, turbulence_reason = calculate_turbulence(scores)
-    
-    # 穴候補（△）選定
-    top3_ids = [honmei["horse_id"], taikou["horse_id"], ana["horse_id"]]
-    hole_candidates = select_hole_candidates(scores, top3_ids)
-    
-    # 穴候補に印を付与
-    for horse in hole_candidates:
-        horse["mark"] = "△"
-        horse["confidence"] = "穴"
-    
-    # 買い目生成（三連複フォーメーション）
-    betting = generate_sanrenpuku_formation(honmei, taikou, ana, hole_candidates)
-    
-    # 軸3頭BOXオプション
-    axis_box = check_axis_box_option(honmei, taikou, ana)
-    
-    # 合計投資額（三連複フォーメーションに軸3頭BOXは含まれている）
-    total_investment = betting["total_investment"]
-    
-    return {
-        "race_id": race_id,
-        "race_info": race_info,
-        "turbulence": turbulence,
-        "turbulence_reason": turbulence_reason,
-        "status": "予想完了",
-        "predictions": {
-            "honmei": honmei,
-            "taikou": taikou,
-            "ana": ana,
-            "hole_candidates": hole_candidates
-        },
-        "betting_suggestions": {
-            "main": betting,
-            "axis_box_note": axis_box,
-            "total_investment": total_investment
-        }
-    }
-
-def print_race_summary(pred: Dict):
-    """レースサマリーを表示"""
-    race_info = pred["race_info"]
-    turbulence = pred["turbulence"]
-    
-    print("\n" + "="*80)
-    print(f"【レース {pred['race_id']}】")
-    print(f"  レース名: {race_info.get('レース名', 'N/A')}")
-    print(f"  距離: {race_info.get('距離', 'N/A')}")
-    print(f"  発走時刻: {race_info.get('発走時刻', 'N/A')}")
-    print(f"  競馬場: {race_info.get('venue', 'N/A')}")
-    print(f"  波乱度: {turbulence} ({pred.get('turbulence_reason', '')})")
-    
-    if pred["status"] != "予想完了":
-        print(f"  状態: {pred['status']}")
-        print("="*80)
-        return
-    
-    preds = pred["predictions"]
-    
-    print("\n【予想印】")
-    for mark_key, label in [("honmei", "◎ 本命"), ("taikou", "○ 対抗"), ("ana", "▲ 穴")]:
-        horse = preds[mark_key]
-        print(f"  {label}: {horse['馬番']}番 {horse['馬名']} "
-              f"({horse['total_score']:.1f}点 - D:{horse['distance_score']:.1f} "
-              f"E:{horse['experience_score']:.1f} S:{horse['speed_score']:.1f}) "
-              f"[信頼度: {horse['confidence']}]")
-    
-    if preds["hole_candidates"]:
-        print(f"\n【穴候補 △】（{len(preds['hole_candidates'])}頭）")
-        for horse in preds["hole_candidates"]:
-            print(f"  △ {horse['馬番']}番 {horse['馬名']} ({horse['total_score']:.1f}点)")
-    else:
-        print(f"\n【穴候補 △】: なし（スコア45点以上の馬がいません）")
-    
-    betting = pred["betting_suggestions"]
-    main = betting["main"]
-    axis_box_note = betting["axis_box_note"]
-    
-    print("\n【買い目提案】")
-    print(f"  ■ {main['type']}")
-    print(f"    軸: {main['axis']} (◎○▲)")
-    if main['aite']:
-        print(f"    相手: {main['aite']} (△)")
-    else:
-        print(f"    相手: なし")
-    print(f"    組み合わせ: {main['combinations']}")
-    print(f"    点数: {main['points']}点")
-    print(f"    投資額: {main['total_investment']:,}円 ({main['unit_price']}円×{main['points']}点)")
-    
-    print(f"\n  □ 軸3頭の評価")
-    if axis_box_note["enabled"]:
-        print(f"    判定: ✅ 同格 ({axis_box_note['reason']})")
-    else:
-        print(f"    判定: ❌ 力差あり ({axis_box_note['reason']})")
-    print(f"    備考: {axis_box_note['note']}")
-    
-    print(f"\n  【合計投資額】: {betting['total_investment']:,}円")
-    
-    # 波乱度「高」の場合は警告
-    if turbulence == "高":
-        print("\n  ⚠️  波乱度「高」のため、投資ON時は見送り推奨（統合ルール §9）")
-    
-    print("="*80)
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python select_predictions.py YYYYMMDD")
+        print("Usage: python select_predictions.py <ymd>")
         sys.exit(1)
     
     ymd = sys.argv[1]
+    input_file = f"race_data_{ymd}.json"
     
-    # データ読み込み
-    data = load_race_data(ymd)
+    try:
+        with open(input_file, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+    except FileNotFoundError:
+        print(f"❌ {input_file} が見つかりません")
+        sys.exit(1)
     
-    # 各レースの予想を生成
-    predictions = []
-    skipped_count = 0
+    races = data.get('races', [])
     
-    for race in data["races"]:
-        race_id = race["race_id"]
-        race_info = race["race_info"]
+    print(f"📊 予想選定開始: {len(races)}レース")
+    print("-" * 50)
+    
+    # 予想対象レースを選定
+    selected_races = select_predictions(races, max_races=5)
+    
+    print(f"✅ 予想対象: {len(selected_races)}レース")
+    print()
+    
+    # 選定結果を表示
+    for i, race in enumerate(selected_races, 1):
+        race_name = race.get('レース名', 'N/A')
+        venue = race.get('競馬場', '不明')
+        race_num = race.get('レース番号', '?')
+        turbulence = race.get('波乱度', '?')
+        quality = race.get('データ品質スコア', 0)
         
-        # des_scoresが存在するか確認
-        if "des_scores" not in race or not race["des_scores"]:
-            print(f"[SKIP] レース {race_id}: データ不足（des_scoresなし）")
-            skipped_count += 1
-            continue
+        turb_icon = {'低': '🟢', '中': '🟡', '高': '🔴'}.get(turbulence, '⚪')
         
-        scores = race["des_scores"]
+        print(f"{i}. {venue} R{race_num} {race_name}")
+        print(f"   波乱度: {turb_icon} {turbulence} | データ品質: {quality:.1%}")
         
-        # スコアでソート（降順）
-        scores_sorted = sorted(scores, key=lambda x: x["total_score"], reverse=True)
-        
-        # 予想生成
-        pred = assign_prediction_marks(race_id, race_info, scores_sorted)
-        predictions.append(pred)
-        
-        # サマリー表示
-        print_race_summary(pred)
+        # 本命・対抗・単穴
+        horses = race.get('horses', [])
+        if len(horses) >= 3:
+            for j, mark in enumerate(['◎', '○', '▲']):
+                horse = horses[j]
+                score = horse.get('des_score', {})
+                print(f"   {mark} {horse.get('馬番', '?')}番 {horse.get('馬名', 'N/A')} "
+                      f"{score.get('total', 0)}点 ({score.get('信頼度', '?')})")
+        print()
     
-    # predictions を元のデータに追加
-    data["predictions"] = predictions
+    # 見送りレースの集計
+    skipped_races = [r for r in races if r not in selected_races and r.get('波乱度') == '高']
+    if skipped_races:
+        print(f"⚠️ 見送りレース: {len(skipped_races)}レース（波乱度「高」のため）")
+        for race in skipped_races[:3]:  # 最大3件表示
+            print(f"  - {race.get('競馬場', '?')} R{race.get('レース番号', '?')} "
+                  f"{race.get('レース名', 'N/A')}")
     
-    # 出力ファイル名
-    output_file = f"race_data_{ymd}.json"
+    # 選定結果を保存
+    data['selected_races'] = selected_races
+    data['総レース数'] = len(races)
+    data['予想対象数'] = len(selected_races)
+    data['見送り数'] = len(races) - len(selected_races)
     
-    # 保存
-    with open(output_file, "w", encoding="utf-8") as f:
+    with open(input_file, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
     
-    print(f"\n[SUCCESS] {output_file} に予想データを追加しました")
-    
-    # 統計表示
-    total = len(predictions)
-    low = sum(1 for p in predictions if p.get("turbulence") == "低")
-    mid = sum(1 for p in predictions if p.get("turbulence") == "中")
-    high = sum(1 for p in predictions if p.get("turbulence") == "高")
-    
-    print(f"\n【予想統計】")
-    print(f"  総レース数: {len(data['races'])}")
-    print(f"  予想対象: {total}レース")
-    print(f"  スキップ: {skipped_count}レース（データ不足）")
-    print(f"  波乱度 低: {low}レース")
-    print(f"  波乱度 中: {mid}レース")
-    print(f"  波乱度 高: {high}レース（投資ON時は見送り推奨）")
+    print("-" * 50)
+    print(f"✅ 完了: {input_file} を更新しました")
 
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     main()
