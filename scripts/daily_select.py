@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-daily_select.py - 当日のrace_idを自動取得（修正版 v2）
+daily_select.py - 当日のrace_idを自動取得（修正版 v3）
+- コマンドライン引数対応
 """
 
+import sys
 import re
 import json
 import requests
@@ -105,11 +107,15 @@ def get_raceid_map_for_day(ymd: str) -> tuple:
     return races_by_jyo, race_ids, race_list
 
 def main():
-    # 今日の日付（JST）
-    jst = ZoneInfo("Asia/Tokyo")
-    ymd = datetime.now(jst).strftime("%Y%m%d")
+    # コマンドライン引数から日付を取得（なければ今日）
+    if len(sys.argv) > 1:
+        ymd = sys.argv[1]
+        print(f"📅 指定された日付: {ymd}")
+    else:
+        jst = ZoneInfo("Asia/Tokyo")
+        ymd = datetime.now(jst).strftime("%Y%m%d")
+        print(f"📅 今日の日付（自動取得）: {ymd}")
     
-    print(f"📅 対象日: {ymd}")
     print("=" * 60)
     
     # 全場のrace_id取得
@@ -125,6 +131,7 @@ def main():
     print("=" * 60)
     
     # JSON 出力（後続スクリプト用）
+    jst = ZoneInfo("Asia/Tokyo")
     output = {
         "date": ymd,
         "generated_at": datetime.now(jst).isoformat(),
@@ -149,6 +156,17 @@ def main():
         print("\n📋 サンプル（最初の3件）:")
         for i, race in enumerate(race_list[:3], 1):
             print(f"  {i}. {race['race_info']['venue']} {race['race_info']['race_no']}R - {race['race_id']}")
+    
+    # 終了
+    print("\n✅ 処理完了")
+    return 0
 
 if __name__ == "__main__":
-    main()
+    try:
+        exit_code = main()
+        sys.exit(exit_code)
+    except Exception as e:
+        print(f"❌ エラー: {e}")
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
