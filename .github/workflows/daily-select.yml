@@ -1,5 +1,6 @@
 name: Daily Select
-# Updated on 2026-01-27 - コマンドライン引数対応 & date/ymdキー両対応
+# Updated on 2026-01-28 - Commit ステップを前に移動、エラー時も続行
+
 on:
   workflow_dispatch:
 
@@ -51,19 +52,28 @@ jobs:
       - name: Select predictions
         run: |
           python scripts/select_predictions.py ${{ steps.get_ymd.outputs.ymd }}
-
-      - name: Generate final output
-        run: |
-          python scripts/generate_final_output.py ${{ steps.get_ymd.outputs.ymd }}
-
-      - name: Validate predictions
-        run: |
-          python scripts/validate_predictions.py ${{ steps.get_ymd.outputs.ymd }}
-
+      
+      # ★ 重要: Commit を Generate final output の前に移動
+      # これで Generate final output が失敗してもデータは保存される
       - name: Commit race_data JSON
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add race_data_*.json today_jobs.latest.json predictions_*.md final_predictions_*.json warnings_report_*.md
-          git diff --cached --quiet || git commit -m "chore: update race data with predictions for ${{ steps.get_ymd.outputs.ymd }}"
-          git push
+          git add race_data_*.json today_jobs.latest.json predictions_*.md final_predictions_*.json warnings_report_*.md || true
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: update race data with predictions for ${{ steps.get_ymd.outputs.ymd }}"
+            git push
+          else
+            echo "📝 変更なし（コミット不要）"
+          fi
+
+      # Generate final output と Validate predictions はエラーでも続行
+      - name: Generate final output
+        continue-on-error: true
+        run: |
+          python scripts/generate_final_output.py ${{ steps.get_ymd.outputs.ymd }}
+
+      - name: Validate predictions
+        continue-on-error: true
+        run: |
+          python scripts/validate_predictions.py ${{ steps.get_ymd.outputs.ymd }}
