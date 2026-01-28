@@ -1,5 +1,5 @@
 name: Daily Select
-# Updated on 2026-01-28 - Commit ステップを前に移動、エラー時も続行
+# Updated on 2026-01-28 - git add を個別実行でコミット確実化
 
 on:
   workflow_dispatch:
@@ -54,17 +54,33 @@ jobs:
           python scripts/select_predictions.py ${{ steps.get_ymd.outputs.ymd }}
       
       # ★ 重要: Commit を Generate final output の前に移動
-      # これで Generate final output が失敗してもデータは保存される
+      # 各ファイルパターンを個別に git add して確実にコミット
       - name: Commit race_data JSON
         run: |
+          echo "📂 現在のファイル一覧:"
+          ls -lh race_data_*.json 2>/dev/null || echo "race_data_*.json が見つかりません"
+          ls -lh today_jobs.latest.json 2>/dev/null || echo "today_jobs.latest.json が見つかりません"
+          
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add race_data_*.json today_jobs.latest.json predictions_*.md final_predictions_*.json warnings_report_*.md || true
+          
+          # 各ファイルパターンを個別に追加（存在しないものはスキップ）
+          git add race_data_*.json 2>/dev/null || true
+          git add today_jobs.latest.json 2>/dev/null || true
+          git add predictions_*.md 2>/dev/null || true
+          git add final_predictions_*.json 2>/dev/null || true
+          git add warnings_report_*.md 2>/dev/null || true
+          
+          echo "📊 ステージングされたファイル:"
+          git diff --cached --name-only
+          
           if ! git diff --cached --quiet; then
+            echo "💾 コミット実行中..."
             git commit -m "chore: update race data with predictions for ${{ steps.get_ymd.outputs.ymd }}"
             git push
+            echo "✅ コミット完了"
           else
-            echo "📝 変更なし（コミット不要）"
+            echo "⚠️ 変更なし（コミット不要）"
           fi
 
       # Generate final output と Validate predictions はエラーでも続行
