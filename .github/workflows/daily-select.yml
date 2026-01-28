@@ -1,5 +1,5 @@
 name: Daily Select
-# Updated on 2026-01-28 - git add を個別実行でコミット確実化
+# Updated on 2026-01-28 - latest_predictions.json/md + latest_race_data.json 対応追加
 
 on:
   workflow_dispatch:
@@ -53,13 +53,55 @@ jobs:
         run: |
           python scripts/select_predictions.py ${{ steps.get_ymd.outputs.ymd }}
       
-      # ★ 重要: Commit を Generate final output の前に移動
+      # Generate final output（エラーでも続行）
+      - name: Generate final output
+        continue-on-error: true
+        run: |
+          python scripts/generate_final_output.py ${{ steps.get_ymd.outputs.ymd }}
+      
+      # ★ 新規追加: 最新予想ファイルをコピー
+      - name: Copy latest predictions
+        run: |
+          echo "📋 最新予想ファイルをコピー中..."
+          
+          # final_predictions_*.json を latest_predictions.json にコピー
+          if ls final_predictions_*.json 1> /dev/null 2>&1; then
+            latest_file=$(ls -t final_predictions_*.json | head -n 1)
+            cp "$latest_file" latest_predictions.json
+            echo "✅ $latest_file を latest_predictions.json にコピーしました"
+            ls -lh latest_predictions.json
+          else
+            echo "⚠️ final_predictions_*.json が見つかりません"
+          fi
+          
+          # predictions_*.md を latest_predictions.md にコピー
+          if ls predictions_*.md 1> /dev/null 2>&1; then
+            latest_md=$(ls -t predictions_*.md | head -n 1)
+            cp "$latest_md" latest_predictions.md
+            echo "✅ $latest_md を latest_predictions.md にコピーしました"
+            ls -lh latest_predictions.md
+          else
+            echo "⚠️ predictions_*.md が見つかりません"
+          fi
+          
+          # race_data_*.json を latest_race_data.json にコピー
+          if ls race_data_*.json 1> /dev/null 2>&1; then
+            latest_race=$(ls -t race_data_*.json | head -n 1)
+            cp "$latest_race" latest_race_data.json
+            echo "✅ $latest_race を latest_race_data.json にコピーしました"
+            ls -lh latest_race_data.json
+          fi
+      
+      # Commit を Generate final output の後に実行
       # 各ファイルパターンを個別に git add して確実にコミット
       - name: Commit race_data JSON
         run: |
           echo "📂 現在のファイル一覧:"
           ls -lh race_data_*.json 2>/dev/null || echo "race_data_*.json が見つかりません"
           ls -lh today_jobs.latest.json 2>/dev/null || echo "today_jobs.latest.json が見つかりません"
+          ls -lh latest_predictions.json 2>/dev/null || echo "latest_predictions.json が見つかりません"
+          ls -lh latest_predictions.md 2>/dev/null || echo "latest_predictions.md が見つかりません"
+          ls -lh latest_race_data.json 2>/dev/null || echo "latest_race_data.json が見つかりません"
           
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -70,6 +112,9 @@ jobs:
           git add predictions_*.md 2>/dev/null || true
           git add final_predictions_*.json 2>/dev/null || true
           git add warnings_report_*.md 2>/dev/null || true
+          git add latest_predictions.json 2>/dev/null || true
+          git add latest_predictions.md 2>/dev/null || true
+          git add latest_race_data.json 2>/dev/null || true
           
           echo "📊 ステージングされたファイル:"
           git diff --cached --name-only
@@ -83,12 +128,7 @@ jobs:
             echo "⚠️ 変更なし（コミット不要）"
           fi
 
-      # Generate final output と Validate predictions はエラーでも続行
-      - name: Generate final output
-        continue-on-error: true
-        run: |
-          python scripts/generate_final_output.py ${{ steps.get_ymd.outputs.ymd }}
-
+      # Validate predictions はエラーでも続行
       - name: Validate predictions
         continue-on-error: true
         run: |
