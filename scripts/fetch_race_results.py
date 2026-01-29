@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-レース結果自動取得スクリプト（Phase 3-1 修正版 v3）
+レース結果自動取得スクリプト（Phase 3-1 修正版 v4）
 
 修正内容:
-- NAR NetKeiba SP版のURL対応
-- HTMLパース処理の改善（複数パターン対応）
-- デバッグログの追加
+- User-Agent追加（スマホブラウザとして振る舞う）
+- HTMLパース処理の改善
 """
 
 import os
@@ -34,9 +33,14 @@ def fetch_race_result(race_id, timeout=30, max_retries=3):
     """
     url = f"{NAR_RESULT_URL}?race_id={race_id}"
     
+    # スマホブラウザとして振る舞う
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1'
+    }
+    
     for attempt in range(max_retries):
         try:
-            response = requests.get(url, timeout=timeout)
+            response = requests.get(url, timeout=timeout, headers=headers)
             response.encoding = 'EUC-JP'
             
             if response.status_code == 404:
@@ -46,76 +50,77 @@ def fetch_race_result(race_id, timeout=30, max_retries=3):
             response.raise_for_status()
             soup = BeautifulSoup(response.content, 'html.parser')
             
-            # 着順を取得（複数パターン対応）
+            # 着順を取得
             finishing_order = []
             
-            # パターン1: PC版のテーブル
-            result_table = soup.find('table', class_='All_Result_Table') or soup.find('table', class_='ResultMain')
+            # SP版の結果テーブルを探す
+            # パターン1: table要素からtr要素を取得
+            tables = soup.find_all('table')
             
-            # パターン2: SP版のテーブル
-            if not result_table:
-                result_table = soup.find('table', class_='result_table') or soup.find('table', class_='RaceResultTable')
-            
-            # パターン3: その他のテーブル（class属性なし）
-            if not result_table:
-                result_table = soup.find('table')
-            
-            if result_table:
-                rows = result_table.find_all('tr')
+            for table in tables:
+                rows = table.find_all('tr')
                 for row in rows:
                     cells = row.find_all('td')
-                    if len(cells) >= 2:
-                        # 1列目が着順、2列目が馬番のパターン
-                        chakujun = cells[0].get_text(strip=True)
-                        umaban = cells[1].get_text(strip=True)
+                    
+                    # 最低でも3列以上必要（着順、馬番、その他）
+                    if len(cells) >= 3:
+                        chakujun_text = cells[0].get_text(strip=True)
+                        umaban_text = cells[1].get_text(strip=True)
                         
-                        # 着順が数字（1,2,3）の場合のみ追加
-                        if chakujun in ['1', '2', '3']:
-                            finishing_order.append(umaban)
+                        # 着順が1,2,3の場合
+                        if chakujun_text in ['1', '2', '3']:
+                            # 馬番から数字のみ抽出
+                            umaban = ''.join(filter(str.isdigit, umaban_text))
+                            if umaban:
+                                finishing_order.append(umaban)
                         
                         if len(finishing_order) >= 3:
                             break
+                
+                if len(finishing_order) >= 3:
+                    break
+            
+            # パターン2: div要素から馬番を抽出
+            if len(finishing_order) < 3:
+                result_items = soup.find_all('div', class_='result_item')
+                for item in result_items[:3]:
+                    umaban_elem = item.find('span', class_='umaban') or item.find('div', class_='umaban')
+                    if umaban_elem:
+                        umaban = ''.join(filter(str.isdigit, umaban_elem.get_text(strip=True)))
+                        if umaban:
+                            finishing_order.append(umaban)
             
             if len(finishing_order) < 3:
                 print(f"[WARNING] 着順データが不完全: {race_id} - {finishing_order}")
                 print(f"[DEBUG] HTML構造:")
-                print(f"  テーブル数: {len(soup.find_all('table'))}")
-                if result_table:
-                    print(f"  行数: {len(result_table.find_all('tr'))}")
+                print(f"  テーブル数: {len(tables)}")
+                if tables:
+                    print(f"  最大行数: {max(len(t.find_all('tr')) for t in tables)}")
+                print(f"[DEBUG] HTML (最初の500文字):")
+                print(response.text[:500])
                 return None
             
             # 三連複払戻を取得
             sanrenpuku_payout = 0
             
-            # パターン1: Payout_Detail_Table
-            payout_tables = soup.find_all('table', class_='Payout_Detail_Table')
-            if len(payout_tables) >= 2:
-                second_table = payout_tables[1]
-                rows = second_table.find_all('tr')
+            # すべてのテーブルを確認
+            for table in tables:
+                rows = table.find_all('tr')
                 for row in rows:
                     cells = row.find_all('td')
-                    if cells and '三連複' in cells[0].get_text():
-                        payout_text = cells[1].get_text(strip=True).replace(',', '').replace('円', '')
-                        try:
-                            sanrenpuku_payout = int(payout_text)
-                        except ValueError:
-                            pass
-                        break
-            
-            # パターン2: SP版の払戻テーブル
-            if sanrenpuku_payout == 0:
-                payout_tables = soup.find_all('table', class_='payout_table')
-                for table in payout_tables:
-                    rows = table.find_all('tr')
-                    for row in rows:
-                        cells = row.find_all('td')
-                        if len(cells) >= 2 and '三連複' in cells[0].get_text():
-                            payout_text = cells[1].get_text(strip=True).replace(',', '').replace('円', '')
-                            try:
-                                sanrenpuku_payout = int(payout_text)
-                            except ValueError:
-                                pass
-                            break
+                    if len(cells) >= 2:
+                        label = cells[0].get_text(strip=True)
+                        if '三連複' in label:
+                            payout_text = cells[1].get_text(strip=True).replace(',', '').replace('円', '').replace('¥', '')
+                            payout_nums = ''.join(filter(str.isdigit, payout_text))
+                            if payout_nums:
+                                try:
+                                    sanrenpuku_payout = int(payout_nums)
+                                    break
+                                except ValueError:
+                                    pass
+                if sanrenpuku_payout > 0:
+                    break
             
             result = {
                 'finishing_order': finishing_order,
@@ -139,14 +144,7 @@ def fetch_race_result(race_id, timeout=30, max_retries=3):
 
 def check_hit(predicted_horses, result):
     """
-    予想と結果を照合する（修正版 - horses配列対応）
-    
-    Args:
-        predicted_horses: 予想上位3頭のリスト [{"馬番": 3, ...}, {"馬番": 12, ...}, ...]
-        result: 実際の結果 {'finishing_order': ['2', '8', '9'], 'sanrenpuku_payout': 220}
-    
-    Returns:
-        dict: 的中情報
+    予想と結果を照合する
     """
     if not result or not predicted_horses:
         return {
@@ -156,14 +154,12 @@ def check_hit(predicted_horses, result):
             'profit': 0
         }
     
-    # 予想の馬番を取得（上位3頭）
     pred_set = set(str(horse.get('馬番', '')) for horse in predicted_horses[:3])
     actual_set = set(result['finishing_order'][:3])
     
-    # 的中判定（3頭が完全一致）
     is_hit = pred_set == actual_set
     
-    investment = 100  # 1レースあたり100円
+    investment = 100
     payout = result['sanrenpuku_payout'] if is_hit else 0
     profit = payout - investment
     
@@ -177,14 +173,7 @@ def check_hit(predicted_horses, result):
 def process_results(ymd):
     """
     予想ファイルを読み込み、結果を取得・照合する
-    
-    Args:
-        ymd: 日付（YYYYMMDD形式）
-    
-    Returns:
-        bool: 成功/失敗
     """
-    # 予想ファイルを読み込む
     pred_file = f"final_predictions_{ymd}.json"
     if not os.path.exists(pred_file):
         print(f"[ERROR] 予想ファイルが見つかりません: {pred_file}")
@@ -193,7 +182,6 @@ def process_results(ymd):
     with open(pred_file, 'r', encoding='utf-8') as f:
         predictions = json.load(f)
     
-    # selected_predictions を取得
     if 'selected_predictions' not in predictions:
         print(f"[ERROR] selected_predictions が見つかりません")
         return False
@@ -201,7 +189,6 @@ def process_results(ymd):
     selected_races = predictions['selected_predictions']
     print(f"[INFO] 選定レース数: {len(selected_races)}")
     
-    # 結果を格納するリスト
     results = []
     total_investment = 0
     total_return = 0
@@ -214,11 +201,9 @@ def process_results(ymd):
     for race in selected_races:
         race_id = race.get('race_id', 'Unknown')
         
-        # 結果を取得
         result = fetch_race_result(race_id)
         
         if result is None:
-            # 結果取得不可
             results.append({
                 'race_id': race_id,
                 'venue': race.get('venue', 'Unknown'),
@@ -233,14 +218,11 @@ def process_results(ymd):
             unavailable_count += 1
             continue
         
-        # 予想上位3頭を取得
         horses = race.get('horses', [])
         top3_horses = horses[:3]
         
-        # 的中判定
         hit_info = check_hit(top3_horses, result)
         
-        # 統計を更新
         total_investment += hit_info['investment']
         total_return += hit_info['payout']
         
@@ -251,7 +233,6 @@ def process_results(ymd):
             miss_count += 1
             status = '不的中'
         
-        # 予想と実績を表示
         pred_umaban = [str(h.get('馬番', '?')) for h in top3_horses]
         actual_umaban = result['finishing_order']
         
@@ -259,7 +240,6 @@ def process_results(ymd):
         print(f"    予想: {'-'.join(pred_umaban)} / 実績: {'-'.join(actual_umaban)}")
         print(f"    払戻: {hit_info['payout']}円 / 収支: {hit_info['profit']:+d}円")
         
-        # 結果を追加
         results.append({
             'race_id': race_id,
             'venue': race.get('venue', 'Unknown'),
@@ -274,7 +254,6 @@ def process_results(ymd):
             'profit': hit_info['profit']
         })
     
-    # サマリーを計算
     total_profit = total_return - total_investment
     hit_rate = (hit_count / len(selected_races) * 100) if len(selected_races) > 0 else 0
     recovery_rate = (total_return / total_investment * 100) if total_investment > 0 else 0
@@ -296,7 +275,6 @@ def process_results(ymd):
         'results': results
     }
     
-    # 結果を保存
     output_file = f"race_results_{ymd}.json"
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(summary, f, ensure_ascii=False, indent=2)
@@ -314,16 +292,12 @@ def process_results(ymd):
     return True
 
 def main():
-    """
-    メイン処理
-    """
     if len(sys.argv) < 2:
         print("[ERROR] 使用方法: python fetch_race_results.py YYYYMMDD")
         sys.exit(1)
     
     ymd = sys.argv[1]
     
-    # 日付の形式チェック
     try:
         datetime.strptime(ymd, '%Y%m%d')
     except ValueError:
