@@ -18,7 +18,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 
 # NAR NetKeibaのURL
-NAR_RESULT_URL = "https://nar.netkeiba.com/race/result.html"
+NAR_RESULT_URL = "https://nar.sp.netkeiba.com/race/race_result.html"
 
 def fetch_race_result(race_id, timeout=30, max_retries=3):
     """
