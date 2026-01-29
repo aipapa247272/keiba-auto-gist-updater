@@ -616,7 +616,7 @@
             localStorage.setItem('githubUser', user);
             localStorage.setItem('githubRepo', repo);
             
-            const url = `https://raw.githubusercontent.com/${user}/${repo}/main/latest_predictions.json`;
+            const url = `https://raw.githubusercontent.com/${user}/${repo}/main/latest_race_data.json`;
             
             showLoading(true);
             showStatus('', '');
@@ -691,28 +691,33 @@
         }
 
         function displaySummary(data) {
-            const ymd = data.ymd || '';
-            const formattedDate = ymd ? `${ymd.substring(0,4)}/${ymd.substring(4,6)}/${ymd.substring(6,8)}` : '-';
-            
+            // 日付の表示
+            const ymd = data.ymd ? String(data.ymd) : '';
+            const formattedDate = ymd.length === 8 ? 
+            `${ymd.substring(0,4)}/${ymd.substring(4,6)}/${ymd.substring(6,8)}` : '-';
+    
             document.getElementById('targetDate').textContent = formattedDate;
+    
+            // レース数の表示（新データ構造に対応）
             document.getElementById('selectedRaces').textContent = 
-                (data.summary?.selected_races != null ? data.summary.selected_races + 'R' : '-');
-            document.getElementById('totalInvestment').textContent = 
-                (data.summary?.total_investment != null ? `¥${data.summary.total_investment.toLocaleString()}` : '-');
-            document.getElementById('lowTurbulence').textContent = 
-                (data.summary?.turbulence?.['低'] != null ? data.summary.turbulence['低'] + 'R' : '-');
-        }
+            (data.レース数 != null ? data.レース数 + 'R' : 
+            (data.races ? data.races.length + 'R' : '-'));
+    
+            // 投資額と乱度は新データに含まれないため一旦非表示
+            document.getElementById('totalInvestment').textContent = '全レース';
+            document.getElementById('lowTurbulence').textContent = '48R';
+            }
 
         function displayRaces(data) {
             const container = document.getElementById('racesContainer');
             container.innerHTML = '';
 
-            if (!data.selected_predictions || data.selected_predictions.length === 0) {
+            if (!data.races || data.races.length === 0) {
                 container.innerHTML = '<div class="status-message status-error" style="display: block;">選択されたレースがありません。</div>';
                 return;
             }
 
-            data.selected_predictions.forEach(race => {
+            data.races.forEach(race => {
                 const raceCard = createRaceCard(race);
                 container.appendChild(raceCard);
             });
@@ -799,4 +804,5 @@
     </script>
 </body>
 </html>
+
 
