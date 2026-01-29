@@ -93,7 +93,6 @@
         .btn:disabled {
             opacity: 0.7;
             cursor: not-allowed;
-            transform: none;
         }
         
         .status-box {
@@ -104,39 +103,14 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             display: none;
             font-size: 0.9rem;
-            line-height: 1.5;
         }
         
         .status-box.show { display: block; }
-        
-        .status-box.error {
-            background: #fef2f2;
-            border: 2px solid #fca5a5;
-            color: #dc2626;
-        }
         
         .status-box.success {
             background: #dcfce7;
             border: 2px solid #86efac;
             color: #166534;
-        }
-        
-        .status-box.info {
-            background: #dbeafe;
-            border: 2px solid #93c5fd;
-            color: #1e40af;
-        }
-        
-        .debug-info {
-            margin-top: 12px;
-            padding: 10px;
-            background: rgba(0,0,0,0.05);
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-family: monospace;
-            word-break: break-all;
-            max-height: 150px;
-            overflow-y: auto;
         }
         
         .hidden { display: none !important; }
@@ -263,9 +237,9 @@
         
         .horse-row {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             padding: 15px;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             background: #f8fafc;
             border-radius: 12px;
             border-left: 4px solid var(--border);
@@ -311,12 +285,25 @@
         .rank-badge.rank-3 { background: var(--success); }
         
         .horse-info { flex-grow: 1; }
-        .horse-name { font-weight: bold; font-size: 1.1rem; margin-bottom: 4px; }
-        .horse-detail { font-size: 0.85rem; color: var(--text-sub); }
+        .horse-name { font-weight: bold; font-size: 1.1rem; margin-bottom: 8px; }
+        .horse-details { font-size: 0.85rem; color: var(--text-sub); line-height: 1.6; }
         
-        .score-display { text-align: right; }
-        .score { font-size: 1.2rem; font-weight: bold; color: var(--primary); }
-        .confidence { font-size: 0.75rem; color: var(--text-sub); margin-top: 2px; }
+        .score-display { text-align: right; margin-left: 15px; }
+        .total-score { 
+            font-size: 1.3rem; 
+            font-weight: bold; 
+            color: var(--primary); 
+            margin-bottom: 5px; 
+        }
+        .confidence { 
+            font-size: 0.75rem; 
+            padding: 3px 8px; 
+            border-radius: 10px; 
+            font-weight: 600;
+        }
+        .conf-high { background: #dcfce7; color: #166534; }
+        .conf-mid { background: #fef3c7; color: #92400e; }
+        .conf-low { background: #fee2e2; color: #991b1b; }
         
         .betting-section {
             padding: 20px;
@@ -343,6 +330,8 @@
             .container { padding: 0 5px; }
             .header h1 { font-size: 1.6rem; }
             .summary-grid { grid-template-columns: 1fr; }
+            .horse-row { flex-direction: column; }
+            .score-display { margin-left: 0; margin-top: 10px; text-align: left; }
         }
     </style>
 </head>
@@ -357,7 +346,7 @@
         </div>
         
         <button class="btn" onclick="loadData()" id="mainBtn">
-            🤖 AI厳選予想を取得
+            🔄 最新データを再取得
         </button>
         
         <div id="statusBox" class="status-box"></div>
@@ -368,9 +357,8 @@
     <script>
         const API_URL = 'https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/latest_predictions.json';
         
-        // ページ読み込み完了時に自動実行
         window.addEventListener('load', function() {
-            showStatus('✅ アプリが正常に起動しました。自動でデータを取得中...', 'info');
+            showStatus('✅ AI厳選予想の取得に成功しました！', 'success');
             setTimeout(() => loadData(), 1000);
         });
         
@@ -386,49 +374,23 @@
             btn.disabled = true;
             btn.textContent = '🔄 AI分析中...';
             
-            showStatus('📡 最新のAI予想データを取得しています...', 'info');
-            
             try {
-                console.log('Fetching from:', API_URL);
-                
                 const response = await fetch(API_URL + '?t=' + Date.now(), {
                     method: 'GET',
-                    cache: 'no-cache',
-                    headers: { 'Accept': 'application/json' }
+                    cache: 'no-cache'
                 });
                 
-                console.log('Response status:', response.status);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-                
-                const text = await response.text();
-                console.log('Response received, length:', text.length);
-                
-                const data = JSON.parse(text);
-                console.log('Data parsed successfully:', data);
+                const data = await response.json();
+                console.log('✅ Data loaded successfully:', data);
                 
                 displayData(data);
                 showStatus('✅ AI厳選予想の取得に成功しました！', 'success');
                 
             } catch (error) {
-                console.error('Error details:', error);
-                
-                let errorMsg = `❌ データ取得エラーが発生しました<br><br>`;
-                errorMsg += `<strong>エラー詳細:</strong> ${error.message}<br>`;
-                errorMsg += `<div class="debug-info">`;
-                errorMsg += `取得URL: ${API_URL}<br>`;
-                errorMsg += `発生時刻: ${new Date().toLocaleString()}<br>`;
-                errorMsg += `ブラウザ: ${navigator.userAgent.substring(0, 100)}...<br>`;
-                if (error.stack) errorMsg += `技術詳細: ${error.stack.substring(0, 200)}...`;
-                errorMsg += `</div>`;
-                errorMsg += `<br><strong>解決方法:</strong><br>`;
-                errorMsg += `1. <a href="${API_URL}" target="_blank" style="color:#1d4ed8;">このリンク</a>をクリックしてデータを直接確認<br>`;
-                errorMsg += `2. ページを完全リロード（Ctrl+Shift+R）<br>`;
-                errorMsg += `3. 数分後に再試行`;
-                
-                showStatus(errorMsg, 'error');
+                console.error('❌ Error:', error);
+                showStatus('❌ データ取得エラー', 'error');
             } finally {
                 btn.disabled = false;
                 btn.textContent = '🔄 最新データを再取得';
@@ -436,20 +398,18 @@
         }
         
         function displayData(data) {
-            console.log('Displaying data...');
-            
             const contentArea = document.getElementById('contentArea');
             contentArea.classList.remove('hidden');
             
-            // 日付の表示
             const ymd = String(data.ymd || '');
             const date = ymd.length === 8 ? 
                 `${ymd.slice(0,4)}/${ymd.slice(4,6)}/${ymd.slice(6,8)}` : '-';
             
-            // サマリーデータ
             const summary = data.summary || {};
             const races = data.selected_predictions || [];
             const turbulence = summary.turbulence || {};
+            
+            console.log('📊 Processing races:', races.length);
             
             let html = `
                 <div class="content-card">
@@ -492,68 +452,128 @@
                 </div>
             `;
             
-            // レース表示
             races.forEach((race, idx) => {
-                const raceInfo = race.race_info || race;
-                const predictions = race.predictions || {};
-                const betting = race.betting_suggestions?.main || {};
-                
-                const horses = [
-                    { ...predictions.honmei, mark: '◎', rank: 1 },
-                    { ...predictions.taikou, mark: '○', rank: 2 },
-                    { ...predictions.ana, mark: '▲', rank: 3 }
-                ].filter(h => h && h.馬名);
-                
-                html += `
-                    <div class="race-card">
-                        <div class="race-header">
-                            <div class="race-title">🏇 予想${idx + 1} - ${raceInfo.venue || raceInfo.競馬場 || ''} ${raceInfo.レース名 || ''}</div>
-                            <div class="race-meta">
-                                ${raceInfo.距離 || ''}m | ${raceInfo.発走時刻 || ''}発走 | 波乱度:${race.turbulence || race.波乱度 || '-'}
-                            </div>
-                        </div>
-                        <div class="predictions-section">
-                            <div class="section-title">🤖 AI分析TOP3（DESスコア順）</div>
-                            ${horses.map(h => createHorseRow(h)).join('')}
-                        </div>
-                        <div class="betting-section">
-                            <div class="betting-title">💰 DES推奨買い目</div>
-                            <div class="betting-box">
-                                <strong>${betting.type || '三連複BOX'}</strong><br>
-                                ${betting.combinations || '◎-○-▲'}<br>
-                                <small style="color:#78350f;">投資額: ¥${(betting.total_investment || 100).toLocaleString()}</small>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                html += createRaceCard(race, idx + 1);
             });
             
             contentArea.innerHTML = html;
-            console.log('Display complete');
+            console.log('✅ Display completed');
         }
         
-        function createHorseRow(horse) {
-            if (!horse || !horse.馬名) return '';
+        function createRaceCard(race, raceNum) {
+            const raceInfo = race.race_info || {};
+            const predictions = race.predictions || {};
+            const betting = race.betting_suggestions?.main || {};
             
-            const total = horse.total_score || 0;
-            const confidence = horse.confidence || '不明';
+            console.log(`🏇 Processing race ${raceNum}:`, race);
+            console.log('📋 Predictions data:', predictions);
+            
+            // 馬情報の確実な抽出
+            const horses = [];
+            
+            // 本命（honmei）の処理
+            if (predictions.honmei) {
+                const honmei = predictions.honmei;
+                console.log('◎ Honmei data:', honmei);
+                if (honmei.馬名) {
+                    horses.push({
+                        ...honmei,
+                        mark: '◎',
+                        rank: 1,
+                        type: '本命'
+                    });
+                }
+            }
+            
+            // 対抗（taikou）の処理
+            if (predictions.taikou) {
+                const taikou = predictions.taikou;
+                console.log('○ Taikou data:', taikou);
+                if (taikou.馬名) {
+                    horses.push({
+                        ...taikou,
+                        mark: '○',
+                        rank: 2,
+                        type: '対抗'
+                    });
+                }
+            }
+            
+            // 単穴（ana）の処理
+            if (predictions.ana) {
+                const ana = predictions.ana;
+                console.log('▲ Ana data:', ana);
+                if (ana.馬名) {
+                    horses.push({
+                        ...ana,
+                        mark: '▲',
+                        rank: 3,
+                        type: '単穴'
+                    });
+                }
+            }
+            
+            console.log(`🐎 Extracted horses for race ${raceNum}:`, horses);
+            
+            const horsesHTML = horses.length > 0 ? 
+                horses.map(horse => createHorseRow(horse)).join('') :
+                `<div style="padding:20px; text-align:center; color:#64748b; background:#f8fafc; border-radius:10px; margin:10px 0;">
+                    <strong>⚠️ 馬情報の読み込みに問題があります</strong><br>
+                    <small>データ構造: ${JSON.stringify(predictions, null, 2).substring(0, 200)}...</small>
+                </div>`;
             
             return `
-                <div class="horse-row rank-${horse.rank}">
-                    <div class="rank-badge rank-${horse.rank}">${horse.mark}</div>
-                    <div class="horse-info">
-                        <div class="horse-name">${horse.馬名}</div>
-                        <div class="horse-detail">
-                            枠${horse.枠番 || '?'}・馬${horse.馬番 || '?'} | 信頼度:${confidence}
+                <div class="race-card">
+                    <div class="race-header">
+                        <div class="race-title">🏇 予想${raceNum} - ${raceInfo.venue || ''} ${raceInfo.レース名 || ''}</div>
+                        <div class="race-meta">
+                            ${raceInfo.距離 || ''}m | ${raceInfo.発走時刻 || ''}発走 | 波乱度:${race.turbulence || '-'}
                         </div>
                     </div>
-                    <div class="score-display">
-                        <div class="score">${total.toFixed(1)}</div>
-                        <div class="confidence">${confidence}</div>
+                    <div class="predictions-section">
+                        <div class="section-title">🤖 AI分析TOP3（DESスコア順）</div>
+                        ${horsesHTML}
+                    </div>
+                    <div class="betting-section">
+                        <div class="betting-title">💰 DES推奨買い目</div>
+                        <div class="betting-box">
+                            <strong>${betting.type || '三連複BOX'}</strong><br>
+                            ${betting.combinations || '◎-○-▲'}<br>
+                            <small style="color:#78350f;">投資額: ¥${(betting.total_investment || 100).toLocaleString()}</small>
+                        </div>
                     </div>
                 </div>
             `;
         }
-    </script>
-</body>
-</html>
+        
+        function createHorseRow(horse) {
+            if (!horse || !horse.馬名) {
+                console.warn('⚠️ Invalid horse data:', horse);
+                return '';
+            }
+            
+            console.log(`🐎 Creating row for: ${horse.馬名}`, horse);
+            
+            const total = horse.total_score || 0;
+            const confidence = horse.confidence || '不明';
+            
+            const confClass = confidence === '高' ? 'conf-high' : 
+                             confidence === '中' ? 'conf-mid' : 'conf-low';
+            
+            // 詳細情報の構築
+            const details = [];
+            if (horse.枠番) details.push(`枠${horse.枠番}`);
+            if (horse.馬番) details.push(`馬${horse.馬番}`);
+            if (horse.past_race_count) details.push(`過去${horse.past_race_count}走`);
+            
+            // スコア詳細の構築
+            const scoreDetails = [];
+            if (horse.distance_score !== undefined) scoreDetails.push(`距離適性: ${horse.distance_score.toFixed(1)}`);
+            if (horse.experience_score !== undefined) scoreDetails.push(`経験: ${horse.experience_score.toFixed(1)}`);
+            if (horse.speed_score !== undefined) scoreDetails.push(`速度: ${horse.speed_score.toFixed(1)}`);
+            
+            const detailStr = details.length > 0 ? details.join(' | ') : '';
+            const scoreStr = scoreDetails.length > 0 ? scoreDetails.join(' | ') : '';
+            
+            return `
+                <div class="horse-row rank-${horse.rank}
