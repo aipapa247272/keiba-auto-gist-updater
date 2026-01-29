@@ -1,0 +1,32 @@
+name: Debug HTML
+
+on:
+  workflow_dispatch:  # 手動実行のみ
+
+jobs:
+  debug-html:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install beautifulsoup4 requests
+      
+      - name: Run debug script
+        run: |
+          python scripts/debug_html.py
+      
+      - name: Upload HTML file
+        uses: actions/upload-artifact@v3
+        with:
+          name: race-result-html
+          path: race_result_full.html
