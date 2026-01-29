@@ -18,11 +18,7 @@
             --border: #e2e8f0;
         }
         
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Yu Gothic", "Hiragino Sans", sans-serif;
@@ -33,516 +29,243 @@
             line-height: 1.6;
         }
         
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
+        .container { max-width: 600px; margin: 0 auto; }
         
-        .header {
-            text-align: center;
-            color: white;
-            margin-bottom: 25px;
-            padding: 15px 0;
-        }
-        
-        .header h1 {
-            font-size: 1.9rem;
-            margin-bottom: 10px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-        
-        .header p {
-            opacity: 0.95;
-            font-size: 0.95rem;
-            margin-bottom: 15px;
-            line-height: 1.4;
-        }
+        .header { text-align: center; color: white; margin-bottom: 25px; padding: 15px 0; }
+        .header h1 { font-size: 1.9rem; margin-bottom: 10px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        .header p { opacity: 0.95; font-size: 0.95rem; margin-bottom: 15px; line-height: 1.4; }
         
         .x-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 24px;
-            background: rgba(255,255,255,0.15);
-            border: 2px solid rgba(255,255,255,0.3);
-            border-radius: 30px;
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
+            display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px;
+            background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 30px; color: white; text-decoration: none; font-weight: 600;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
         }
-        
-        .x-link:hover {
-            background: rgba(255,255,255,0.25);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        
-        .config-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        
-        .config-title {
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .input-group {
-            margin-bottom: 15px;
-        }
-        
-        .input-label {
-            display: block;
-            font-size: 0.9rem;
-            color: var(--text-sub);
-            margin-bottom: 5px;
-            font-weight: 500;
-        }
-        
-        .input-field {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            background: #fafafa;
-        }
-        
-        .input-field:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: white;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
+        .x-link:hover { background: rgba(255,255,255,0.25); transform: translateY(-2px); }
         
         .btn {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            width: 100%; padding: 16px; border: none; border-radius: 12px;
+            font-size: 1rem; font-weight: 600; cursor: pointer;
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            color: white; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease; margin-bottom: 15px;
         }
-        
-        .btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        }
-        
-        .btn:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-            transform: none;
-        }
+        .btn:hover:not(:disabled) { transform: translateY(-2px); }
+        .btn:disabled { opacity: 0.7; cursor: not-allowed; }
         
         .status-message {
-            margin-top: 15px;
-            padding: 12px 16px;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            display: none;
-            text-align: center;
+            padding: 12px; border-radius: 10px; font-size: 0.9rem;
+            display: none; text-align: center; margin-bottom: 15px;
         }
+        .status-error { background: #fef2f2; color: #dc2626; border: 1px solid #fca5a5; }
+        .status-success { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
         
-        .status-success {
-            background: #dcfce7;
-            color: #166534;
-            border-left: 4px solid var(--success);
-        }
-        
-        .status-error {
-            background: #fef2f2;
-            color: #dc2626;
-            border-left: 4px solid var(--error);
-        }
-        
-        .loading {
-            text-align: center;
-            color: white;
-            padding: 50px 20px;
-        }
-        
-        .loading-spinner {
-            border: 4px solid rgba(255,255,255,0.3);
-            border-top: 4px solid white;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+        .hidden { display: none !important; }
         
         .summary-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            background: var(--card-bg); border-radius: 16px; padding: 20px;
+            margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         
         .summary-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            border-bottom: 2px solid var(--border);
-            padding-bottom: 12px;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 15px; padding-bottom: 12px; border-bottom: 2px solid var(--border);
         }
         
-        .summary-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .summary-title { font-size: 1.2rem; font-weight: bold; color: var(--primary); }
         
         .refresh-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            background: var(--primary); color: white; border: none;
+            padding: 8px 16px; border-radius: 20px; font-size: 0.8rem;
+            cursor: pointer; transition: all 0.3s ease;
         }
-        
-        .refresh-btn:hover {
-            background: var(--secondary);
-            transform: scale(1.05);
-        }
+        .refresh-btn:hover { background: var(--secondary); transform: scale(1.05); }
         
         .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;
             margin-bottom: 15px;
         }
         
         .summary-item {
-            text-align: center;
-            padding: 15px 12px;
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-            border-radius: 12px;
-            border: 1px solid var(--border);
+            text-align: center; padding: 15px; background: #f8fafc;
+            border-radius: 12px; border: 1px solid var(--border);
         }
         
-        .summary-value {
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: var(--primary);
-            margin-bottom: 5px;
-            line-height: 1.2;
-        }
+        .summary-value { font-size: 1.4rem; font-weight: bold; color: var(--primary); margin-bottom: 5px; }
+        .summary-label { font-size: 0.85rem; color: var(--text-sub); font-weight: 500; }
         
-        .summary-label {
-            font-size: 0.85rem;
-            color: var(--text-sub);
-            font-weight: 500;
-        }
-        
-        .turbulence-summary {
-            padding: 12px;
+        .turb-summary {
+            display: flex; justify-content: space-around; padding: 12px;
             background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-            border-radius: 10px;
-            display: flex;
-            justify-content: space-around;
-            border: 1px solid #bae6fd;
+            border-radius: 10px; border: 1px solid #bae6fd;
         }
         
-        .turb-item {
-            text-align: center;
-        }
-        
-        .turb-label {
-            font-size: 0.75rem;
-            color: #0c4a6e;
-            font-weight: 600;
-            display: block;
-        }
-        
-        .turb-value {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #0369a1;
-        }
+        .turb-item { text-align: center; }
+        .turb-label { font-size: 0.75rem; color: #0c4a6e; font-weight: 600; display: block; }
+        .turb-value { font-size: 1.1rem; font-weight: bold; color: #0369a1; }
         
         .strategy-card {
             background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            border: 2px solid #bae6fd;
+            border-radius: 16px; padding: 20px; margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 2px solid #bae6fd;
         }
         
-        .strategy-content {
-            font-size: 0.9rem;
-            color: #0c4a6e;
-            line-height: 1.8;
-        }
-        
+        .strategy-content { font-size: 0.9rem; color: #0c4a6e; line-height: 1.8; }
         .strategy-content p {
-            margin-bottom: 12px;
-            padding-left: 12px;
-            border-left: 3px solid #0ea5e9;
+            margin-bottom: 12px; padding-left: 12px; border-left: 3px solid #0ea5e9;
         }
-        
-        .strategy-content strong {
-            color: #0369a1;
-            font-weight: 700;
-        }
+        .strategy-content strong { color: #0369a1; font-weight: 700; }
         
         .race-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            overflow: hidden;
-            transition: all 0.3s ease;
-            border: 1px solid var(--border);
+            background: white; border-radius: 16px; margin-bottom: 25px;
+            overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 1px solid var(--border); transition: all 0.3s ease;
         }
-        
-        .race-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
+        .race-card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
         
         .race-header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-            padding: 18px 20px;
+            color: white; padding: 18px 20px;
         }
         
-        .race-title {
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
+        .race-title { font-weight: bold; font-size: 1.3rem; margin-bottom: 8px; }
         
-        .race-info {
-            font-size: 0.9rem;
-            opacity: 0.95;
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            flex-wrap: wrap;
+        .race-meta {
+            font-size: 0.9rem; opacity: 0.95; display: flex; gap: 12px;
+            align-items: center; flex-wrap: wrap;
         }
         
         .badge {
-            background: rgba(255,255,255,0.2);
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 500;
+            background: rgba(255,255,255,0.2); padding: 4px 10px;
+            border-radius: 6px; font-size: 0.8rem; font-weight: 500;
         }
         
-        .badge.turb-low { background: rgba(16, 185, 129, 0.3); }
-        .badge.turb-mid { background: rgba(245, 158, 11, 0.3); }
-        .badge.turb-high { background: rgba(239, 68, 68, 0.3); }
-        
-        .predictions-section {
-            padding: 20px;
-        }
+        .predictions-section { padding: 20px; }
         
         .section-title {
-            font-size: 1rem;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 1rem; font-weight: bold; margin-bottom: 15px;
+            color: var(--text-main); display: flex; align-items: center; gap: 8px;
         }
         
         .horse-row {
-            display: flex;
-            align-items: flex-start;
-            padding: 15px;
-            margin-bottom: 15px;
-            background: #f8fafc;
-            border-radius: 12px;
-            border-left: 4px solid var(--border);
+            padding: 15px; margin-bottom: 15px; background: #f8fafc;
+            border-radius: 12px; border-left: 4px solid var(--border);
             transition: all 0.3s ease;
         }
-        
-        .horse-row:hover {
-            transform: translateX(5px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
+        .horse-row:hover { transform: translateX(5px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         
         .horse-row.rank-1 {
             border-left-color: var(--error);
             background: linear-gradient(90deg, #fef2f2 0%, #f8fafc 100%);
         }
-        
         .horse-row.rank-2 {
             border-left-color: #3b82f6;
             background: linear-gradient(90deg, #eff6ff 0%, #f8fafc 100%);
         }
-        
         .horse-row.rank-3 {
             border-left-color: var(--success);
             background: linear-gradient(90deg, #f0fdf4 0%, #f8fafc 100%);
         }
         
-        .rank-badge {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: white;
-            margin-right: 15px;
-            flex-shrink: 0;
+        .horse-header {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            margin-bottom: 12px;
         }
         
+        .horse-title { display: flex; align-items: center; gap: 10px; }
+        
+        .rank-badge {
+            width: 35px; height: 35px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: bold; font-size: 1.2rem; flex-shrink: 0;
+        }
         .rank-badge.rank-1 { background: var(--error); }
         .rank-badge.rank-2 { background: #3b82f6; }
         .rank-badge.rank-3 { background: var(--success); }
         
-        .horse-info {
-            flex-grow: 1;
-            min-width: 0;
-        }
+        .horse-name { font-weight: bold; font-size: 1.1rem; color: var(--text-main); }
         
-        .horse-name {
-            font-weight: bold;
-            font-size: 1.1rem;
-            color: var(--text-main);
-            margin-bottom: 5px;
-        }
-        
-        .horse-details {
-            font-size: 0.85rem;
-            color: var(--text-sub);
-            margin-bottom: 12px;
-        }
-        
-        .score-display {
-            text-align: right;
-            flex-shrink: 0;
-            margin-left: 15px;
-        }
-        
-        .total-score {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: var(--primary);
-            margin-bottom: 3px;
-        }
+        .score-display { text-align: right; }
+        .total-score { font-size: 1.3rem; font-weight: bold; color: var(--primary); margin-bottom: 3px; }
         
         .confidence-badge {
-            font-size: 0.75rem;
-            padding: 3px 8px;
-            border-radius: 10px;
-            font-weight: 600;
+            font-size: 0.75rem; padding: 3px 8px; border-radius: 10px; font-weight: 600;
         }
-        
         .conf-high { background: #dcfce7; color: #166534; }
         .conf-mid { background: #fef3c7; color: #92400e; }
         .conf-low { background: #fee2e2; color: #991b1b; }
         
         .score-breakdown {
-            margin-top: 10px;
-            padding: 12px;
-            background: white;
-            border-radius: 8px;
-            border: 1px solid var(--border);
+            background: white; padding: 12px; border-radius: 8px;
+            border: 1px solid var(--border); margin-top: 10px;
         }
         
         .score-breakdown-title {
-            font-size: 0.85rem;
-            font-weight: bold;
-            color: var(--text-main);
+            font-size: 0.85rem; font-weight: bold; color: var(--text-main);
             margin-bottom: 8px;
         }
         
-        .score-bars {
-            display: grid;
-            gap: 6px;
-        }
+        .score-bars { display: grid; gap: 6px; }
         
-        .score-bar {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .score-bar { display: flex; align-items: center; gap: 8px; }
         
         .score-label {
-            font-size: 0.75rem;
-            color: var(--text-sub);
-            min-width: 60px;
-            font-weight: 500;
+            font-size: 0.75rem; color: var(--text-sub);
+            min-width: 70px; font-weight: 500;
         }
         
         .score-progress {
-            flex-grow: 1;
-            height: 16px;
-            background: #e2e8f0;
-            border-radius: 8px;
-            overflow: hidden;
-            position: relative;
+            flex-grow: 1; height: 16px; background: #e2e8f0;
+            border-radius: 8px; overflow: hidden; position: relative;
         }
         
         .score-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 8px;
-            transition: width 0.8s ease;
+            height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 8px; transition: width 0.8s ease;
         }
         
         .score-value {
-            font-size: 0.75rem;
-            font-weight: bold;
-            color: var(--text-main);
-            min-width: 30px;
-            text-align: right;
+            font-size: 0.75rem; font-weight: bold; color: var(--text-main);
+            min-width: 40px; text-align: right;
         }
         
-        .hidden { 
-            display: none !important; 
+        .betting-section {
+            padding: 20px; background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border-top: 1px solid #fcd34d;
+        }
+        
+        .betting-title {
+            font-size: 1rem; font-weight: bold; color: #92400e;
+            margin-bottom: 15px; display: flex; align-items: center; gap: 8px;
+        }
+        
+        .betting-box {
+            background: white; padding: 15px; border-radius: 10px;
+            border: 2px dashed #f59e0b; box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .betting-type {
+            font-size: 0.9rem; color: #92400e; font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .betting-combo {
+            font-size: 1.1rem; font-weight: bold; color: #b45309;
+            margin-bottom: 10px; padding: 8px; background: #fef3c7;
+            border-radius: 6px; text-align: center;
+        }
+        
+        .betting-investment {
+            display: flex; justify-content: space-between; padding-top: 10px;
+            border-top: 1px dashed #fcd34d; font-size: 0.9rem; color: #78350f;
         }
         
         @media (max-width: 480px) {
             .container { padding: 0 5px; }
             .header h1 { font-size: 1.6rem; }
             .summary-grid { grid-template-columns: 1fr; }
-            .race-info { flex-direction: column; align-items: flex-start; }
-            .horse-row { flex-direction: column; }
-            .score-display { margin-left: 0; margin-top: 10px; text-align: left; }
-            .score-label { min-width: 50px; font-size: 0.7rem; }
+            .race-meta { flex-direction: column; align-items: flex-start; }
+            .score-label { min-width: 60px; font-size: 0.7rem; }
         }
     </style>
 </head>
@@ -556,46 +279,14 @@
             </a>
         </div>
         
-        <div id="configSection" class="config-card">
-            <div class="config-title">⚙️ システム設定（自動保存）</div>
-            
-            <div class="input-group">
-                <label class="input-label">GitHubユーザー名</label>
-                <input 
-                    type="text" 
-                    id="githubUser" 
-                    class="input-field" 
-                    placeholder="aipapa247272"
-                    autocomplete="username">
-            </div>
-            
-            <div class="input-group">
-                <label class="input-label">リポジトリ名</label>
-                <input 
-                    type="text" 
-                    id="githubRepo" 
-                    class="input-field" 
-                    placeholder="keiba-auto-gist-updater"
-                    autocomplete="off">
-            </div>
-            
-            <button class="btn" onclick="loadFromGitHub()" id="loadBtn">
-                🤖 AI厳選予想を取得
-            </button>
-            
-            <div id="statusMessage" class="status-message"></div>
-        </div>
-        
-        <div id="loadingSection" class="loading hidden">
-            <div class="loading-spinner"></div>
-            <p>AI分析システムが予想を読み込み中...</p>
-        </div>
+        <button class="btn" onclick="loadData()" id="loadBtn">🤖 AI厳選予想を取得</button>
+        <div id="statusMessage" class="status-message"></div>
         
         <div id="contentArea" class="hidden">
             <div class="summary-card">
                 <div class="summary-header">
                     <div class="summary-title">📊 本日のAI厳選予想</div>
-                    <button class="refresh-btn" onclick="loadFromGitHub()">🔄 更新</button>
+                    <button class="refresh-btn" onclick="loadData()">🔄 更新</button>
                 </div>
                 <div class="summary-grid">
                     <div class="summary-item">
@@ -603,26 +294,26 @@
                         <div class="summary-label">対象日</div>
                     </div>
                     <div class="summary-item">
-                        <div class="summary-value" id="selectedRacesCount">-</div>
+                        <div class="summary-value" id="selectedRaces">-</div>
                         <div class="summary-label">AI厳選レース</div>
                     </div>
                     <div class="summary-item">
-                        <div class="summary-value" id="totalRacesCount">-</div>
+                        <div class="summary-value" id="totalRaces">-</div>
                         <div class="summary-label">全レース数</div>
                     </div>
                     <div class="summary-item">
-                        <div class="summary-value">09:30</div>
-                        <div class="summary-label">更新時刻(JST)</div>
+                        <div class="summary-value" id="totalInvestment">-</div>
+                        <div class="summary-label">合計投資額</div>
                     </div>
                 </div>
-                <div class="turbulence-summary" id="turbulenceSummary"></div>
+                <div class="turb-summary" id="turbSummary"></div>
             </div>
 
             <div class="strategy-card">
                 <div class="summary-title" style="margin-bottom: 15px;">📘 DES予想戦略</div>
                 <div class="strategy-content">
                     <p><strong>🎯 厳選方針：</strong> 毎朝09:30に全レースからAIが的中率・回収率の高い<strong>3〜5レースを自動厳選</strong></p>
-                    <p><strong>📊 DESスコア：</strong> A.過去実績 / B.距離馬場適性 / C.騎手厩舎 / D.展開適性の4要素で総合評価</p>
+                    <p><strong>📊 4要素分析：</strong> 過去実績・距離馬場適性・騎手厩舎・展開適性の総合評価で信頼度判定</p>
                     <p><strong>💰 投資戦略：</strong> 競馬は「外れて当たり前」— <strong>週単位（月〜日）でのプラス収支</strong>を目標</p>
                     <p style="margin-bottom: 0;"><strong>🏇 対象：</strong> 平日は地方競馬メイン、週末は中央競馬メインで展開</p>
                 </div>
@@ -633,37 +324,149 @@
     </div>
 
     <script>
-        // 設定の読み込み
-        window.addEventListener('load', function() {
-            const savedUser = localStorage.getItem('githubUser');
-            const savedRepo = localStorage.getItem('githubRepo');
-            
-            if (savedUser) document.getElementById('githubUser').value = savedUser;
-            if (savedRepo) document.getElementById('githubRepo').value = savedRepo;
-            
-            // 設定が保存されている場合は自動読み込み
-            if (savedUser && savedRepo) {
-                setTimeout(() => loadFromGitHub(), 1000);
-            }
+        // 固定URL方式で設定不要
+        const API_URL = 'https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/latest_predictions.json';
+
+        // 起動時に自動実行
+        window.addEventListener('load', () => {
+            setTimeout(() => loadData(), 1000);
         });
 
-        // GitHubからデータ取得
-        async function loadFromGitHub() {
-            const user = document.getElementById('githubUser').value.trim();
-            const repo = document.getElementById('githubRepo').value.trim();
+        async function loadData() {
+            const btn = document.getElementById('loadBtn');
+            btn.disabled = true;
+            btn.textContent = 'AI分析中...';
+            showStatus('', '');
+
+            try {
+                console.log('Fetching from:', API_URL);
+                const res = await fetch(API_URL + '?t=' + Date.now(), { cache: 'no-cache' });
+                
+                if (!res.ok) {
+                    throw new Error(`HTTP ${res.status}: データが見つかりません`);
+                }
+                
+                const data = await res.json();
+                console.log('Data loaded successfully:', data);
+                
+                processData(data);
+                showStatus('✅ 最新のAI厳選予想を取得しました！', 'success');
+                
+            } catch (err) {
+                console.error('Error:', err);
+                showStatus(`❌ データの取得に失敗しました。<br><small>URL: ${API_URL}</small>`, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '🤖 AI厳選予想を取得';
+            }
+        }
+
+        function showStatus(msg, type) {
+            const el = document.getElementById('statusMessage');
+            if (!msg) { el.style.display = 'none'; return; }
+            el.innerHTML = msg;
+            el.className = 'status-message status-' + type;
+            el.style.display = 'block';
+            if (type === 'success') setTimeout(() => el.style.display = 'none', 5000);
+        }
+
+        function processData(data) {
+            document.getElementById('contentArea').classList.remove('hidden');
             
-            if (!user || !repo) {
-                showStatus('GitHubユーザー名とリポジトリ名を入力してください。', 'error');
+            const ymd = String(data.ymd || '');
+            const date = ymd.length === 8 ? 
+                `${ymd.slice(0,4)}/${ymd.slice(4,6)}/${ymd.slice(6,8)}` : '-';
+            document.getElementById('targetDate').textContent = date;
+
+            const summary = data.summary || {};
+            document.getElementById('selectedRaces').textContent = (summary.selected_races || 0) + 'R';
+            document.getElementById('totalRaces').textContent = (summary.total_races || 0) + 'R';
+            document.getElementById('totalInvestment').textContent = '¥' + (summary.total_investment || 0);
+
+            const turb = summary.turbulence || {};
+            document.getElementById('turbSummary').innerHTML = `
+                <div class="turb-item">
+                    <span class="turb-label">低乱度</span>
+                    <div class="turb-value">${turb['低'] || 0}R</div>
+                </div>
+                <div class="turb-item">
+                    <span class="turb-label">中乱度</span>
+                    <div class="turb-value">${turb['中'] || 0}R</div>
+                </div>
+                <div class="turb-item">
+                    <span class="turb-label">高乱度</span>
+                    <div class="turb-value">${turb['高'] || 0}R</div>
+                </div>
+            `;
+
+            renderRaces(data.selected_predictions || []);
+        }
+
+        function renderRaces(races) {
+            const container = document.getElementById('racesContainer');
+            container.innerHTML = '';
+            
+            if (races.length === 0) {
+                container.innerHTML = '<div class="status-message status-error" style="display:block;">本日はAI厳選レースがありません。</div>';
                 return;
             }
+
+            races.forEach((race, idx) => {
+                const card = document.createElement('div');
+                card.className = 'race-card';
+                
+                const raceInfo = race.race_info || {};
+                const predictions = race.predictions || {};
+                const betting = race.betting_suggestions?.main || {};
+                
+                // 上位3頭を抽出
+                const horses = [
+                    { ...predictions.honmei, mark: '◎', rank: 1 },
+                    { ...predictions.taikou, mark: '○', rank: 2 },
+                    { ...predictions.ana, mark: '▲', rank: 3 }
+                ].filter(h => h.馬名);
+                
+                card.innerHTML = `
+                    <div class="race-header">
+                        <div class="race-title">🏇 予想${idx + 1} - ${raceInfo.venue || race.競馬場} ${raceInfo.レース名 || 'R' + race.レース番号}</div>
+                        <div class="race-meta">
+                            <span class="badge">${raceInfo.距離 || race.距離}m</span>
+                            <span class="badge">${raceInfo.発走時刻 || race.発走時刻}発走</span>
+                            <span class="badge">波乱度:${race.turbulence || race.波乱度 || '-'}</span>
+                        </div>
+                    </div>
+                    <div class="predictions-section">
+                        <div class="section-title">🤖 AI分析TOP3（DESスコア順）</div>
+                        ${horses.map(h => createHorseRow(h)).join('')}
+                    </div>
+                    <div class="betting-section">
+                        <div class="betting-title">💰 DES推奨買い目</div>
+                        <div class="betting-box">
+                            <div class="betting-type">${betting.type || '三連複BOX'}</div>
+                            <div class="betting-combo">${betting.combinations || '◎-○-▲'}</div>
+                            <div class="betting-investment">
+                                <span>投資プラン</span>
+                                <span><strong>¥${(betting.total_investment || 100).toLocaleString()}</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+
+        function createHorseRow(horse) {
+            if (!horse || !horse.馬名) return '';
             
-            // 設定を保存
-            localStorage.setItem('githubUser', user);
-            localStorage.setItem('githubRepo', repo);
+            const total = horse.total_score || 0;
+            const confidence = horse.confidence || '不明';
             
-            // AI予想データのURL
-            const url = `https://raw.githubusercontent.com/${user}/${repo}/main/latest_predictions.json`;
+            const confClass = confidence === '高' ? 'conf-high' : 
+                             confidence === '中' ? 'conf-mid' : 'conf-low';
             
-            showLoading(true);
-            showStatus('', '');
-            
+            // 詳細スコアの取得（複数の可能性に対応）
+            const scores = [
+                { label: '過去実績', value: horse.experience_score || 0 },
+                { label: '距離適性', value: horse.distance_score || 0 },
+                { lab
