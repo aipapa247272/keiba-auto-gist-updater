@@ -244,6 +244,7 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
+            margin-bottom: 15px;
         }
         
         .summary-item {
@@ -266,6 +267,32 @@
             font-size: 0.85rem;
             color: var(--text-sub);
             font-weight: 500;
+        }
+        
+        .turbulence-summary {
+            padding: 12px;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-around;
+            border: 1px solid #bae6fd;
+        }
+        
+        .turb-item {
+            text-align: center;
+        }
+        
+        .turb-label {
+            font-size: 0.75rem;
+            color: #0c4a6e;
+            font-weight: 600;
+            display: block;
+        }
+        
+        .turb-value {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #0369a1;
         }
         
         .strategy-card {
@@ -338,6 +365,10 @@
             font-weight: 500;
         }
         
+        .badge.turb-low { background: rgba(16, 185, 129, 0.3); }
+        .badge.turb-mid { background: rgba(245, 158, 11, 0.3); }
+        .badge.turb-high { background: rgba(239, 68, 68, 0.3); }
+        
         .predictions-section {
             padding: 20px;
         }
@@ -354,9 +385,9 @@
         
         .horse-row {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             padding: 15px;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             background: #f8fafc;
             border-radius: 12px;
             border-left: 4px solid var(--border);
@@ -368,38 +399,38 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         
-        .horse-row.honmei {
+        .horse-row.rank-1 {
             border-left-color: var(--error);
             background: linear-gradient(90deg, #fef2f2 0%, #f8fafc 100%);
         }
         
-        .horse-row.taikou {
+        .horse-row.rank-2 {
             border-left-color: #3b82f6;
             background: linear-gradient(90deg, #eff6ff 0%, #f8fafc 100%);
         }
         
-        .horse-row.ana {
+        .horse-row.rank-3 {
             border-left-color: var(--success);
             background: linear-gradient(90deg, #f0fdf4 0%, #f8fafc 100%);
         }
         
-        .mark-circle {
+        .rank-badge {
             width: 40px;
             height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: bold;
             color: white;
             margin-right: 15px;
             flex-shrink: 0;
         }
         
-        .mark-circle.honmei { background: var(--error); }
-        .mark-circle.taikou { background: #3b82f6; }
-        .mark-circle.ana { background: var(--success); }
+        .rank-badge.rank-1 { background: var(--error); }
+        .rank-badge.rank-2 { background: #3b82f6; }
+        .rank-badge.rank-3 { background: var(--success); }
         
         .horse-info {
             flex-grow: 1;
@@ -416,74 +447,88 @@
         .horse-details {
             font-size: 0.85rem;
             color: var(--text-sub);
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
+            margin-bottom: 12px;
         }
         
-        .odds-display {
+        .score-display {
             text-align: right;
             flex-shrink: 0;
+            margin-left: 15px;
         }
         
-        .odds-value {
-            font-size: 1.2rem;
+        .total-score {
+            font-size: 1.3rem;
             font-weight: bold;
             color: var(--primary);
             margin-bottom: 3px;
         }
         
-        .popularity {
+        .confidence-badge {
             font-size: 0.75rem;
-            color: var(--text-sub);
-            background: #e2e8f0;
             padding: 3px 8px;
             border-radius: 10px;
+            font-weight: 600;
         }
         
-        .betting-section {
-            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-            padding: 20px;
-            border-top: 1px solid #fcd34d;
+        .conf-high { background: #dcfce7; color: #166534; }
+        .conf-mid { background: #fef3c7; color: #92400e; }
+        .conf-low { background: #fee2e2; color: #991b1b; }
+        
+        .score-breakdown {
+            margin-top: 10px;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--border);
         }
         
-        .betting-title {
-            font-size: 1rem;
+        .score-breakdown-title {
+            font-size: 0.85rem;
             font-weight: bold;
-            color: #92400e;
-            margin-bottom: 15px;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+        
+        .score-bars {
+            display: grid;
+            gap: 6px;
+        }
+        
+        .score-bar {
             display: flex;
             align-items: center;
             gap: 8px;
         }
         
-        .betting-box {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            border: 2px dashed #f59e0b;
-            text-align: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        .score-label {
+            font-size: 0.75rem;
+            color: var(--text-sub);
+            min-width: 60px;
+            font-weight: 500;
         }
         
-        .betting-type {
-            font-size: 0.9rem;
-            color: #92400e;
-            font-weight: 600;
-            margin-bottom: 8px;
+        .score-progress {
+            flex-grow: 1;
+            height: 16px;
+            background: #e2e8f0;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
         }
         
-        .betting-combo {
-            font-size: 1.2rem;
+        .score-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 8px;
+            transition: width 0.8s ease;
+        }
+        
+        .score-value {
+            font-size: 0.75rem;
             font-weight: bold;
-            color: #b45309;
-            margin-bottom: 8px;
-        }
-        
-        .betting-note {
-            font-size: 0.8rem;
-            color: #78350f;
-            font-style: italic;
+            color: var(--text-main);
+            min-width: 30px;
+            text-align: right;
         }
         
         .hidden { 
@@ -495,7 +540,9 @@
             .header h1 { font-size: 1.6rem; }
             .summary-grid { grid-template-columns: 1fr; }
             .race-info { flex-direction: column; align-items: flex-start; }
-            .horse-details { flex-direction: column; gap: 5px; }
+            .horse-row { flex-direction: column; }
+            .score-display { margin-left: 0; margin-top: 10px; text-align: left; }
+            .score-label { min-width: 50px; font-size: 0.7rem; }
         }
     </style>
 </head>
@@ -503,14 +550,14 @@
     <div class="container">
         <div class="header">
             <h1>🏇 DES_AI競馬予想</h1>
-            <p>デュアル・エッジ・システム - 週単位プラス収支を目指す戦略的AI予想</p>
+            <p>デュアル・エッジ・システム - 週単位プラス収支を目指すAI戦略予想</p>
             <a href="https://x.com/AIkeibayosouDES" target="_blank" class="x-link">
                 📱 公式X: @AIkeibayosouDES
             </a>
         </div>
         
         <div id="configSection" class="config-card">
-            <div class="config-title">⚙️ 初回設定（自動保存されます）</div>
+            <div class="config-title">⚙️ システム設定（自動保存）</div>
             
             <div class="input-group">
                 <label class="input-label">GitHubユーザー名</label>
@@ -533,7 +580,7 @@
             </div>
             
             <button class="btn" onclick="loadFromGitHub()" id="loadBtn">
-                🌐 最新予想データを取得
+                🤖 AI厳選予想を取得
             </button>
             
             <div id="statusMessage" class="status-message"></div>
@@ -541,13 +588,13 @@
         
         <div id="loadingSection" class="loading hidden">
             <div class="loading-spinner"></div>
-            <p>最新レースデータを分析中...</p>
+            <p>AI分析システムが予想を読み込み中...</p>
         </div>
         
         <div id="contentArea" class="hidden">
             <div class="summary-card">
                 <div class="summary-header">
-                    <div class="summary-title">📊 本日のDES厳選予想</div>
+                    <div class="summary-title">📊 本日のAI厳選予想</div>
                     <button class="refresh-btn" onclick="loadFromGitHub()">🔄 更新</button>
                 </div>
                 <div class="summary-grid">
@@ -557,7 +604,7 @@
                     </div>
                     <div class="summary-item">
                         <div class="summary-value" id="selectedRacesCount">-</div>
-                        <div class="summary-label">厳選レース数</div>
+                        <div class="summary-label">AI厳選レース</div>
                     </div>
                     <div class="summary-item">
                         <div class="summary-value" id="totalRacesCount">-</div>
@@ -565,16 +612,17 @@
                     </div>
                     <div class="summary-item">
                         <div class="summary-value">09:30</div>
-                        <div class="summary-label">更新時刻</div>
+                        <div class="summary-label">更新時刻(JST)</div>
                     </div>
                 </div>
+                <div class="turbulence-summary" id="turbulenceSummary"></div>
             </div>
 
             <div class="strategy-card">
                 <div class="summary-title" style="margin-bottom: 15px;">📘 DES予想戦略</div>
                 <div class="strategy-content">
-                    <p><strong>🎯 厳選方針：</strong> 毎朝09:30に全レースから的中率・回収率の高い<strong>3〜5レースを厳選</strong></p>
-                    <p><strong>📊 分析基準：</strong> オッズ・人気・頭数から「堅い」レースを優先選定（1番人気3倍以下、5頭以上）</p>
+                    <p><strong>🎯 厳選方針：</strong> 毎朝09:30に全レースからAIが的中率・回収率の高い<strong>3〜5レースを自動厳選</strong></p>
+                    <p><strong>📊 DESスコア：</strong> A.過去実績 / B.距離馬場適性 / C.騎手厩舎 / D.展開適性の4要素で総合評価</p>
                     <p><strong>💰 投資戦略：</strong> 競馬は「外れて当たり前」— <strong>週単位（月〜日）でのプラス収支</strong>を目標</p>
                     <p style="margin-bottom: 0;"><strong>🏇 対象：</strong> 平日は地方競馬メイン、週末は中央競馬メインで展開</p>
                 </div>
@@ -613,51 +661,9 @@
             localStorage.setItem('githubUser', user);
             localStorage.setItem('githubRepo', repo);
             
-            const url = `https://raw.githubusercontent.com/${user}/${repo}/main/latest_race_data.json`;
+            // AI予想データのURL
+            const url = `https://raw.githubusercontent.com/${user}/${repo}/main/latest_predictions.json`;
             
             showLoading(true);
             showStatus('', '');
             
-            const loadBtn = document.getElementById('loadBtn');
-            loadBtn.disabled = true;
-            loadBtn.textContent = '分析中...';
-            
-            try {
-                const response = await fetch(url + '?t=' + Date.now());
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: データが見つかりません`);
-                }
-                
-                const data = await response.json();
-                processAndDisplayData(data);
-                showStatus('✅ 最新の厳選予想を取得しました！', 'success');
-            } catch (error) {
-                showStatus(
-                    '❌ データの取得に失敗しました。<br>設定を確認して再試行してください。',
-                    'error'
-                );
-                console.error('Fetch Error:', error);
-            } finally {
-                showLoading(false);
-                loadBtn.disabled = false;
-                loadBtn.textContent = '🌐 最新予想データを取得';
-            }
-        }
-
-        function showLoading(show) {
-            document.getElementById('loadingSection').classList.toggle('hidden', !show);
-            if (show) {
-                document.getElementById('contentArea').classList.add('hidden');
-            }
-        }
-
-        function showStatus(message, type) {
-            const statusEl = document.getElementById('statusMessage');
-            if (!message) {
-                statusEl.style.display = 'none';
-                return;
-            }
-            
-            statusEl.className = `status-message status-${type}`;
-            statusEl.innerH
