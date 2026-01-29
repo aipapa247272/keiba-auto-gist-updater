@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-レース結果自動取得スクリプト（Phase 3-1 修正版 v2）
+レース結果自動取得スクリプト（Phase 3-1 修正版 v3）
 
 修正内容:
-- 新しい selected_predictions のデータ構造に対応
-- horses 配列から上位3頭を取得
-- predictions キーを使用しないロジックに変更
+- NAR NetKeiba SP版のURL対応
+- HTMLパース処理の改善（複数パターン対応）
+- デバッグログの追加
 """
 
 import os
@@ -17,7 +17,7 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 
-# NAR NetKeibaのURL
+# NAR NetKeiba SP版のURL
 NAR_RESULT_URL = "https://nar.sp.netkeiba.com/race/race_result.html"
 
 def fetch_race_result(race_id, timeout=30, max_retries=3):
@@ -46,28 +46,49 @@ def fetch_race_result(race_id, timeout=30, max_retries=3):
             response.raise_for_status()
             soup = BeautifulSoup(response.content, 'html.parser')
             
-            # 着順を取得
-            result_table = soup.find('table', class_='All_Result_Table') or soup.find('table', class_='ResultMain')
-            if not result_table:
-                print(f"[WARNING] 着順テーブルが見つかりません: {race_id}")
-                return None
-            
+            # 着順を取得（複数パターン対応）
             finishing_order = []
-            rows = result_table.find_all('tr')[1:]  # ヘッダー行をスキップ
-            for row in rows[:3]:  # 上位3着のみ
-                cells = row.find_all('td')
-                if len(cells) >= 2:
-                    umaban = cells[1].get_text(strip=True)
-                    finishing_order.append(umaban)
+            
+            # パターン1: PC版のテーブル
+            result_table = soup.find('table', class_='All_Result_Table') or soup.find('table', class_='ResultMain')
+            
+            # パターン2: SP版のテーブル
+            if not result_table:
+                result_table = soup.find('table', class_='result_table') or soup.find('table', class_='RaceResultTable')
+            
+            # パターン3: その他のテーブル（class属性なし）
+            if not result_table:
+                result_table = soup.find('table')
+            
+            if result_table:
+                rows = result_table.find_all('tr')
+                for row in rows:
+                    cells = row.find_all('td')
+                    if len(cells) >= 2:
+                        # 1列目が着順、2列目が馬番のパターン
+                        chakujun = cells[0].get_text(strip=True)
+                        umaban = cells[1].get_text(strip=True)
+                        
+                        # 着順が数字（1,2,3）の場合のみ追加
+                        if chakujun in ['1', '2', '3']:
+                            finishing_order.append(umaban)
+                        
+                        if len(finishing_order) >= 3:
+                            break
             
             if len(finishing_order) < 3:
                 print(f"[WARNING] 着順データが不完全: {race_id} - {finishing_order}")
+                print(f"[DEBUG] HTML構造:")
+                print(f"  テーブル数: {len(soup.find_all('table'))}")
+                if result_table:
+                    print(f"  行数: {len(result_table.find_all('tr'))}")
                 return None
             
             # 三連複払戻を取得
-            payout_tables = soup.find_all('table', class_='Payout_Detail_Table')
             sanrenpuku_payout = 0
             
+            # パターン1: Payout_Detail_Table
+            payout_tables = soup.find_all('table', class_='Payout_Detail_Table')
             if len(payout_tables) >= 2:
                 second_table = payout_tables[1]
                 rows = second_table.find_all('tr')
@@ -78,8 +99,23 @@ def fetch_race_result(race_id, timeout=30, max_retries=3):
                         try:
                             sanrenpuku_payout = int(payout_text)
                         except ValueError:
-                            print(f"[WARNING] 払戻金額の解析失敗: {payout_text}")
+                            pass
                         break
+            
+            # パターン2: SP版の払戻テーブル
+            if sanrenpuku_payout == 0:
+                payout_tables = soup.find_all('table', class_='payout_table')
+                for table in payout_tables:
+                    rows = table.find_all('tr')
+                    for row in rows:
+                        cells = row.find_all('td')
+                        if len(cells) >= 2 and '三連複' in cells[0].get_text():
+                            payout_text = cells[1].get_text(strip=True).replace(',', '').replace('円', '')
+                            try:
+                                sanrenpuku_payout = int(payout_text)
+                            except ValueError:
+                                pass
+                            break
             
             result = {
                 'finishing_order': finishing_order,
