@@ -1,0 +1,72 @@
+{
+  "date": "20260129",
+  "generated_at": "2026-01-29 17:27:21",
+  "summary": {
+    "total_races": 5,
+    "hit_count": 0,
+    "miss_count": 0,
+    "unavailable_count": 5,
+    "total_investment": 0,
+    "total_return": 0,
+    "total_profit": 0,
+    "hit_rate": 0.0,
+    "recovery_rate": 0
+  },
+  "results": [
+    {
+      "race_id": "202651012904",
+      "venue": "Unknown",
+      "race_num": "Unknown",
+      "race_name": "Unknown",
+      "status": "結果取得不可",
+      "hit": false,
+      "investment": 0,
+      "payout": 0,
+      "profit": 0
+    },
+    {
+      "race_id": "202655012904",
+      "venue": "Unknown",
+      "race_num": "Unknown",
+      "race_name": "Unknown",
+      "status": "結果取得不可",
+      "hit": false,
+      "investment": 0,
+      "payout": 0,
+      "profit": 0
+    },
+    {
+      "race_id": "202655012905",
+      "venue": "Unknown",
+      "race_num": "Unknown",
+      "race_name": "Unknown",
+      "status": "結果取得不可",
+      "hit": false,
+      "investment": 0,
+      "payout": 0,
+      "profit": 0
+    },
+    {
+      "race_id": "202655012911",
+      "venue": "Unknown",
+      "race_num": "Unknown",
+      "race_name": "Unknown",
+      "status": "結果取得不可",
+      "hit": false,
+      "investment": 0,
+      "payout": 0,
+      "profit": 0
+    },
+    {
+      "race_id": "202644012901",
+      "venue": "Unknown",
+      "race_num": "Unknown",
+      "race_name": "Unknown",
+      "status": "結果取得不可",
+      "hit": false,
+      "investment": 0,
+      "payout": 0,
+      "profit": 0
+    }
+  ]
+}
