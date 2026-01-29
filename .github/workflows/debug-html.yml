@@ -26,7 +26,7 @@ jobs:
           python scripts/debug_html.py
       
       - name: Upload HTML file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: race-result-html
           path: race_result_full.html
