@@ -1,6 +1,6 @@
 {
   "date": "20260130",
-  "generated_at": "2026-01-29T16:52:03.867142",
+  "generated_at": "2026-01-29 17:21:04",
   "summary": {
     "total_races": 5,
     "hit_count": 0,
@@ -10,43 +10,63 @@
     "total_return": 0,
     "total_profit": 0,
     "hit_rate": 0.0,
-    "recovery_rate": 0.0
+    "recovery_rate": 0
   },
   "results": [
     {
       "race_id": "202644013007",
-      "race_name": "N/A N/A",
-      "result_available": false,
-      "status": "unavailable",
-      "note": "結果取得不可"
+      "venue": "Unknown",
+      "race_num": "Unknown",
+      "race_name": "Unknown",
+      "status": "結果取得不可",
+      "hit": false,
+      "investment": 0,
+      "payout": 0,
+      "profit": 0
     },
     {
       "race_id": "202644013008",
-      "race_name": "N/A N/A",
-      "result_available": false,
-      "status": "unavailable",
-      "note": "結果取得不可"
+      "venue": "Unknown",
+      "race_num": "Unknown",
+      "race_name": "Unknown",
+      "status": "結果取得不可",
+      "hit": false,
+      "investment": 0,
+      "payout": 0,
+      "profit": 0
     },
     {
       "race_id": "202648013010",
-      "race_name": "N/A N/A",
-      "result_available": false,
-      "status": "unavailable",
-      "note": "結果取得不可"
+      "venue": "Unknown",
+      "race_num": "Unknown",
+      "race_name": "Unknown",
+      "status": "結果取得不可",
+      "hit": false,
+      "investment": 0,
+      "payout": 0,
+      "profit": 0
     },
     {
       "race_id": "202648013011",
-      "race_name": "N/A N/A",
-      "result_available": false,
-      "status": "unavailable",
-      "note": "結果取得不可"
+      "venue": "Unknown",
+      "race_num": "Unknown",
+      "race_name": "Unknown",
+      "status": "結果取得不可",
+      "hit": false,
+      "investment": 0,
+      "payout": 0,
+      "profit": 0
     },
     {
       "race_id": "202644013011",
-      "race_name": "N/A N/A",
-      "result_available": false,
-      "status": "unavailable",
-      "note": "結果取得不可"
+      "venue": "Unknown",
+      "race_num": "Unknown",
+      "race_name": "Unknown",
+      "status": "結果取得不可",
+      "hit": false,
+      "investment": 0,
+      "payout": 0,
+      "profit": 0
     }
   ]
 }
