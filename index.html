@@ -27,97 +27,111 @@
             min-height: 100vh;
             padding: 0;
             line-height: 1.6;
+            overflow-x: hidden;
         }
         
-        .container { max-width: 600px; margin: 0 auto; }
+        .container { 
+            max-width: 600px; 
+            margin: 0 auto;
+            width: 100%;
+        }
         
         /* ヘッダー背景画像 */
+        .header-wrapper {
+            width: 100%;
+            overflow: hidden;
+        }
+        
         .header-bg {
             width: 100%;
             height: auto;
             display: block;
-            margin-bottom: -50px;
         }
         
         /* ヘッダーコンテンツ */
         .header {
             text-align: center;
             color: white;
-            padding: 0 15px 20px;
+            padding: 20px 15px;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--primary) 100%);
         }
         
         .header h1 {
-            font-size: 1.8rem;
-            margin-bottom: 12px;
+            font-size: 1.6rem;
+            margin-bottom: 10px;
             text-shadow: 0 4px 8px rgba(0,0,0,0.7);
             font-weight: bold;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
         
         .header p {
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             text-shadow: 0 2px 6px rgba(0,0,0,0.8);
-            line-height: 1.6;
+            line-height: 1.5;
             margin-bottom: 15px;
         }
         
         .x-link {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            padding: 10px 24px;
+            gap: 8px;
+            padding: 10px 20px;
             background: rgba(0, 212, 255, 0.2);
             border: 2px solid rgba(0, 212, 255, 0.5);
             border-radius: 30px;
             color: white;
             text-decoration: none;
             font-weight: 600;
+            font-size: 0.9rem;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
         }
         
-        .x-link:hover {
-            background: rgba(0, 212, 255, 0.4);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.5);
+        .x-link:active {
+            transform: scale(0.95);
         }
         
         .x-icon {
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
             border-radius: 50%;
+            flex-shrink: 0;
         }
         
         /* タブナビゲーション */
         .tab-nav {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             margin: 15px 10px;
             background: rgba(26, 77, 122, 0.3);
-            padding: 8px;
+            padding: 6px;
             border-radius: 16px;
             backdrop-filter: blur(10px);
         }
         
         .tab-btn {
             flex: 1;
-            padding: 14px 8px;
+            padding: 12px 6px;
             border: none;
             background: transparent;
             color: white;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
             opacity: 0.7;
+            -webkit-tap-highlight-color: transparent;
         }
         
         .tab-btn.active {
             background: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%);
-            color: white;
             opacity: 1;
             box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+        }
+        
+        .tab-btn:active {
+            transform: scale(0.95);
         }
         
         .tab-content { 
@@ -140,8 +154,6 @@
         .status-box.success { background: #dcfce7; color: #166534; }
         .status-box.error { background: #fee2e2; color: #991b1b; }
         
-        .hidden { display: none !important; }
-        
         .content-card {
             background: white;
             border-radius: 16px;
@@ -160,7 +172,7 @@
         }
         
         .summary-title {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: bold;
             color: var(--primary);
         }
@@ -169,11 +181,11 @@
             background: var(--accent);
             color: white;
             border: none;
-            padding: 8px 16px;
+            padding: 8px 14px;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             cursor: pointer;
-            transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
         }
         
         .refresh-btn:active {
@@ -183,20 +195,20 @@
         .summary-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            gap: 12px;
             margin-bottom: 15px;
         }
         
         .summary-item {
             text-align: center;
-            padding: 15px;
+            padding: 12px;
             background: #f8fafc;
             border-radius: 10px;
             border: 1px solid var(--border);
         }
         
         .summary-value {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: bold;
             color: var(--primary);
             margin-bottom: 5px;
@@ -206,7 +218,7 @@
         .summary-value.error { color: var(--error); }
         
         .summary-label {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-sub);
         }
         
@@ -219,8 +231,8 @@
         }
         
         .turb-item { text-align: center; }
-        .turb-label { font-size: 0.75rem; color: var(--primary); font-weight: 600; }
-        .turb-value { font-size: 1.1rem; font-weight: bold; color: var(--secondary); }
+        .turb-label { font-size: 0.7rem; color: var(--primary); font-weight: 600; }
+        .turb-value { font-size: 1rem; font-weight: bold; color: var(--secondary); }
         
         .race-card {
             background: white;
@@ -233,7 +245,7 @@
         .race-header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
-            padding: 18px 20px;
+            padding: 16px;
         }
         
         .race-header.hit {
@@ -245,32 +257,32 @@
         }
         
         .race-title {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: bold;
             margin-bottom: 6px;
         }
         
         .race-meta {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             opacity: 0.95;
         }
         
         .predictions-section, .results-section {
-            padding: 20px;
+            padding: 16px;
         }
         
         .section-title {
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: bold;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             color: var(--text-main);
         }
         
         .horse-row {
             display: flex;
             align-items: center;
-            padding: 15px;
-            margin-bottom: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
             background: #f8fafc;
             border-radius: 12px;
             border-left: 4px solid var(--border);
@@ -292,16 +304,16 @@
         }
         
         .rank-badge {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: bold;
-            font-size: 1.3rem;
-            margin-right: 15px;
+            font-size: 1.2rem;
+            margin-right: 12px;
             flex-shrink: 0;
         }
         
@@ -309,53 +321,72 @@
         .rank-badge.rank-2 { background: #3b82f6; }
         .rank-badge.rank-3 { background: var(--success); }
         
-        .horse-info { flex-grow: 1; }
-        .horse-name { font-weight: bold; font-size: 1.1rem; margin-bottom: 5px; }
-        .horse-detail { font-size: 0.85rem; color: var(--text-sub); }
-        
-        .score-display { text-align: right; margin-left: 15px; flex-shrink: 0; }
-        .total-score { 
-            font-size: 1.2rem; 
+        .horse-info { flex-grow: 1; min-width: 0; }
+        .horse-name { 
             font-weight: bold; 
-            color: var(--primary); 
-            margin-bottom: 3px;
+            font-size: 1rem; 
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .horse-detail { 
+            font-size: 0.8rem; 
+            color: var(--text-sub);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .score-display { 
+            text-align: right; 
+            margin-left: 10px; 
+            flex-shrink: 0;
+        }
+        .total-score { 
+            font-size: 1.1rem; 
+            font-weight: bold; 
+            color: var(--primary);
         }
         .popularity { 
-            font-size: 0.75rem; 
+            font-size: 0.7rem; 
             color: var(--text-sub);
             background: #e2e8f0;
-            padding: 3px 8px;
-            border-radius: 10px;
+            padding: 2px 6px;
+            border-radius: 8px;
+            margin-top: 2px;
+            display: inline-block;
         }
         
         .betting-section {
-            padding: 20px;
+            padding: 16px;
             background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
             border-top: 1px solid #fcd34d;
         }
         
         .betting-title {
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: bold;
             color: #92400e;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
         
         .betting-box {
             background: white;
-            padding: 15px;
+            padding: 12px;
             border-radius: 10px;
             border: 2px dashed #f59e0b;
             text-align: center;
+            font-size: 0.9rem;
         }
         
         .result-badge {
             display: inline-block;
-            padding: 6px 16px;
-            border-radius: 20px;
+            padding: 5px 12px;
+            border-radius: 16px;
             font-weight: bold;
-            font-size: 0.9rem;
-            margin-left: 10px;
+            font-size: 0.8rem;
+            margin-left: 8px;
         }
         
         .result-badge.hit { background: var(--success); color: white; }
@@ -364,52 +395,50 @@
         .comparison-row {
             display: flex;
             justify-content: space-between;
-            padding: 12px 15px;
-            margin-bottom: 10px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
             background: #f8fafc;
-            border-radius: 10px;
+            border-radius: 8px;
         }
         
         .comparison-label {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-sub);
             font-weight: 600;
         }
         
         .comparison-value {
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: bold;
             color: var(--text-main);
-        }
-        
-        @media (max-width: 480px) {
-            .summary-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <!-- ヘッダー背景画像 -->
-        <img src="https://www.genspark.ai/api/files/s/UO3vtwJQ" alt="DES Header" class="header-bg">
+        <div class="header-wrapper">
+            <img src="https://www.genspark.ai/api/files/s/UO3vtwJQ" alt="DES Header" class="header-bg" onerror="this.style.display='none'">
+        </div>
         
         <!-- ヘッダーコンテンツ -->
         <div class="header">
             <h1>DES_AI競馬予想</h1>
             <p>
                 デュアル・エッジ・システム<br>
-                週単位プラス収支を目指すAI戦略予想
+                週単位プラス収支を目指す<br>AI戦略予想
             </p>
             <a href="https://x.com/AIkeibayosouDES" target="_blank" class="x-link">
-                <img src="https://www.genspark.ai/api/files/s/iJNvjiso" alt="DES Icon" class="x-icon">
+                <img src="https://www.genspark.ai/api/files/s/iJNvjiso" alt="DES" class="x-icon" onerror="this.style.display='none'">
                 公式X: @AIkeibayosouDES
             </a>
         </div>
         
         <!-- タブナビゲーション -->
         <div class="tab-nav">
-            <button class="tab-btn active" id="tab-predictions">📊 今日の予想</button>
-            <button class="tab-btn" id="tab-results">📈 昨日の結果</button>
-            <button class="tab-btn" id="tab-stats">📉 統計</button>
+            <button class="tab-btn active" data-tab="predictions">📊 今日の予想</button>
+            <button class="tab-btn" data-tab="results">📈 昨日の結果</button>
+            <button class="tab-btn" data-tab="stats">📉 統計</button>
         </div>
         
         <div id="statusBox" class="status-box"></div>
@@ -424,41 +453,37 @@
         const PREDICTIONS_URL = 'https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/latest_predictions.json';
         const RESULTS_URL = 'https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/latest_results.json';
         
-        let currentTab = 'predictions';
         let predictionsData = null;
         let resultsData = null;
         
-        // ページ読み込み時の初期化
-        window.addEventListener('load', () => {
-            console.log('🚀 App loaded');
+        // ページ読み込み時
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🚀 App started');
             initTabs();
-            showStatus('🚀 アプリを起動中...', 'success');
-            setTimeout(loadAllData, 500);
+            loadAllData();
         });
         
-        // タブのイベントリスナー登録
+        // タブの初期化
         function initTabs() {
-            document.getElementById('tab-predictions').addEventListener('click', () => {
-                console.log('📊 Predictions tab clicked');
-                switchTab('predictions');
+            const tabs = document.querySelectorAll('.tab-btn');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const tabName = this.getAttribute('data-tab');
+                    console.log('🔄 Tab clicked:', tabName);
+                    switchTab(tabName);
+                });
             });
-            
-            document.getElementById('tab-results').addEventListener('click', () => {
-                console.log('📈 Results tab clicked');
-                switchTab('results');
-            });
-            
-            document.getElementById('tab-stats').addEventListener('click', () => {
-                console.log('📉 Stats tab clicked');
-                switchTab('stats');
-            });
+            console.log('✅ Tabs initialized');
         }
         
         function showStatus(msg, type) {
             const box = document.getElementById('statusBox');
             box.className = 'status-box show ' + type;
-            box.innerHTML = msg;
-            if (type === 'success') setTimeout(() => box.style.display = 'none', 3000);
+            box.textContent = msg;
+            if (type === 'success') {
+                setTimeout(() => box.style.display = 'none', 2000);
+            }
         }
         
         function getVal(obj, ...keys) {
@@ -470,7 +495,6 @@
         
         function switchTab(tab) {
             console.log('🔄 Switching to:', tab);
-            currentTab = tab;
             
             // すべてのタブボタンから active を削除
             document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -483,44 +507,44 @@
             });
             
             // 選択されたタブを active に
+            document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+            
             if (tab === 'predictions') {
-                document.getElementById('tab-predictions').classList.add('active');
                 document.getElementById('predictionsTab').classList.add('active');
                 if (!predictionsData) loadPredictions();
             } else if (tab === 'results') {
-                document.getElementById('tab-results').classList.add('active');
                 document.getElementById('resultsTab').classList.add('active');
                 if (!resultsData) loadResults();
             } else if (tab === 'stats') {
-                document.getElementById('tab-stats').classList.add('active');
                 document.getElementById('statsTab').classList.add('active');
                 displayStats();
             }
         }
         
         async function loadAllData() {
+            showStatus('🚀 起動中...', 'success');
             await loadPredictions();
             await loadResults();
         }
         
         async function loadPredictions() {
             try {
-                showStatus('📊 予想データを取得中...', 'success');
+                showStatus('📊 予想取得中...', 'success');
                 const res = await fetch(PREDICTIONS_URL + '?t=' + Date.now(), { cache: 'no-cache' });
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 
                 predictionsData = await res.json();
-                console.log('✅ Predictions loaded:', predictionsData);
+                console.log('✅ Predictions loaded');
                 displayPredictions(predictionsData);
-                showStatus('✅ AI厳選予想の取得に成功しました！', 'success');
+                showStatus('✅ 予想取得完了！', 'success');
                 
             } catch (error) {
-                console.error('❌ Predictions error:', error);
-                showStatus('❌ 予想データ取得エラー: ' + error.message, 'error');
+                console.error('❌ Error:', error);
+                showStatus('❌ エラー: ' + error.message, 'error');
                 document.getElementById('predictionsTab').innerHTML = `
                     <div class="content-card">
-                        <div style="text-align:center; padding:40px; color:#64748b;">
-                            ⚠️ 予想データの取得に失敗しました<br>
+                        <div style="text-align:center; padding:30px; color:#64748b; font-size:0.9rem;">
+                            ⚠️ データ取得エラー<br>
                             <small>${error.message}</small>
                         </div>
                     </div>
@@ -534,16 +558,16 @@
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 
                 resultsData = await res.json();
-                console.log('✅ Results loaded:', resultsData);
+                console.log('✅ Results loaded');
                 displayResults(resultsData);
                 
             } catch (error) {
                 console.error('❌ Results error:', error);
                 document.getElementById('resultsTab').innerHTML = `
                     <div class="content-card">
-                        <div style="text-align:center; padding:40px; color:#64748b;">
-                            ⚠️ 結果データがまだ生成されていません<br>
-                            <small>毎日22:00に自動更新されます</small>
+                        <div style="text-align:center; padding:30px; color:#64748b; font-size:0.9rem;">
+                            ⚠️ 結果データ未生成<br>
+                            <small>毎日22:00更新</small>
                         </div>
                     </div>
                 `;
@@ -562,8 +586,8 @@
             let html = `
                 <div class="content-card">
                     <div class="summary-header">
-                        <div class="summary-title">📊 本日のAI厳選予想</div>
-                        <button class="refresh-btn" onclick="loadPredictions()">🔄 更新</button>
+                        <div class="summary-title">📊 AI厳選予想</div>
+                        <button class="refresh-btn" onclick="loadPredictions()">🔄</button>
                     </div>
                     <div class="summary-grid">
                         <div class="summary-item">
@@ -591,4 +615,224 @@
                         <div class="turb-item">
                             <div class="turb-label">中乱度</div>
                             <div class="turb-value">${turb['中'] || 0}R</div>
-                     
+                        </div>
+                        <div class="turb-item">
+                            <div class="turb-label">高乱度</div>
+                            <div class="turb-value">${turb['高'] || 0}R</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            races.forEach((race, idx) => {
+                html += createPredictionCard(race, idx + 1);
+            });
+            
+            document.getElementById('predictionsTab').innerHTML = html;
+        }
+        
+        function createPredictionCard(race, num) {
+            const venue = getVal(race, '競馬場', 'venue') || '';
+            const raceName = getVal(race, 'レース名', 'race_name') || '';
+            const distance = getVal(race, '距離', 'distance') || '';
+            const track = getVal(race, 'トラック', 'track') || '';
+            const startTime = getVal(race, '発走時刻', 'start_time') || '';
+            const turbulence = getVal(race, '波乱度', 'turbulence') || '-';
+            
+            const horses = race.horses || [];
+            const sortedHorses = horses
+                .filter(h => getVal(h, '馬名', 'horse_name', 'name'))
+                .sort((a, b) => {
+                    const scoreA = getVal(a, 'des_score', 'total_score', 'スコア') || 0;
+                    const scoreB = getVal(b, 'des_score', 'total_score', 'スコア') || 0;
+                    if (scoreB !== scoreA) return scoreB - scoreA;
+                    const popA = getVal(a, '人気', 'popularity') || 99;
+                    const popB = getVal(b, '人気', 'popularity') || 99;
+                    return popA - popB;
+                })
+                .slice(0, 3);
+            
+            const horsesHTML = sortedHorses.length > 0 ? 
+                sortedHorses.map((horse, idx) => {
+                    const mark = ['◎', '○', '▲'][idx];
+                    const rank = idx + 1;
+                    const name = getVal(horse, '馬名', 'horse_name', 'name') || '?';
+                    const score = getVal(horse, 'des_score', 'total_score', 'スコア') || 0;
+                    const frame = getVal(horse, '枠番', 'frame_number') || '?';
+                    const horseNum = getVal(horse, '馬番', 'horse_number') || '?';
+                    const odds = getVal(horse, 'オッズ', 'odds') || '-';
+                    const popularity = getVal(horse, '人気', 'popularity') || '?';
+                    
+                    return `
+                        <div class="horse-row rank-${rank}">
+                            <div class="rank-badge rank-${rank}">${mark}</div>
+                            <div class="horse-info">
+                                <div class="horse-name">${name}</div>
+                                <div class="horse-detail">
+                                    枠${frame}・馬${horseNum} | ${odds}倍 | ${popularity}人気
+                                </div>
+                            </div>
+                            <div class="score-display">
+                                <div class="total-score">${Number(score).toFixed(1)}</div>
+                                <div class="popularity">${popularity}人気</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('') : 
+                `<div style="padding:15px; text-align:center; color:#666; font-size:0.9rem;">⚠️ データ解析中...</div>`;
+            
+            const betting = race.betting_suggestions?.main || {};
+            const bettingType = getVal(betting, 'type', '買い目タイプ') || '三連複BOX';
+            const bettingCombo = getVal(betting, 'combinations', '組み合わせ') || '◎-○-▲';
+            const bettingInvest = getVal(betting, 'total_investment', '投資額') || 100;
+            
+            return `
+                <div class="race-card">
+                    <div class="race-header">
+                        <div class="race-title">🏇 予想${num} - ${venue} ${raceName}</div>
+                        <div class="race-meta">
+                            ${track}${distance}m | ${startTime}発走 | 波乱度:${turbulence}
+                        </div>
+                    </div>
+                    <div class="predictions-section">
+                        <div class="section-title">🤖 DESスコアTOP3</div>
+                        ${horsesHTML}
+                    </div>
+                    <div class="betting-section">
+                        <div class="betting-title">💰 DES推奨買い目</div>
+                        <div class="betting-box">
+                            <strong>${bettingType}</strong><br>
+                            ${bettingCombo}<br>
+                            <small style="color:#78350f;">投資: ¥${Number(bettingInvest).toLocaleString()}</small>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function displayResults(data) {
+            const ymd = String(data.ymd || '');
+            const date = ymd.length === 8 ? 
+                `${ymd.slice(0,4)}/${ymd.slice(4,6)}/${ymd.slice(6,8)}` : '-';
+            
+            const summary = data.summary || {};
+            const results = data.results || [];
+            
+            const hitRate = summary.hit_rate || 0;
+            const recoveryRate = summary.recovery_rate || 0;
+            
+            let html = `
+                <div class="content-card">
+                    <div class="summary-header">
+                        <div class="summary-title">📈 昨日の結果</div>
+                        <button class="refresh-btn" onclick="loadResults()">🔄</button>
+                    </div>
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <div class="summary-value">${date}</div>
+                            <div class="summary-label">対象日</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-value ${hitRate >= 30 ? 'success' : 'error'}">${hitRate.toFixed(1)}%</div>
+                            <div class="summary-label">的中率</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-value ${recoveryRate >= 80 ? 'success' : 'error'}">${recoveryRate.toFixed(1)}%</div>
+                            <div class="summary-label">回収率</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-value ${summary.total_profit >= 0 ? 'success' : 'error'}">
+                                ${summary.total_profit >= 0 ? '+' : ''}¥${(summary.total_profit || 0).toLocaleString()}
+                            </div>
+                            <div class="summary-label">収支</div>
+                        </div>
+                    </div>
+                    <div class="turb-summary">
+                        <div class="turb-item">
+                            <div class="turb-label">的中</div>
+                            <div class="turb-value">${summary.hit_count || 0}R</div>
+                        </div>
+                        <div class="turb-item">
+                            <div class="turb-label">不的中</div>
+                            <div class="turb-value">${summary.miss_count || 0}R</div>
+                        </div>
+                        <div class="turb-item">
+                            <div class="turb-label">取得不可</div>
+                            <div class="turb-value">${summary.unavailable_count || 0}R</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            results.forEach((result, idx) => {
+                if (result.result_available) {
+                    html += createResultCard(result, idx + 1);
+                }
+            });
+            
+            document.getElementById('resultsTab').innerHTML = html;
+        }
+        
+        function createResultCard(result, num) {
+            const hit = result.hit || false;
+            const venue = result.venue || '';
+            const raceName = result.race_name || '';
+            
+            const predicted = result.predicted_horses || [];
+            const actual = result.actual_finishing_order || [];
+            
+            const predictedStr = predicted.map(h => h.馬番 || h.horse_number || '?').join('-');
+            const actualStr = actual.slice(0, 3).join('-');
+            
+            return `
+                <div class="race-card">
+                    <div class="race-header ${hit ? 'hit' : 'miss'}">
+                        <div class="race-title">
+                            ${hit ? '🎯' : '❌'} 結果${num} - ${venue} ${raceName}
+                            <span class="result-badge ${hit ? 'hit' : 'miss'}">
+                                ${hit ? '的中' : '不的中'}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="results-section">
+                        <div class="section-title">📊 予想 vs 実績</div>
+                        <div class="comparison-row">
+                            <span class="comparison-label">🤖 AI予想</span>
+                            <span class="comparison-value">${predictedStr}</span>
+                        </div>
+                        <div class="comparison-row">
+                            <span class="comparison-label">🏁 実際の着順</span>
+                            <span class="comparison-value">${actualStr}</span>
+                        </div>
+                        <div class="comparison-row">
+                            <span class="comparison-label">💰 三連複払戻</span>
+                            <span class="comparison-value">¥${(result.sanrenpuku_payout || 0).toLocaleString()}</span>
+                        </div>
+                        <div class="comparison-row">
+                            <span class="comparison-label">📈 収支</span>
+                            <span class="comparison-value" style="color:${result.profit >= 0 ? 'var(--success)' : 'var(--error)'}">
+                                ${result.profit >= 0 ? '+' : ''}¥${(result.profit || 0).toLocaleString()}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function displayStats() {
+            const statsHTML = `
+                <div class="content-card">
+                    <div class="summary-header">
+                        <div class="summary-title">📉 統計情報</div>
+                    </div>
+                    <div style="text-align:center; padding:30px; color:#64748b; font-size:0.9rem;">
+                        🚧 統計機能は開発中です<br>
+                        <small>週間・月間の成績集計を予定</small>
+                    </div>
+                </div>
+            `;
+            document.getElementById('statsTab').innerHTML = statsHTML;
+        }
+    </script>
+</body>
+</html>
