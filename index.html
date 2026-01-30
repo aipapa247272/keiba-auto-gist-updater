@@ -6,64 +6,335 @@
     <title>🏇 DES_AI競馬予想</title>
     <style>
         :root {
-            --primary: #667eea; --secondary: #764ba2; --success: #10b981;
-            --error: #ef4444; --text-main: #1e293b; --text-sub: #64748b;
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-sub: #64748b;
+            --border: #e2e8f0;
         }
+        
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Yu Gothic", sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Yu Gothic", "Hiragino Sans", sans-serif;
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: var(--text-main); min-height: 100vh; padding: 15px 10px 40px;
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 15px 10px 40px;
+            line-height: 1.6;
         }
+        
         .container { max-width: 600px; margin: 0 auto; }
-        .header { text-align: center; color: white; margin-bottom: 25px; padding: 15px 0; }
-        .header h1 { font-size: 1.9rem; margin-bottom: 10px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-        .header p { opacity: 0.95; font-size: 0.95rem; margin-bottom: 15px; }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 25px;
+            padding: 15px 0;
+        }
+        
+        .header h1 {
+            font-size: 1.9rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            opacity: 0.95;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+        
         .x-link {
-            display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px;
-            background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.3);
-            border-radius: 30px; color: white; text-decoration: none; font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 24px;
+            background: rgba(255,255,255,0.15);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 30px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
+        
+        .x-link:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
+        }
+        
         .btn {
-            width: 100%; padding: 16px; border: none; border-radius: 12px;
-            font-size: 1rem; font-weight: 600; cursor: pointer;
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white; margin-bottom: 20px; transition: all 0.3s ease;
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
         }
-        .btn:hover:not(:disabled) { transform: translateY(-2px); }
-        .btn:disabled { opacity: 0.7; cursor: wait; }
-        .card { background: white; border-radius: 16px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .summary-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 12px; border-bottom: 2px solid #e2e8f0; }
-        .summary-title { font-size: 1.2rem; font-weight: bold; color: var(--primary); }
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 15px; }
-        .grid-item { text-align: center; padding: 15px; background: #f8fafc; border-radius: 10px; }
-        .value { font-size: 1.4rem; font-weight: bold; color: var(--primary); margin-bottom: 5px; }
-        .label { font-size: 0.85rem; color: var(--text-sub); }
-        .race-card { background: white; border-radius: 16px; margin-bottom: 20px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.3s ease; }
-        .race-card:hover { transform: translateY(-3px); }
-        .race-header { background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; padding: 18px 20px; }
-        .race-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 6px; }
-        .race-meta { font-size: 0.9rem; opacity: 0.95; }
-        .predictions { padding: 20px; }
-        .section-title { font-size: 1rem; font-weight: bold; margin-bottom: 15px; }
-        .horse { display: flex; align-items: center; padding: 15px; margin-bottom: 12px; background: #f8fafc; border-radius: 12px; border-left: 4px solid #e2e8f0; }
-        .horse.h1 { border-left-color: var(--error); background: linear-gradient(90deg, #fef2f2 0%, #f8fafc 100%); }
-        .horse.h2 { border-left-color: #3b82f6; background: linear-gradient(90deg, #eff6ff 0%, #f8fafc 100%); }
-        .horse.h3 { border-left-color: var(--success); background: linear-gradient(90deg, #f0fdf4 0%, #f8fafc 100%); }
-        .badge { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin-right: 15px; }
-        .badge.b1 { background: var(--error); }
-        .badge.b2 { background: #3b82f6; }
-        .badge.b3 { background: var(--success); }
+        
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: wait;
+        }
+        
+        .status-box {
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            display: none;
+            text-align: center;
+            margin-bottom: 15px;
+            background: white;
+            border: 1px solid var(--border);
+        }
+        
+        .status-box.show { display: block; }
+        .status-box.success { background: #dcfce7; color: #166534; border-color: #86efac; }
+        .status-box.error { background: #fef2f2; color: #dc2626; border-color: #fca5a5; }
+        
+        .hidden { display: none !important; }
+        
+        .content-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .summary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .summary-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .refresh-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .refresh-btn:hover {
+            background: var(--secondary);
+            transform: scale(1.05);
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .summary-item {
+            text-align: center;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+        
+        .summary-value {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .summary-label {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+        }
+        
+        .turb-summary {
+            display: flex;
+            justify-content: space-around;
+            padding: 12px;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-radius: 10px;
+            border: 1px solid #bae6fd;
+        }
+        
+        .turb-item { text-align: center; }
+        .turb-label { font-size: 0.75rem; color: #0c4a6e; font-weight: 600; display: block; }
+        .turb-value { font-size: 1.1rem; font-weight: bold; color: #0369a1; }
+        
+        .race-card {
+            background: white;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        
+        .race-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .race-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 18px 20px;
+        }
+        
+        .race-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+        
+        .race-meta {
+            font-size: 0.9rem;
+            opacity: 0.95;
+        }
+        
+        .predictions-section {
+            padding: 20px;
+        }
+        
+        .section-title {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .horse-row {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 12px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border-left: 4px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        
+        .horse-row:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .horse-row.rank-1 {
+            border-left-color: var(--error);
+            background: linear-gradient(90deg, #fef2f2 0%, #f8fafc 100%);
+        }
+        
+        .horse-row.rank-2 {
+            border-left-color: #3b82f6;
+            background: linear-gradient(90deg, #eff6ff 0%, #f8fafc 100%);
+        }
+        
+        .horse-row.rank-3 {
+            border-left-color: var(--success);
+            background: linear-gradient(90deg, #f0fdf4 0%, #f8fafc 100%);
+        }
+        
+        .rank-badge {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .rank-badge.rank-1 { background: var(--error); }
+        .rank-badge.rank-2 { background: #3b82f6; }
+        .rank-badge.rank-3 { background: var(--success); }
+        
         .horse-info { flex-grow: 1; }
         .horse-name { font-weight: bold; font-size: 1.1rem; margin-bottom: 5px; }
         .horse-detail { font-size: 0.85rem; color: var(--text-sub); }
-        .score { text-align: right; }
-        .score-value { font-size: 1.2rem; font-weight: bold; color: var(--primary); }
-        .betting { padding: 20px; background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); border-top: 1px solid #fcd34d; }
-        .betting-title { font-size: 1rem; font-weight: bold; color: #92400e; margin-bottom: 12px; }
-        .betting-box { background: white; padding: 15px; border-radius: 10px; border: 2px dashed #f59e0b; text-align: center; }
-        .hidden { display: none; }
-        @media (max-width: 480px) { .grid { grid-template-columns: 1fr; } }
+        
+        .score-display { text-align: right; margin-left: 15px; }
+        .total-score { 
+            font-size: 1.2rem; 
+            font-weight: bold; 
+            color: var(--primary); 
+            margin-bottom: 3px;
+        }
+        .confidence { 
+            font-size: 0.75rem; 
+            padding: 3px 8px; 
+            border-radius: 10px; 
+            font-weight: 600;
+        }
+        .conf-high { background: #dcfce7; color: #166534; }
+        .conf-mid { background: #fef3c7; color: #92400e; }
+        .conf-low { background: #fee2e2; color: #991b1b; }
+        
+        .betting-section {
+            padding: 20px;
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border-top: 1px solid #fcd34d;
+        }
+        
+        .betting-title {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #92400e;
+            margin-bottom: 12px;
+        }
+        
+        .betting-box {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px dashed #f59e0b;
+            text-align: center;
+        }
+        
+        @media (max-width: 480px) {
+            .container { padding: 0 5px; }
+            .header h1 { font-size: 1.6rem; }
+            .summary-grid { grid-template-columns: 1fr; }
+            .horse-row { flex-direction: column; align-items: flex-start; }
+            .score-display { margin-left: 0; margin-top: 10px; text-align: left; }
+        }
     </style>
 </head>
 <body>
@@ -71,118 +342,195 @@
         <div class="header">
             <h1>🏇 DES_AI競馬予想</h1>
             <p>デュアル・エッジ・システム - 週単位プラス収支を目指すAI戦略予想</p>
-            <a href="https://x.com/AIkeibayosouDES" target="_blank" class="x-link">📱 公式X: @AIkeibayosouDES</a>
+            <a href="https://x.com/AIkeibayosouDES" target="_blank" class="x-link">
+                📱 公式X: @AIkeibayosouDES
+            </a>
         </div>
-        <button class="btn" onclick="loadData()" id="btn">🔄 最新データを再取得</button>
-        <div id="content" class="hidden"></div>
+        
+        <button class="btn" onclick="loadData()" id="mainBtn">
+            🔄 最新データを再取得
+        </button>
+        
+        <div id="statusBox" class="status-box"></div>
+        
+        <div id="contentArea" class="hidden"></div>
     </div>
 
     <script>
-        const URLS = {
-            predictions: 'https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/latest_predictions.json',
-            fallback: 'https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/latest_race_data.json'
-        };
-
-        window.addEventListener('load', () => setTimeout(loadData, 1000));
-
+        // 診断で動作確認済みのURL
+        const API_URL = 'https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/latest_predictions.json';
+        
+        window.addEventListener('load', function() {
+            showStatus('🚀 アプリを起動中...', 'success');
+            setTimeout(() => loadData(), 1000);
+        });
+        
+        function showStatus(message, type) {
+            const box = document.getElementById('statusBox');
+            box.className = 'status-box show ' + type;
+            box.innerHTML = message;
+            if (type === 'success') {
+                setTimeout(() => box.style.display = 'none', 3000);
+            }
+        }
+        
         async function loadData() {
-            const btn = document.getElementById('btn');
+            const btn = document.getElementById('mainBtn');
             btn.disabled = true;
-            btn.textContent = '🔄 取得中...';
-
+            btn.textContent = '🔄 AI分析中...';
+            
             try {
-                // メインデータを試行
-                let data = await fetchJSON(URLS.predictions);
-                if (data?.selected_predictions?.length > 0) {
-                    displayPredictions(data);
-                } else {
-                    // フォールバック
-                    data = await fetchJSON(URLS.fallback);
-                    displayRawData(data);
+                // キャッシュ回避のためのタイムスタンプ付与
+                const response = await fetch(API_URL + '?t=' + Date.now(), {
+                    method: 'GET',
+                    cache: 'no-cache'
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
+                
+                const data = await response.json();
+                displayData(data);
+                showStatus('✅ 最新のAI厳選予想を取得しました！', 'success');
+                
             } catch (error) {
                 console.error('Error:', error);
-                alert('データ取得に失敗しました。診断版で原因を確認してください。');
+                showStatus('❌ データ取得エラー: ' + error.message, 'error');
             } finally {
                 btn.disabled = false;
                 btn.textContent = '🔄 最新データを再取得';
             }
         }
-
-        async function fetchJSON(url) {
-            const res = await fetch(url + '?t=' + Date.now(), { cache: 'no-cache' });
-            if (!res.ok) throw new Error(`HTTP ${res.status}`);
-            return await res.json();
-        }
-
-        function displayPredictions(data) {
+        
+        function displayData(data) {
+            const contentArea = document.getElementById('contentArea');
+            contentArea.classList.remove('hidden');
+            
             const ymd = String(data.ymd || '');
-            const date = ymd.length === 8 ? `${ymd.slice(0,4)}/${ymd.slice(4,6)}/${ymd.slice(6,8)}` : '-';
+            const date = ymd.length === 8 ? 
+                `${ymd.slice(0,4)}/${ymd.slice(4,6)}/${ymd.slice(6,8)}` : '-';
+            
             const summary = data.summary || {};
-            const turb = summary.turbulence || {};
+            const races = data.selected_predictions || [];
+            const turbulence = summary.turbulence || {};
             
-            let html = `<div class="card"><div class="summary-header"><div class="summary-title">📊 本日のAI厳選予想</div></div>`;
-            html += `<div class="grid">`;
-            html += `<div class="grid-item"><div class="value">${date}</div><div class="label">対象日</div></div>`;
-            html += `<div class="grid-item"><div class="value">${summary.selected_races || 0}R</div><div class="label">AI厳選</div></div>`;
-            html += `<div class="grid-item"><div class="value">${summary.total_races || 0}R</div><div class="label">全レース</div></div>`;
-            html += `<div class="grid-item"><div class="value">¥${(summary.total_investment || 0).toLocaleString()}</div><div class="label">投資額</div></div>`;
-            html += `</div></div>`;
-
-            (data.selected_predictions || []).forEach((race, i) => {
-                const ri = race.race_info || {};
-                const p = race.predictions || {};
-                const b = race.betting_suggestions?.main || {};
-                
-                const horses = [
-                    { ...p.honmei, mark: '◎', rank: 1 },
-                    { ...p.taikou, mark: '○', rank: 2 },
-                    { ...p.ana, mark: '▲', rank: 3 }
-                ].filter(h => h.馬名);
-
-                html += `<div class="race-card"><div class="race-header">`;
-                html += `<div class="race-title">🏇 予想${i+1} - ${ri.venue || ''} ${ri.レース名 || ''}</div>`;
-                html += `<div class="race-meta">${ri.距離 || ''}m | ${ri.発走時刻 || ''}発走 | 波乱度:${race.turbulence || '-'}</div>`;
-                html += `</div><div class="predictions"><div class="section-title">🤖 AI分析TOP3</div>`;
-                
-                horses.forEach(h => {
-                    html += `<div class="horse h${h.rank}"><div class="badge b${h.rank}">${h.mark}</div>`;
-                    html += `<div class="horse-info"><div class="horse-name">${h.馬名}</div>`;
-                    html += `<div class="horse-detail">枠${h.枠番 || '?'}・馬${h.馬番 || '?'} | 信頼度:${h.confidence || '-'}</div></div>`;
-                    html += `<div class="score"><div class="score-value">${(h.total_score || 0).toFixed(1)}</div></div></div>`;
-                });
-                
-                html += `</div><div class="betting"><div class="betting-title">💰 DES推奨買い目</div>`;
-                html += `<div class="betting-box"><strong>${b.type || '三連複BOX'}</strong><br>`;
-                html += `${b.combinations || '◎-○-▲'}<br><small>投資額: ¥${(b.total_investment || 100).toLocaleString()}</small></div></div></div>`;
+            let html = `
+                <div class="content-card">
+                    <div class="summary-header">
+                        <div class="summary-title">📊 本日のAI厳選予想</div>
+                        <button class="refresh-btn" onclick="loadData()">🔄 更新</button>
+                    </div>
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <div class="summary-value">${date}</div>
+                            <div class="summary-label">対象日</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-value">${summary.selected_races || 0}R</div>
+                            <div class="summary-label">AI厳選レース</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-value">${summary.total_races || 0}R</div>
+                            <div class="summary-label">全レース数</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-value">¥${(summary.total_investment || 0).toLocaleString()}</div>
+                            <div class="summary-label">合計投資額</div>
+                        </div>
+                    </div>
+                    <div class="turb-summary">
+                        <div class="turb-item">
+                            <span class="turb-label">低乱度</span>
+                            <div class="turb-value">${turbulence['低'] || 0}R</div>
+                        </div>
+                        <div class="turb-item">
+                            <span class="turb-label">中乱度</span>
+                            <div class="turb-value">${turbulence['中'] || 0}R</div>
+                        </div>
+                        <div class="turb-item">
+                            <span class="turb-label">高乱度</span>
+                            <div class="turb-value">${turbulence['高'] || 0}R</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            races.forEach((race, idx) => {
+                html += createRaceCard(race, idx + 1);
             });
-
-            document.getElementById('content').innerHTML = html;
-            document.getElementById('content').classList.remove('hidden');
+            
+            contentArea.innerHTML = html;
         }
-
-        function displayRawData(data) {
-            // フォールバック表示ロジック（簡素版）
-            const races = (data.races || []).filter(r => r.horses?.length >= 5).slice(0, 5);
-            let html = '<div class="card"><h3>📊 バックアップデータ表示</h3></div>';
+        
+        function createRaceCard(race, raceNum) {
+            const raceInfo = race.race_info || {};
+            const predictions = race.predictions || {};
+            const betting = race.betting_suggestions?.main || {};
             
-            races.forEach((race, i) => {
-                const sorted = race.horses.sort((a,b) => (a.人気||99) - (b.人気||99));
-                html += `<div class="race-card"><div class="race-header">`;
-                html += `<div class="race-title">🏇 レース${i+1} - ${race.競馬場} ${race.レース番号}R</div>`;
-                html += `</div><div class="predictions"><div class="section-title">人気順TOP3</div>`;
-                
-                sorted.slice(0,3).forEach((h, idx) => {
-                    html += `<div class="horse h${idx+1}"><div class="badge b${idx+1}">${idx+1}</div>`;
-                    html += `<div class="horse-info"><div class="horse-name">${h.馬名}</div>`;
-                    html += `<div class="horse-detail">枠${h.枠番}・馬${h.馬番} | ${h.人気}番人気</div></div>`;
-                    html += `<div class="score"><div class="score-value">${h.オッズ}倍</div></div></div>`;
-                });
-                html += '</div></div>';
-            });
-
-            document.getElementById('content').innerHTML = html;
-            document.getElementById('content').classList.remove('hidden');
+            const horses = [];
+            
+            // 安全な馬情報の抽出
+            if (predictions.honmei?.馬名) {
+                horses.push({ ...predictions.honmei, mark: '◎', rank: 1 });
+            }
+            if (predictions.taikou?.馬名) {
+                horses.push({ ...predictions.taikou, mark: '○', rank: 2 });
+            }
+            if (predictions.ana?.馬名) {
+                horses.push({ ...predictions.ana, mark: '▲', rank: 3 });
+            }
+            
+            const horsesHTML = horses.map(horse => createHorseRow(horse)).join('');
+            
+            return `
+                <div class="race-card">
+                    <div class="race-header">
+                        <div class="race-title">🏇 予想${raceNum} - ${raceInfo.venue || ''} ${raceInfo.レース名 || ''}</div>
+                        <div class="race-meta">
+                            ${raceInfo.距離 || ''}m | ${raceInfo.発走時刻 || ''}発走 | 波乱度:${race.turbulence || '-'}
+                        </div>
+                    </div>
+                    <div class="predictions-section">
+                        <div class="section-title">🤖 AI分析TOP3（DESスコア順）</div>
+                        ${horsesHTML}
+                    </div>
+                    <div class="betting-section">
+                        <div class="betting-title">💰 DES推奨買い目</div>
+                        <div class="betting-box">
+                            <strong>${betting.type || '三連複BOX'}</strong><br>
+                            ${betting.combinations || '◎-○-▲'}<br>
+                            <small style="color:#78350f;">投資額: ¥${(betting.total_investment || 100).toLocaleString()}</small>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function createHorseRow(horse) {
+            if (!horse || !horse.馬名) return '';
+            
+            const total = horse.total_score || 0;
+            const confidence = horse.confidence || '不明';
+            
+            const confClass = confidence === '高' ? 'conf-high' : 
+                             confidence === '中' ? 'conf-mid' : 'conf-low';
+            
+            return `
+                <div class="horse-row rank-${horse.rank}">
+                    <div class="rank-badge rank-${horse.rank}">${horse.mark}</div>
+                    <div class="horse-info">
+                        <div class="horse-name">${horse.馬名}</div>
+                        <div class="horse-detail">
+                            枠${horse.枠番 || '?'}・馬${horse.馬番 || '?'} | 信頼度:${confidence}
+                        </div>
+                    </div>
+                    <div class="score-display">
+                        <div class="total-score">${total.toFixed(1)}</div>
+                        <div class="confidence ${confClass}">${confidence}</div>
+                    </div>
+                </div>
+            `;
         }
     </script>
 </body>
