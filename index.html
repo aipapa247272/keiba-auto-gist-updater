@@ -11,8 +11,6 @@
             --success: #10b981;
             --error: #ef4444;
             --warning: #f59e0b;
-            --bg: #f8fafc;
-            --card-bg: #ffffff;
             --text-main: #1e293b;
             --text-sub: #64748b;
             --border: #e2e8f0;
@@ -48,7 +46,6 @@
             opacity: 0.95;
             font-size: 0.95rem;
             margin-bottom: 15px;
-            line-height: 1.4;
         }
         
         .x-link {
@@ -85,30 +82,21 @@
             margin-bottom: 20px;
         }
         
-        .btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        }
-        
-        .btn:disabled {
-            opacity: 0.7;
-            cursor: wait;
-        }
+        .btn:hover:not(:disabled) { transform: translateY(-2px); }
+        .btn:disabled { opacity: 0.7; cursor: wait; }
         
         .status-box {
-            padding: 12px 16px;
+            padding: 12px;
             border-radius: 10px;
             font-size: 0.9rem;
             display: none;
             text-align: center;
             margin-bottom: 15px;
-            background: white;
-            border: 1px solid var(--border);
         }
         
         .status-box.show { display: block; }
-        .status-box.success { background: #dcfce7; color: #166534; border-color: #86efac; }
-        .status-box.error { background: #fef2f2; color: #dc2626; border-color: #fca5a5; }
+        .status-box.success { background: #dcfce7; color: #166534; border: 2px solid #86efac; }
+        .status-box.error { background: #fef2f2; color: #dc2626; border: 2px solid #fca5a5; }
         
         .hidden { display: none !important; }
         
@@ -143,12 +131,6 @@
             border-radius: 20px;
             font-size: 0.8rem;
             cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .refresh-btn:hover {
-            background: var(--secondary);
-            transform: scale(1.05);
         }
         
         .summary-grid {
@@ -184,11 +166,10 @@
             padding: 12px;
             background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
             border-radius: 10px;
-            border: 1px solid #bae6fd;
         }
         
         .turb-item { text-align: center; }
-        .turb-label { font-size: 0.75rem; color: #0c4a6e; font-weight: 600; display: block; }
+        .turb-label { font-size: 0.75rem; color: #0c4a6e; font-weight: 600; }
         .turb-value { font-size: 1.1rem; font-weight: bold; color: #0369a1; }
         
         .race-card {
@@ -197,7 +178,6 @@
             margin-bottom: 20px;
             overflow: hidden;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            border: 1px solid var(--border);
             transition: all 0.3s ease;
         }
         
@@ -232,9 +212,6 @@
             font-weight: bold;
             margin-bottom: 15px;
             color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
         
         .horse-row {
@@ -279,7 +256,6 @@
             font-weight: bold;
             font-size: 1.3rem;
             margin-right: 15px;
-            flex-shrink: 0;
         }
         
         .rank-badge.rank-1 { background: var(--error); }
@@ -328,9 +304,25 @@
             text-align: center;
         }
         
+        .betting-type {
+            font-weight: 600;
+            color: #78350f;
+            margin-bottom: 8px;
+        }
+        
+        .betting-combo {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #b45309;
+            margin-bottom: 8px;
+        }
+        
+        .betting-note {
+            font-size: 0.85rem;
+            color: #78350f;
+        }
+        
         @media (max-width: 480px) {
-            .container { padding: 0 5px; }
-            .header h1 { font-size: 1.6rem; }
             .summary-grid { grid-template-columns: 1fr; }
             .horse-row { flex-direction: column; align-items: flex-start; }
             .score-display { margin-left: 0; margin-top: 10px; text-align: left; }
@@ -352,26 +344,30 @@
         </button>
         
         <div id="statusBox" class="status-box"></div>
-        
         <div id="contentArea" class="hidden"></div>
     </div>
 
     <script>
-        // 診断で動作確認済みのURL
         const API_URL = 'https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/latest_predictions.json';
         
-        window.addEventListener('load', function() {
+        window.addEventListener('load', () => {
             showStatus('🚀 アプリを起動中...', 'success');
-            setTimeout(() => loadData(), 1000);
+            setTimeout(loadData, 1000);
         });
         
-        function showStatus(message, type) {
+        function showStatus(msg, type) {
             const box = document.getElementById('statusBox');
             box.className = 'status-box show ' + type;
-            box.innerHTML = message;
-            if (type === 'success') {
-                setTimeout(() => box.style.display = 'none', 3000);
+            box.innerHTML = msg;
+            if (type === 'success') setTimeout(() => box.style.display = 'none', 3000);
+        }
+        
+        // 柔軟なデータ取得関数（複数のキー名パターンに対応）
+        function getNestedValue(obj, ...keys) {
+            for (let key of keys) {
+                if (obj && obj[key] !== undefined) return obj[key];
             }
+            return null;
         }
         
         async function loadData() {
@@ -380,22 +376,17 @@
             btn.textContent = '🔄 AI分析中...';
             
             try {
-                // キャッシュ回避のためのタイムスタンプ付与
-                const response = await fetch(API_URL + '?t=' + Date.now(), {
-                    method: 'GET',
-                    cache: 'no-cache'
-                });
+                const res = await fetch(API_URL + '?t=' + Date.now(), { cache: 'no-cache' });
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
+                const data = await res.json();
+                console.log('✅ Complete data structure:', data);
                 
-                const data = await response.json();
                 displayData(data);
                 showStatus('✅ 最新のAI厳選予想を取得しました！', 'success');
                 
             } catch (error) {
-                console.error('Error:', error);
+                console.error('❌ Error:', error);
                 showStatus('❌ データ取得エラー: ' + error.message, 'error');
             } finally {
                 btn.disabled = false;
@@ -413,7 +404,7 @@
             
             const summary = data.summary || {};
             const races = data.selected_predictions || [];
-            const turbulence = summary.turbulence || {};
+            const turb = summary.turbulence || {};
             
             let html = `
                 <div class="content-card">
@@ -428,29 +419,29 @@
                         </div>
                         <div class="summary-item">
                             <div class="summary-value">${summary.selected_races || 0}R</div>
-                            <div class="summary-label">AI厳選レース</div>
+                            <div class="summary-label">AI厳選</div>
                         </div>
                         <div class="summary-item">
                             <div class="summary-value">${summary.total_races || 0}R</div>
-                            <div class="summary-label">全レース数</div>
+                            <div class="summary-label">全レース</div>
                         </div>
                         <div class="summary-item">
                             <div class="summary-value">¥${(summary.total_investment || 0).toLocaleString()}</div>
-                            <div class="summary-label">合計投資額</div>
+                            <div class="summary-label">投資額</div>
                         </div>
                     </div>
                     <div class="turb-summary">
                         <div class="turb-item">
-                            <span class="turb-label">低乱度</span>
-                            <div class="turb-value">${turbulence['低'] || 0}R</div>
+                            <div class="turb-label">低乱度</div>
+                            <div class="turb-value">${turb['低'] || 0}R</div>
                         </div>
                         <div class="turb-item">
-                            <span class="turb-label">中乱度</span>
-                            <div class="turb-value">${turbulence['中'] || 0}R</div>
+                            <div class="turb-label">中乱度</div>
+                            <div class="turb-value">${turb['中'] || 0}R</div>
                         </div>
                         <div class="turb-item">
-                            <span class="turb-label">高乱度</span>
-                            <div class="turb-value">${turbulence['高'] || 0}R</div>
+                            <div class="turb-label">高乱度</div>
+                            <div class="turb-value">${turb['高'] || 0}R</div>
                         </div>
                     </div>
                 </div>
@@ -463,32 +454,85 @@
             contentArea.innerHTML = html;
         }
         
-        function createRaceCard(race, raceNum) {
-            const raceInfo = race.race_info || {};
-            const predictions = race.predictions || {};
-            const betting = race.betting_suggestions?.main || {};
+        function createRaceCard(race, num) {
+            console.log(`🏇 Processing race ${num}:`, race);
             
+            // 柔軟なレース情報取得（複数のキーパターンに対応）
+            const raceInfo = race.race_info || race;
+            
+            const venue = getNestedValue(raceInfo, 'venue', '競馬場') || 
+                         getNestedValue(race, 'venue', '競馬場') || '競馬場不明';
+            
+            const raceName = getNestedValue(raceInfo, 'レース名', 'race_name', 'name') || 
+                            getNestedValue(race, 'レース名', 'race_name', 'name') || '';
+            
+            const distance = getNestedValue(raceInfo, '距離', 'distance') || 
+                            getNestedValue(race, '距離', 'distance') || '';
+            
+            const startTime = getNestedValue(raceInfo, '発走時刻', 'start_time', 'time') || 
+                             getNestedValue(race, '発走時刻', 'start_time', 'time') || '';
+            
+            const turbulence = getNestedValue(race, 'turbulence', '波乱度') || '-';
+            
+            console.log(`📋 Extracted race info: ${venue} ${raceName} ${distance}m ${startTime}`);
+            
+            // 柔軟な馬情報取得
+            const predictions = race.predictions || {};
             const horses = [];
             
-            // 安全な馬情報の抽出
-            if (predictions.honmei?.馬名) {
-                horses.push({ ...predictions.honmei, mark: '◎', rank: 1 });
-            }
-            if (predictions.taikou?.馬名) {
-                horses.push({ ...predictions.taikou, mark: '○', rank: 2 });
-            }
-            if (predictions.ana?.馬名) {
-                horses.push({ ...predictions.ana, mark: '▲', rank: 3 });
+            // 本命の取得（複数のキー名に対応）
+            const honmei = getNestedValue(predictions, 'honmei', '本命');
+            if (honmei) {
+                const horseName = getNestedValue(honmei, '馬名', 'horse_name', 'name');
+                if (horseName) {
+                    horses.push({ ...honmei, 馬名: horseName, mark: '◎', rank: 1, type: '本命' });
+                    console.log(`◎ Honmei found: ${horseName}`);
+                }
             }
             
-            const horsesHTML = horses.map(horse => createHorseRow(horse)).join('');
+            // 対抗の取得
+            const taikou = getNestedValue(predictions, 'taikou', '対抗');
+            if (taikou) {
+                const horseName = getNestedValue(taikou, '馬名', 'horse_name', 'name');
+                if (horseName) {
+                    horses.push({ ...taikou, 馬名: horseName, mark: '○', rank: 2, type: '対抗' });
+                    console.log(`○ Taikou found: ${horseName}`);
+                }
+            }
+            
+            // 単穴の取得
+            const ana = getNestedValue(predictions, 'ana', '単穴');
+            if (ana) {
+                const horseName = getNestedValue(ana, '馬名', 'horse_name', 'name');
+                if (horseName) {
+                    horses.push({ ...ana, 馬名: horseName, mark: '▲', rank: 3, type: '単穴' });
+                    console.log(`▲ Ana found: ${horseName}`);
+                }
+            }
+            
+            console.log(`🐎 Total horses extracted for race ${num}: ${horses.length}`);
+            
+            const horsesHTML = horses.length > 0 ? 
+                horses.map(h => createHorseRow(h)).join('') :
+                `<div style="padding:15px; text-align:center; color:#64748b; background:#f8fafc; border-radius:10px;">
+                    <strong>⚠️ 馬情報を読み込み中...</strong><br>
+                    <small style="font-family:monospace; font-size:0.7rem;">
+                        Debug: ${JSON.stringify(predictions, null, 1).substring(0, 200)}...
+                    </small>
+                </div>`;
+            
+            // 買い目情報の取得
+            const betting = race.betting_suggestions?.main || {};
+            const bettingType = getNestedValue(betting, 'type', '買い目タイプ') || '三連複BOX';
+            const bettingCombo = getNestedValue(betting, 'combinations', '組み合わせ') || '◎-○-▲';
+            const bettingInvest = getNestedValue(betting, 'total_investment', '投資額') || 100;
             
             return `
                 <div class="race-card">
                     <div class="race-header">
-                        <div class="race-title">🏇 予想${raceNum} - ${raceInfo.venue || ''} ${raceInfo.レース名 || ''}</div>
+                        <div class="race-title">🏇 予想${num} - ${venue} ${raceName}</div>
                         <div class="race-meta">
-                            ${raceInfo.距離 || ''}m | ${raceInfo.発走時刻 || ''}発走 | 波乱度:${race.turbulence || '-'}
+                            ${distance}m | ${startTime}発走 | 波乱度:${turbulence}
                         </div>
                     </div>
                     <div class="predictions-section">
@@ -498,9 +542,9 @@
                     <div class="betting-section">
                         <div class="betting-title">💰 DES推奨買い目</div>
                         <div class="betting-box">
-                            <strong>${betting.type || '三連複BOX'}</strong><br>
-                            ${betting.combinations || '◎-○-▲'}<br>
-                            <small style="color:#78350f;">投資額: ¥${(betting.total_investment || 100).toLocaleString()}</small>
+                            <div class="betting-type">${bettingType}</div>
+                            <div class="betting-combo">${bettingCombo}</div>
+                            <div class="betting-note">投資額: ¥${bettingInvest.toLocaleString()}</div>
                         </div>
                     </div>
                 </div>
@@ -510,28 +554,8 @@
         function createHorseRow(horse) {
             if (!horse || !horse.馬名) return '';
             
-            const total = horse.total_score || 0;
-            const confidence = horse.confidence || '不明';
-            
-            const confClass = confidence === '高' ? 'conf-high' : 
-                             confidence === '中' ? 'conf-mid' : 'conf-low';
-            
-            return `
-                <div class="horse-row rank-${horse.rank}">
-                    <div class="rank-badge rank-${horse.rank}">${horse.mark}</div>
-                    <div class="horse-info">
-                        <div class="horse-name">${horse.馬名}</div>
-                        <div class="horse-detail">
-                            枠${horse.枠番 || '?'}・馬${horse.馬番 || '?'} | 信頼度:${confidence}
-                        </div>
-                    </div>
-                    <div class="score-display">
-                        <div class="total-score">${total.toFixed(1)}</div>
-                        <div class="confidence ${confClass}">${confidence}</div>
-                    </div>
-                </div>
-            `;
-        }
-    </script>
-</body>
-</html>
+            const total = getNestedValue(horse, 'total_score', '総合点', 'score') || 0;
+            const confidence = getNestedValue(horse, 'confidence', '信頼度') || '不明';
+            const frameNum = getNestedValue(horse, '枠番', 'frame_number') || '?';
+            const horseNum = getNestedValue(horse, '馬番', 'horse_number') || '?';
+           
