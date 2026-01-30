@@ -43,10 +43,14 @@ jobs:
         run: |
           python scripts/fetch_race_results.py ${{ steps.get_ymd.outputs.ymd }}
       
+      - name: Generate results summary
+        run: |
+          python scripts/generate_results_summary.py ${{ steps.get_ymd.outputs.ymd }}
+      
       - name: Commit results
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add race_results_*.json
-          git diff --cached --quiet || git commit -m "chore: add race results for ${{ steps.get_ymd.outputs.ymd }}"
+          git add race_results_*.json results_summary_*.md
+          git diff --cached --quiet || git commit -m "chore: add race results and summary for ${{ steps.get_ymd.outputs.ymd }}"
           git push
