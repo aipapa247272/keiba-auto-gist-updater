@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🏇 DES_AI競馬予想</title>
-    <link rel="icon" href="https://www.genspark.ai/api/files/s/iJNvjiso" type="image/png">
     <style>
         :root {
             --primary: #1a4d7a;
@@ -36,50 +35,49 @@
             width: 100%;
         }
         
-        /* ヘッダー背景画像 */
-        .header-wrapper {
-            width: 100%;
-            overflow: hidden;
-            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--primary) 100%);
-        }
-        
-        .header-bg {
-            width: 100%;
-            height: auto;
-            display: block;
-            image-rendering: auto;
-            -webkit-user-select: none;
-            user-select: none;
-        }
-        
-        /* ヘッダーコンテンツ */
+        /* ヘッダー */
         .header {
             text-align: center;
             color: white;
-            padding: 20px 15px;
-            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--primary) 100%);
+            padding: 30px 15px 25px;
+            background: linear-gradient(135deg, rgba(10, 25, 41, 0.95) 0%, rgba(26, 77, 122, 0.95) 100%);
+            border-bottom: 3px solid var(--accent);
+            box-shadow: 0 4px 20px rgba(0, 212, 255, 0.2);
+        }
+        
+        .logo-emoji {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
         
         .header h1 {
-            font-size: 1.6rem;
-            margin-bottom: 10px;
+            font-size: 1.7rem;
+            margin-bottom: 12px;
             text-shadow: 0 4px 8px rgba(0,0,0,0.7);
             font-weight: bold;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
         
         .header p {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             text-shadow: 0 2px 6px rgba(0,0,0,0.8);
-            line-height: 1.5;
-            margin-bottom: 15px;
+            line-height: 1.6;
+            margin-bottom: 18px;
+            opacity: 0.95;
         }
         
         .x-link {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 10px 20px;
+            padding: 11px 22px;
             background: rgba(0, 212, 255, 0.2);
             border: 2px solid rgba(0, 212, 255, 0.5);
             border-radius: 30px;
@@ -93,16 +91,11 @@
         
         .x-link:active {
             transform: scale(0.95);
+            background: rgba(0, 212, 255, 0.3);
         }
         
-        .x-icon {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            flex-shrink: 0;
-            image-rendering: auto;
-            -webkit-user-select: none;
-            user-select: none;
+        .x-emoji {
+            font-size: 1.3rem;
         }
         
         /* タブナビゲーション */
@@ -423,37 +416,21 @@
 </head>
 <body>
     <div class="container">
-        <div class="container">
-        <!-- ヘッダー背景画像 -->
-        <div class="header-wrapper">
-            <img src="https://www.genspark.ai/api/files/s/UO3vtwJQ" 
-                 alt="DES Header" 
-                 class="header-bg" 
-                 crossorigin="anonymous"
-                 onload="console.log('✅ Header image loaded')"
-                 onerror="console.error('❌ Header image failed'); this.style.display='none'">
-        </div>
-        
-        <!-- ヘッダーコンテンツ -->
+        <!-- ヘッダー -->
         <div class="header">
+            <div class="logo-emoji">🏇</div>
             <h1>DES_AI競馬予想</h1>
             <p>
                 デュアル・エッジ・システム<br>
                 週単位プラス収支を目指す<br>AI戦略予想
             </p>
             <a href="https://x.com/AIkeibayosouDES" target="_blank" class="x-link">
-                <img src="https://www.genspark.ai/api/files/s/iJNvjiso" 
-                     alt="DES" 
-                     class="x-icon" 
-                     crossorigin="anonymous"
-                     onload="console.log('✅ Icon loaded')"
-                     onerror="console.error('❌ Icon failed'); this.style.display='none'">
+                <span class="x-emoji">🐎</span>
                 公式X: @AIkeibayosouDES
             </a>
         </div>
         
         <!-- タブナビゲーション -->
-
         <div class="tab-nav">
             <button class="tab-btn active" data-tab="predictions">📊 今日の予想</button>
             <button class="tab-btn" data-tab="results">📈 昨日の結果</button>
@@ -475,14 +452,12 @@
         let predictionsData = null;
         let resultsData = null;
         
-        // ページ読み込み時
         document.addEventListener('DOMContentLoaded', () => {
             console.log('🚀 App started');
             initTabs();
             loadAllData();
         });
         
-        // タブの初期化
         function initTabs() {
             const tabs = document.querySelectorAll('.tab-btn');
             tabs.forEach(tab => {
@@ -493,7 +468,6 @@
                     switchTab(tabName);
                 });
             });
-            console.log('✅ Tabs initialized');
         }
         
         function showStatus(msg, type) {
@@ -515,17 +489,14 @@
         function switchTab(tab) {
             console.log('🔄 Switching to:', tab);
             
-            // すべてのタブボタンから active を削除
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             
-            // すべてのコンテンツから active を削除
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
             });
             
-            // 選択されたタブを active に
             document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
             
             if (tab === 'predictions') {
@@ -635,224 +606,4 @@
                             <div class="turb-label">中乱度</div>
                             <div class="turb-value">${turb['中'] || 0}R</div>
                         </div>
-                        <div class="turb-item">
-                            <div class="turb-label">高乱度</div>
-                            <div class="turb-value">${turb['高'] || 0}R</div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            races.forEach((race, idx) => {
-                html += createPredictionCard(race, idx + 1);
-            });
-            
-            document.getElementById('predictionsTab').innerHTML = html;
-        }
-        
-        function createPredictionCard(race, num) {
-            const venue = getVal(race, '競馬場', 'venue') || '';
-            const raceName = getVal(race, 'レース名', 'race_name') || '';
-            const distance = getVal(race, '距離', 'distance') || '';
-            const track = getVal(race, 'トラック', 'track') || '';
-            const startTime = getVal(race, '発走時刻', 'start_time') || '';
-            const turbulence = getVal(race, '波乱度', 'turbulence') || '-';
-            
-            const horses = race.horses || [];
-            const sortedHorses = horses
-                .filter(h => getVal(h, '馬名', 'horse_name', 'name'))
-                .sort((a, b) => {
-                    const scoreA = getVal(a, 'des_score', 'total_score', 'スコア') || 0;
-                    const scoreB = getVal(b, 'des_score', 'total_score', 'スコア') || 0;
-                    if (scoreB !== scoreA) return scoreB - scoreA;
-                    const popA = getVal(a, '人気', 'popularity') || 99;
-                    const popB = getVal(b, '人気', 'popularity') || 99;
-                    return popA - popB;
-                })
-                .slice(0, 3);
-            
-            const horsesHTML = sortedHorses.length > 0 ? 
-                sortedHorses.map((horse, idx) => {
-                    const mark = ['◎', '○', '▲'][idx];
-                    const rank = idx + 1;
-                    const name = getVal(horse, '馬名', 'horse_name', 'name') || '?';
-                    const score = getVal(horse, 'des_score', 'total_score', 'スコア') || 0;
-                    const frame = getVal(horse, '枠番', 'frame_number') || '?';
-                    const horseNum = getVal(horse, '馬番', 'horse_number') || '?';
-                    const odds = getVal(horse, 'オッズ', 'odds') || '-';
-                    const popularity = getVal(horse, '人気', 'popularity') || '?';
-                    
-                    return `
-                        <div class="horse-row rank-${rank}">
-                            <div class="rank-badge rank-${rank}">${mark}</div>
-                            <div class="horse-info">
-                                <div class="horse-name">${name}</div>
-                                <div class="horse-detail">
-                                    枠${frame}・馬${horseNum} | ${odds}倍 | ${popularity}人気
-                                </div>
-                            </div>
-                            <div class="score-display">
-                                <div class="total-score">${Number(score).toFixed(1)}</div>
-                                <div class="popularity">${popularity}人気</div>
-                            </div>
-                        </div>
-                    `;
-                }).join('') : 
-                `<div style="padding:15px; text-align:center; color:#666; font-size:0.9rem;">⚠️ データ解析中...</div>`;
-            
-            const betting = race.betting_suggestions?.main || {};
-            const bettingType = getVal(betting, 'type', '買い目タイプ') || '三連複BOX';
-            const bettingCombo = getVal(betting, 'combinations', '組み合わせ') || '◎-○-▲';
-            const bettingInvest = getVal(betting, 'total_investment', '投資額') || 100;
-            
-            return `
-                <div class="race-card">
-                    <div class="race-header">
-                        <div class="race-title">🏇 予想${num} - ${venue} ${raceName}</div>
-                        <div class="race-meta">
-                            ${track}${distance}m | ${startTime}発走 | 波乱度:${turbulence}
-                        </div>
-                    </div>
-                    <div class="predictions-section">
-                        <div class="section-title">🤖 DESスコアTOP3</div>
-                        ${horsesHTML}
-                    </div>
-                    <div class="betting-section">
-                        <div class="betting-title">💰 DES推奨買い目</div>
-                        <div class="betting-box">
-                            <strong>${bettingType}</strong><br>
-                            ${bettingCombo}<br>
-                            <small style="color:#78350f;">投資: ¥${Number(bettingInvest).toLocaleString()}</small>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-        
-        function displayResults(data) {
-            const ymd = String(data.ymd || '');
-            const date = ymd.length === 8 ? 
-                `${ymd.slice(0,4)}/${ymd.slice(4,6)}/${ymd.slice(6,8)}` : '-';
-            
-            const summary = data.summary || {};
-            const results = data.results || [];
-            
-            const hitRate = summary.hit_rate || 0;
-            const recoveryRate = summary.recovery_rate || 0;
-            
-            let html = `
-                <div class="content-card">
-                    <div class="summary-header">
-                        <div class="summary-title">📈 昨日の結果</div>
-                        <button class="refresh-btn" onclick="loadResults()">🔄</button>
-                    </div>
-                    <div class="summary-grid">
-                        <div class="summary-item">
-                            <div class="summary-value">${date}</div>
-                            <div class="summary-label">対象日</div>
-                        </div>
-                        <div class="summary-item">
-                            <div class="summary-value ${hitRate >= 30 ? 'success' : 'error'}">${hitRate.toFixed(1)}%</div>
-                            <div class="summary-label">的中率</div>
-                        </div>
-                        <div class="summary-item">
-                            <div class="summary-value ${recoveryRate >= 80 ? 'success' : 'error'}">${recoveryRate.toFixed(1)}%</div>
-                            <div class="summary-label">回収率</div>
-                        </div>
-                        <div class="summary-item">
-                            <div class="summary-value ${summary.total_profit >= 0 ? 'success' : 'error'}">
-                                ${summary.total_profit >= 0 ? '+' : ''}¥${(summary.total_profit || 0).toLocaleString()}
-                            </div>
-                            <div class="summary-label">収支</div>
-                        </div>
-                    </div>
-                    <div class="turb-summary">
-                        <div class="turb-item">
-                            <div class="turb-label">的中</div>
-                            <div class="turb-value">${summary.hit_count || 0}R</div>
-                        </div>
-                        <div class="turb-item">
-                            <div class="turb-label">不的中</div>
-                            <div class="turb-value">${summary.miss_count || 0}R</div>
-                        </div>
-                        <div class="turb-item">
-                            <div class="turb-label">取得不可</div>
-                            <div class="turb-value">${summary.unavailable_count || 0}R</div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            results.forEach((result, idx) => {
-                if (result.result_available) {
-                    html += createResultCard(result, idx + 1);
-                }
-            });
-            
-            document.getElementById('resultsTab').innerHTML = html;
-        }
-        
-        function createResultCard(result, num) {
-            const hit = result.hit || false;
-            const venue = result.venue || '';
-            const raceName = result.race_name || '';
-            
-            const predicted = result.predicted_horses || [];
-            const actual = result.actual_finishing_order || [];
-            
-            const predictedStr = predicted.map(h => h.馬番 || h.horse_number || '?').join('-');
-            const actualStr = actual.slice(0, 3).join('-');
-            
-            return `
-                <div class="race-card">
-                    <div class="race-header ${hit ? 'hit' : 'miss'}">
-                        <div class="race-title">
-                            ${hit ? '🎯' : '❌'} 結果${num} - ${venue} ${raceName}
-                            <span class="result-badge ${hit ? 'hit' : 'miss'}">
-                                ${hit ? '的中' : '不的中'}
-                            </span>
-                        </div>
-                    </div>
-                    <div class="results-section">
-                        <div class="section-title">📊 予想 vs 実績</div>
-                        <div class="comparison-row">
-                            <span class="comparison-label">🤖 AI予想</span>
-                            <span class="comparison-value">${predictedStr}</span>
-                        </div>
-                        <div class="comparison-row">
-                            <span class="comparison-label">🏁 実際の着順</span>
-                            <span class="comparison-value">${actualStr}</span>
-                        </div>
-                        <div class="comparison-row">
-                            <span class="comparison-label">💰 三連複払戻</span>
-                            <span class="comparison-value">¥${(result.sanrenpuku_payout || 0).toLocaleString()}</span>
-                        </div>
-                        <div class="comparison-row">
-                            <span class="comparison-label">📈 収支</span>
-                            <span class="comparison-value" style="color:${result.profit >= 0 ? 'var(--success)' : 'var(--error)'}">
-                                ${result.profit >= 0 ? '+' : ''}¥${(result.profit || 0).toLocaleString()}
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-        
-        function displayStats() {
-            const statsHTML = `
-                <div class="content-card">
-                    <div class="summary-header">
-                        <div class="summary-title">📉 統計情報</div>
-                    </div>
-                    <div style="text-align:center; padding:30px; color:#64748b; font-size:0.9rem;">
-                        🚧 統計機能は開発中です<br>
-                        <small>週間・月間の成績集計を予定</small>
-                    </div>
-                </div>
-            `;
-            document.getElementById('statsTab').innerHTML = statsHTML;
-        }
-    </script>
-</body>
-</html>
-
+                        <div class="turb-ite
