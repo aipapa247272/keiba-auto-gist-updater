@@ -12,7 +12,6 @@
             --accent: #00d4ff;
             --success: #10b981;
             --error: #ef4444;
-            --warning: #f59e0b;
             --text-main: #1e293b;
             --text-sub: #64748b;
             --border: #e2e8f0;
@@ -26,34 +25,31 @@
             background: linear-gradient(135deg, var(--bg-dark) 0%, var(--primary) 50%, var(--secondary) 100%);
             color: var(--text-main);
             min-height: 100vh;
-            padding: 0 0 40px;
+            padding: 0;
             line-height: 1.6;
         }
         
         .container { max-width: 600px; margin: 0 auto; }
         
-        /* ヘッダー */
+        /* ヘッダー背景画像 */
+        .header-bg {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin-bottom: -50px;
+        }
+        
+        /* ヘッダーコンテンツ */
         .header {
             text-align: center;
             color: white;
-            padding: 20px 15px;
-            margin-bottom: 15px;
-        }
-        
-        .logo-icon {
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 15px;
-            display: block;
-            border-radius: 50%;
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.6);
-            border: 3px solid rgba(255,255,255,0.3);
+            padding: 0 15px 20px;
         }
         
         .header h1 {
             font-size: 1.8rem;
             margin-bottom: 12px;
-            text-shadow: 0 4px 8px rgba(0,0,0,0.7), 0 0 20px rgba(0, 212, 255, 0.5);
+            text-shadow: 0 4px 8px rgba(0,0,0,0.7);
             font-weight: bold;
             letter-spacing: 2px;
         }
@@ -68,7 +64,7 @@
         .x-link {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             padding: 10px 24px;
             background: rgba(0, 212, 255, 0.2);
             border: 2px solid rgba(0, 212, 255, 0.5);
@@ -86,11 +82,17 @@
             box-shadow: 0 6px 20px rgba(0, 212, 255, 0.5);
         }
         
+        .x-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+        }
+        
         /* タブナビゲーション */
         .tab-nav {
             display: flex;
             gap: 10px;
-            margin: 0 10px 15px;
+            margin: 15px 10px;
             background: rgba(26, 77, 122, 0.3);
             padding: 8px;
             border-radius: 16px;
@@ -99,11 +101,11 @@
         
         .tab-btn {
             flex: 1;
-            padding: 14px;
+            padding: 14px 8px;
             border: none;
             background: transparent;
             color: white;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 600;
             border-radius: 12px;
             cursor: pointer;
@@ -120,7 +122,7 @@
         
         .tab-content { 
             display: none;
-            padding: 0 10px;
+            padding: 0 10px 40px;
         }
         .tab-content.active { display: block; }
         
@@ -174,9 +176,8 @@
             transition: all 0.3s ease;
         }
         
-        .refresh-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.4);
+        .refresh-btn:active {
+            transform: scale(0.95);
         }
         
         .summary-grid {
@@ -227,12 +228,6 @@
             margin-bottom: 20px;
             overflow: hidden;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .race-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
         
         .race-header {
@@ -279,12 +274,6 @@
             background: #f8fafc;
             border-radius: 12px;
             border-left: 4px solid var(--border);
-            transition: all 0.3s ease;
-        }
-        
-        .horse-row:hover {
-            transform: translateX(5px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         
         .horse-row.rank-1 {
@@ -369,15 +358,8 @@
             margin-left: 10px;
         }
         
-        .result-badge.hit {
-            background: var(--success);
-            color: white;
-        }
-        
-        .result-badge.miss {
-            background: var(--error);
-            color: white;
-        }
+        .result-badge.hit { background: var(--success); color: white; }
+        .result-badge.miss { background: var(--error); color: white; }
         
         .comparison-row {
             display: flex;
@@ -402,30 +384,32 @@
         
         @media (max-width: 480px) {
             .summary-grid { grid-template-columns: 1fr; }
-            .header h1 { font-size: 1.6rem; }
-            .header p { font-size: 0.85rem; }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- ヘッダー背景画像 -->
+        <img src="https://www.genspark.ai/api/files/s/UO3vtwJQ" alt="DES Header" class="header-bg">
+        
+        <!-- ヘッダーコンテンツ -->
         <div class="header">
-            <img src="https://www.genspark.ai/api/files/s/iJNvjiso" alt="DES Icon" class="logo-icon">
             <h1>DES_AI競馬予想</h1>
             <p>
                 デュアル・エッジ・システム<br>
                 週単位プラス収支を目指すAI戦略予想
             </p>
             <a href="https://x.com/AIkeibayosouDES" target="_blank" class="x-link">
-                📱 公式X: @AIkeibayosouDES
+                <img src="https://www.genspark.ai/api/files/s/iJNvjiso" alt="DES Icon" class="x-icon">
+                公式X: @AIkeibayosouDES
             </a>
         </div>
         
         <!-- タブナビゲーション -->
         <div class="tab-nav">
-            <button class="tab-btn active" onclick="switchTab('predictions')">📊 今日の予想</button>
-            <button class="tab-btn" onclick="switchTab('results')">📈 昨日の結果</button>
-            <button class="tab-btn" onclick="switchTab('stats')">📉 統計</button>
+            <button class="tab-btn active" id="tab-predictions">📊 今日の予想</button>
+            <button class="tab-btn" id="tab-results">📈 昨日の結果</button>
+            <button class="tab-btn" id="tab-stats">📉 統計</button>
         </div>
         
         <div id="statusBox" class="status-box"></div>
@@ -444,10 +428,31 @@
         let predictionsData = null;
         let resultsData = null;
         
+        // ページ読み込み時の初期化
         window.addEventListener('load', () => {
+            console.log('🚀 App loaded');
+            initTabs();
             showStatus('🚀 アプリを起動中...', 'success');
-            setTimeout(loadAllData, 1000);
+            setTimeout(loadAllData, 500);
         });
+        
+        // タブのイベントリスナー登録
+        function initTabs() {
+            document.getElementById('tab-predictions').addEventListener('click', () => {
+                console.log('📊 Predictions tab clicked');
+                switchTab('predictions');
+            });
+            
+            document.getElementById('tab-results').addEventListener('click', () => {
+                console.log('📈 Results tab clicked');
+                switchTab('results');
+            });
+            
+            document.getElementById('tab-stats').addEventListener('click', () => {
+                console.log('📉 Stats tab clicked');
+                switchTab('stats');
+            });
+        }
         
         function showStatus(msg, type) {
             const box = document.getElementById('statusBox');
@@ -464,29 +469,30 @@
         }
         
         function switchTab(tab) {
-            console.log('🔄 Switching to tab:', tab);
+            console.log('🔄 Switching to:', tab);
             currentTab = tab;
             
-            // タブボタンの切り替え
+            // すべてのタブボタンから active を削除
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             
-            // コンテンツの切り替え
+            // すべてのコンテンツから active を削除
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
             });
             
+            // 選択されたタブを active に
             if (tab === 'predictions') {
-                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+                document.getElementById('tab-predictions').classList.add('active');
                 document.getElementById('predictionsTab').classList.add('active');
                 if (!predictionsData) loadPredictions();
             } else if (tab === 'results') {
-                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                document.getElementById('tab-results').classList.add('active');
                 document.getElementById('resultsTab').classList.add('active');
                 if (!resultsData) loadResults();
             } else if (tab === 'stats') {
-                document.querySelectorAll('.tab-btn')[2].classList.add('active');
+                document.getElementById('tab-stats').classList.add('active');
                 document.getElementById('statsTab').classList.add('active');
                 displayStats();
             }
@@ -585,10 +591,4 @@
                         <div class="turb-item">
                             <div class="turb-label">中乱度</div>
                             <div class="turb-value">${turb['中'] || 0}R</div>
-                        </div>
-                        <div class="turb-item">
-                            <div class="turb-label">高乱度</div>
-                            <div class="turb-value">${turb['高'] || 0}R</div>
-                        </div>
-                    </div>
-                </d
+                     
