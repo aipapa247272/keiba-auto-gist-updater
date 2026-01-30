@@ -10,6 +10,7 @@
             --secondary: #764ba2;
             --success: #10b981;
             --error: #ef4444;
+            --warning: #f59e0b;
             --text-main: #1e293b;
             --text-sub: #64748b;
             --border: #e2e8f0;
@@ -66,23 +67,39 @@
             transform: translateY(-2px);
         }
         
-        .btn {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-            transition: all 0.3s ease;
+        /* タブナビゲーション */
+        .tab-nav {
+            display: flex;
+            gap: 10px;
             margin-bottom: 20px;
+            background: rgba(255,255,255,0.15);
+            padding: 8px;
+            border-radius: 16px;
         }
         
-        .btn:hover:not(:disabled) { transform: translateY(-2px); }
-        .btn:disabled { opacity: 0.7; cursor: wait; }
+        .tab-btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            background: transparent;
+            color: white;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+        }
+        
+        .tab-btn.active {
+            background: white;
+            color: var(--primary);
+            opacity: 1;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
         
         .status-box {
             padding: 12px;
@@ -96,6 +113,7 @@
         
         .status-box.show { display: block; }
         .status-box.success { background: #dcfce7; color: #166534; }
+        .status-box.error { background: #fee2e2; color: #991b1b; }
         
         .hidden { display: none !important; }
         
@@ -154,6 +172,9 @@
             margin-bottom: 5px;
         }
         
+        .summary-value.success { color: var(--success); }
+        .summary-value.error { color: var(--error); }
+        
         .summary-label {
             font-size: 0.85rem;
             color: var(--text-sub);
@@ -191,6 +212,14 @@
             padding: 18px 20px;
         }
         
+        .race-header.hit {
+            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+        }
+        
+        .race-header.miss {
+            background: linear-gradient(135deg, var(--error) 0%, #dc2626 100%);
+        }
+        
         .race-title {
             font-size: 1.2rem;
             font-weight: bold;
@@ -202,7 +231,7 @@
             opacity: 0.95;
         }
         
-        .predictions-section {
+        .predictions-section, .results-section {
             padding: 20px;
         }
         
@@ -301,6 +330,46 @@
             text-align: center;
         }
         
+        .result-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-left: 10px;
+        }
+        
+        .result-badge.hit {
+            background: var(--success);
+            color: white;
+        }
+        
+        .result-badge.miss {
+            background: var(--error);
+            color: white;
+        }
+        
+        .comparison-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background: #f8fafc;
+            border-radius: 10px;
+        }
+        
+        .comparison-label {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            font-weight: 600;
+        }
+        
+        .comparison-value {
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--text-main);
+        }
+        
         @media (max-width: 480px) {
             .summary-grid { grid-template-columns: 1fr; }
         }
@@ -316,20 +385,32 @@
             </a>
         </div>
         
-        <button class="btn" onclick="loadData()" id="mainBtn">
-            🔄 最新データを再取得
-        </button>
+        <!-- タブナビゲーション -->
+        <div class="tab-nav">
+            <button class="tab-btn active" onclick="switchTab('predictions')">📊 今日の予想</button>
+            <button class="tab-btn" onclick="switchTab('results')">📈 昨日の結果</button>
+            <button class="tab-btn" onclick="switchTab('stats')">📉 統計</button>
+        </div>
         
         <div id="statusBox" class="status-box"></div>
-        <div id="contentArea" class="hidden"></div>
+        
+        <!-- タブコンテンツ -->
+        <div id="predictionsTab" class="tab-content active"></div>
+        <div id="resultsTab" class="tab-content"></div>
+        <div id="statsTab" class="tab-content"></div>
     </div>
 
     <script>
-        const API_URL = 'https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/latest_predictions.json';
+        const PREDICTIONS_URL = 'https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/latest_predictions.json';
+        const RESULTS_URL = 'https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/latest_results.json';
+        
+        let currentTab = 'predictions';
+        let predictionsData = null;
+        let resultsData = null;
         
         window.addEventListener('load', () => {
             showStatus('🚀 アプリを起動中...', 'success');
-            setTimeout(loadData, 1000);
+            setTimeout(loadAllData, 1000);
         });
         
         function showStatus(msg, type) {
@@ -339,7 +420,6 @@
             if (type === 'success') setTimeout(() => box.style.display = 'none', 3000);
         }
         
-        // 柔軟な値取得関数
         function getVal(obj, ...keys) {
             for (let key of keys) {
                 if (obj && obj[key] !== undefined && obj[key] !== null) return obj[key];
@@ -347,33 +427,72 @@
             return null;
         }
         
-        async function loadData() {
-            const btn = document.getElementById('mainBtn');
-            btn.disabled = true;
-            btn.textContent = '🔄 AI分析中...';
+        function switchTab(tab) {
+            currentTab = tab;
             
-            try {
-                const res = await fetch(API_URL + '?t=' + Date.now(), { cache: 'no-cache' });
-                if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                
-                const data = await res.json();
-                console.log('✅ Data loaded:', data);
-                displayData(data);
-                showStatus('✅ AI厳選予想の取得に成功しました！', 'success');
-                
-            } catch (error) {
-                console.error('❌ Error:', error);
-                showStatus('❌ データ取得エラー: ' + error.message, 'error');
-            } finally {
-                btn.disabled = false;
-                btn.textContent = '🔄 最新データを再取得';
+            // タブボタンの切り替え
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            if (tab === 'predictions') {
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+                document.getElementById('predictionsTab').classList.add('active');
+                if (!predictionsData) loadPredictions();
+            } else if (tab === 'results') {
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                document.getElementById('resultsTab').classList.add('active');
+                if (!resultsData) loadResults();
+            } else if (tab === 'stats') {
+                document.querySelectorAll('.tab-btn')[2].classList.add('active');
+                document.getElementById('statsTab').classList.add('active');
+                displayStats();
             }
         }
         
-        function displayData(data) {
-            const contentArea = document.getElementById('contentArea');
-            contentArea.classList.remove('hidden');
-            
+        async function loadAllData() {
+            await loadPredictions();
+            await loadResults();
+        }
+        
+        async function loadPredictions() {
+            try {
+                const res = await fetch(PREDICTIONS_URL + '?t=' + Date.now(), { cache: 'no-cache' });
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                
+                predictionsData = await res.json();
+                console.log('✅ Predictions loaded:', predictionsData);
+                displayPredictions(predictionsData);
+                showStatus('✅ AI厳選予想の取得に成功しました！', 'success');
+                
+            } catch (error) {
+                console.error('❌ Predictions error:', error);
+                showStatus('❌ 予想データ取得エラー: ' + error.message, 'error');
+            }
+        }
+        
+        async function loadResults() {
+            try {
+                const res = await fetch(RESULTS_URL + '?t=' + Date.now(), { cache: 'no-cache' });
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                
+                resultsData = await res.json();
+                console.log('✅ Results loaded:', resultsData);
+                displayResults(resultsData);
+                
+            } catch (error) {
+                console.error('❌ Results error:', error);
+                document.getElementById('resultsTab').innerHTML = `
+                    <div class="content-card">
+                        <div style="text-align:center; padding:40px; color:#64748b;">
+                            ⚠️ 結果データがまだ生成されていません<br>
+                            <small>毎日22:00に自動更新されます</small>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        
+        function displayPredictions(data) {
             const ymd = String(data.ymd || '');
             const date = ymd.length === 8 ? 
                 `${ymd.slice(0,4)}/${ymd.slice(4,6)}/${ymd.slice(6,8)}` : '-';
@@ -386,7 +505,7 @@
                 <div class="content-card">
                     <div class="summary-header">
                         <div class="summary-title">📊 本日のAI厳選予想</div>
-                        <button class="refresh-btn" onclick="loadData()">🔄 更新</button>
+                        <button class="refresh-btn" onclick="loadPredictions()">🔄 更新</button>
                     </div>
                     <div class="summary-grid">
                         <div class="summary-item">
@@ -424,14 +543,13 @@
             `;
             
             races.forEach((race, idx) => {
-                html += createRaceCard(race, idx + 1);
+                html += createPredictionCard(race, idx + 1);
             });
             
-            contentArea.innerHTML = html;
+            document.getElementById('predictionsTab').innerHTML = html;
         }
         
-        function createRaceCard(race, num) {
-            // 診断で確認された実際のキー名を使用
+        function createPredictionCard(race, num) {
             const venue = getVal(race, '競馬場', 'venue') || '';
             const raceName = getVal(race, 'レース名', 'race_name') || '';
             const distance = getVal(race, '距離', 'distance') || '';
@@ -439,30 +557,18 @@
             const startTime = getVal(race, '発走時刻', 'start_time') || '';
             const turbulence = getVal(race, '波乱度', 'turbulence') || '-';
             
-            console.log(`🏇 Processing race ${num}: ${venue} ${raceName}`);
-            
-            // ★重要：horses配列から直接TOP3を算出★
             const horses = race.horses || [];
-            console.log(`🐎 Found ${horses.length} horses in race ${num}`);
-            
-            // DESスコアまたは人気でソートして上位3頭を取得
             const sortedHorses = horses
-                .filter(h => getVal(h, '馬名', 'horse_name', 'name')) // 馬名が存在するもの
+                .filter(h => getVal(h, '馬名', 'horse_name', 'name'))
                 .sort((a, b) => {
-                    // DESスコアの取得（複数パターン対応）
                     const scoreA = getVal(a, 'des_score', 'total_score', 'スコア') || 0;
                     const scoreB = getVal(b, 'des_score', 'total_score', 'スコア') || 0;
-                    
-                    if (scoreB !== scoreA) return scoreB - scoreA; // スコア高い順
-                    
-                    // スコアが同じ場合は人気順
+                    if (scoreB !== scoreA) return scoreB - scoreA;
                     const popA = getVal(a, '人気', 'popularity') || 99;
                     const popB = getVal(b, '人気', 'popularity') || 99;
                     return popA - popB;
                 })
-                .slice(0, 3); // 上位3頭
-            
-            console.log(`🎯 Top 3 horses for race ${num}:`, sortedHorses.map(h => getVal(h, '馬名', 'horse_name', 'name')));
+                .slice(0, 3);
             
             const horsesHTML = sortedHorses.length > 0 ? 
                 sortedHorses.map((horse, idx) => {
@@ -491,11 +597,8 @@
                         </div>
                     `;
                 }).join('') : 
-                `<div style="padding:15px; text-align:center; color:#666; background:#f8fafc; border-radius:10px;">
-                    ⚠️ このレースの馬データを解析中...
-                </div>`;
+                `<div style="padding:15px; text-align:center; color:#666;">⚠️ データ解析中...</div>`;
             
-            // 買い目情報
             const betting = race.betting_suggestions?.main || {};
             const bettingType = getVal(betting, 'type', '買い目タイプ') || '三連複BOX';
             const bettingCombo = getVal(betting, 'combinations', '組み合わせ') || '◎-○-▲';
@@ -524,6 +627,36 @@
                 </div>
             `;
         }
-    </script>
-</body>
-</html>
+        
+        function displayResults(data) {
+            const ymd = String(data.ymd || '');
+            const date = ymd.length === 8 ? 
+                `${ymd.slice(0,4)}/${ymd.slice(4,6)}/${ymd.slice(6,8)}` : '-';
+            
+            const summary = data.summary || {};
+            const results = data.results || [];
+            
+            const hitRate = summary.hit_rate || 0;
+            const recoveryRate = summary.recovery_rate || 0;
+            
+            let html = `
+                <div class="content-card">
+                    <div class="summary-header">
+                        <div class="summary-title">📈 昨日の結果</div>
+                        <button class="refresh-btn" onclick="loadResults()">🔄 更新</button>
+                    </div>
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <div class="summary-value">${date}</div>
+                            <div class="summary-label">対象日</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-value ${hitRate >= 30 ? 'success' : 'error'}">${hitRate.toFixed(1)}%</div>
+                            <div class="summary-label">的中率</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-value ${recoveryRate >= 80 ? 'success' : 'error'}">${recoveryRate.toFixed(1)}%</div>
+                            <div class="summary-label">回収率</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-value ${summary.total_profit >= 0 ? 'success' : 'error'}
