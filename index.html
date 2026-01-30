@@ -4,47 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🏇 DES_AI競馬予想</title>
+    <link rel="icon" href="https://www.genspark.ai/api/files/s/iJNvjiso" type="image/png">
     <style>
         :root {
-            --primary: #667eea;
-            --secondary: #764ba2;
+            --primary: #1a4d7a;
+            --secondary: #2c7db8;
+            --accent: #00d4ff;
             --success: #10b981;
             --error: #ef4444;
             --warning: #f59e0b;
             --text-main: #1e293b;
             --text-sub: #64748b;
             --border: #e2e8f0;
+            --bg-dark: #0a1929;
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Yu Gothic", sans-serif;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--primary) 50%, var(--secondary) 100%);
             color: var(--text-main);
             min-height: 100vh;
-            padding: 15px 10px 40px;
+            padding: 0 0 40px;
             line-height: 1.6;
         }
         
         .container { max-width: 600px; margin: 0 auto; }
         
+        /* ヘッダー */
         .header {
+            position: relative;
             text-align: center;
             color: white;
-            margin-bottom: 25px;
-            padding: 15px 0;
+            padding: 0;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        
+        .header-bg {
+            width: 100%;
+            height: auto;
+            display: block;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+        
+        .header-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            text-align: center;
+        }
+        
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.6);
+            border: 3px solid rgba(255,255,255,0.3);
         }
         
         .header h1 {
-            font-size: 1.9rem;
-            margin-bottom: 10px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            font-size: 2rem;
+            margin-bottom: 12px;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.7), 0 0 20px rgba(0, 212, 255, 0.5);
+            font-weight: bold;
+            letter-spacing: 2px;
         }
         
         .header p {
-            opacity: 0.95;
             font-size: 0.95rem;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+            line-height: 1.6;
             margin-bottom: 15px;
         }
         
@@ -53,28 +87,31 @@
             align-items: center;
             gap: 8px;
             padding: 10px 24px;
-            background: rgba(255,255,255,0.15);
-            border: 2px solid rgba(255,255,255,0.3);
+            background: rgba(0, 212, 255, 0.2);
+            border: 2px solid rgba(0, 212, 255, 0.5);
             border-radius: 30px;
             color: white;
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
         }
         
         .x-link:hover {
-            background: rgba(255,255,255,0.25);
+            background: rgba(0, 212, 255, 0.4);
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.5);
         }
         
         /* タブナビゲーション */
         .tab-nav {
             display: flex;
             gap: 10px;
-            margin-bottom: 20px;
-            background: rgba(255,255,255,0.15);
+            margin: 15px 10px;
+            background: rgba(26, 77, 122, 0.3);
             padding: 8px;
             border-radius: 16px;
+            backdrop-filter: blur(10px);
         }
         
         .tab-btn {
@@ -92,13 +129,16 @@
         }
         
         .tab-btn.active {
-            background: white;
-            color: var(--primary);
+            background: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%);
+            color: white;
             opacity: 1;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
         }
         
-        .tab-content { display: none; }
+        .tab-content { 
+            display: none;
+            padding: 0 10px;
+        }
         .tab-content.active { display: block; }
         
         .status-box {
@@ -107,7 +147,7 @@
             font-size: 0.9rem;
             display: none;
             text-align: center;
-            margin-bottom: 15px;
+            margin: 0 10px 15px;
             background: white;
         }
         
@@ -141,13 +181,19 @@
         }
         
         .refresh-btn {
-            background: var(--primary);
+            background: var(--accent);
             color: white;
             border: none;
             padding: 8px 16px;
             border-radius: 20px;
             font-size: 0.8rem;
             cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .refresh-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.4);
         }
         
         .summary-grid {
@@ -184,13 +230,13 @@
             display: flex;
             justify-content: space-around;
             padding: 12px;
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%);
             border-radius: 10px;
         }
         
         .turb-item { text-align: center; }
-        .turb-label { font-size: 0.75rem; color: #0c4a6e; font-weight: 600; }
-        .turb-value { font-size: 1.1rem; font-weight: bold; color: #0369a1; }
+        .turb-label { font-size: 0.75rem; color: var(--primary); font-weight: 600; }
+        .turb-value { font-size: 1.1rem; font-weight: bold; color: var(--secondary); }
         
         .race-card {
             background: white;
@@ -372,24 +418,33 @@
         
         @media (max-width: 480px) {
             .summary-grid { grid-template-columns: 1fr; }
+            .header h1 { font-size: 1.6rem; }
+            .header p { font-size: 0.85rem; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🏇 DES_AI競馬予想</h1>
-            <p>デュアル・エッジ・システム - 週単位プラス収支を目指すAI戦略予想</p>
-            <a href="https://x.com/AIkeibayosouDES" target="_blank" class="x-link">
-                📱 公式X: @AIkeibayosouDES
-            </a>
+            <img src="https://www.genspark.ai/api/files/s/UO3vtwJQ" alt="DES Header" class="header-bg">
+            <div class="header-content">
+                <img src="https://www.genspark.ai/api/files/s/iJNvjiso" alt="DES Icon" class="logo-icon">
+                <h1>DES_AI競馬予想</h1>
+                <p>
+                    デュアル・エッジ・システム<br>
+                    週単位プラス収支を目指すAI戦略予想
+                </p>
+                <a href="https://x.com/AIkeibayosouDES" target="_blank" class="x-link">
+                    📱 公式X: @AIkeibayosouDES
+                </a>
+            </div>
         </div>
         
         <!-- タブナビゲーション -->
         <div class="tab-nav">
-            <button class="tab-btn active" onclick="switchTab('predictions')">📊 今日の予想</button>
-            <button class="tab-btn" onclick="switchTab('results')">📈 昨日の結果</button>
-            <button class="tab-btn" onclick="switchTab('stats')">📉 統計</button>
+            <button class="tab-btn active" data-tab="predictions">📊 今日の予想</button>
+            <button class="tab-btn" data-tab="results">📈 昨日の結果</button>
+            <button class="tab-btn" data-tab="stats">📉 統計</button>
         </div>
         
         <div id="statusBox" class="status-box"></div>
@@ -409,9 +464,19 @@
         let resultsData = null;
         
         window.addEventListener('load', () => {
+            initTabs();
             showStatus('🚀 アプリを起動中...', 'success');
             setTimeout(loadAllData, 1000);
         });
+        
+        function initTabs() {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const tab = e.target.getAttribute('data-tab');
+                    switchTab(tab);
+                });
+            });
+        }
         
         function showStatus(msg, type) {
             const box = document.getElementById('statusBox');
@@ -431,19 +496,25 @@
             currentTab = tab;
             
             // タブボタンの切り替え
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-tab') === tab) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // コンテンツの切り替え
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
             
             if (tab === 'predictions') {
-                document.querySelectorAll('.tab-btn')[0].classList.add('active');
                 document.getElementById('predictionsTab').classList.add('active');
                 if (!predictionsData) loadPredictions();
             } else if (tab === 'results') {
-                document.querySelectorAll('.tab-btn')[1].classList.add('active');
                 document.getElementById('resultsTab').classList.add('active');
                 if (!resultsData) loadResults();
             } else if (tab === 'stats') {
-                document.querySelectorAll('.tab-btn')[2].classList.add('active');
                 document.getElementById('statsTab').classList.add('active');
                 displayStats();
             }
@@ -534,129 +605,4 @@
                             <div class="turb-label">中乱度</div>
                             <div class="turb-value">${turb['中'] || 0}R</div>
                         </div>
-                        <div class="turb-item">
-                            <div class="turb-label">高乱度</div>
-                            <div class="turb-value">${turb['高'] || 0}R</div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            races.forEach((race, idx) => {
-                html += createPredictionCard(race, idx + 1);
-            });
-            
-            document.getElementById('predictionsTab').innerHTML = html;
-        }
-        
-        function createPredictionCard(race, num) {
-            const venue = getVal(race, '競馬場', 'venue') || '';
-            const raceName = getVal(race, 'レース名', 'race_name') || '';
-            const distance = getVal(race, '距離', 'distance') || '';
-            const track = getVal(race, 'トラック', 'track') || '';
-            const startTime = getVal(race, '発走時刻', 'start_time') || '';
-            const turbulence = getVal(race, '波乱度', 'turbulence') || '-';
-            
-            const horses = race.horses || [];
-            const sortedHorses = horses
-                .filter(h => getVal(h, '馬名', 'horse_name', 'name'))
-                .sort((a, b) => {
-                    const scoreA = getVal(a, 'des_score', 'total_score', 'スコア') || 0;
-                    const scoreB = getVal(b, 'des_score', 'total_score', 'スコア') || 0;
-                    if (scoreB !== scoreA) return scoreB - scoreA;
-                    const popA = getVal(a, '人気', 'popularity') || 99;
-                    const popB = getVal(b, '人気', 'popularity') || 99;
-                    return popA - popB;
-                })
-                .slice(0, 3);
-            
-            const horsesHTML = sortedHorses.length > 0 ? 
-                sortedHorses.map((horse, idx) => {
-                    const mark = ['◎', '○', '▲'][idx];
-                    const rank = idx + 1;
-                    const name = getVal(horse, '馬名', 'horse_name', 'name') || '名称不明';
-                    const score = getVal(horse, 'des_score', 'total_score', 'スコア') || 0;
-                    const frame = getVal(horse, '枠番', 'frame_number') || '?';
-                    const horseNum = getVal(horse, '馬番', 'horse_number') || '?';
-                    const odds = getVal(horse, 'オッズ', 'odds') || '-';
-                    const popularity = getVal(horse, '人気', 'popularity') || '?';
-                    
-                    return `
-                        <div class="horse-row rank-${rank}">
-                            <div class="rank-badge rank-${rank}">${mark}</div>
-                            <div class="horse-info">
-                                <div class="horse-name">${name}</div>
-                                <div class="horse-detail">
-                                    枠${frame}・馬${horseNum} | オッズ${odds}倍 | ${popularity}番人気
-                                </div>
-                            </div>
-                            <div class="score-display">
-                                <div class="total-score">${Number(score).toFixed(1)}</div>
-                                <div class="popularity">${popularity}番人気</div>
-                            </div>
-                        </div>
-                    `;
-                }).join('') : 
-                `<div style="padding:15px; text-align:center; color:#666;">⚠️ データ解析中...</div>`;
-            
-            const betting = race.betting_suggestions?.main || {};
-            const bettingType = getVal(betting, 'type', '買い目タイプ') || '三連複BOX';
-            const bettingCombo = getVal(betting, 'combinations', '組み合わせ') || '◎-○-▲';
-            const bettingInvest = getVal(betting, 'total_investment', '投資額') || 100;
-            
-            return `
-                <div class="race-card">
-                    <div class="race-header">
-                        <div class="race-title">🏇 予想${num} - ${venue} ${raceName}</div>
-                        <div class="race-meta">
-                            ${track}${distance}m | ${startTime}発走 | 波乱度:${turbulence}
-                        </div>
-                    </div>
-                    <div class="predictions-section">
-                        <div class="section-title">🤖 DESスコアTOP3</div>
-                        ${horsesHTML}
-                    </div>
-                    <div class="betting-section">
-                        <div class="betting-title">💰 DES推奨買い目</div>
-                        <div class="betting-box">
-                            <strong>${bettingType}</strong><br>
-                            ${bettingCombo}<br>
-                            <small style="color:#78350f;">投資額: ¥${Number(bettingInvest).toLocaleString()}</small>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-        
-        function displayResults(data) {
-            const ymd = String(data.ymd || '');
-            const date = ymd.length === 8 ? 
-                `${ymd.slice(0,4)}/${ymd.slice(4,6)}/${ymd.slice(6,8)}` : '-';
-            
-            const summary = data.summary || {};
-            const results = data.results || [];
-            
-            const hitRate = summary.hit_rate || 0;
-            const recoveryRate = summary.recovery_rate || 0;
-            
-            let html = `
-                <div class="content-card">
-                    <div class="summary-header">
-                        <div class="summary-title">📈 昨日の結果</div>
-                        <button class="refresh-btn" onclick="loadResults()">🔄 更新</button>
-                    </div>
-                    <div class="summary-grid">
-                        <div class="summary-item">
-                            <div class="summary-value">${date}</div>
-                            <div class="summary-label">対象日</div>
-                        </div>
-                        <div class="summary-item">
-                            <div class="summary-value ${hitRate >= 30 ? 'success' : 'error'}">${hitRate.toFixed(1)}%</div>
-                            <div class="summary-label">的中率</div>
-                        </div>
-                        <div class="summary-item">
-                            <div class="summary-value ${recoveryRate >= 80 ? 'success' : 'error'}">${recoveryRate.toFixed(1)}%</div>
-                            <div class="summary-label">回収率</div>
-                        </div>
-                        <div class="summary-item">
-                            <div class="summary-value ${summary.total_profit >= 0 ? 'success' : 'error'}
+                  
