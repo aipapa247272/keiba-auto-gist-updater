@@ -1,16 +1,16 @@
 {
   "date": "20260129",
-  "generated_at": "2026-01-29 18:19:27",
+  "generated_at": "2026-01-30 10:18:22",
   "summary": {
     "total_races": 5,
     "hit_count": 0,
-    "miss_count": 0,
-    "unavailable_count": 5,
-    "total_investment": 0,
+    "miss_count": 5,
+    "unavailable_count": 0,
+    "total_investment": 500,
     "total_return": 0,
-    "total_profit": 0,
+    "total_profit": -500,
     "hit_rate": 0.0,
-    "recovery_rate": 0
+    "recovery_rate": 0.0
   },
   "results": [
     {
@@ -18,55 +18,105 @@
       "venue": "Unknown",
       "race_num": "Unknown",
       "race_name": "Unknown",
-      "status": "結果取得不可",
+      "status": "不的中",
+      "predicted": [
+        "3",
+        "9",
+        "8"
+      ],
+      "actual": [
+        "2",
+        "8",
+        "9"
+      ],
       "hit": false,
-      "investment": 0,
+      "investment": 100,
       "payout": 0,
-      "profit": 0
+      "profit": -100
     },
     {
       "race_id": "202655012904",
       "venue": "Unknown",
       "race_num": "Unknown",
       "race_name": "Unknown",
-      "status": "結果取得不可",
+      "status": "不的中",
+      "predicted": [
+        "3",
+        "1",
+        "4"
+      ],
+      "actual": [
+        "7",
+        "3",
+        "1"
+      ],
       "hit": false,
-      "investment": 0,
+      "investment": 100,
       "payout": 0,
-      "profit": 0
+      "profit": -100
     },
     {
       "race_id": "202655012905",
       "venue": "Unknown",
       "race_num": "Unknown",
       "race_name": "Unknown",
-      "status": "結果取得不可",
+      "status": "不的中",
+      "predicted": [
+        "3",
+        "2",
+        "9"
+      ],
+      "actual": [
+        "5",
+        "2",
+        "8"
+      ],
       "hit": false,
-      "investment": 0,
+      "investment": 100,
       "payout": 0,
-      "profit": 0
+      "profit": -100
     },
     {
       "race_id": "202655012911",
       "venue": "Unknown",
       "race_num": "Unknown",
       "race_name": "Unknown",
-      "status": "結果取得不可",
+      "status": "不的中",
+      "predicted": [
+        "1",
+        "9",
+        "6"
+      ],
+      "actual": [
+        "3",
+        "1",
+        "5"
+      ],
       "hit": false,
-      "investment": 0,
+      "investment": 100,
       "payout": 0,
-      "profit": 0
+      "profit": -100
     },
     {
       "race_id": "202644012901",
       "venue": "Unknown",
       "race_num": "Unknown",
       "race_name": "Unknown",
-      "status": "結果取得不可",
+      "status": "不的中",
+      "predicted": [
+        "3",
+        "12",
+        "9"
+      ],
+      "actual": [
+        "7",
+        "12",
+        "2"
+      ],
       "hit": false,
-      "investment": 0,
+      "investment": 100,
       "payout": 0,
-      "profit": 0
+      "profit": -100
     }
   ]
 }
