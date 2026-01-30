@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🏇 DES_AI競馬予想</title>
+    <title>DES_AI競馬予想</title>
     <style>
         * {
             margin: 0;
@@ -12,98 +12,84 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(180deg, #0a1929 0%, #1a2332 100%);
             min-height: 100vh;
-            padding: 20px;
-            color: #333;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
+            color: #fff;
         }
 
         /* ヘッダー */
         .header {
-            background: white;
+            background: linear-gradient(135deg, #0d3251 0%, #1a2332 100%);
             padding: 30px 20px;
-            border-radius: 20px;
             text-align: center;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        .logo {
-            font-size: 48px;
-            margin-bottom: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
 
         .title {
-            font-size: 24px;
-            font-weight: bold;
-            color: #667eea;
-            margin-bottom: 5px;
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
         }
 
         .subtitle {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 15px;
+            font-size: 13px;
+            color: #b0c4de;
+            margin-bottom: 5px;
         }
 
         .x-link {
             display: inline-block;
-            background: #1DA1F2;
-            color: white;
-            padding: 10px 20px;
+            background: transparent;
+            color: #4fc3f7;
+            padding: 10px 24px;
+            border: 2px solid #4fc3f7;
             border-radius: 25px;
             text-decoration: none;
             font-size: 14px;
+            margin-top: 12px;
             transition: all 0.3s;
         }
 
         .x-link:hover {
-            background: #0d8bd9;
-            transform: translateY(-2px);
+            background: #4fc3f7;
+            color: #0a1929;
         }
 
         /* タブナビゲーション */
         .tab-nav {
-            background: white;
-            border-radius: 15px;
-            padding: 10px;
-            margin-bottom: 20px;
             display: flex;
-            gap: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            background: rgba(255,255,255,0.05);
+            padding: 0;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
         }
 
         .tab-btn {
             flex: 1;
-            padding: 15px;
+            padding: 18px;
             border: none;
-            background: #f0f0f0;
-            color: #666;
-            border-radius: 10px;
-            font-size: 16px;
+            background: transparent;
+            color: #b0c4de;
+            font-size: 15px;
             cursor: pointer;
             transition: all 0.3s;
+            border-bottom: 3px solid transparent;
             font-weight: 500;
         }
 
         .tab-btn.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            box-shadow: 0 5px 15px rgba(102,126,234,0.4);
+            background: rgba(79,195,247,0.15);
+            color: #4fc3f7;
+            border-bottom-color: #4fc3f7;
         }
 
-        /* コンテンツエリア */
+        /* コンテンツ */
         .content {
-            background: white;
-            border-radius: 15px;
             padding: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            max-width: 500px;
+            margin: 0 auto;
         }
 
         .tab-content {
@@ -112,95 +98,148 @@
 
         .tab-content.active {
             display: block;
+            animation: fadeIn 0.3s;
         }
 
-        /* サマリーカード */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* セクションヘッダー */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 12px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .refresh-btn {
+            background: #4fc3f7;
+            border: none;
+            color: #0a1929;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* サマリーグリッド */
         .summary-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
         }
 
         .summary-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
+            background: rgba(255,255,255,0.08);
+            padding: 18px;
             border-radius: 12px;
             text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
         .summary-label {
             font-size: 12px;
-            opacity: 0.9;
+            color: #b0c4de;
             margin-bottom: 8px;
         }
 
         .summary-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: #4fc3f7;
+        }
+
+        /* 波乱度 */
+        .turbulence-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(79,195,247,0.1);
+            border-radius: 12px;
+        }
+
+        .turbulence-item {
+            text-align: center;
+        }
+
+        .turbulence-label {
+            font-size: 11px;
+            color: #b0c4de;
+            margin-bottom: 5px;
+        }
+
+        .turbulence-value {
             font-size: 24px;
-            font-weight: bold;
+            font-weight: 700;
         }
 
         /* レースカード */
         .race-card {
-            background: #f8f9fa;
+            background: rgba(255,255,255,0.08);
             border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-left: 4px solid #667eea;
+            padding: 18px;
+            margin-bottom: 15px;
+            border-left: 4px solid #4fc3f7;
         }
 
         .race-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             margin-bottom: 15px;
-            flex-wrap: wrap;
-            gap: 10px;
         }
 
         .race-title {
-            font-size: 18px;
-            font-weight: bold;
-            color: #333;
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 5px;
         }
 
         .race-info {
             font-size: 12px;
-            color: #666;
+            color: #b0c4de;
         }
 
-        .turbulence {
+        .turbulence-badge {
             display: inline-block;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 8px;
         }
 
-        .turbulence.低 { background: #d4edda; color: #155724; }
-        .turbulence.中 { background: #fff3cd; color: #856404; }
-        .turbulence.高 { background: #f8d7da; color: #721c24; }
+        .turbulence-badge.低 { background: rgba(76,175,80,0.2); color: #81c784; }
+        .turbulence-badge.中 { background: rgba(255,193,7,0.2); color: #ffd54f; }
+        .turbulence-badge.高 { background: rgba(244,67,54,0.2); color: #e57373; }
 
         /* 予想馬 */
-        .predictions {
-            margin-top: 15px;
-        }
-
         .horse-card {
-            background: white;
+            background: rgba(255,255,255,0.05);
             border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 10px;
+            padding: 12px;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
-            gap: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            gap: 12px;
         }
 
         .rank-badge {
-            font-size: 24px;
-            min-width: 40px;
+            font-size: 20px;
+            min-width: 35px;
             text-align: center;
         }
 
@@ -209,227 +248,184 @@
         }
 
         .horse-name {
-            font-size: 16px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 4px;
         }
 
         .horse-details {
-            font-size: 12px;
-            color: #666;
+            font-size: 11px;
+            color: #b0c4de;
         }
 
         .horse-score {
-            text-align: right;
-            font-weight: bold;
-            color: #667eea;
+            font-size: 16px;
+            font-weight: 700;
+            color: #4fc3f7;
         }
 
         /* 買い目 */
         .betting-section {
-            background: #e8f4f8;
+            background: rgba(79,195,247,0.1);
             border-radius: 8px;
-            padding: 15px;
-            margin-top: 15px;
+            padding: 12px;
+            margin-top: 12px;
         }
 
         .betting-title {
-            font-size: 14px;
-            font-weight: bold;
-            color: #0277bd;
-            margin-bottom: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #4fc3f7;
+            margin-bottom: 8px;
         }
 
         .betting-combinations {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 6px;
         }
 
         .combination {
-            background: white;
-            padding: 8px 12px;
+            background: rgba(255,255,255,0.1);
+            padding: 6px 10px;
             border-radius: 6px;
-            font-size: 13px;
-            color: #333;
-            border: 1px solid #0277bd;
+            font-size: 12px;
+            color: #fff;
         }
 
-        /* 結果表示 */
+        /* 結果 */
         .result-card {
-            background: #f8f9fa;
+            background: rgba(255,255,255,0.08);
             border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .result-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 18px;
             margin-bottom: 15px;
         }
 
         .result-badge {
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 14px;
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 12px;
         }
 
-        .result-badge.hit {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .result-badge.miss {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .result-badge.unavailable {
-            background: #e2e3e5;
-            color: #383d41;
-        }
+        .result-badge.hit { background: rgba(76,175,80,0.2); color: #81c784; }
+        .result-badge.miss { background: rgba(244,67,54,0.2); color: #e57373; }
+        .result-badge.unavailable { background: rgba(158,158,158,0.2); color: #bdbdbd; }
 
         .result-details {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 10px;
-            margin-top: 15px;
+            margin-top: 12px;
         }
 
         .result-item {
-            padding: 10px;
-            background: white;
-            border-radius: 8px;
             text-align: center;
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
         }
 
         .result-label {
-            font-size: 12px;
-            color: #666;
+            font-size: 11px;
+            color: #b0c4de;
             margin-bottom: 5px;
         }
 
         .result-value {
-            font-size: 18px;
-            font-weight: bold;
-            color: #333;
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
         }
 
-        .result-value.profit {
-            color: #28a745;
-        }
-
-        .result-value.loss {
-            color: #dc3545;
-        }
+        .result-value.profit { color: #81c784; }
+        .result-value.loss { color: #e57373; }
 
         /* ローディング */
         .loading {
             text-align: center;
-            padding: 40px;
-            color: #667eea;
+            padding: 50px 20px;
         }
 
         .loading-spinner {
             display: inline-block;
             width: 40px;
             height: 40px;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
+            border: 3px solid rgba(79,195,247,0.2);
+            border-top-color: #4fc3f7;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: spin 0.8s linear infinite;
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            margin-top: 15px;
+            color: #b0c4de;
+            font-size: 14px;
         }
 
         /* エラー */
         .error-message {
-            background: #f8d7da;
-            color: #721c24;
+            background: rgba(244,67,54,0.15);
+            border: 1px solid rgba(244,67,54,0.3);
+            color: #e57373;
             padding: 20px;
             border-radius: 12px;
             text-align: center;
             margin: 20px 0;
         }
-
-        /* レスポンシブ */
-        @media (max-width: 600px) {
-            body {
-                padding: 10px;
-            }
-
-            .header {
-                padding: 20px 15px;
-            }
-
-            .logo {
-                font-size: 36px;
-            }
-
-            .title {
-                font-size: 20px;
-            }
-
-            .tab-nav {
-                flex-direction: column;
-            }
-
-            .summary-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- ヘッダー -->
-        <div class="header">
-            <div class="logo">🏇</div>
-            <div class="title">デュアル・エッジ・システム</div>
-            <div class="subtitle">週単位プラス収支を目指すAI戦略予想</div>
-            <a href="https://x.com/AIkeibayosouDES" target="_blank" class="x-link">
-                🐎 公式X
-            </a>
+    <!-- ヘッダー -->
+    <div class="header">
+        <div class="title">DES_AI競馬予想</div>
+        <div class="subtitle">デュアル・エッジ・システム</div>
+        <div class="subtitle">週単位プラス収支を目指すAI戦略予想</div>
+        <a href="https://x.com/AIkeibayosouDES" target="_blank" class="x-link">
+            公式X: @AIkeibayosouDES
+        </a>
+    </div>
+
+    <!-- タブナビゲーション -->
+    <div class="tab-nav">
+        <button class="tab-btn active" data-tab="predictions">📊 今日の予想</button>
+        <button class="tab-btn" data-tab="results">🎯 昨日の結果</button>
+        <button class="tab-btn" data-tab="stats">📈 統計</button>
+    </div>
+
+    <!-- コンテンツ -->
+    <div class="content">
+        <!-- 予想タブ -->
+        <div id="predictions-tab" class="tab-content active">
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                <div class="loading-text">予想データを取得中...</div>
+            </div>
         </div>
 
-        <!-- タブナビゲーション -->
-        <div class="tab-nav">
-            <button class="tab-btn active" data-tab="predictions">📊 今日の予想</button>
-            <button class="tab-btn" data-tab="results">🎯 昨日の結果</button>
-            <button class="tab-btn" data-tab="stats">📈 統計</button>
+        <!-- 結果タブ -->
+        <div id="results-tab" class="tab-content">
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                <div class="loading-text">結果データを取得中...</div>
+            </div>
         </div>
 
-        <!-- コンテンツ -->
-        <div class="content">
-            <!-- 予想タブ -->
-            <div id="predictions-tab" class="tab-content active">
-                <div class="loading">
-                    <div class="loading-spinner"></div>
-                    <p>予想データを取得中...</p>
-                </div>
+        <!-- 統計タブ -->
+        <div id="stats-tab" class="tab-content">
+            <div class="section-header">
+                <div class="section-title">📈 統計</div>
             </div>
-
-            <!-- 結果タブ -->
-            <div id="results-tab" class="tab-content">
-                <div class="loading">
-                    <div class="loading-spinner"></div>
-                    <p>結果データを取得中...</p>
-                </div>
-            </div>
-
-            <!-- 統計タブ -->
-            <div id="stats-tab" class="tab-content">
-                <div class="summary-card">
-                    <div class="summary-label">統計機能</div>
-                    <div class="summary-value">準備中</div>
-                </div>
+            <div class="summary-card">
+                <div class="summary-label">統計機能</div>
+                <div class="summary-value">準備中</div>
             </div>
         </div>
     </div>
@@ -460,11 +456,7 @@
         function switchTab(tabName) {
             // ボタンの状態更新
             document.querySelectorAll('.tab-btn').forEach(btn => {
-                if (btn.dataset.tab === tabName) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
+                btn.classList.toggle('active', btn.dataset.tab === tabName);
             });
 
             // コンテンツの表示切替
@@ -519,6 +511,11 @@
             const turbulence = data.turbulence || {};
 
             let html = `
+                <div class="section-header">
+                    <div class="section-title">📊 AI厳選予想</div>
+                    <button class="refresh-btn" onclick="loadPredictions()">🔄</button>
+                </div>
+
                 <div class="summary-grid">
                     <div class="summary-card">
                         <div class="summary-label">対象日</div>
@@ -538,10 +535,18 @@
                     </div>
                 </div>
 
-                <div class="summary-card" style="margin-bottom: 25px;">
-                    <div class="summary-label">波乱度分析</div>
-                    <div class="summary-value">
-                        低: ${turbulence['低'] || 0}R / 中: ${turbulence['中'] || 0}R / 高: ${turbulence['高'] || 0}R
+                <div class="turbulence-grid">
+                    <div class="turbulence-item">
+                        <div class="turbulence-label">低乱度</div>
+                        <div class="turbulence-value" style="color: #81c784;">${turbulence['低'] || 0}R</div>
+                    </div>
+                    <div class="turbulence-item">
+                        <div class="turbulence-label">中乱度</div>
+                        <div class="turbulence-value" style="color: #ffd54f;">${turbulence['中'] || 0}R</div>
+                    </div>
+                    <div class="turbulence-item">
+                        <div class="turbulence-label">高乱度</div>
+                        <div class="turbulence-value" style="color: #e57373;">${turbulence['高'] || 0}R</div>
                     </div>
                 </div>
             `;
@@ -560,33 +565,29 @@
                 html += `
                     <div class="race-card">
                         <div class="race-header">
-                            <div>
-                                <div class="race-title">${race.venue || ''} ${race.race_name || ''}</div>
-                                <div class="race-info">
-                                    ${race.distance || ''}m ${race.track || ''} | ${race.start_time || ''}
-                                </div>
+                            <div class="race-title">${race.venue || ''} ${race.race_name || ''}</div>
+                            <div class="race-info">
+                                ${race.distance || ''}m ${race.track || ''} | ${race.start_time || ''}
                             </div>
-                            <span class="turbulence ${race.turbulence || '中'}">${race.turbulence || '中'}</span>
+                            <span class="turbulence-badge ${race.turbulence || '中'}">${race.turbulence || '中'}</span>
                         </div>
 
-                        <div class="predictions">
-                            ${topHorses.map((horse, idx) => `
-                                <div class="horse-card">
-                                    <div class="rank-badge">${badges[idx]}</div>
-                                    <div class="horse-info">
-                                        <div class="horse-name">
-                                            ${horse.frame_number || ''}枠 ${horse.horse_number || ''}番 ${horse.name || ''}
-                                        </div>
-                                        <div class="horse-details">
-                                            オッズ: ${horse.odds || '-'} | 人気: ${horse.popularity || '-'}位
-                                        </div>
+                        ${topHorses.map((horse, idx) => `
+                            <div class="horse-card">
+                                <div class="rank-badge">${badges[idx]}</div>
+                                <div class="horse-info">
+                                    <div class="horse-name">
+                                        ${horse.frame_number || ''}枠 ${horse.horse_number || ''}番 ${horse.name || ''}
                                     </div>
-                                    <div class="horse-score">
-                                        ${(horse.des_score || horse.total_score || horse.score || 0).toFixed(1)}点
+                                    <div class="horse-details">
+                                        オッズ: ${horse.odds || '-'} | 人気: ${horse.popularity || '-'}位
                                     </div>
                                 </div>
-                            `).join('')}
-                        </div>
+                                <div class="horse-score">
+                                    ${(horse.des_score || horse.total_score || horse.score || 0).toFixed(1)}
+                                </div>
+                            </div>
+                        `).join('')}
 
                         ${renderBetting(race.betting_suggestions)}
                     </div>
@@ -604,7 +605,7 @@
             return `
                 <div class="betting-section">
                     <div class="betting-title">
-                        💰 推奨買い目: ${main.type || ''} (投資: ¥${(main.total_investment || 0).toLocaleString()})
+                        💰 ${main.type || ''} (¥${(main.total_investment || 0).toLocaleString()})
                     </div>
                     <div class="betting-combinations">
                         ${(main.combinations || []).map(c => `
@@ -621,6 +622,11 @@
             const summary = data.summary || {};
 
             let html = `
+                <div class="section-header">
+                    <div class="section-title">🎯 昨日の結果</div>
+                    <button class="refresh-btn" onclick="loadResults()">🔄</button>
+                </div>
+
                 <div class="summary-grid">
                     <div class="summary-card">
                         <div class="summary-label">対象日</div>
@@ -633,24 +639,4 @@
                     <div class="summary-card">
                         <div class="summary-label">回収率</div>
                         <div class="summary-value">${(summary.recovery_rate || 0).toFixed(1)}%</div>
-                    </div>
-                    <div class="summary-card">
-                        <div class="summary-label">収支</div>
-                        <div class="summary-value ${summary.total_profit >= 0 ? 'profit' : 'loss'}">
-                            ${summary.total_profit >= 0 ? '+' : ''}¥${(summary.total_profit || 0).toLocaleString()}
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            results.forEach(result => {
-                const statusClass = result.status === '的中' ? 'hit' : 
-                                  result.status === '不的中' ? 'miss' : 'unavailable';
-                
-                html += `
-                    <div class="result-card">
-                        <div class="result-header">
-                            <div>
-                                <div class="race-title">${result.venue || ''} ${result.race_name || ''}</div>
-                                <div class="race-info">${result.distance || ''}m ${result.track || ''}</div>
-                      
+         
