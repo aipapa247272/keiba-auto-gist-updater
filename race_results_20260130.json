@@ -1,16 +1,16 @@
 {
   "date": "20260130",
-  "generated_at": "2026-01-29 17:21:04",
+  "generated_at": "2026-01-30 10:38:44",
   "summary": {
     "total_races": 5,
     "hit_count": 0,
-    "miss_count": 0,
-    "unavailable_count": 5,
-    "total_investment": 0,
+    "miss_count": 3,
+    "unavailable_count": 2,
+    "total_investment": 300,
     "total_return": 0,
-    "total_profit": 0,
+    "total_profit": -300,
     "hit_rate": 0.0,
-    "recovery_rate": 0
+    "recovery_rate": 0.0
   },
   "results": [
     {
@@ -18,22 +18,42 @@
       "venue": "Unknown",
       "race_num": "Unknown",
       "race_name": "Unknown",
-      "status": "結果取得不可",
+      "status": "不的中",
+      "predicted": [
+        "5",
+        "7",
+        "8"
+      ],
+      "actual": [
+        "10",
+        "5",
+        "4"
+      ],
       "hit": false,
-      "investment": 0,
+      "investment": 100,
       "payout": 0,
-      "profit": 0
+      "profit": -100
     },
     {
       "race_id": "202644013008",
       "venue": "Unknown",
       "race_num": "Unknown",
       "race_name": "Unknown",
-      "status": "結果取得不可",
+      "status": "不的中",
+      "predicted": [
+        "4",
+        "2",
+        "10"
+      ],
+      "actual": [
+        "7",
+        "12",
+        "11"
+      ],
       "hit": false,
-      "investment": 0,
+      "investment": 100,
       "payout": 0,
-      "profit": 0
+      "profit": -100
     },
     {
       "race_id": "202648013010",
@@ -62,11 +82,21 @@
       "venue": "Unknown",
       "race_num": "Unknown",
       "race_name": "Unknown",
-      "status": "結果取得不可",
+      "status": "不的中",
+      "predicted": [
+        "5",
+        "12",
+        "3"
+      ],
+      "actual": [
+        "12",
+        "8",
+        "10"
+      ],
       "hit": false,
-      "investment": 0,
+      "investment": 100,
       "payout": 0,
-      "profit": 0
+      "profit": -100
     }
   ]
 }
