@@ -18,7 +18,6 @@
             color: #fff;
         }
 
-        /* ヘッダー */
         .header {
             background: linear-gradient(135deg, #0d3251 0%, #1a2332 100%);
             padding: 30px 20px;
@@ -58,7 +57,6 @@
             color: #0a1929;
         }
 
-        /* タブナビゲーション */
         .tab-nav {
             display: flex;
             background: #1a2332;
@@ -86,7 +84,6 @@
             box-shadow: 0 4px 12px rgba(33,150,243,0.4);
         }
 
-        /* コンテンツ */
         .content {
             padding: 20px;
             max-width: 500px;
@@ -107,7 +104,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* セクションヘッダー */
         .section-header {
             display: flex;
             align-items: center;
@@ -136,7 +132,6 @@
             box-shadow: 0 4px 12px rgba(33,150,243,0.3);
         }
 
-        /* サマリーグリッド */
         .summary-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -164,7 +159,6 @@
             color: #0d47a1;
         }
 
-        /* 波乱度 */
         .turbulence-grid {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
@@ -190,7 +184,6 @@
             font-weight: 700;
         }
 
-        /* レースカード */
         .race-card {
             background: rgba(255,255,255,0.08);
             border-radius: 12px;
@@ -228,7 +221,6 @@
         .turbulence-badge.中 { background: rgba(255,193,7,0.2); color: #ffd54f; }
         .turbulence-badge.高 { background: rgba(244,67,54,0.2); color: #e57373; }
 
-        /* 予想馬 */
         .horse-card {
             background: rgba(255,255,255,0.05);
             border-radius: 8px;
@@ -267,7 +259,6 @@
             color: #4fc3f7;
         }
 
-        /* 買い目 */
         .betting-section {
             background: rgba(79,195,247,0.1);
             border-radius: 8px;
@@ -296,7 +287,6 @@
             color: #fff;
         }
 
-        /* 結果 */
         .result-card {
             background: rgba(255,255,255,0.08);
             border-radius: 12px;
@@ -346,7 +336,6 @@
         .result-value.profit { color: #81c784; }
         .result-value.loss { color: #e57373; }
 
-        /* ローディング */
         .loading {
             text-align: center;
             padding: 60px 20px;
@@ -372,7 +361,6 @@
             font-size: 15px;
         }
 
-        /* エラー */
         .error-message {
             background: rgba(244,67,54,0.15);
             border: 1px solid rgba(244,67,54,0.3);
@@ -398,7 +386,6 @@
     </style>
 </head>
 <body>
-    <!-- ヘッダー -->
     <div class="header">
         <div class="title">DES_AI競馬予想</div>
         <div class="subtitle">デュアル・エッジ・システム</div>
@@ -409,16 +396,13 @@
         </a>
     </div>
 
-    <!-- タブナビゲーション -->
     <div class="tab-nav">
         <button class="tab-btn active" data-tab="predictions">📊 今日の予想</button>
         <button class="tab-btn" data-tab="results">🎯 昨日の結果</button>
         <button class="tab-btn" data-tab="stats">📈 統計</button>
     </div>
 
-    <!-- コンテンツ -->
     <div class="content">
-        <!-- 予想タブ -->
         <div id="predictions-tab" class="tab-content active">
             <div class="loading">
                 <div class="loading-spinner"></div>
@@ -426,7 +410,6 @@
             </div>
         </div>
 
-        <!-- 結果タブ -->
         <div id="results-tab" class="tab-content">
             <div class="loading">
                 <div class="loading-spinner"></div>
@@ -434,7 +417,6 @@
             </div>
         </div>
 
-        <!-- 統計タブ -->
         <div id="stats-tab" class="tab-content">
             <div class="section-header">
                 <div class="section-title">📈 統計</div>
@@ -447,24 +429,20 @@
     </div>
 
     <script>
-        // グローバル変数
         let predictionsData = null;
         let resultsData = null;
 
-        // 初期化
         document.addEventListener('DOMContentLoaded', () => {
             initTabs();
             loadPredictions();
             loadResults();
         });
 
-        // タブ切り替え
         function initTabs() {
             const tabs = document.querySelectorAll('.tab-btn');
             tabs.forEach(tab => {
                 tab.addEventListener('click', () => {
-                    const targetTab = tab.dataset.tab;
-                    switchTab(targetTab);
+                    switchTab(tab.dataset.tab);
                 });
             });
         }
@@ -473,30 +451,21 @@
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.tab === tabName);
             });
-
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
             });
-            
             const targetContent = document.getElementById(`${tabName}-tab`);
             if (targetContent) {
                 targetContent.classList.add('active');
             }
         }
 
-        // 予想データ読み込み（相対パス使用）
         async function loadPredictions() {
             try {
-                // GitHub Pages 上では相対パスを使用
                 const response = await fetch('./latest_predictions.json');
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
-                }
-                
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 predictionsData = await response.json();
                 renderPredictions(predictionsData);
-                
             } catch (error) {
                 console.error('予想データ取得エラー:', error);
                 document.getElementById('predictions-tab').innerHTML = `
@@ -511,19 +480,12 @@
             }
         }
 
-        // 結果データ読み込み（相対パス使用）
         async function loadResults() {
             try {
-                // GitHub Pages 上では相対パスを使用
                 const response = await fetch('./latest_results.json');
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
-                }
-                
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 resultsData = await response.json();
                 renderResults(resultsData);
-                
             } catch (error) {
                 console.error('結果データ取得エラー:', error);
                 document.getElementById('results-tab').innerHTML = `
@@ -538,7 +500,11 @@
             }
         }
 
-        // 予想レンダリング
+        function getScore(horse) {
+            const score = horse.des_score || horse.total_score || horse.score;
+            return typeof score === 'number' ? score : 0;
+        }
+
         function renderPredictions(data) {
             const races = data.selected_predictions || data.predictions || [];
             const summary = data.summary || {};
@@ -592,8 +558,8 @@
             races.forEach(race => {
                 const horses = race.horses || [];
                 const sortedHorses = horses.sort((a, b) => {
-                    const scoreA = a.des_score || a.total_score || a.score || 0;
-                    const scoreB = b.des_score || b.total_score || b.score || 0;
+                    const scoreA = getScore(a);
+                    const scoreB = getScore(b);
                     if (scoreB !== scoreA) return scoreB - scoreA;
                     return (a.popularity || 999) - (b.popularity || 999);
                 });
@@ -622,7 +588,7 @@
                                     </div>
                                 </div>
                                 <div class="horse-score">
-                                    ${(horse.des_score || horse.total_score || horse.score || 0).toFixed(1)}
+                                    ${getScore(horse).toFixed(1)}
                                 </div>
                             </div>
                         `).join('')}
@@ -635,10 +601,8 @@
             document.getElementById('predictions-tab').innerHTML = html;
         }
 
-        // 買い目レンダリング
         function renderBetting(betting) {
             if (!betting || !betting.main) return '';
-            
             const main = betting.main;
             return `
                 <div class="betting-section">
@@ -654,7 +618,6 @@
             `;
         }
 
-        // 結果レンダリング
         function renderResults(data) {
             const results = data.results || [];
             const summary = data.summary || {};
@@ -731,7 +694,6 @@
             document.getElementById('results-tab').innerHTML = html;
         }
 
-        // 日付フォーマット
         function formatDate(ymd) {
             if (!ymd || ymd.length !== 8) return '日付不明';
             return `${ymd.slice(0,4)}/${ymd.slice(4,6)}/${ymd.slice(6,8)}`;
