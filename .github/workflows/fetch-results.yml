@@ -47,10 +47,16 @@ jobs:
         run: |
           python scripts/generate_results_summary.py ${{ steps.get_ymd.outputs.ymd }}
       
+      - name: Copy to latest results
+        run: |
+          cp race_results_${{ steps.get_ymd.outputs.ymd }}.json latest_results.json
+          cp results_summary_${{ steps.get_ymd.outputs.ymd }}.md latest_results.md
+          echo "✅ 最新結果をコピーしました"
+      
       - name: Commit results
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add race_results_*.json results_summary_*.md
+          git add race_results_*.json results_summary_*.md latest_results.json latest_results.md
           git diff --cached --quiet || git commit -m "chore: add race results and summary for ${{ steps.get_ymd.outputs.ymd }}"
           git push
