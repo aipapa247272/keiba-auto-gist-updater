@@ -61,28 +61,30 @@
         /* タブナビゲーション */
         .tab-nav {
             display: flex;
-            background: rgba(255,255,255,0.05);
+            background: #1a2332;
             padding: 0;
-            border-bottom: 2px solid rgba(255,255,255,0.1);
         }
 
         .tab-btn {
             flex: 1;
-            padding: 18px;
+            padding: 16px 10px;
             border: none;
             background: transparent;
-            color: #b0c4de;
-            font-size: 16px;
+            color: #7e8ea0;
+            font-size: 15px;
             cursor: pointer;
             transition: all 0.3s;
             border-bottom: 3px solid transparent;
             font-weight: 500;
+            white-space: nowrap;
         }
 
         .tab-btn.active {
-            background: rgba(79,195,247,0.15);
-            color: #4fc3f7;
-            border-bottom-color: #4fc3f7;
+            background: #4fc3f7;
+            color: #fff;
+            border-radius: 25px;
+            margin: 5px;
+            border-bottom: none;
         }
 
         /* コンテンツ */
@@ -159,7 +161,7 @@
         .summary-value {
             font-size: 26px;
             font-weight: 700;
-            color: #4fc3f7;
+            color: #0d47a1;
         }
 
         /* 波乱度 */
@@ -169,7 +171,7 @@
             gap: 10px;
             margin-bottom: 20px;
             padding: 18px;
-            background: rgba(79,195,247,0.1);
+            background: rgba(13,71,161,0.15);
             border-radius: 12px;
         }
 
@@ -439,7 +441,6 @@
 
         // 初期化
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('アプリ起動: DOMContentLoaded');
             initTabs();
             loadPredictions();
             loadResults();
@@ -457,12 +458,10 @@
         }
 
         function switchTab(tabName) {
-            // ボタンの状態更新
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.tab === tabName);
             });
 
-            // コンテンツの表示切替
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
             });
@@ -473,69 +472,35 @@
             }
         }
 
-        // 予想データ読み込み（キャッシュバスター追加）
+        // 予想データ読み込み
         async function loadPredictions() {
             try {
-                console.log('予想データ取得開始...');
-                const timestamp = new Date().getTime();
-                const url = `https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/latest_predictions.json?t=${timestamp}`;
-                console.log('URL:', url);
-                
-                const response = await fetch(url, {
-                    method: 'GET',
-                    cache: 'no-cache'
-                });
-                
-                console.log('Response status:', response.status);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
+                const response = await fetch('https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/latest_predictions.json');
+                if (!response.ok) throw new Error('データが見つかりません');
                 predictionsData = await response.json();
-                console.log('予想データ取得成功:', predictionsData);
                 renderPredictions(predictionsData);
             } catch (error) {
-                console.error('予想データ取得エラー:', error);
                 document.getElementById('predictions-tab').innerHTML = `
                     <div class="error-message">
-                        ❌ 予想データの取得に失敗しました<br><br>
-                        エラー: ${error.message}<br><br>
-                        <button class="refresh-btn" onclick="loadPredictions()">再試行</button>
+                        ❌ 予想データの取得に失敗<br>
+                        ${error.message}
                     </div>
                 `;
             }
         }
 
-        // 結果データ読み込み（キャッシュバスター追加）
+        // 結果データ読み込み
         async function loadResults() {
             try {
-                console.log('結果データ取得開始...');
-                const timestamp = new Date().getTime();
-                const url = `https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/latest_results.json?t=${timestamp}`;
-                console.log('URL:', url);
-                
-                const response = await fetch(url, {
-                    method: 'GET',
-                    cache: 'no-cache'
-                });
-                
-                console.log('Response status:', response.status);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
+                const response = await fetch('https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/latest_results.json');
+                if (!response.ok) throw new Error('データが見つかりません');
                 resultsData = await response.json();
-                console.log('結果データ取得成功:', resultsData);
                 renderResults(resultsData);
             } catch (error) {
-                console.error('結果データ取得エラー:', error);
                 document.getElementById('results-tab').innerHTML = `
                     <div class="error-message">
-                        ❌ 結果データの取得に失敗しました<br><br>
-                        エラー: ${error.message}<br><br>
-                        <button class="refresh-btn" onclick="loadResults()">再試行</button>
+                        ❌ 結果データの取得に失敗<br>
+                        ${error.message}
                     </div>
                 `;
             }
@@ -640,4 +605,39 @@
             
             const main = betting.main;
             return `
-                <div class="bett
+                <div class="betting-section">
+                    <div class="betting-title">
+                        💰 ${main.type || ''} (¥${(main.total_investment || 0).toLocaleString()})
+                    </div>
+                    <div class="betting-combinations">
+                        ${(main.combinations || []).map(c => `
+                            <div class="combination">${c}</div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // 結果レンダリング
+        function renderResults(data) {
+            const results = data.results || [];
+            const summary = data.summary || {};
+
+            let html = `
+                <div class="section-header">
+                    <div class="section-title">🎯 昨日の結果</div>
+                    <button class="refresh-btn" onclick="loadResults()">🔄</button>
+                </div>
+
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="summary-label">対象日</div>
+                        <div class="summary-value">${formatDate(data.ymd)}</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">的中率</div>
+                        <div class="summary-value">${(summary.hit_rate || 0).toFixed(1)}%</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">回収率</div>
+                        <div class="summary-value">${(summary.recovery_rate
