@@ -1,249 +1,129 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-レース結果自動取得スクリプト（Phase 3-1 修正版 v6 - 完全版）
-
-修正内容:
-- HTMLパース処理を実際の構造に完全対応
-- 着順と三連複払戻を正しく取得
-"""
-
-import os
-import sys
-import json
-import time
 import requests
 from bs4 import BeautifulSoup
+import json
+import sys
 from datetime import datetime
 
-# NAR NetKeiba SP版のURL
-NAR_RESULT_URL = "https://nar.sp.netkeiba.com/race/race_result.html"
-
-def fetch_race_result(race_id, timeout=30, max_retries=3):
+def fetch_race_results(ymd):
     """
-    指定されたrace_idのレース結果を取得する
+    指定日付のレース結果を取得
+    ymd: YYYYMMDD形式の日付文字列
     """
-    url = f"{NAR_RESULT_URL}?race_id={race_id}"
     
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15'
-    }
+    # latest_predictions.json からデータを読み込む
+    try:
+        with open('latest_predictions.json', 'r', encoding='utf-8') as f:
+            predictions_data = json.load(f)
+    except FileNotFoundError:
+        print(f"エラー: latest_predictions.json が見つかりません")
+        return None
     
-    for attempt in range(max_retries):
-        try:
-            response = requests.get(url, timeout=timeout, headers=headers)
-            response.encoding = 'EUC-JP'
-            
-            if response.status_code == 404:
-                print(f"[WARNING] レース結果未公開: {race_id}")
-                return None
-            
-            response.raise_for_status()
-            soup = BeautifulSoup(response.content, 'html.parser')
-            
-            # 着順を取得
-            finishing_order = []
-            
-            # テーブルを探す
-            result_table = soup.find('table', id='All_Result_Table')
-            if not result_table:
-                result_table = soup.find('table', class_='RaceCommon_Table')
-            
-            if not result_table:
-                print(f"[WARNING] 結果テーブルが見つかりません: {race_id}")
-                return None
-            
-            rows = result_table.find_all('tr')
-            
-            for row in rows:
-                # 着順セルを探す
-                result_num_cell = row.find('td', class_='Result_Num')
-                if not result_num_cell:
-                    continue
-                
-                rank_div = result_num_cell.find('div', class_='Rank')
-                if not rank_div:
-                    continue
-                
-                rank_text = rank_div.get_text(strip=True)
-                
-                # "1着" → "1" を抽出
-                if '着' in rank_text:
-                    rank = rank_text.replace('着', '').replace('\n', '').strip()
-                    if rank in ['1', '2', '3']:
-                        # 馬番を取得（3列目のNumセル）
-                        num_cells = row.find_all('td', class_='Num')
-                        if len(num_cells) >= 2:
-                            umaban = num_cells[1].get_text(strip=True)
-                            finishing_order.append(umaban)
-                
-                if len(finishing_order) >= 3:
-                    break
-            
-            if len(finishing_order) < 3:
-                print(f"[WARNING] 着順データが不完全: {race_id} - {finishing_order}")
-                return None
-            
-            # 三連複払戻を取得
-            sanrenpuku_payout = 0
-            
-            # 払戻テーブルを探す
-            payout_table = soup.find('table', class_='Payout_Detail_Table')
-            
-            if payout_table:
-                fuku3_row = payout_table.find('tr', class_='Fuku3')
-                if fuku3_row:
-                    payout_cell = fuku3_row.find('td', class_='Payout')
-                    if payout_cell:
-                        payout_text = payout_cell.get_text(strip=True)
-                        # "420円" → "420"
-                        payout_nums = payout_text.replace('円', '').replace(',', '').strip()
-                        try:
-                            sanrenpuku_payout = int(payout_nums)
-                        except ValueError:
-                            print(f"[WARNING] 三連複払戻の解析失敗: {payout_text}")
-            
-            result = {
-                'finishing_order': finishing_order,
-                'sanrenpuku_payout': sanrenpuku_payout
-            }
-            
-            print(f"[INFO] レース結果取得成功: {race_id}")
-            print(f"  着順: {'-'.join(finishing_order)}, 三連複: {sanrenpuku_payout}円")
-            
-            return result
-            
-        except requests.exceptions.Timeout:
-            print(f"[WARNING] タイムアウト (試行 {attempt + 1}/{max_retries}): {race_id}")
-            if attempt < max_retries - 1:
-                time.sleep(2)
-        except Exception as e:
-            print(f"[ERROR] レース結果取得エラー: {race_id} - {e}")
-            return None
+    # 日付が一致するか確認
+    if predictions_data.get('ymd') != ymd:
+        print(f"警告: 予想データの日付 ({predictions_data.get('ymd')}) と指定日付 ({ymd}) が一致しません")
     
-    return None
-
-def check_hit(predicted_horses, result):
-    """
-    予想と結果を照合する
-    """
-    if not result or not predicted_horses:
-        return {
-            'hit': False,
-            'investment': 0,
-            'payout': 0,
-            'profit': 0
-        }
-    
-    pred_set = set(str(horse.get('馬番', '')) for horse in predicted_horses[:3])
-    actual_set = set(result['finishing_order'][:3])
-    
-    is_hit = pred_set == actual_set
-    
-    investment = 100
-    payout = result['sanrenpuku_payout'] if is_hit else 0
-    profit = payout - investment
-    
-    return {
-        'hit': is_hit,
-        'investment': investment,
-        'payout': payout,
-        'profit': profit
-    }
-
-def process_results(ymd):
-    """
-    予想ファイルを読み込み、結果を取得・照合する
-    """
-    pred_file = f"final_predictions_{ymd}.json"
-    if not os.path.exists(pred_file):
-        print(f"[ERROR] 予想ファイルが見つかりません: {pred_file}")
-        return False
-    
-    with open(pred_file, 'r', encoding='utf-8') as f:
-        predictions = json.load(f)
-    
-    if 'selected_predictions' not in predictions:
-        print(f"[ERROR] selected_predictions が見つかりません")
-        return False
-    
-    selected_races = predictions['selected_predictions']
-    print(f"[INFO] 選定レース数: {len(selected_races)}")
+    # 選定されたレースを取得
+    selected_races = predictions_data.get('selected_predictions', [])
     
     results = []
-    total_investment = 0
-    total_return = 0
-    hit_count = 0
-    miss_count = 0
-    unavailable_count = 0
-    
-    print(f"\n[INFO] レース結果取得中...")
     
     for race in selected_races:
-        race_id = race.get('race_id', 'Unknown')
+        race_id = race.get('race_id')
+        venue = race.get('venue', 'Unknown')
+        race_name = race.get('race_name', 'Unknown')
+        race_num = race.get('race_num', 'Unknown')
+        distance = race.get('distance', '')
+        track = race.get('track', '')
         
-        result = fetch_race_result(race_id)
+        # 予想買い目を取得
+        betting = race.get('betting_suggestions', {}).get('main', {})
+        predicted_combinations = betting.get('combinations', [])
+        investment = betting.get('total_investment', 100)
         
-        if result is None:
+        # レース結果を取得
+        race_result = fetch_single_race_result(race_id, ymd)
+        
+        if race_result is None:
             results.append({
                 'race_id': race_id,
-                'venue': race.get('venue', 'Unknown'),
-                'race_num': race.get('race_num', 'Unknown'),
-                'race_name': race.get('race_name', 'Unknown'),
+                'venue': venue,
+                'race_num': race_num,
+                'race_name': race_name,
+                'distance': distance,
+                'track': track,
                 'status': '結果取得不可',
+                'predicted': predicted_combinations,
+                'actual': [],
                 'hit': False,
-                'investment': 0,
-                'payout': 0,
-                'profit': 0
+                'investment': investment,
+                'return': 0,
+                'profit': -investment,
+                'payouts': {}
             })
-            unavailable_count += 1
             continue
         
-        horses = race.get('horses', [])
-        top3_horses = horses[:3]
+        # 三連複の払戻を取得
+        sanrenpuku_result = race_result.get('sanrenpuku_result', '')
+        sanrenpuku_payout = race_result.get('sanrenpuku_payout', 0)
         
-        hit_info = check_hit(top3_horses, result)
+        # 的中判定
+        hit = False
+        return_amount = 0
         
-        total_investment += hit_info['investment']
-        total_return += hit_info['payout']
+        if sanrenpuku_result and predicted_combinations:
+            # 予想と結果を比較
+            actual_numbers = set(sanrenpuku_result.split('-'))
+            
+            for combo in predicted_combinations:
+                predicted_numbers = set(combo.split('-'))
+                if actual_numbers == predicted_numbers:
+                    hit = True
+                    return_amount = sanrenpuku_payout
+                    break
         
-        if hit_info['hit']:
-            hit_count += 1
-            status = '的中'
-        else:
-            miss_count += 1
-            status = '不的中'
-        
-        pred_umaban = [str(h.get('馬番', '?')) for h in top3_horses]
-        actual_umaban = result['finishing_order']
-        
-        print(f"  {race.get('venue', '?')}{race.get('race_num', '?')}R: {status}")
-        print(f"    予想: {'-'.join(pred_umaban)} / 実績: {'-'.join(actual_umaban)}")
-        print(f"    払戻: {hit_info['payout']}円 / 収支: {hit_info['profit']:+d}円")
+        profit = return_amount - investment
         
         results.append({
             'race_id': race_id,
-            'venue': race.get('venue', 'Unknown'),
-            'race_num': race.get('race_num', 'Unknown'),
-            'race_name': race.get('race_name', 'Unknown'),
-            'status': status,
-            'predicted': pred_umaban,
-            'actual': actual_umaban,
-            'hit': hit_info['hit'],
-            'investment': hit_info['investment'],
-            'payout': hit_info['payout'],
-            'profit': hit_info['profit']
+            'venue': venue,
+            'race_num': race_num,
+            'race_name': race_name,
+            'distance': distance,
+            'track': track,
+            'status': '的中' if hit else '不的中',
+            'predicted': predicted_combinations,
+            'actual': [sanrenpuku_result] if sanrenpuku_result else [],
+            'result_sanrenpuku': sanrenpuku_result,
+            'payout_sanrenpuku': sanrenpuku_payout,
+            'hit': hit,
+            'investment': investment,
+            'return': return_amount,
+            'profit': profit,
+            'payouts': race_result.get('payouts', {}),
+            'horse_weights': race_result.get('horse_weights', []),
+            'weather': race_result.get('weather', ''),
+            'track_condition': race_result.get('track_condition', '')
         })
     
+    # サマリーを計算
+    total_races = len(results)
+    hit_count = sum(1 for r in results if r['status'] == '的中')
+    miss_count = sum(1 for r in results if r['status'] == '不的中')
+    unavailable_count = sum(1 for r in results if r['status'] == '結果取得不可')
+    
+    total_investment = sum(r['investment'] for r in results)
+    total_return = sum(r['return'] for r in results)
     total_profit = total_return - total_investment
-    hit_rate = (hit_count / len(selected_races) * 100) if len(selected_races) > 0 else 0
+    
+    hit_rate = (hit_count / total_races * 100) if total_races > 0 else 0
     recovery_rate = (total_return / total_investment * 100) if total_investment > 0 else 0
     
-    summary = {
-        'date': ymd,
+    output_data = {
+        'date': datetime.now().strftime('%Y%m%d'),
+        'ymd': ymd,
         'generated_at': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
         'summary': {
-            'total_races': len(selected_races),
+            'total_races': total_races,
             'hit_count': hit_count,
             'miss_count': miss_count,
             'unavailable_count': unavailable_count,
@@ -256,41 +136,137 @@ def process_results(ymd):
         'results': results
     }
     
-    output_file = f"race_results_{ymd}.json"
-    with open(output_file, 'w', encoding='utf-8') as f:
-        json.dump(summary, f, ensure_ascii=False, indent=2)
+    # 結果をファイルに保存
+    output_filename = f'race_results_{ymd}.json'
+    with open(output_filename, 'w', encoding='utf-8') as f:
+        json.dump(output_data, f, ensure_ascii=False, indent=2)
     
-    print(f"\n[SUCCESS] 結果を保存しました: {output_file}")
-    print(f"\n📊 本日の成績")
-    print(f"  対象: {len(selected_races)}R")
-    print(f"  的中: {hit_count}R / 不的中: {miss_count}R / 取得不可: {unavailable_count}R")
-    print(f"  的中率: {hit_rate:.1f}%")
-    print(f"  投資: {total_investment}円")
-    print(f"  払戻: {total_return}円")
-    print(f"  収支: {total_profit:+d}円")
-    print(f"  回収率: {recovery_rate:.1f}%")
+    print(f"✅ 結果を {output_filename} に保存しました")
     
-    return True
+    return output_data
 
-def main():
-    if len(sys.argv) < 2:
-        print("[ERROR] 使用方法: python fetch_race_results.py YYYYMMDD")
+
+def fetch_single_race_result(race_id, ymd):
+    """
+    単一レースの結果を netkeiba.com から取得
+    
+    Args:
+        race_id: レースID
+        ymd: 日付（YYYYMMDD形式）
+    
+    Returns:
+        dict: レース結果データ（配当・馬体重含む）
+    """
+    
+    # NetKeiba のレース結果ページURL
+    url = f'https://race.netkeiba.com/race/result.html?race_id={race_id}'
+    
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+    }
+    
+    try:
+        response = requests.get(url, headers=headers, timeout=10)
+        response.raise_for_status()
+        
+        soup = BeautifulSoup(response.content, 'html.parser')
+        
+        # 着順表を取得
+        result_table = soup.select_one('table.race_table_01')
+        
+        if not result_table:
+            print(f"❌ レース結果テーブルが見つかりません: {race_id}")
+            return None
+        
+        # 1着、2着、3着の馬番を取得
+        rows = result_table.select('tr')[1:]  # ヘッダー行をスキップ
+        
+        top_3 = []
+        horse_weights = []
+        
+        for i, row in enumerate(rows[:3]):  # 上位3頭のみ
+            cols = row.select('td')
+            if len(cols) >= 8:
+                horse_number = cols[2].get_text(strip=True)
+                top_3.append(horse_number)
+                
+                # 馬体重を取得（例: "480(+4)"）
+                weight_text = cols[14].get_text(strip=True) if len(cols) > 14 else ''
+                horse_weights.append({
+                    'rank': i + 1,
+                    'horse_number': horse_number,
+                    'weight': weight_text
+                })
+        
+        if len(top_3) < 3:
+            print(f"❌ 着順データが不足しています: {race_id}")
+            return None
+        
+        sanrenpuku_result = '-'.join(sorted(top_3))
+        
+        # 払戻表を取得
+        payout_table = soup.select_one('table.pay_table_01')
+        payouts = {}
+        sanrenpuku_payout = 0
+        
+        if payout_table:
+            payout_rows = payout_table.select('tr')
+            
+            for row in payout_rows:
+                th = row.select_one('th')
+                if not th:
+                    continue
+                
+                bet_type = th.get_text(strip=True)
+                
+                # 払戻金を取得
+                payout_td = row.select('td.txt_r')
+                if payout_td:
+                    payout_text = payout_td[0].get_text(strip=True).replace(',', '').replace('円', '')
+                    try:
+                        payout_value = int(payout_text)
+                        payouts[bet_type] = payout_value
+                        
+                        if bet_type == '三連複':
+                            sanrenpuku_payout = payout_value
+                    except ValueError:
+                        pass
+        
+        # 天候・馬場状態を取得
+        weather = ''
+        track_condition = ''
+        
+        race_data_box = soup.select_one('.race_otherdata')
+        if race_data_box:
+            data_text = race_data_box.get_text()
+            if '天候' in data_text:
+                weather = data_text.split('天候:')[1].split('/')[0].strip()
+            if '馬場' in data_text:
+                track_condition = data_text.split('馬場:')[1].split('/')[0].strip()
+        
+        return {
+            'sanrenpuku_result': sanrenpuku_result,
+            'sanrenpuku_payout': sanrenpuku_payout,
+            'payouts': payouts,
+            'horse_weights': horse_weights,
+            'weather': weather,
+            'track_condition': track_condition
+        }
+        
+    except Exception as e:
+        print(f"❌ レース結果取得エラー ({race_id}): {e}")
+        return None
+
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print('使用方法: python fetch_race_results.py YYYYMMDD')
         sys.exit(1)
     
     ymd = sys.argv[1]
     
-    try:
-        datetime.strptime(ymd, '%Y%m%d')
-    except ValueError:
-        print(f"[ERROR] 無効な日付形式: {ymd}")
+    if len(ymd) != 8 or not ymd.isdigit():
+        print('エラー: 日付は YYYYMMDD 形式で指定してください')
         sys.exit(1)
     
-    print(f"[INFO] レース結果取得を開始します: {ymd}")
-    
-    success = process_results(ymd)
-    
-    if not success:
-        sys.exit(1)
-
-if __name__ == "__main__":
-    main()
+    fetch_race_results(ymd)
