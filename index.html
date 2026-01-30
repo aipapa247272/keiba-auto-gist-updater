@@ -34,41 +34,24 @@
         
         /* ヘッダー */
         .header {
-            position: relative;
             text-align: center;
             color: white;
-            padding: 0;
+            padding: 20px 15px;
             margin-bottom: 15px;
-            overflow: hidden;
-        }
-        
-        .header-bg {
-            width: 100%;
-            height: auto;
-            display: block;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-        }
-        
-        .header-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            text-align: center;
         }
         
         .logo-icon {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             margin: 0 auto 15px;
+            display: block;
             border-radius: 50%;
             box-shadow: 0 0 30px rgba(0, 212, 255, 0.6);
             border: 3px solid rgba(255,255,255,0.3);
         }
         
         .header h1 {
-            font-size: 2rem;
+            font-size: 1.8rem;
             margin-bottom: 12px;
             text-shadow: 0 4px 8px rgba(0,0,0,0.7), 0 0 20px rgba(0, 212, 255, 0.5);
             font-weight: bold;
@@ -107,7 +90,7 @@
         .tab-nav {
             display: flex;
             gap: 10px;
-            margin: 15px 10px;
+            margin: 0 10px 15px;
             background: rgba(26, 77, 122, 0.3);
             padding: 8px;
             border-radius: 16px;
@@ -330,6 +313,7 @@
             font-weight: bold;
             font-size: 1.3rem;
             margin-right: 15px;
+            flex-shrink: 0;
         }
         
         .rank-badge.rank-1 { background: var(--error); }
@@ -340,7 +324,7 @@
         .horse-name { font-weight: bold; font-size: 1.1rem; margin-bottom: 5px; }
         .horse-detail { font-size: 0.85rem; color: var(--text-sub); }
         
-        .score-display { text-align: right; margin-left: 15px; }
+        .score-display { text-align: right; margin-left: 15px; flex-shrink: 0; }
         .total-score { 
             font-size: 1.2rem; 
             font-weight: bold; 
@@ -426,25 +410,22 @@
 <body>
     <div class="container">
         <div class="header">
-            <img src="https://www.genspark.ai/api/files/s/UO3vtwJQ" alt="DES Header" class="header-bg">
-            <div class="header-content">
-                <img src="https://www.genspark.ai/api/files/s/iJNvjiso" alt="DES Icon" class="logo-icon">
-                <h1>DES_AI競馬予想</h1>
-                <p>
-                    デュアル・エッジ・システム<br>
-                    週単位プラス収支を目指すAI戦略予想
-                </p>
-                <a href="https://x.com/AIkeibayosouDES" target="_blank" class="x-link">
-                    📱 公式X: @AIkeibayosouDES
-                </a>
-            </div>
+            <img src="https://www.genspark.ai/api/files/s/iJNvjiso" alt="DES Icon" class="logo-icon">
+            <h1>DES_AI競馬予想</h1>
+            <p>
+                デュアル・エッジ・システム<br>
+                週単位プラス収支を目指すAI戦略予想
+            </p>
+            <a href="https://x.com/AIkeibayosouDES" target="_blank" class="x-link">
+                📱 公式X: @AIkeibayosouDES
+            </a>
         </div>
         
         <!-- タブナビゲーション -->
         <div class="tab-nav">
-            <button class="tab-btn active" data-tab="predictions">📊 今日の予想</button>
-            <button class="tab-btn" data-tab="results">📈 昨日の結果</button>
-            <button class="tab-btn" data-tab="stats">📉 統計</button>
+            <button class="tab-btn active" onclick="switchTab('predictions')">📊 今日の予想</button>
+            <button class="tab-btn" onclick="switchTab('results')">📈 昨日の結果</button>
+            <button class="tab-btn" onclick="switchTab('stats')">📉 統計</button>
         </div>
         
         <div id="statusBox" class="status-box"></div>
@@ -464,19 +445,9 @@
         let resultsData = null;
         
         window.addEventListener('load', () => {
-            initTabs();
             showStatus('🚀 アプリを起動中...', 'success');
             setTimeout(loadAllData, 1000);
         });
-        
-        function initTabs() {
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const tab = e.target.getAttribute('data-tab');
-                    switchTab(tab);
-                });
-            });
-        }
         
         function showStatus(msg, type) {
             const box = document.getElementById('statusBox');
@@ -493,14 +464,12 @@
         }
         
         function switchTab(tab) {
+            console.log('🔄 Switching to tab:', tab);
             currentTab = tab;
             
             // タブボタンの切り替え
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.remove('active');
-                if (btn.getAttribute('data-tab') === tab) {
-                    btn.classList.add('active');
-                }
             });
             
             // コンテンツの切り替え
@@ -509,12 +478,15 @@
             });
             
             if (tab === 'predictions') {
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
                 document.getElementById('predictionsTab').classList.add('active');
                 if (!predictionsData) loadPredictions();
             } else if (tab === 'results') {
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
                 document.getElementById('resultsTab').classList.add('active');
                 if (!resultsData) loadResults();
             } else if (tab === 'stats') {
+                document.querySelectorAll('.tab-btn')[2].classList.add('active');
                 document.getElementById('statsTab').classList.add('active');
                 displayStats();
             }
@@ -527,6 +499,7 @@
         
         async function loadPredictions() {
             try {
+                showStatus('📊 予想データを取得中...', 'success');
                 const res = await fetch(PREDICTIONS_URL + '?t=' + Date.now(), { cache: 'no-cache' });
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 
@@ -538,6 +511,14 @@
             } catch (error) {
                 console.error('❌ Predictions error:', error);
                 showStatus('❌ 予想データ取得エラー: ' + error.message, 'error');
+                document.getElementById('predictionsTab').innerHTML = `
+                    <div class="content-card">
+                        <div style="text-align:center; padding:40px; color:#64748b;">
+                            ⚠️ 予想データの取得に失敗しました<br>
+                            <small>${error.message}</small>
+                        </div>
+                    </div>
+                `;
             }
         }
         
@@ -605,4 +586,9 @@
                             <div class="turb-label">中乱度</div>
                             <div class="turb-value">${turb['中'] || 0}R</div>
                         </div>
-                  
+                        <div class="turb-item">
+                            <div class="turb-label">高乱度</div>
+                            <div class="turb-value">${turb['高'] || 0}R</div>
+                        </div>
+                    </div>
+                </d
