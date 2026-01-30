@@ -35,26 +35,21 @@
             width: 100%;
         }
         
+        /* ヘッダー背景画像 */
+        .header-bg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
         /* ヘッダー */
         .header {
             text-align: center;
             color: white;
-            padding: 30px 15px 25px;
+            padding: 25px 15px;
             background: linear-gradient(135deg, rgba(10, 25, 41, 0.95) 0%, rgba(26, 77, 122, 0.95) 100%);
             border-bottom: 3px solid var(--accent);
             box-shadow: 0 4px 20px rgba(0, 212, 255, 0.2);
-        }
-        
-        .logo-emoji {
-            font-size: 3.5rem;
-            margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
-            animation: float 3s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
         }
         
         .header h1 {
@@ -94,8 +89,10 @@
             background: rgba(0, 212, 255, 0.3);
         }
         
-        .x-emoji {
-            font-size: 1.3rem;
+        .x-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
         }
         
         /* タブナビゲーション */
@@ -416,16 +413,18 @@
 </head>
 <body>
     <div class="container">
+        <!-- ヘッダー背景画像 -->
+        <img src="https://i.ibb.co/PZTkY9L/header.png" alt="DES Header" class="header-bg">
+        
         <!-- ヘッダー -->
         <div class="header">
-            <div class="logo-emoji">🏇</div>
             <h1>DES_AI競馬予想</h1>
             <p>
                 デュアル・エッジ・システム<br>
                 週単位プラス収支を目指す<br>AI戦略予想
             </p>
             <a href="https://x.com/AIkeibayosouDES" target="_blank" class="x-link">
-                <span class="x-emoji">🐎</span>
+                <img src="https://i.ibb.co/s9qwqt7/icon.png" alt="DES" class="x-icon">
                 公式X: @AIkeibayosouDES
             </a>
         </div>
@@ -452,22 +451,30 @@
         let predictionsData = null;
         let resultsData = null;
         
-        document.addEventListener('DOMContentLoaded', () => {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+        
+        function init() {
             console.log('🚀 App started');
             initTabs();
             loadAllData();
-        });
+        }
         
         function initTabs() {
             const tabs = document.querySelectorAll('.tab-btn');
             tabs.forEach(tab => {
                 tab.addEventListener('click', function(e) {
                     e.preventDefault();
+                    e.stopPropagation();
                     const tabName = this.getAttribute('data-tab');
                     console.log('🔄 Tab clicked:', tabName);
                     switchTab(tabName);
                 });
             });
+            console.log('✅ Tabs initialized');
         }
         
         function showStatus(msg, type) {
@@ -497,7 +504,10 @@
                 content.classList.remove('active');
             });
             
-            document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+            const targetBtn = document.querySelector(`[data-tab="${tab}"]`);
+            if (targetBtn) {
+                targetBtn.classList.add('active');
+            }
             
             if (tab === 'predictions') {
                 document.getElementById('predictionsTab').classList.add('active');
@@ -602,8 +612,4 @@
                             <div class="turb-label">低乱度</div>
                             <div class="turb-value">${turb['低'] || 0}R</div>
                         </div>
-                        <div class="turb-item">
-                            <div class="turb-label">中乱度</div>
-                            <div class="turb-value">${turb['中'] || 0}R</div>
-                        </div>
-                        <div class="turb-ite
+          
