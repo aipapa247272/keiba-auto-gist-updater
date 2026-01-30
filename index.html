@@ -40,12 +40,16 @@
         .header-wrapper {
             width: 100%;
             overflow: hidden;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--primary) 100%);
         }
         
         .header-bg {
             width: 100%;
             height: auto;
             display: block;
+            image-rendering: auto;
+            -webkit-user-select: none;
+            user-select: none;
         }
         
         /* ヘッダーコンテンツ */
@@ -96,6 +100,9 @@
             height: 22px;
             border-radius: 50%;
             flex-shrink: 0;
+            image-rendering: auto;
+            -webkit-user-select: none;
+            user-select: none;
         }
         
         /* タブナビゲーション */
@@ -416,9 +423,15 @@
 </head>
 <body>
     <div class="container">
+        <div class="container">
         <!-- ヘッダー背景画像 -->
         <div class="header-wrapper">
-            <img src="https://www.genspark.ai/api/files/s/UO3vtwJQ" alt="DES Header" class="header-bg" onerror="this.style.display='none'">
+            <img src="https://www.genspark.ai/api/files/s/UO3vtwJQ" 
+                 alt="DES Header" 
+                 class="header-bg" 
+                 crossorigin="anonymous"
+                 onload="console.log('✅ Header image loaded')"
+                 onerror="console.error('❌ Header image failed'); this.style.display='none'">
         </div>
         
         <!-- ヘッダーコンテンツ -->
@@ -429,12 +442,18 @@
                 週単位プラス収支を目指す<br>AI戦略予想
             </p>
             <a href="https://x.com/AIkeibayosouDES" target="_blank" class="x-link">
-                <img src="https://www.genspark.ai/api/files/s/iJNvjiso" alt="DES" class="x-icon" onerror="this.style.display='none'">
+                <img src="https://www.genspark.ai/api/files/s/iJNvjiso" 
+                     alt="DES" 
+                     class="x-icon" 
+                     crossorigin="anonymous"
+                     onload="console.log('✅ Icon loaded')"
+                     onerror="console.error('❌ Icon failed'); this.style.display='none'">
                 公式X: @AIkeibayosouDES
             </a>
         </div>
         
         <!-- タブナビゲーション -->
+
         <div class="tab-nav">
             <button class="tab-btn active" data-tab="predictions">📊 今日の予想</button>
             <button class="tab-btn" data-tab="results">📈 昨日の結果</button>
@@ -836,3 +855,4 @@
     </script>
 </body>
 </html>
+
