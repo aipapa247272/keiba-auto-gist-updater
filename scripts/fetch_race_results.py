@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-レース結果自動取得スクリプト（Phase 3-1 修正版 v4）
+レース結果自動取得スクリプト（Phase 3-1 修正版 v6 - 完全版）
 
 修正内容:
-- User-Agent追加（スマホブラウザとして振る舞う）
-- HTMLパース処理の改善
+- HTMLパース処理を実際の構造に完全対応
+- 着順と三連複払戻を正しく取得
 """
 
 import os
@@ -22,20 +22,11 @@ NAR_RESULT_URL = "https://nar.sp.netkeiba.com/race/race_result.html"
 def fetch_race_result(race_id, timeout=30, max_retries=3):
     """
     指定されたrace_idのレース結果を取得する
-    
-    Args:
-        race_id: レースID
-        timeout: タイムアウト（秒）
-        max_retries: 最大リトライ回数
-    
-    Returns:
-        dict: レース結果（着順、三連複払戻）
     """
     url = f"{NAR_RESULT_URL}?race_id={race_id}"
     
-    # スマホブラウザとして振る舞う
     headers = {
-        'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1'
+        'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15'
     }
     
     for attempt in range(max_retries):
@@ -53,74 +44,64 @@ def fetch_race_result(race_id, timeout=30, max_retries=3):
             # 着順を取得
             finishing_order = []
             
-            # SP版の結果テーブルを探す
-            # パターン1: table要素からtr要素を取得
-            tables = soup.find_all('table')
+            # テーブルを探す
+            result_table = soup.find('table', id='All_Result_Table')
+            if not result_table:
+                result_table = soup.find('table', class_='RaceCommon_Table')
             
-            for table in tables:
-                rows = table.find_all('tr')
-                for row in rows:
-                    cells = row.find_all('td')
-                    
-                    # 最低でも3列以上必要（着順、馬番、その他）
-                    if len(cells) >= 3:
-                        chakujun_text = cells[0].get_text(strip=True)
-                        umaban_text = cells[1].get_text(strip=True)
-                        
-                        # 着順が1,2,3の場合
-                        if chakujun_text in ['1', '2', '3']:
-                            # 馬番から数字のみ抽出
-                            umaban = ''.join(filter(str.isdigit, umaban_text))
-                            if umaban:
-                                finishing_order.append(umaban)
-                        
-                        if len(finishing_order) >= 3:
-                            break
+            if not result_table:
+                print(f"[WARNING] 結果テーブルが見つかりません: {race_id}")
+                return None
+            
+            rows = result_table.find_all('tr')
+            
+            for row in rows:
+                # 着順セルを探す
+                result_num_cell = row.find('td', class_='Result_Num')
+                if not result_num_cell:
+                    continue
+                
+                rank_div = result_num_cell.find('div', class_='Rank')
+                if not rank_div:
+                    continue
+                
+                rank_text = rank_div.get_text(strip=True)
+                
+                # "1着" → "1" を抽出
+                if '着' in rank_text:
+                    rank = rank_text.replace('着', '').replace('\n', '').strip()
+                    if rank in ['1', '2', '3']:
+                        # 馬番を取得（3列目のNumセル）
+                        num_cells = row.find_all('td', class_='Num')
+                        if len(num_cells) >= 2:
+                            umaban = num_cells[1].get_text(strip=True)
+                            finishing_order.append(umaban)
                 
                 if len(finishing_order) >= 3:
                     break
             
-            # パターン2: div要素から馬番を抽出
-            if len(finishing_order) < 3:
-                result_items = soup.find_all('div', class_='result_item')
-                for item in result_items[:3]:
-                    umaban_elem = item.find('span', class_='umaban') or item.find('div', class_='umaban')
-                    if umaban_elem:
-                        umaban = ''.join(filter(str.isdigit, umaban_elem.get_text(strip=True)))
-                        if umaban:
-                            finishing_order.append(umaban)
-            
             if len(finishing_order) < 3:
                 print(f"[WARNING] 着順データが不完全: {race_id} - {finishing_order}")
-                print(f"[DEBUG] HTML構造:")
-                print(f"  テーブル数: {len(tables)}")
-                if tables:
-                    print(f"  最大行数: {max(len(t.find_all('tr')) for t in tables)}")
-                print(f"[DEBUG] HTML (最初の500文字):")
-                print(response.text[:500])
                 return None
             
             # 三連複払戻を取得
             sanrenpuku_payout = 0
             
-            # すべてのテーブルを確認
-            for table in tables:
-                rows = table.find_all('tr')
-                for row in rows:
-                    cells = row.find_all('td')
-                    if len(cells) >= 2:
-                        label = cells[0].get_text(strip=True)
-                        if '三連複' in label:
-                            payout_text = cells[1].get_text(strip=True).replace(',', '').replace('円', '').replace('¥', '')
-                            payout_nums = ''.join(filter(str.isdigit, payout_text))
-                            if payout_nums:
-                                try:
-                                    sanrenpuku_payout = int(payout_nums)
-                                    break
-                                except ValueError:
-                                    pass
-                if sanrenpuku_payout > 0:
-                    break
+            # 払戻テーブルを探す
+            payout_table = soup.find('table', class_='Payout_Detail_Table')
+            
+            if payout_table:
+                fuku3_row = payout_table.find('tr', class_='Fuku3')
+                if fuku3_row:
+                    payout_cell = fuku3_row.find('td', class_='Payout')
+                    if payout_cell:
+                        payout_text = payout_cell.get_text(strip=True)
+                        # "420円" → "420"
+                        payout_nums = payout_text.replace('円', '').replace(',', '').strip()
+                        try:
+                            sanrenpuku_payout = int(payout_nums)
+                        except ValueError:
+                            print(f"[WARNING] 三連複払戻の解析失敗: {payout_text}")
             
             result = {
                 'finishing_order': finishing_order,
