@@ -542,9 +542,12 @@
             
             // タブボタンの切り替え
             document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
+                if (btn.getAttribute('onclick').includes(tabName)) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
             });
-            event.target.classList.add('active');
 
             // タブコンテンツの切り替え
             document.querySelectorAll('.tab-content').forEach(content => {
@@ -675,8 +678,4 @@
                     return (a.popularity || 999) - (b.popularity || 999);
                 });
                 const topHorses = sortedHorses.slice(0, 3);
-                const badges = ['◎', '○', '▲'];
-
-                html += `
-                    <div class="race-card">
-      
+          
