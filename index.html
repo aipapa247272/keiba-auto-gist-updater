@@ -562,8 +562,18 @@
         async function loadPredictions() {
             try {
                 console.log('Loading predictions...');
-                const url = 'https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/latest_predictions.json';
-                const response = await fetch(url);
+                
+                // ローディング表示
+                document.getElementById('predictions-tab').innerHTML = `
+                    <div class="loading">
+                        <div class="loading-spinner"></div>
+                        <div class="loading-text">予想データを更新中...</div>
+                    </div>
+                `;
+                
+                // キャッシュバスター追加
+                const url = `https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/latest_predictions.json?t=${Date.now()}`;
+                const response = await fetch(url, { cache: 'no-cache' });
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 predictionsData = await response.json();
                 console.log('Predictions data:', predictionsData);
@@ -585,8 +595,18 @@
         async function loadResults() {
             try {
                 console.log('Loading results...');
-                const url = 'https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/latest_results.json';
-                const response = await fetch(url);
+                
+                // ローディング表示
+                document.getElementById('results-tab').innerHTML = `
+                    <div class="loading">
+                        <div class="loading-spinner"></div>
+                        <div class="loading-text">結果データを更新中...</div>
+                    </div>
+                `;
+                
+                // キャッシュバスター追加
+                const url = `https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/latest_results.json?t=${Date.now()}`;
+                const response = await fetch(url, { cache: 'no-cache' });
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 resultsData = await response.json();
                 console.log('Results data:', resultsData);
