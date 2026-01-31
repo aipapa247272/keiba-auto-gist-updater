@@ -559,7 +559,8 @@
         async function loadPredictions() {
             try {
                 console.log('Loading predictions...');
-                const response = await fetch('./latest_predictions.json');
+                const url = 'https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/latest_predictions.json';
+                const response = await fetch(url);
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 predictionsData = await response.json();
                 console.log('Predictions data:', predictionsData);
@@ -581,7 +582,8 @@
         async function loadResults() {
             try {
                 console.log('Loading results...');
-                const response = await fetch('./latest_results.json');
+                const url = 'https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/latest_results.json';
+                const response = await fetch(url);
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 resultsData = await response.json();
                 console.log('Results data:', resultsData);
@@ -675,7 +677,4 @@
                     <div class="race-card">
                         <div class="race-header">
                             <div class="race-title">${race.venue || ''} ${race.race_name || ''}</div>
-                            <div class="race-info">
-                                ${race.distance || ''}m ${race.track || ''} | ${race.start_time || ''}
-                            </div>
-                            <span class="turbulen
+                         
