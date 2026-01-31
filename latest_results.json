@@ -1,7 +1,7 @@
 {
-  "date": "20260130",
+  "date": "20260131",
   "ymd": "20260130",
-  "generated_at": "2026-01-30 18:36:41",
+  "generated_at": "2026-01-31 04:51:03",
   "summary": {
     "total_races": 5,
     "hit_count": 0,
@@ -28,7 +28,10 @@
       "investment": 100,
       "return": 0,
       "profit": -100,
-      "payouts": {}
+      "payouts": {},
+      "horse_weights": [],
+      "weather": "",
+      "track_condition": ""
     },
     {
       "race_id": "202644013008",
@@ -44,7 +47,10 @@
       "investment": 100,
       "return": 0,
       "profit": -100,
-      "payouts": {}
+      "payouts": {},
+      "horse_weights": [],
+      "weather": "",
+      "track_condition": ""
     },
     {
       "race_id": "202648013010",
@@ -60,7 +66,10 @@
       "investment": 100,
       "return": 0,
       "profit": -100,
-      "payouts": {}
+      "payouts": {},
+      "horse_weights": [],
+      "weather": "",
+      "track_condition": ""
     },
     {
       "race_id": "202648013011",
@@ -76,7 +85,10 @@
       "investment": 100,
       "return": 0,
       "profit": -100,
-      "payouts": {}
+      "payouts": {},
+      "horse_weights": [],
+      "weather": "",
+      "track_condition": ""
     },
     {
       "race_id": "202644013011",
@@ -92,7 +104,10 @@
       "investment": 100,
       "return": 0,
       "profit": -100,
-      "payouts": {}
+      "payouts": {},
+      "horse_weights": [],
+      "weather": "",
+      "track_condition": ""
     }
   ]
 }
