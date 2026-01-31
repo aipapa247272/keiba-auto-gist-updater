@@ -603,7 +603,11 @@
         }
 
         function getScore(horse) {
-            const score = horse.des_score || horse.total_score || horse.score;
+            const desScore = horse.des_score || horse['des_score'];
+            if (desScore) {
+                return typeof desScore.total === 'number' ? desScore.total : 0;
+            }
+            const score = horse.total_score || horse.score;
             return typeof score === 'number' ? score : 0;
         }
 
@@ -675,6 +679,4 @@
 
                 html += `
                     <div class="race-card">
-                        <div class="race-header">
-                            <div class="race-title">${race.venue || ''} ${race.race_name || ''}</div>
-                         
+      
