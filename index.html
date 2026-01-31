@@ -156,7 +156,7 @@
         .summary-value {
             font-size: 26px;
             font-weight: 700;
-            color: #0d47a1;
+            color: #4fc3f7;
         }
 
         .turbulence-grid {
@@ -336,6 +336,106 @@
         .result-value.profit { color: #81c784; }
         .result-value.loss { color: #e57373; }
 
+        .weather-section {
+            background: rgba(33,150,243,0.1);
+            border-radius: 8px;
+            padding: 12px;
+            margin: 12px 0;
+        }
+
+        .weather-title {
+            font-size: 12px;
+            color: #4fc3f7;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .weather-info {
+            font-size: 13px;
+            color: #b0c4de;
+        }
+
+        .payout-section {
+            background: rgba(255,193,7,0.1);
+            border-radius: 8px;
+            padding: 12px;
+            margin: 12px 0;
+        }
+
+        .payout-title {
+            font-size: 12px;
+            color: #ffd54f;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .payout-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .payout-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
+        .payout-type {
+            color: #b0c4de;
+        }
+
+        .payout-amount {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .weight-section {
+            background: rgba(156,39,176,0.1);
+            border-radius: 8px;
+            padding: 12px;
+            margin: 12px 0;
+        }
+
+        .weight-title {
+            font-size: 12px;
+            color: #ce93d8;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .weight-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .weight-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
+        .weight-rank {
+            color: #ffd54f;
+            font-weight: 600;
+        }
+
+        .weight-horse {
+            color: #b0c4de;
+        }
+
+        .weight-value {
+            color: #fff;
+            font-weight: 600;
+        }
+
         .loading {
             text-align: center;
             padding: 60px 20px;
@@ -397,9 +497,9 @@
     </div>
 
     <div class="tab-nav">
-        <button class="tab-btn active" data-tab="predictions">📊 今日の予想</button>
-        <button class="tab-btn" data-tab="results">🎯 昨日の結果</button>
-        <button class="tab-btn" data-tab="stats">📈 統計</button>
+        <button class="tab-btn active" onclick="switchTab('predictions')">📊 今日の予想</button>
+        <button class="tab-btn" onclick="switchTab('results')">🎯 昨日の結果</button>
+        <button class="tab-btn" onclick="switchTab('stats')">📈 統計</button>
     </div>
 
     <div class="content">
@@ -433,24 +533,20 @@
         let resultsData = null;
 
         document.addEventListener('DOMContentLoaded', () => {
-            initTabs();
             loadPredictions();
             loadResults();
         });
 
-        function initTabs() {
-            const tabs = document.querySelectorAll('.tab-btn');
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    switchTab(tab.dataset.tab);
-                });
-            });
-        }
-
         function switchTab(tabName) {
+            console.log('Switching to tab:', tabName);
+            
+            // タブボタンの切り替え
             document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.tab === tabName);
+                btn.classList.remove('active');
             });
+            event.target.classList.add('active');
+
+            // タブコンテンツの切り替え
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
             });
@@ -462,9 +558,11 @@
 
         async function loadPredictions() {
             try {
+                console.log('Loading predictions...');
                 const response = await fetch('./latest_predictions.json');
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 predictionsData = await response.json();
+                console.log('Predictions data:', predictionsData);
                 renderPredictions(predictionsData);
             } catch (error) {
                 console.error('予想データ取得エラー:', error);
@@ -482,9 +580,11 @@
 
         async function loadResults() {
             try {
+                console.log('Loading results...');
                 const response = await fetch('./latest_results.json');
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 resultsData = await response.json();
+                console.log('Results data:', resultsData);
                 renderResults(resultsData);
             } catch (error) {
                 console.error('結果データ取得エラー:', error);
@@ -503,6 +603,11 @@
         function getScore(horse) {
             const score = horse.des_score || horse.total_score || horse.score;
             return typeof score === 'number' ? score : 0;
+        }
+
+        function formatDate(ymd) {
+            if (!ymd) return '-';
+            return ymd.replace(/(\d{4})(\d{2})(\d{2})/, '$1/$2/$3');
         }
 
         function renderPredictions(data) {
@@ -573,63 +678,4 @@
                             <div class="race-info">
                                 ${race.distance || ''}m ${race.track || ''} | ${race.start_time || ''}
                             </div>
-                            <span class="turbulence-badge ${race.turbulence || '中'}">${race.turbulence || '中'}</span>
-                        </div>
-
-                        ${topHorses.map((horse, idx) => `
-                            <div class="horse-card">
-                                <div class="rank-badge">${badges[idx]}</div>
-                                <div class="horse-info">
-                                    <div class="horse-name">
-                                        ${horse.frame_number || ''}枠 ${horse.horse_number || ''}番 ${horse.name || ''}
-                                    </div>
-                                    <div class="horse-details">
-                                        オッズ: ${horse.odds || '-'} | 人気: ${horse.popularity || '-'}位
-                                    </div>
-                                </div>
-                                <div class="horse-score">
-                                    ${getScore(horse).toFixed(1)}
-                                </div>
-                            </div>
-                        `).join('')}
-
-                        ${renderBetting(race.betting_suggestions)}
-                    </div>
-                `;
-            });
-
-            document.getElementById('predictions-tab').innerHTML = html;
-        }
-
-        function renderBetting(betting) {
-            if (!betting || !betting.main) return '';
-            const main = betting.main;
-            return `
-                <div class="betting-section">
-                    <div class="betting-title">
-                        💰 ${main.type || ''} (¥${(main.total_investment || 0).toLocaleString()})
-                    </div>
-                    <div class="betting-combinations">
-                        ${(main.combinations || []).map(c => `
-                            <div class="combination">${c}</div>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderResults(data) {
-            const results = data.results || [];
-            const summary = data.summary || {};
-
-            let html = `
-                <div class="success-message">
-                    ✅ データ取得成功 (${new Date().toLocaleString('ja-JP')})
-                </div>
-
-                <div class="section-header">
-                    <div class="section-title">🎯 昨日の結果</div>
-                    <button class="refresh-btn" onclick="loadResults()">🔄</button>
-                </div>
-
- 
+                            <span class="turbulen
