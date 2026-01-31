@@ -622,7 +622,7 @@
         function renderPredictions(data) {
             const races = data.selected_predictions || data.predictions || [];
             const summary = data.summary || {};
-            const turbulence = data.turbulence || {};
+            const turbulence = summary.turbulence || {};
 
             let html = `
                 <div class="success-message">
@@ -678,4 +678,4 @@
                     return (a.popularity || 999) - (b.popularity || 999);
                 });
                 const topHorses = sortedHorses.slice(0, 3);
-          
+       
