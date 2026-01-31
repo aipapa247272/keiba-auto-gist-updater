@@ -1,5 +1,5 @@
 name: Daily Select
-# Updated on 2026-01-28 - latest_predictions.json/md + latest_race_data.json 対応追加
+# Updated on 2026-01-31 - Git conflict 対応追加
 
 on:
   workflow_dispatch:
@@ -59,7 +59,7 @@ jobs:
         run: |
           python scripts/generate_final_output.py ${{ steps.get_ymd.outputs.ymd }}
       
-      # ★ 新規追加: 最新予想ファイルをコピー
+      # ★ 最新予想ファイルをコピー
       - name: Copy latest predictions
         run: |
           echo "📋 最新予想ファイルをコピー中..."
@@ -92,8 +92,7 @@ jobs:
             ls -lh latest_race_data.json
           fi
       
-      # Commit を Generate final output の後に実行
-      # 各ファイルパターンを個別に git add して確実にコミット
+      # ★ 修正: Git pull を追加してコンフリクトを回避
       - name: Commit race_data JSON
         run: |
           echo "📂 現在のファイル一覧:"
@@ -105,6 +104,14 @@ jobs:
           
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # ★ リモートの変更を取得（コンフリクト回避）
+          echo "🔄 リモートの変更を取得中..."
+          git fetch origin main
+          git pull --rebase origin main || {
+            echo "⚠️ Pull failed, trying merge strategy..."
+            git pull --no-rebase origin main
+          }
           
           # 各ファイルパターンを個別に追加（存在しないものはスキップ）
           git add race_data_*.json 2>/dev/null || true
@@ -122,6 +129,10 @@ jobs:
           if ! git diff --cached --quiet; then
             echo "💾 コミット実行中..."
             git commit -m "chore: update race data with predictions for ${{ steps.get_ymd.outputs.ymd }}"
+            
+            # ★ Push 前にもう一度 pull（他のワークフローとの競合回避）
+            git pull --rebase origin main || true
+            
             git push
             echo "✅ コミット完了"
           else
