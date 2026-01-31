@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-出馬表データ取得スクリプト（修正版 v3.2）
-- テーブルの行数で判定（10行以上のテーブルを出馬表として認識）
-- 1頭しか取得できない問題を解決
+出馬表データ取得スクリプト（中央/地方両対応版）
+- JRA/NARのURLを自動判別
+- race_idの場コードからドメインを切り替え
 """
 
 import json
@@ -14,11 +14,35 @@ from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
 
+# 中央競馬（JRA）場コード
+JRA_VENUE_CODES = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10']
+
+# 地方競馬（NAR）場コード
+NAR_VENUE_CODES = ['30', '35', '36', '42', '43', '44', '45', '46', '47', '48', '50', '51', '54', '55', '65']
+
+def get_base_url(race_id):
+    """
+    race_idから適切なベースURLを返す
+    """
+    venue_code = race_id[4:6]
+    
+    if venue_code in JRA_VENUE_CODES:
+        return 'https://race.netkeiba.com'
+    elif venue_code in NAR_VENUE_CODES:
+        return 'https://nar.netkeiba.com'
+    else:
+        # デフォルトは地方競馬
+        return 'https://nar.netkeiba.com'
+
 def fetch_race_data(race_id):
     """
     指定されたrace_idの出馬表データを取得
     """
-    url = f"https://nar.netkeiba.com/race/shutuba.html?race_id={race_id}"
+    base_url = get_base_url(race_id)
+    url = f"{base_url}/race/shutuba.html?race_id={race_id}"
+    
+    venue_code = race_id[4:6]
+    venue_type = 'JRA' if venue_code in JRA_VENUE_CODES else 'NAR'
     
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
@@ -35,13 +59,13 @@ def fetch_race_data(race_id):
         soup = BeautifulSoup(resp.text, 'html.parser')
         
         # レース基本情報の取得
-        race_info = extract_race_info(soup, race_id)
+        race_info = extract_race_info(soup, race_id, venue_type)
         if not race_info:
             print(f"⚠️ レース情報を取得できませんでした: {race_id}")
             return None
         
         # 馬データの取得
-        horses = extract_horses_from_table(soup)
+        horses = extract_horses_from_table(soup, venue_type)
         if not horses:
             print(f"⚠️ 馬データを取得できませんでした: {race_id}")
             return None
@@ -49,7 +73,7 @@ def fetch_race_data(race_id):
         race_info['horses'] = horses
         race_info['取得頭数'] = len(horses)
         
-        print(f"✅ {race_info.get('レース名', 'N/A')}: {len(horses)}頭")
+        print(f"✅ [{venue_type}] {race_info.get('レース名', 'N/A')}: {len(horses)}頭")
         
         return race_info
         
@@ -58,21 +82,22 @@ def fetch_race_data(race_id):
         return None
 
 
-def extract_race_info(soup, race_id):
+def extract_race_info(soup, race_id, venue_type):
     """
     レース基本情報を抽出
     """
     race_data = {
-        'race_id': race_id
+        'race_id': race_id,
+        'venue_type': venue_type
     }
     
-    # レース名
-    race_title = soup.find('div', class_='RaceName')
+    # レース名（JRA/NAR共通）
+    race_title = soup.find('div', class_='RaceName') or soup.find('h1', class_='RaceName')
     if race_title:
         race_data['レース名'] = race_title.get_text(strip=True)
     
-    # レースデータ
-    race_data_div = soup.find('div', class_='RaceData01')
+    # レースデータ（JRA/NAR共通）
+    race_data_div = soup.find('div', class_='RaceData01') or soup.find('div', class_='RaceData02')
     if race_data_div:
         race_text = race_data_div.get_text(strip=True)
         
@@ -99,37 +124,53 @@ def extract_race_info(soup, race_id):
     
     # 競馬場
     venue_code = race_id[4:6]
-    venue_map = {
+    
+    jra_venue_map = {
+        '01': '札幌', '02': '函館', '03': '福島', '04': '新潟',
+        '05': '東京', '06': '中山', '07': '中京', '08': '京都',
+        '09': '阪神', '10': '小倉'
+    }
+    
+    nar_venue_map = {
         '30': '門別', '35': '盛岡', '36': '水沢', '42': '浦和', '43': '船橋',
         '44': '大井', '45': '川崎', '46': '金沢', '47': '笠松', '48': '名古屋',
         '50': '園田', '51': '姫路', '54': '高知', '55': '佐賀', '65': '帯広ば'
     }
-    race_data['競馬場'] = venue_map.get(venue_code, '不明')
+    
+    if venue_type == 'JRA':
+        race_data['競馬場'] = jra_venue_map.get(venue_code, '不明')
+    else:
+        race_data['競馬場'] = nar_venue_map.get(venue_code, '不明')
+    
     race_data['レース番号'] = int(race_id[-2:])
     
     return race_data
 
 
-def extract_horses_from_table(soup):
+def extract_horses_from_table(soup, venue_type):
     """
-    出馬表テーブルから馬データを抽出（行数判定版）
+    出馬表テーブルから馬データを抽出
+    JRA/NAR両対応
     """
     horses = []
     
-    # Shutuba_Table クラスを持つすべてのテーブルを取得
-    candidate_tables = soup.find_all('table', class_='Shutuba_Table')
+    # テーブルの候補を複数試行
+    candidate_tables = []
+    
+    # NAR用
+    candidate_tables.extend(soup.find_all('table', class_='Shutuba_Table'))
+    
+    # JRA用
+    candidate_tables.extend(soup.find_all('table', class_='ShutubaTable'))
+    candidate_tables.extend(soup.find_all('table', class_='RaceTable01'))
     
     # 行数が10以上のテーブルを出馬表として判定
     shutuba_table = None
     for table in candidate_tables:
         rows = table.find_all('tr')
-        if len(rows) >= 10:  # 出馬表は最低10行以上（ヘッダー + 9頭以上）
+        if len(rows) >= 10:  # 出馬表は最低10行以上
             shutuba_table = table
             break
-    
-    if not shutuba_table:
-        # 代替: RaceTable01 クラスを持つテーブルを探す
-        shutuba_table = soup.find('table', class_='RaceTable01')
     
     if not shutuba_table:
         return horses
@@ -243,6 +284,13 @@ def main():
             sys.exit(1)
         
         print(f"📊 対象レース数: {len(race_ids)}")
+        
+        # JRA/NAR別の集計
+        jra_count = sum(1 for rid in race_ids if rid[4:6] in JRA_VENUE_CODES)
+        nar_count = sum(1 for rid in race_ids if rid[4:6] in NAR_VENUE_CODES)
+        
+        print(f"  🏇 JRA: {jra_count}レース")
+        print(f"  🏇 NAR: {nar_count}レース")
         print("-" * 50)
         
     except FileNotFoundError:
@@ -257,7 +305,8 @@ def main():
     success_count = 0
     
     for i, race_id in enumerate(race_ids, 1):
-        print(f"[{i}/{len(race_ids)}] {race_id} を取得中...")
+        venue_type = 'JRA' if race_id[4:6] in JRA_VENUE_CODES else 'NAR'
+        print(f"[{i}/{len(race_ids)}] [{venue_type}] {race_id} を取得中...")
         
         race_data = fetch_race_data(race_id)
         
