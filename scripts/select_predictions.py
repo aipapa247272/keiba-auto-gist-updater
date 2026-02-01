@@ -1,14 +1,33 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-予想選定スクリプト（改善版 v2.0）
-- 波乱度判定ロジックの改善
-- 頭数・重量条件・脚質構成を考慮
+予想選定スクリプト（投資額計算統合版 v3.0）
+- 波乱度判定ロジック
+- 投資額計算（週間予算管理）
+- 週間収支チェックとアラート
 """
 
 import json
 import sys
+import os
 from typing import Dict, List
+from datetime import datetime
+from pathlib import Path
+
+# 投資額計算モジュールをインポート
+try:
+    from calculate_investment import (
+        calculate_daily_budget,
+        calculate_race_investments,
+        calculate_investment_stats,
+        MINIMUM_WEEKLY_BUDGET,
+        RECOMMENDED_WEEKLY_BUDGET
+    )
+    from weekly_tracker import WeeklyTracker, ALERT_LEVEL_CRITICAL, ALERT_LEVEL_WARNING
+    INVESTMENT_ENABLED = True
+except ImportError:
+    print("⚠️ 投資額計算モジュールが見つかりません（投資額計算は無効）")
+    INVESTMENT_ENABLED = False
 
 
 def calculate_turbulence_level(race: Dict, top3_horses: List[Dict]) -> str:
@@ -153,6 +172,81 @@ def select_predictions(races: List[Dict], max_races: int = 5) -> List[Dict]:
     return selected
 
 
+def apply_investment_calculation(selected_races: List[Dict], ymd: str):
+    """
+    選定されたレースに投資額を計算して適用
+    """
+    if not INVESTMENT_ENABLED:
+        print("⚠️ 投資額計算はスキップされました（モジュール未インストール）")
+        return
+    
+    # 環境変数から週間投資額を取得（デフォルト: 30,000円）
+    weekly_budget = int(os.environ.get('WEEKLY_BUDGET', RECOMMENDED_WEEKLY_BUDGET))
+    
+    print(f"\n💰 投資額計算開始")
+    print(f"  週間投資額: ¥{weekly_budget:,}")
+    
+    # 週間収支トラッカーを初期化
+    tracker = WeeklyTracker()
+    
+    # 週間収支が存在しない場合は初期化
+    if tracker.data.get('start_date') is None:
+        date_obj = datetime.strptime(ymd, '%Y%m%d')
+        tracker.initialize_week(weekly_budget, date_obj)
+    
+    # アラートチェック
+    alert_level, alert_message = tracker.check_alert()
+    
+    if alert_level == ALERT_LEVEL_CRITICAL:
+        print(f"\n🚨 {alert_message}")
+        print("→ 今日の予想生成を終了します")
+        # 予想対象を0件にする
+        selected_races.clear()
+        return
+    
+    if alert_level == ALERT_LEVEL_WARNING:
+        print(f"\n⚠️ {alert_message}")
+    
+    # 投資比率を取得（警告時は50%削減）
+    investment_ratio = tracker.get_investment_ratio()
+    
+    # 1日あたりの予算を計算
+    date_obj = datetime.strptime(ymd, '%Y%m%d')
+    daily_budget = calculate_daily_budget(weekly_budget, date_obj)
+    
+    # 投資比率を適用
+    daily_budget = daily_budget * investment_ratio
+    
+    print(f"  1日予算: ¥{daily_budget:,.0f}")
+    if investment_ratio < 1.0:
+        print(f"  （投資比率: {investment_ratio * 100:.0f}% 削減中）")
+    
+    # 波乱度分布を計算
+    turbulence_dist = {'低': 0, '中': 0, '高': 0}
+    for race in selected_races:
+        turbulence = race.get('波乱度', '中')
+        turbulence_dist[turbulence] += 1
+    
+    print(f"  波乱度分布: 低{turbulence_dist['低']}R / 中{turbulence_dist['中']}R / 高{turbulence_dist['高']}R")
+    
+    # レース別投資額を計算
+    races_dict = {race.get('race_id', str(i)): race for i, race in enumerate(selected_races)}
+    investments = calculate_race_investments(races_dict, daily_budget, turbulence_dist)
+    
+    # 投資額を各レースに適用
+    for race in selected_races:
+        race_id = race.get('race_id', '')
+        investment = investments.get(race_id, 0)
+        race['投資額'] = investment
+    
+    # 統計情報を表示
+    stats = calculate_investment_stats(investments)
+    print(f"\n📊 投資統計:")
+    print(f"  総投資額: ¥{stats['total_investment']:,}")
+    print(f"  投資レース数: {stats['race_count']}R")
+    print(f"  平均投資額: ¥{stats['avg_investment']:,.0f}/R")
+
+
 def main():
     if len(sys.argv) < 2:
         print("Usage: python select_predictions.py <ymd>")
@@ -179,18 +273,27 @@ def main():
     print(f"✅ 予想対象: {len(selected_races)}レース")
     print()
     
+    # 投資額計算を適用
+    apply_investment_calculation(selected_races, ymd)
+    
     # 選定結果を表示
+    print("\n📋 選定結果:")
+    print("-" * 50)
+    
     for i, race in enumerate(selected_races, 1):
         race_name = race.get('レース名', 'N/A')
         venue = race.get('競馬場', '不明')
         race_num = race.get('レース番号', '?')
         turbulence = race.get('波乱度', '?')
         quality = race.get('データ品質スコア', 0)
+        investment = race.get('投資額', 0)
         
         turb_icon = {'低': '🟢', '中': '🟡', '高': '🔴'}.get(turbulence, '⚪')
         
         print(f"{i}. {venue} R{race_num} {race_name}")
         print(f"   波乱度: {turb_icon} {turbulence} | データ品質: {quality:.1%}")
+        if investment > 0:
+            print(f"   💰 投資額: ¥{investment:,}")
         
         # 本命・対抗・単穴
         horses = race.get('horses', [])
@@ -216,11 +319,16 @@ def main():
     data['予想対象数'] = len(selected_races)
     data['見送り数'] = len(races) - len(selected_races)
     
+    # 総投資額を計算
+    total_investment = sum(race.get('投資額', 0) for race in selected_races)
+    data['総投資額'] = total_investment
+    
     with open(input_file, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
     
     print("-" * 50)
     print(f"✅ 完了: {input_file} を更新しました")
+    print(f"💰 総投資額: ¥{total_investment:,}")
 
 
 if __name__ == '__main__':
