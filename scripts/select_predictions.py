@@ -66,8 +66,8 @@ def calculate_turbulence_level(race: Dict, top3_horses: List[Dict]) -> str:
     
     if total_horses > 0:
         data_quality = horses_with_data / total_horses
-        if data_quality < 0.7:
-            base_score += 20  # データ不足 → 予測困難
+        if data_quality < 0.4:
+            base_score += 10  # データ不足 → 予測困難
     
     # 6. 信頼度チェック
     top3_confidence = [h.get('des_score', {}).get('信頼度', '極低') for h in top3_horses[:3]]
@@ -79,7 +79,7 @@ def calculate_turbulence_level(race: Dict, top3_horses: List[Dict]) -> str:
     # 最終判定
     if base_score < 30:
         return '低'  # 堅い
-    elif base_score < 70:
+    elif base_score < 80:
         return '中'
     else:
         return '高'  # 荒れる
