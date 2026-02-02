@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
   schedule:
-    - cron: '30 0 * * *'  # 毎日 09:30 JST（UTC 0:30）
+    - cron: '0 23 * * *'  # UTC 23:00 = JST 08:00
 
 jobs:
   daily-select:
