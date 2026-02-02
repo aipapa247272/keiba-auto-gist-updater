@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-generate_final_output.py - Phase 2-4: 買い目提示の最終調整 (修正版 v9)
+generate_final_output.py - Phase 2-4: 買い目提示の最終調整 (修正版 v10)
 
 修正内容:
 - "predictions" → "selected_races" へキー名変更
 - アプリで使いやすいシンプルな出力形式
 - 不要な複雑なロジックを削除
+- 総投資額の計算を修正（各レースの投資額を合計）← v10の修正
 
 機能:
 - 選定された3〜5レースの予想を出力
@@ -52,6 +53,7 @@ def format_race_report(race: Dict, index: int) -> str:
     distance = race.get('距離', 'N/A')
     post_time = race.get('発走時刻', 'N/A')
     turbulence = race.get('波乱度', '中')
+    investment = race.get('投資額', 0)  # ← 投資額を取得
     
     # ヘッダー
     report = f"\n🏇 予想 {index}\n\n"
@@ -117,13 +119,9 @@ def format_race_report(race: Dict, index: int) -> str:
         axis_parts.append(f"{mark} {get_number_emoji(num)}")
     report += "  ".join(axis_parts) + "\n\n"
     
-    # 投資プラン
-    points = 1  # 3連複BOX = 1点
-    unit = 100
-    total = points * unit
-    
+    # 投資プラン（投資額を表示）
     report += "【投資プラン】\n"
-    report += f"💰 {points}点 × {unit:,}円 = {total:,}円\n\n"
+    report += f"💰 投資額: {investment:,}円\n\n"
     
     # 組み合わせ
     if len(horses) >= 3:
@@ -161,8 +159,8 @@ def generate_summary(selected_races: List[Dict], total_races: int) -> str:
     summary += f"- 🟡 中: {mid}レース (拮抗)\n"
     summary += f"- 🔴 高: {high}レース (荒れる可能性)\n\n"
     
-    # 合計投資額
-    total_investment = len(selected_races) * 100  # 各レース100円
+    # 合計投資額（各レースの投資額を合計）
+    total_investment = sum(race.get("投資額", 0) for race in selected_races)
     summary += "【合計投資額】\n"
     summary += f"💰 **{total_investment:,}円** (投資OFFのため実購入なし)\n\n"
     summary += "---\n"
@@ -201,6 +199,9 @@ def main():
     
     print(f"[SUCCESS] {md_file} を生成しました")
     
+    # ★ 修正: 総投資額の計算（各レースの投資額を合計）
+    total_investment = sum(race.get("投資額", 0) for race in selected_races)
+    
     # 最終JSONファイル出力（アプリ用）
     final_data = {
         "ymd": ymd,
@@ -214,9 +215,10 @@ def main():
                 "中": sum(1 for r in selected_races if r.get("波乱度") == "中"),
                 "高": sum(1 for r in selected_races if r.get("波乱度") == "高")
             },
-            "total_investment": len(selected_races) * 100
+            "total_investment": total_investment  # ← 修正！
         },
-        "selected_predictions": selected_races
+        "selected_predictions": selected_races,
+        "総投資額": total_investment  # ← 追加！フロントエンド用
     }
     
     json_file = f"final_predictions_{ymd}.json"
