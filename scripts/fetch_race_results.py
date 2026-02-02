@@ -444,50 +444,6 @@ def fetch_single_race_result(race_id, ymd):
         traceback.print_exc()
         return None
 
-# ========================================
-# 週間収支更新機能
-# ========================================
-
-def update_weekly_tracker(ymd: str, results: dict):
-    """
-    結果取得後に週間収支を更新
-    """
-    try:
-        from weekly_tracker import WeeklyTracker
-        
-        # 総投資額を計算
-        total_invested = sum(r.get('投資額', 0) for r in results.get('results', []))
-        
-        # 総払戻額を計算
-        total_returns = sum(
-            r.get('的中判定', {}).get('払戻額', 0) 
-            for r in results.get('results', [])
-        )
-        
-        # レース数
-        race_count = len(results.get('results', []))
-        
-        # 週間収支を更新
-        tracker = WeeklyTracker()
-        tracker.add_daily_record(
-            date=f"{ymd[:4]}-{ymd[4:6]}-{ymd[6:]}",
-            invested=total_invested,
-            returns=total_returns,
-            race_count=race_count
-        )
-        
-        # アラートチェック
-        alert_level, alert_message = tracker.check_alert()
-        if alert_message:
-            print(f"\n{alert_message}")
-        
-        # 週間サマリーを表示
-        tracker.print_summary()
-        
-    except ImportError:
-        print("⚠️ weekly_tracker モジュールが見つかりません（週間収支更新はスキップ）")
-    except Exception as e:
-        print(f"⚠️ 週間収支更新エラー: {e}")
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
@@ -501,14 +457,7 @@ if __name__ == '__main__':
         sys.exit(1)
     
     result = fetch_race_results(ymd)
-
-    if result:
-        # 週間収支を更新
-        update_weekly_tracker(ymd, result)
-        
-        print(f"\n✅ 処理完了")
-        sys.exit(0)
- 
+    
     if result:
         print(f"\n✅ 処理完了")
         sys.exit(0)
