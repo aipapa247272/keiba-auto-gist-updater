@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-generate_final_output.py - Phase 2-4: 買い目提示の最終調整 (修正版 v10)
+generate_final_output.py - Phase 2-4: 買い目提示の最終調整 (修正版 v11)
 
 修正内容:
-- "predictions" → "selected_races" へキー名変更
-- アプリで使いやすいシンプルな出力形式
-- 不要な複雑なロジックを削除
-- 総投資額の計算を修正（各レースの投資額を合計）← v10の修正
+- 日付表示の修正: datetime.now() → sys.argv[1] から生成（v11の修正）
+- "date" フィールドを追加（フロントエンド表示用）
+- タイムゾーン問題を解決
 
 機能:
 - 選定された3〜5レースの予想を出力
@@ -140,10 +139,13 @@ def format_race_report(race: Dict, index: int) -> str:
     
     return report
 
-def generate_summary(selected_races: List[Dict], total_races: int) -> str:
+def generate_summary(selected_races: List[Dict], total_races: int, ymd: str) -> str:
     """最終サマリーを生成"""
+    # ★ 修正: ymd から日付を生成
+    date_obj = datetime.strptime(ymd, '%Y%m%d')
+    
     summary = "# 📊 本日の予想サマリー\n\n"
-    summary += f"**日付**: {datetime.now().strftime('%Y年%m月%d日')}\n\n"
+    summary += f"**日付**: {date_obj.strftime('%Y年%m月%d日')}\n\n"
     
     summary += f"- **総レース数**: {total_races}レース\n"
     summary += f"- **予想対象**: {len(selected_races)}レース\n"
@@ -186,8 +188,8 @@ def main():
     
     print(f"[INFO] 予想データ: {len(selected_races)}レース")
     
-    # Markdownレポート生成
-    report = generate_summary(selected_races, total_races)
+    # Markdownレポート生成（ymd を渡す）
+    report = generate_summary(selected_races, total_races, ymd)
     
     for i, race in enumerate(selected_races, 1):
         report += format_race_report(race, i)
@@ -199,13 +201,18 @@ def main():
     
     print(f"[SUCCESS] {md_file} を生成しました")
     
+    # ★ 修正: 日付を ymd から生成
+    date_obj = datetime.strptime(ymd, '%Y%m%d')
+    date_str = date_obj.strftime('%Y/%m/%d')  # 2026/02/03
+    
     # ★ 修正: 総投資額の計算（各レースの投資額を合計）
     total_investment = sum(race.get("投資額", 0) for race in selected_races)
     
     # 最終JSONファイル出力（アプリ用）
     final_data = {
-        "ymd": ymd,
-        "generated_at": datetime.now().isoformat(),
+        "date": date_str,  # ★ 追加: フロントエンド表示用（2026/02/03形式）
+        "ymd": ymd,  # 20260203
+        "generated_at": date_obj.strftime('%Y-%m-%d %H:%M:%S'),  # ★ 修正: ymd から生成
         "summary": {
             "total_races": total_races,
             "selected_races": len(selected_races),
