@@ -699,12 +699,25 @@
         }
 
         function getScore(horse) {
-            const desScore = horse.des_score || horse['des_score'];
-            if (desScore) {
-                return typeof desScore.total === 'number' ? desScore.total : 0;
-            }
-            const score = horse.total_score || horse.score;
-            return typeof score === 'number' ? score : 0;
+            // デバッグログ
+            console.log('getScore input:', horse);
+    
+            // des_score.total を優先
+            if (horse.des_score && typeof horse.des_score.total === 'number') {
+            console.log('Using des_score.total:', horse.des_score.total);
+            return Math.round(horse.des_score.total * 10) / 10;
+        }
+    
+            // フォールバック
+            if (typeof horse.total_score === 'number') {
+            return Math.round(horse.total_score * 10) / 10;
+        }
+            if (typeof horse.score === 'number') {
+            return Math.round(horse.score * 10) / 10;
+        }
+    
+            console.warn('No score found for horse:', horse);
+            return 0;
         }
 
         function formatDate(ymd) {
