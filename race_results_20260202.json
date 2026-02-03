@@ -1,12 +1,12 @@
 {
-  "date": "20260202",
+  "date": "20260203",
   "ymd": "20260202",
-  "generated_at": "2026-02-02 15:03:54",
+  "generated_at": "2026-02-03 05:51:17",
   "summary": {
     "total_races": 5,
     "hit_count": 0,
-    "miss_count": 5,
-    "unavailable_count": 0,
+    "miss_count": 0,
+    "unavailable_count": 5,
     "total_investment": 500,
     "total_return": 0,
     "total_profit": -500,
@@ -15,223 +15,99 @@
   },
   "results": [
     {
-      "race_id": "202645020201",
+      "race_id": "202645020301",
       "venue": "Unknown",
       "race_num": "Unknown",
       "race_name": "Unknown",
       "distance": "",
       "track": "",
-      "status": "不的中",
+      "status": "結果取得不可",
       "predicted": [],
-      "actual": [
-        "1-5-6"
-      ],
-      "result_sanrenpuku": "1-5-6",
-      "payout_sanrenpuku": 0,
+      "actual": [],
       "hit": false,
       "investment": 100,
       "return": 0,
       "profit": -100,
-      "payouts": {
-        "単勝": 3920,
-        "複勝": 516,
-        "馬連": 4180
-      },
-      "horse_weights": [
-        {
-          "rank": 1,
-          "horse_number": "5",
-          "weight": "541(0)"
-        },
-        {
-          "rank": 2,
-          "horse_number": "1",
-          "weight": "595(0)"
-        },
-        {
-          "rank": 3,
-          "horse_number": "6",
-          "weight": "529(+36)"
-        }
-      ],
-      "weather": "晴",
-      "track_condition": "良"
+      "payouts": {},
+      "horse_weights": [],
+      "weather": "",
+      "track_condition": ""
     },
     {
-      "race_id": "202645020203",
+      "race_id": "202645020303",
       "venue": "Unknown",
       "race_num": "Unknown",
       "race_name": "Unknown",
       "distance": "",
       "track": "",
-      "status": "不的中",
+      "status": "結果取得不可",
       "predicted": [],
-      "actual": [
-        "1-3-7"
-      ],
-      "result_sanrenpuku": "1-3-7",
-      "payout_sanrenpuku": 0,
+      "actual": [],
       "hit": false,
       "investment": 100,
       "return": 0,
       "profit": -100,
-      "payouts": {
-        "単勝": 290,
-        "複勝": 317,
-        "枠連": 400,
-        "馬連": 370
-      },
-      "horse_weights": [
-        {
-          "rank": 1,
-          "horse_number": "3",
-          "weight": "501(+14)"
-        },
-        {
-          "rank": 2,
-          "horse_number": "1",
-          "weight": "480(-2)"
-        },
-        {
-          "rank": 3,
-          "horse_number": "7",
-          "weight": "480(-2)"
-        }
-      ],
-      "weather": "晴",
-      "track_condition": "良"
+      "payouts": {},
+      "horse_weights": [],
+      "weather": "",
+      "track_condition": ""
     },
     {
-      "race_id": "202645020204",
+      "race_id": "202645020305",
       "venue": "Unknown",
       "race_num": "Unknown",
       "race_name": "Unknown",
       "distance": "",
       "track": "",
-      "status": "不的中",
+      "status": "結果取得不可",
       "predicted": [],
-      "actual": [
-        "1-3-7"
-      ],
-      "result_sanrenpuku": "1-3-7",
-      "payout_sanrenpuku": 0,
+      "actual": [],
       "hit": false,
       "investment": 100,
       "return": 0,
       "profit": -100,
-      "payouts": {
-        "単勝": 390,
-        "複勝": 713,
-        "枠連": 550,
-        "馬連": 550
-      },
-      "horse_weights": [
-        {
-          "rank": 1,
-          "horse_number": "7",
-          "weight": "496(+8)"
-        },
-        {
-          "rank": 2,
-          "horse_number": "1",
-          "weight": "467(-7)"
-        },
-        {
-          "rank": 3,
-          "horse_number": "3",
-          "weight": "437(+3)"
-        }
-      ],
-      "weather": "晴",
-      "track_condition": "良"
+      "payouts": {},
+      "horse_weights": [],
+      "weather": "",
+      "track_condition": ""
     },
     {
-      "race_id": "202645020205",
+      "race_id": "202645020306",
       "venue": "Unknown",
       "race_num": "Unknown",
       "race_name": "Unknown",
       "distance": "",
       "track": "",
-      "status": "不的中",
+      "status": "結果取得不可",
       "predicted": [],
-      "actual": [
-        "1-4-6"
-      ],
-      "result_sanrenpuku": "1-4-6",
-      "payout_sanrenpuku": 0,
+      "actual": [],
       "hit": false,
       "investment": 100,
       "return": 0,
       "profit": -100,
-      "payouts": {
-        "単勝": 560,
-        "複勝": 641,
-        "枠連": 1480,
-        "馬連": 1360
-      },
-      "horse_weights": [
-        {
-          "rank": 1,
-          "horse_number": "6",
-          "weight": "473(-1)"
-        },
-        {
-          "rank": 2,
-          "horse_number": "4",
-          "weight": "451(-5)"
-        },
-        {
-          "rank": 3,
-          "horse_number": "1",
-          "weight": "460(-7)"
-        }
-      ],
-      "weather": "晴",
-      "track_condition": "良"
+      "payouts": {},
+      "horse_weights": [],
+      "weather": "",
+      "track_condition": ""
     },
     {
-      "race_id": "202645020206",
+      "race_id": "202645020307",
       "venue": "Unknown",
       "race_num": "Unknown",
       "race_name": "Unknown",
       "distance": "",
       "track": "",
-      "status": "不的中",
+      "status": "結果取得不可",
       "predicted": [],
-      "actual": [
-        "2-6-8"
-      ],
-      "result_sanrenpuku": "2-6-8",
-      "payout_sanrenpuku": 0,
+      "actual": [],
       "hit": false,
       "investment": 100,
       "return": 0,
       "profit": -100,
-      "payouts": {
-        "単勝": 280,
-        "複勝": 628,
-        "枠連": 1620,
-        "馬連": 1580
-      },
-      "horse_weights": [
-        {
-          "rank": 1,
-          "horse_number": "6",
-          "weight": "489(+23)"
-        },
-        {
-          "rank": 2,
-          "horse_number": "2",
-          "weight": "480(-8)"
-        },
-        {
-          "rank": 3,
-          "horse_number": "8",
-          "weight": "482(+5)"
-        }
-      ],
-      "weather": "晴",
-      "track_condition": "良"
+      "payouts": {},
+      "horse_weights": [],
+      "weather": "",
+      "track_condition": ""
     }
   ]
 }
