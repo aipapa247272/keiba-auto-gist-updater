@@ -394,7 +394,7 @@ def main():
         betting = race['betting_plan']
         for axis in betting['軸']:
             print(f"**{axis['評価']} 本命 {axis['馬番']} {axis['馬名']}**")
-            print(f"📊 総合点: {axis['スコア']:.1f} / 100 ({self._get_confidence(axis['スコア'])})")
+            print(f"📊 総合点: {axis['スコア']:.1f} / 100 ({_get_confidence(axis['スコア'])})")
         
         print(f"")
         
