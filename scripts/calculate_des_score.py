@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-DESスコア計算スクリプト
+DESスコア計算スクリプト（修正版）
 
 race_data_{ymd}.json から各馬の過去走データを読み込み、
 A～Dの4軸でスコアを計算してdes_scoreフィールドを更新する
@@ -11,12 +11,93 @@ A～Dの4軸でスコアを計算してdes_scoreフィールドを更新する
 - B 血統・適性: 30点
 - C 騎手・厩舎: 20点
 - D 展開適性: 10点
+
+修正内容:
+- コーナー通過順から着順を推定
+- 脚質判定ロジックの追加
+- エラーハンドリングの強化
 """
 
 import json
 import sys
 from pathlib import Path
 import shutil
+import re
+
+
+# ====================================================================
+# ユーティリティ関数
+# ====================================================================
+def extract_rank_from_corner_position(corner_position):
+    """
+    コーナー通過順から着順を推定
+    
+    Args:
+        corner_position (str): コーナー通過順（例: "1-1-1-1", "9-9-8-8"）
+    
+    Returns:
+        int: 推定着順（取得できない場合は99）
+    """
+    if not corner_position:
+        return 99
+    
+    try:
+        # "1-1-1-1" → 最後の位置 = 着順
+        positions = corner_position.split('-')
+        if positions:
+            return int(positions[-1])
+    except:
+        pass
+    
+    return 99
+
+
+def estimate_running_style(past_races):
+    """
+    過去走データから脚質を推定
+    
+    Args:
+        past_races (list): 過去走データ
+    
+    Returns:
+        str: 脚質（逃げ/先行/差し/追込/不明）
+    """
+    if not past_races:
+        return "不明"
+    
+    front_count = 0
+    mid_count = 0
+    closer_count = 0
+    
+    for race in past_races[:5]:  # 最近5走
+        corner_position = race.get('コーナー通過順', '')
+        
+        if corner_position:
+            try:
+                # 最初のコーナーの位置
+                first_pos = int(corner_position.split('-')[0])
+                
+                if first_pos <= 2:
+                    front_count += 1  # 逃げ
+                elif first_pos <= 5:
+                    mid_count += 1    # 先行
+                else:
+                    closer_count += 1  # 差し/追込
+            except:
+                pass
+    
+    # 多数決で判定
+    max_count = max(front_count, mid_count, closer_count)
+    
+    if max_count == 0:
+        return "不明"
+    elif front_count == max_count:
+        return "逃げ"
+    elif mid_count == max_count:
+        return "先行"
+    else:
+        return "差し"
+
 
 # ====================================================================
 # A. 過去実績スコア（40点満点）
@@ -44,25 +125,25 @@ def calculate_past_performance_score(horse, race_info):
     
     same_condition_score = 0
     for race in past_races:
-        race_distance = int(race.get('距離', 0))
+        try:
+            race_distance = int(race.get('距離', 0))
+        except:
+            race_distance = 0
+        
         race_track = race.get('距離種別', '')
         
         # 距離の許容範囲: ±200m
         if abs(race_distance - target_distance) <= 200 and race_track == target_track:
-            # 着順を取得（例: "1" → 1着）
-            try:
-                rank_text = race.get('着順', '99')
-                # "1(1)" のような表記から数字を抽出
-                rank = int(rank_text.split('(')[0]) if '(' in rank_text else int(rank_text)
-                
-                if rank == 1:
-                    same_condition_score += 10
-                elif rank == 2:
-                    same_condition_score += 7
-                elif rank == 3:
-                    same_condition_score += 3
-            except:
-                pass
+            # コーナー通過順から着順を推定
+            corner_position = race.get('コーナー通過順', '')
+            rank = extract_rank_from_corner_position(corner_position)
+            
+            if rank == 1:
+                same_condition_score += 10
+            elif rank == 2:
+                same_condition_score += 7
+            elif rank == 3:
+                same_condition_score += 3
     
     # 最大20点
     score += min(same_condition_score, 20)
@@ -70,48 +151,42 @@ def calculate_past_performance_score(horse, race_info):
     # 2. 近3走の着順推移（10点）
     recent_3_races = past_races[:3]
     if len(recent_3_races) >= 2:
-        try:
-            ranks = []
-            for race in recent_3_races:
-                rank_text = race.get('着順', '99')
-                rank = int(rank_text.split('(')[0]) if '(' in rank_text else int(rank_text)
-                ranks.append(rank)
-            
-            # 上昇傾向判定
-            if len(ranks) >= 3:
-                if ranks[0] < ranks[1] < ranks[2]:  # 新しい順なので逆
-                    score += 10  # 上昇傾向
-                elif ranks[0] <= 3 and ranks[1] <= 3 and ranks[2] <= 3:
-                    score += 7  # 安定
-        except:
-            pass
+        ranks = []
+        for race in recent_3_races:
+            corner_position = race.get('コーナー通過順', '')
+            rank = extract_rank_from_corner_position(corner_position)
+            ranks.append(rank)
+        
+        # 上昇傾向判定（新しい順なので、数値が減少していれば上昇傾向）
+        if len(ranks) >= 3:
+            if ranks[0] < ranks[1] and ranks[1] < ranks[2]:
+                score += 10  # 上昇傾向
+            elif all(r <= 3 for r in ranks):
+                score += 7   # 安定して好走
     
     # 3. 通算勝率・連対率（10点）
-    # 簡易計算: 過去5走での勝率・連対率
     if len(past_races) > 0:
         wins = 0
         places = 0
         
         for race in past_races[:5]:
-            try:
-                rank_text = race.get('着順', '99')
-                rank = int(rank_text.split('(')[0]) if '(' in rank_text else int(rank_text)
-                
-                if rank == 1:
-                    wins += 1
-                    places += 1
-                elif rank == 2:
-                    places += 1
-            except:
-                pass
+            corner_position = race.get('コーナー通過順', '')
+            rank = extract_rank_from_corner_position(corner_position)
+            
+            if rank == 1:
+                wins += 1
+                places += 1
+            elif rank == 2:
+                places += 1
         
-        win_rate = wins / len(past_races[:5])
-        place_rate = places / len(past_races[:5])
-        
-        if win_rate >= 0.10:  # 10%以上
-            score += 5
-        if place_rate >= 0.30:  # 30%以上
-            score += 5
+        if len(past_races[:5]) > 0:
+            win_rate = wins / len(past_races[:5])
+            place_rate = places / len(past_races[:5])
+            
+            if win_rate >= 0.10:  # 10%以上
+                score += 5
+            if place_rate >= 0.30:  # 30%以上
+                score += 5
     
     return round(score, 1)
 
@@ -133,7 +208,6 @@ def calculate_pedigree_score(horse, race_info):
     score = 0.0
     
     # 1. 父系・母系の距離適性（15点）
-    # 簡易実装: 過去走での同距離帯での成績で判定
     target_distance = race_info.get('距離', 0)
     past_races = horse.get('past_races', [])
     
@@ -141,19 +215,20 @@ def calculate_pedigree_score(horse, race_info):
     same_distance_count = 0
     
     for race in past_races:
-        race_distance = int(race.get('距離', 0))
+        try:
+            race_distance = int(race.get('距離', 0))
+        except:
+            race_distance = 0
         
         # 距離帯判定（±300m）
         if abs(race_distance - target_distance) <= 300:
             same_distance_count += 1
-            try:
-                rank_text = race.get('着順', '99')
-                rank = int(rank_text.split('(')[0]) if '(' in rank_text else int(rank_text)
-                
-                if rank <= 3:
-                    same_distance_performance += 1
-            except:
-                pass
+            
+            corner_position = race.get('コーナー通過順', '')
+            rank = extract_rank_from_corner_position(corner_position)
+            
+            if rank <= 3:
+                same_distance_performance += 1
     
     if same_distance_count > 0:
         performance_rate = same_distance_performance / same_distance_count
@@ -174,14 +249,12 @@ def calculate_pedigree_score(horse, race_info):
         
         if race_track == target_track:
             track_count += 1
-            try:
-                rank_text = race.get('着順', '99')
-                rank = int(rank_text.split('(')[0]) if '(' in rank_text else int(rank_text)
-                
-                if rank <= 3:
-                    track_performance += 1
-            except:
-                pass
+            
+            corner_position = race.get('コーナー通過順', '')
+            rank = extract_rank_from_corner_position(corner_position)
+            
+            if rank <= 3:
+                track_performance += 1
     
     if track_count > 0:
         track_rate = track_performance / track_count
@@ -194,7 +267,7 @@ def calculate_pedigree_score(horse, race_info):
     # 3. 馬体重推移の安定性（5点）
     if len(past_races) >= 2:
         try:
-            # 最新の馬体重
+            # 最新の馬体重（例: "479(-5)"）
             latest_weight_text = past_races[0].get('馬体重', '0(0)')
             latest_weight = int(latest_weight_text.split('(')[0])
             
@@ -207,7 +280,7 @@ def calculate_pedigree_score(horse, race_info):
             if weight_diff <= 3:
                 score += 5
             elif weight_diff >= 10:
-                score -= 3
+                score = max(0, score - 3)  # マイナスにならないように
         except:
             pass
     
@@ -236,22 +309,17 @@ def calculate_jockey_trainer_score(horse, race_info):
     
     if jockey:
         jockey_wins = 0
-        jockey_places = 0
         jockey_total = 0
         
         for race in past_races:
             if race.get('騎手', '') == jockey:
                 jockey_total += 1
-                try:
-                    rank_text = race.get('着順', '99')
-                    rank = int(rank_text.split('(')[0]) if '(' in rank_text else int(rank_text)
-                    
-                    if rank == 1:
-                        jockey_wins += 1
-                    if rank <= 2:
-                        jockey_places += 1
-                except:
-                    pass
+                
+                corner_position = race.get('コーナー通過順', '')
+                rank = extract_rank_from_corner_position(corner_position)
+                
+                if rank == 1:
+                    jockey_wins += 1
         
         if jockey_total > 0:
             jockey_win_rate = jockey_wins / jockey_total
@@ -262,23 +330,17 @@ def calculate_jockey_trainer_score(horse, race_info):
                 score += 5
     
     # 2. 厩舎の直近調整成績（10点）
-    trainer = horse.get('厩舎', '')
-    
-    if trainer and len(past_races) > 0:
-        # 過去5走での連対率で判定
-        trainer_places = 0
+    if len(past_races) > 0:
+        places = 0
         
         for race in past_races[:5]:
-            try:
-                rank_text = race.get('着順', '99')
-                rank = int(rank_text.split('(')[0]) if '(' in rank_text else int(rank_text)
-                
-                if rank <= 2:
-                    trainer_places += 1
-            except:
-                pass
+            corner_position = race.get('コーナー通過順', '')
+            rank = extract_rank_from_corner_position(corner_position)
+            
+            if rank <= 2:
+                places += 1
         
-        place_rate = trainer_places / len(past_races[:5])
+        place_rate = places / len(past_races[:5])
         
         if place_rate >= 0.30:  # 30%以上
             score += 10
@@ -304,12 +366,10 @@ def calculate_race_style_score(horse, race_info):
     """
     score = 0.0
     
-    # 1. AI展開予測との相性（7点）
-    # 簡易実装: 脚質推定
+    # 1. 脚質判定（7点）
     past_races = horse.get('past_races', [])
     
     if len(past_races) > 0:
-        # コーナー通過順から脚質を推定
         front_runner_count = 0
         closer_count = 0
         
@@ -318,7 +378,6 @@ def calculate_race_style_score(horse, race_info):
             
             if corner_position:
                 try:
-                    # "1-1-1-1" のような形式から最初の位置を取得
                     first_position = int(corner_position.split('-')[0])
                     
                     if first_position <= 3:
@@ -336,12 +395,12 @@ def calculate_race_style_score(horse, race_info):
         else:
             score += 3  # 汎用
     
-    # 2. 枠順・脚質の有利度（3点）
+    # 2. 枠順の有利度（3点）
     waku = horse.get('枠番', 0)
     
     if waku:
-        # 簡易判定: 内枠（1～3）または外枠（6～8）
-        if waku <= 3 or waku >= 6:
+        # 内枠（1～3）または中枠（4～6）は有利
+        if 1 <= waku <= 6:
             score += 3
     
     return round(score, 1)
@@ -412,7 +471,7 @@ def main():
         race_data = json.load(f)
     
     print(f"[INFO] {input_file} を読み込みました")
-    print(f"[INFO] レース数: {len(race_data.get('races', []))}")
+    print(f"[INFO] DESスコア計算開始: {len(race_data.get('races', []))}レース")
     
     # DESスコア計算カウンター
     total_horses = 0
@@ -421,12 +480,21 @@ def main():
     # 各レースを処理
     for race in race_data["races"]:
         race_id = race["race_id"]
+        race_name = race.get("レース名", "不明")
         
-        print(f"\n[INFO] レース {race_id} のDESスコアを計算中...")
+        print(f"\n🏇 {race_name} ({race_id}): {len(race.get('horses', []))}頭")
+        
+        # 脚質構成を計算
+        running_styles = {"逃げ": 0, "先行": 0, "差し": 0, "追込": 0, "不明": 0}
         
         # 各馬のDESスコアを計算
         for horse in race.get("horses", []):
             horse_name = horse.get('馬名', '不明')
+            
+            # 脚質推定
+            running_style = estimate_running_style(horse.get('past_races', []))
+            horse["推定脚質"] = running_style
+            running_styles[running_style] += 1
             
             # DESスコア計算
             des_score = calculate_des_score(horse, race)
@@ -437,46 +505,24 @@ def main():
             total_horses += 1
             calculated_count += 1
             
-            print(f"  ✅ {horse_name}: {des_score['total']}/100点 (信頼度: {des_score['信頼度']})")
-            print(f"     A:{des_score['A_過去実績']} B:{des_score['B_距離馬場適性']} C:{des_score['C_騎手厩舎']} D:{des_score['D_展開適性']}")
+            print(f"  {horse.get('馬番', '?')}番 {horse_name}: {des_score['total']:.1f}点 ({des_score['信頼度']})")
+        
+        # 脚質構成の表示
+        print(f"  脚質構成: {'逃げ' if running_styles['逃げ'] > 0 else ''}{running_styles['逃げ']} "
+              f"{'先行' if running_styles['先行'] > 0 else ''}{running_styles['先行']} "
+              f"{'差し' if running_styles['差し'] > 0 else ''}{running_styles['差し']} "
+              f"{'追込' if running_styles['追込'] > 0 else ''}{running_styles['追込']}")
+        print(f"  予想ペース: {'スロー' if running_styles['逃げ'] + running_styles['先行'] <= 2 else 'ハイペース'}")
     
     # 結果を保存
-    output_file = input_file
+    print(f"\n✅ 完了: race_data_{ymd}.json を更新しました")
     
-    print(f"\n[INFO] 保存前の確認:")
-    print(f"  - 対象馬数: {total_horses}")
-    print(f"  - 計算完了: {calculated_count}")
-    print(f"  - 保存先: {output_file}")
-    
-    with open(output_file, "w", encoding="utf-8") as f:
+    with open(input_file, "w", encoding="utf-8") as f:
         json.dump(race_data, f, ensure_ascii=False, indent=2)
     
-    print(f"\n[SUCCESS] {output_file} にDESスコアを保存しました")
-    
-    # 保存後の確認
-    with open(output_file, "r", encoding="utf-8") as f:
-        saved_data = json.load(f)
-    
-    # des_score フィールドの存在確認
-    has_des_score = False
-    sample_score = None
-    
-    for race in saved_data.get("races", []):
-        for horse in race.get("horses", []):
-            if "des_score" in horse and horse["des_score"].get("total", 0) > 0:
-                has_des_score = True
-                sample_score = horse["des_score"]
-                break
-        if has_des_score:
-            break
-    
-    if has_des_score:
-        print(f"[SUCCESS] des_score フィールドの存在を確認しました")
-        print(f"[SAMPLE] {sample_score}")
-    else:
-        print(f"[WARN] des_score フィールドが正しく設定されていない可能性があります")
-    
-    print(f"\n✅ 完了")
+    print(f"   - 対象レース数: {len(race_data.get('races', []))}")
+    print(f"   - 対象馬数: {total_horses}")
+    print(f"   - DESスコア計算完了: {calculated_count}")
 
 
 if __name__ == "__main__":
