@@ -46,9 +46,18 @@ def fetch_race_results(ymd):
         print(f"\n[{idx}/{len(selected_races)}] {venue} {race_name} (ID: {race_id})")
         
         # 予想買い目を取得
-        betting = race.get('betting_suggestions', {}).get('main', {})
-        predicted_combinations = betting.get('combinations', [])
-        investment = betting.get('total_investment', 100)
+        # ★ 修正v3: betting_plan から軸馬を取得
+        betting_plan = race.get('betting_plan', {})
+        axis_horses = betting_plan.get('軸', [])
+        
+        # 軸馬の馬番から三連複の組み合わせを生成
+        predicted_combinations = []
+        if len(axis_horses) >= 3:
+            axis_numbers = sorted([str(h.get('馬番', '')) for h in axis_horses[:3]])
+            predicted_combinations = ['-'.join(axis_numbers)]
+        
+        # ★ 修正v4: 投資額を race から取得（キー名を 'investment' に修正）
+        investment = race.get('investment', 2400)
         
         # レース結果を取得
         race_result = fetch_single_race_result(race_id, ymd)
