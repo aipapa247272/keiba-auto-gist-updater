@@ -7,9 +7,9 @@
     "hit_count": 0,
     "miss_count": 5,
     "unavailable_count": 0,
-    "total_investment": 500,
+    "total_investment": 12000,
     "total_return": 0,
-    "total_profit": -500,
+    "total_profit": -12000,
     "hit_rate": 0.0,
     "recovery_rate": 0.0
   },
@@ -22,16 +22,18 @@
       "distance": 900,
       "track": "ダ",
       "status": "不的中",
-      "predicted": [],
+      "predicted": [
+        "1-12-6"
+      ],
       "actual": [
         "1-12-2"
       ],
       "result_sanrenpuku": "1-12-2",
       "payout_sanrenpuku": 0,
       "hit": false,
-      "investment": 100,
+      "investment": 1600,
       "return": 0,
-      "profit": -100,
+      "profit": -1600,
       "payouts": {
         "単勝": 200,
         "複勝": 1122,
@@ -66,16 +68,18 @@
       "distance": 1400,
       "track": "ダ",
       "status": "不的中",
-      "predicted": [],
+      "predicted": [
+        "2-6-8"
+      ],
       "actual": [
         "2-4-6"
       ],
       "result_sanrenpuku": "2-4-6",
       "payout_sanrenpuku": 0,
       "hit": false,
-      "investment": 100,
+      "investment": 1600,
       "return": 0,
-      "profit": -100,
+      "profit": -1600,
       "payouts": {
         "単勝": 110,
         "複勝": 642,
@@ -110,16 +114,18 @@
       "distance": 1500,
       "track": "ダ",
       "status": "不的中",
-      "predicted": [],
+      "predicted": [
+        "2-4-8"
+      ],
       "actual": [
         "2-3-5"
       ],
       "result_sanrenpuku": "2-3-5",
       "payout_sanrenpuku": 0,
       "hit": false,
-      "investment": 100,
+      "investment": 1600,
       "return": 0,
-      "profit": -100,
+      "profit": -1600,
       "payouts": {
         "単勝": 370,
         "複勝": 253,
@@ -154,16 +160,18 @@
       "distance": 1400,
       "track": "ダ",
       "status": "不的中",
-      "predicted": [],
+      "predicted": [
+        "3-5-8"
+      ],
       "actual": [
         "10-4-8"
       ],
       "result_sanrenpuku": "10-4-8",
       "payout_sanrenpuku": 0,
       "hit": false,
-      "investment": 100,
+      "investment": 3600,
       "return": 0,
-      "profit": -100,
+      "profit": -3600,
       "payouts": {
         "単勝": 540,
         "複勝": 8104,
@@ -198,16 +206,18 @@
       "distance": 1400,
       "track": "ダ",
       "status": "不的中",
-      "predicted": [],
+      "predicted": [
+        "2-4-5"
+      ],
       "actual": [
         "11-5-9"
       ],
       "result_sanrenpuku": "11-5-9",
       "payout_sanrenpuku": 0,
       "hit": false,
-      "investment": 100,
+      "investment": 3600,
       "return": 0,
-      "profit": -100,
+      "profit": -3600,
       "payouts": {
         "単勝": 180,
         "複勝": 9511,
