@@ -45,18 +45,45 @@ jobs:
       
       - name: Generate results summary
         run: |
-          python scripts/generate_results_summary.py ${{ steps.get_ymd.outputs.ymd }}
+          if [ -f "scripts/generate_results_summary.py" ]; then
+            python scripts/generate_results_summary.py ${{ steps.get_ymd.outputs.ymd }} || echo "⚠️ generate_results_summary.py failed, continuing..."
+          else
+            echo "⚠️ generate_results_summary.py not found, skipping..."
+          fi
       
       - name: Copy to latest results
         run: |
-          cp race_results_${{ steps.get_ymd.outputs.ymd }}.json latest_results.json
-          cp results_summary_${{ steps.get_ymd.outputs.ymd }}.md latest_results.md
-          echo "✅ 最新結果をコピーしました"
+          # race_results JSON を必ずコピー
+          if [ -f "race_results_${{ steps.get_ymd.outputs.ymd }}.json" ]; then
+            cp race_results_${{ steps.get_ymd.outputs.ymd }}.json latest_results.json
+            echo "✅ Copied race_results JSON"
+          else
+            echo "❌ race_results JSON not found!"
+            exit 1
+          fi
+          
+          # results_summary MD は存在する場合のみコピー
+          if [ -f "results_summary_${{ steps.get_ymd.outputs.ymd }}.md" ]; then
+            cp results_summary_${{ steps.get_ymd.outputs.ymd }}.md latest_results.md
+            echo "✅ Copied results_summary MD"
+          else
+            echo "⚠️ results_summary MD not found, skipping..."
+          fi
       
       - name: Commit results
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add race_results_*.json results_summary_*.md latest_results.json latest_results.md
-          git diff --cached --quiet || git commit -m "chore: add race results and summary for ${{ steps.get_ymd.outputs.ymd }}"
-          git push
+          
+          # 存在するファイルのみ add
+          git add race_results_*.json latest_results.json 2>/dev/null || true
+          git add results_summary_*.md latest_results.md 2>/dev/null || true
+          
+          # 変更があればコミット
+          if git diff --cached --quiet; then
+            echo "⚠️ No changes to commit"
+          else
+            git commit -m "chore: add race results for ${{ steps.get_ymd.outputs.ymd }}"
+            git push
+            echo "✅ Pushed results to repository"
+          fi
