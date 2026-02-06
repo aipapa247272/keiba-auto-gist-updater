@@ -723,7 +723,7 @@
 
             // 修正: レース数を動的に計算
             const selectedRacesCount = races.length;
-            const totalRacesCount = summary.total_races || summary.総レース数 || 0;
+            const totalRacesCount = data.total_races || summary.total_races || summary.総レース数 || 0;
             const totalInvestment = summary.total_investment || summary.総投資額 || 0;
 
             let html = `
