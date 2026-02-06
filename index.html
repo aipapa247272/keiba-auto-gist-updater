@@ -719,7 +719,12 @@
         function renderPredictions(data) {
             const races = data.selected_predictions || data.predictions || [];
             const summary = data.summary || {};
-            const turbulence = summary.turbulence || {};
+            const turbulence = summary.turbulence || summary.波乱度別内訳 || {};
+
+            // 修正: レース数を動的に計算
+            const selectedRacesCount = races.length;
+            const totalRacesCount = summary.total_races || summary.総レース数 || 0;
+            const totalInvestment = summary.total_investment || summary.総投資額 || 0;
 
             let html = `
                 <div class="success-message">
@@ -743,15 +748,15 @@
                     </div>
                     <div class="summary-card">
                         <div class="summary-label">AI厳選</div>
-                        <div class="summary-value">${summary.selected_races || 0}R</div>
+                        <div class="summary-value">${selectedRacesCount}R</div>
                     </div>
                     <div class="summary-card">
                         <div class="summary-label">全レース</div>
-                        <div class="summary-value">${summary.total_races || 0}R</div>
+                        <div class="summary-value">${totalRacesCount}R</div>
                     </div>
                     <div class="summary-card">
                         <div class="summary-label">投資額</div>
-                        <div class="summary-value">¥${(summary.total_investment || 0).toLocaleString()}</div>
+                        <div class="summary-value">¥${totalInvestment.toLocaleString()}</div>
                     </div>
                 </div>
 
