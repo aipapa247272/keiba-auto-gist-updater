@@ -5,8 +5,8 @@
   "summary": {
     "total_races": 5,
     "hit_count": 0,
-    "miss_count": 5,
-    "unavailable_count": 0,
+    "miss_count": 3,
+    "unavailable_count": 2,
     "total_investment": 12000,
     "total_return": 0,
     "total_profit": -12000,
@@ -15,233 +15,183 @@
   },
   "results": [
     {
-      "race_id": "202645020612",
-      "venue": "川崎",
+      "race_id": "202605010308",
+      "venue": "東京",
       "race_num": "Unknown",
-      "race_name": "爆速賞(C1)",
-      "distance": 900,
+      "race_name": "4歳以上2勝クラス",
+      "distance": 1600,
       "track": "ダ",
+      "status": "結果取得不可",
+      "predicted": [
+        "11-12-5"
+      ],
+      "actual": [],
+      "hit": false,
+      "investment": 3600,
+      "return": 0,
+      "profit": -3600,
+      "payouts": {},
+      "horse_weights": [],
+      "weather": "",
+      "track_condition": ""
+    },
+    {
+      "race_id": "202610010507",
+      "venue": "小倉",
+      "race_num": "Unknown",
+      "race_name": "4歳以上1勝クラス",
+      "distance": 2000,
+      "track": "芝",
       "status": "不的中",
       "predicted": [
-        "1-12-6"
+        "3-4-5"
       ],
       "actual": [
-        "1-12-2"
+        "11-17-6"
       ],
-      "result_sanrenpuku": "1-12-2",
+      "result_sanrenpuku": "11-17-6",
       "payout_sanrenpuku": 0,
       "hit": false,
       "investment": 1600,
       "return": 0,
       "profit": -1600,
       "payouts": {
-        "単勝": 200,
-        "複勝": 1122,
-        "枠連": 710,
-        "馬連": 112
+        "単勝": 5140,
+        "複勝": 17611,
+        "枠連": 4090,
+        "馬連": 617
       },
       "horse_weights": [
         {
           "rank": 1,
-          "horse_number": "1",
-          "weight": "515(0)"
+          "horse_number": "17",
+          "weight": "412(+2)"
         },
         {
           "rank": 2,
-          "horse_number": "12",
-          "weight": "457(+3)"
+          "horse_number": "6",
+          "weight": "440(+4)"
         },
         {
           "rank": 3,
-          "horse_number": "2",
-          "weight": "492(-6)"
+          "horse_number": "11",
+          "weight": "444(-8)"
         }
       ],
-      "weather": "晴",
-      "track_condition": "良"
+      "weather": "曇",
+      "track_condition": "稍"
     },
     {
-      "race_id": "202645020607",
-      "venue": "川崎",
+      "race_id": "202605010312",
+      "venue": "東京",
       "race_num": "Unknown",
-      "race_name": "C3一二",
-      "distance": 1400,
+      "race_name": "4歳以上1勝クラス",
+      "distance": 1600,
       "track": "ダ",
+      "status": "結果取得不可",
+      "predicted": [
+        "2-3-4"
+      ],
+      "actual": [],
+      "hit": false,
+      "investment": 3600,
+      "return": 0,
+      "profit": -3600,
+      "payouts": {},
+      "horse_weights": [],
+      "weather": "",
+      "track_condition": ""
+    },
+    {
+      "race_id": "202610010512",
+      "venue": "小倉",
+      "race_num": "Unknown",
+      "race_name": "4歳以上1勝クラス",
+      "distance": 1200,
+      "track": "芝",
       "status": "不的中",
       "predicted": [
-        "2-6-8"
+        "1-15-5"
       ],
       "actual": [
-        "2-4-6"
+        "3-6-9"
       ],
-      "result_sanrenpuku": "2-4-6",
+      "result_sanrenpuku": "3-6-9",
       "payout_sanrenpuku": 0,
       "hit": false,
       "investment": 1600,
       "return": 0,
       "profit": -1600,
       "payouts": {
-        "単勝": 110,
-        "複勝": 642,
-        "枠連": 410,
-        "馬連": 450
+        "単勝": 630,
+        "複勝": 693,
+        "枠連": 1340,
+        "馬連": 1410
       },
       "horse_weights": [
         {
           "rank": 1,
           "horse_number": "6",
-          "weight": "492(+1)"
+          "weight": "454(-4)"
         },
         {
           "rank": 2,
-          "horse_number": "4",
-          "weight": "499(-3)"
+          "horse_number": "9",
+          "weight": "494(+2)"
         },
         {
           "rank": 3,
-          "horse_number": "2",
-          "weight": "523(-12)"
+          "horse_number": "3",
+          "weight": "460(-2)"
         }
       ],
       "weather": "晴",
-      "track_condition": "良"
+      "track_condition": "稍"
     },
     {
-      "race_id": "202645020611",
-      "venue": "川崎",
+      "race_id": "202608020312",
+      "venue": "京都",
       "race_num": "Unknown",
-      "race_name": "しずおか早春特別(B1B2)",
-      "distance": 1500,
+      "race_name": "4歳以上1勝クラス",
+      "distance": 1200,
       "track": "ダ",
       "status": "不的中",
       "predicted": [
-        "2-4-8"
+        "2-5-6"
       ],
       "actual": [
-        "2-3-5"
+        "13-6-7"
       ],
-      "result_sanrenpuku": "2-3-5",
+      "result_sanrenpuku": "13-6-7",
       "payout_sanrenpuku": 0,
       "hit": false,
       "investment": 1600,
       "return": 0,
       "profit": -1600,
       "payouts": {
-        "単勝": 370,
-        "複勝": 253,
-        "枠連": 590,
-        "馬連": 610
+        "単勝": 390,
+        "複勝": 1376,
+        "枠連": 420,
+        "馬連": 713
       },
       "horse_weights": [
         {
           "rank": 1,
-          "horse_number": "2",
-          "weight": "503(+12)"
+          "horse_number": "13",
+          "weight": "494(-6)"
         },
         {
           "rank": 2,
-          "horse_number": "5",
-          "weight": "491(-4)"
+          "horse_number": "7",
+          "weight": "508(+2)"
         },
         {
           "rank": 3,
-          "horse_number": "3",
-          "weight": "503(+4)"
+          "horse_number": "6",
+          "weight": "526(+4)"
         }
       ],
-      "weather": "晴",
-      "track_condition": "良"
-    },
-    {
-      "race_id": "202647020612",
-      "venue": "笠松",
-      "race_num": "Unknown",
-      "race_name": "西濃オープン(A)",
-      "distance": 1400,
-      "track": "ダ",
-      "status": "不的中",
-      "predicted": [
-        "3-5-8"
-      ],
-      "actual": [
-        "10-4-8"
-      ],
-      "result_sanrenpuku": "10-4-8",
-      "payout_sanrenpuku": 0,
-      "hit": false,
-      "investment": 3600,
-      "return": 0,
-      "profit": -3600,
-      "payouts": {
-        "単勝": 540,
-        "複勝": 8104,
-        "枠連": 610,
-        "馬連": 810
-      },
-      "horse_weights": [
-        {
-          "rank": 1,
-          "horse_number": "8",
-          "weight": "499(-2)"
-        },
-        {
-          "rank": 2,
-          "horse_number": "10",
-          "weight": "475(+1)"
-        },
-        {
-          "rank": 3,
-          "horse_number": "4",
-          "weight": "486(-4)"
-        }
-      ],
-      "weather": "晴",
-      "track_condition": "良"
-    },
-    {
-      "race_id": "202645020608",
-      "venue": "川崎",
-      "race_num": "Unknown",
-      "race_name": "C2八",
-      "distance": 1400,
-      "track": "ダ",
-      "status": "不的中",
-      "predicted": [
-        "2-4-5"
-      ],
-      "actual": [
-        "11-5-9"
-      ],
-      "result_sanrenpuku": "11-5-9",
-      "payout_sanrenpuku": 0,
-      "hit": false,
-      "investment": 3600,
-      "return": 0,
-      "profit": -3600,
-      "payouts": {
-        "単勝": 180,
-        "複勝": 9511,
-        "枠連": 150,
-        "馬連": 210
-      },
-      "horse_weights": [
-        {
-          "rank": 1,
-          "horse_number": "9",
-          "weight": "465(-6)"
-        },
-        {
-          "rank": 2,
-          "horse_number": "5",
-          "weight": "485(+5)"
-        },
-        {
-          "rank": 3,
-          "horse_number": "11",
-          "weight": "435(+2)"
-        }
-      ],
-      "weather": "晴",
+      "weather": "曇",
       "track_condition": "良"
     }
   ]
