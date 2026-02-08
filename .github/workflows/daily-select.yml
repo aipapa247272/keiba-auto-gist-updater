@@ -1,5 +1,5 @@
 name: Daily Select
-# Updated on 2026-01-31 - Git conflict 対応追加
+# Updated on 2026-02-08 - 開催中止情報取得機能を追加
 
 on:
   workflow_dispatch:
@@ -36,6 +36,12 @@ jobs:
       - name: Run daily select
         run: |
           python scripts/daily_select.py ${{ steps.get_ymd.outputs.ymd }}
+      
+      # ★ 新規追加: 開催中止情報取得
+      - name: Check race cancellation
+        continue-on-error: true
+        run: |
+          python scripts/check_race_cancellation.py ${{ steps.get_ymd.outputs.ymd }}
       
       - name: Fetch shutuba data
         run: |
@@ -101,6 +107,7 @@ jobs:
           ls -lh latest_predictions.json 2>/dev/null || echo "latest_predictions.json が見つかりません"
           ls -lh latest_predictions.md 2>/dev/null || echo "latest_predictions.md が見つかりません"
           ls -lh latest_race_data.json 2>/dev/null || echo "latest_race_data.json が見つかりません"
+          ls -lh cancellation_info_*.json 2>/dev/null || echo "cancellation_info_*.json が見つかりません"
           
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -122,6 +129,7 @@ jobs:
           git add latest_predictions.json 2>/dev/null || true
           git add latest_predictions.md 2>/dev/null || true
           git add latest_race_data.json 2>/dev/null || true
+          git add cancellation_info_*.json 2>/dev/null || true
           
           echo "📊 ステージングされたファイル:"
           git diff --cached --name-only
