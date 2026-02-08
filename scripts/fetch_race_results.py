@@ -1,3 +1,39 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# fetch_race_results.py v6 - 開催中止対応版
+# v5からの変更点:
+# - load_cancellation_info() 関数を追加
+# - 結果取得失敗時に開催中止情報をチェック
+# - status を「雪のため開催中止」などに変更
+
+
+def load_cancellation_info(ymd):
+    """
+    開催中止情報を読み込む
+    
+    Args:
+        ymd (str): 対象日付（YYYYMMDD）
+    
+    Returns:
+        dict: 開催中止情報
+    """
+    try:
+        with open(f'cancellation_info_{ymd}.json', 'r', encoding='utf-8') as f:
+            info = json.load(f)
+            print(f"📋 開催中止情報を読み込みました")
+            if info.get('is_cancelled'):
+                print(f"   理由: {info.get('reason', '不明')}")
+                venues = info.get('venues', [])
+                if venues:
+                    print(f"   対象: {', '.join(venues)}")
+            return info
+    except FileNotFoundError:
+        print(f"📋 開催中止情報なし（通常開催）")
+        return {"is_cancelled": False}
+    except Exception as e:
+        print(f"⚠️ 開催中止情報の読み込みエラー: {e}")
+        return {"is_cancelled": False}
+
 import requests
 from bs4 import BeautifulSoup
 import json
@@ -10,6 +46,9 @@ def fetch_race_results(ymd):
     指定日付のレース結果を取得
     ymd: YYYYMMDD形式の日付文字列
     """
+    
+    # ★ v6新規追加: 開催中止情報を読み込む
+    cancellation_info = load_cancellation_info(ymd)
     
     # latest_predictions.json からデータを読み込む
     try:
@@ -64,7 +103,22 @@ def fetch_race_results(ymd):
         race_result = fetch_single_race_result(race_id, ymd)
         
         if race_result is None:
-            print(f"  ❌ 結果取得失敗")
+            # ★ v6修正: 開催中止情報をチェック
+            status = '結果取得不可'
+            
+            if cancellation_info.get('is_cancelled'):
+                reason = cancellation_info.get('reason', '天候不良')
+                venues = cancellation_info.get('venues', [])
+                
+                # 該当競馬場の場合
+                if not venues or venue in venues or '全競馬場' in venues:
+                    status = f'{reason}開催中止'
+                    print(f"  ⚠️ {status}")
+                else:
+                    print(f"  ❌ 結果取得失敗")
+            else:
+                print(f"  ❌ 結果取得失敗")
+            
             results.append({
                 'race_id': race_id,
                 'venue': venue,
@@ -72,7 +126,7 @@ def fetch_race_results(ymd):
                 'race_name': race_name,
                 'distance': distance,
                 'track': track,
-                'status': '結果取得不可',
+                'status': status,
                 'predicted': predicted_combinations,
                 'actual': [],
                 'hit': False,
