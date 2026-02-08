@@ -36,14 +36,15 @@ def fetch_race_results(ymd):
     
     for idx, race in enumerate(selected_races, 1):
         race_id = race.get('race_id')
-        # ★ 修正: キー名を修正
-        venue = race.get('競馬場', race.get('venue', 'Unknown'))
-        race_name = race.get('レース名', race.get('race_name', 'Unknown'))
-        race_num = race.get('レース番号', race.get('race_num', 'Unknown'))
+        # ★ 修正v5: venue/race_name/race_num の取得ロジック修正
+        venue = race.get('venue') or race.get('競馬場') or 'Unknown'
+        race_name = race.get('race_name') or race.get('レース名') or 'Unknown'
+        # race_id から race_num を抽出（末尾2桁）
+        race_num = race_id[-2:] if race_id and len(race_id) >= 2 else 'Unknown'
         distance = race.get('距離', race.get('distance', ''))
         track = race.get('track', '')
         
-        print(f"\n[{idx}/{len(selected_races)}] {venue} {race_name} (ID: {race_id})")
+        print(f"\n[{idx}/{len(selected_races)}] {venue} R{race_num} {race_name} (ID: {race_id})")
         
         # 予想買い目を取得
         # ★ 修正v3: betting_plan から軸馬を取得
