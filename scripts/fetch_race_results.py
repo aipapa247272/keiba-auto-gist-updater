@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# fetch_race_results.py v7 - 払戻金取得改善版
+# fetch_race_results.py v8 - 払戻金取得修正版
+# v7からの変更点:
+# - 払戻金のHTML構造に対応（<br>区切りを正しく処理）
+# - get_html()内で<br>を改行に変換してから処理
 # v6からの変更点:
 # - 払戻金取得ロジックを改善（全券種対応）
 # - 複勝は最小値を取得
 # - 券種の正規化処理を追加
-# v5からの変更点:
-# - load_cancellation_info() 関数を追加
-# - 結果取得失敗時に開催中止情報をチェック
-# - status を「雪のため開催中止」などに変更
 
 
 def load_cancellation_info(ymd):
@@ -474,18 +473,28 @@ def fetch_single_race_result(race_id, ymd):
                     payout_values = []
                     
                     for td in payout_td:
-                        payout_text = td.get_text(strip=True).replace(',', '').replace('円', '').replace('¥', '')
-                        # 数字のみ抽出
-                        import re
-                        numbers = re.findall(r'\d+', payout_text)
+                        # <br>を改行に変換してから処理
+                        td_html = str(td)
+                        td_html = td_html.replace('<br>', '\n').replace('<br/>', '\n').replace('<br />', '\n')
+                        from bs4 import BeautifulSoup as BS
+                        td_soup = BS(td_html, 'html.parser')
+                        payout_text = td_soup.get_text(strip=False)  # strip=Falseで改行を保持
                         
-                        for num_str in numbers:
-                            try:
-                                payout_value = int(num_str)
-                                if payout_value >= 100:  # 最低配当は100円
-                                    payout_values.append(payout_value)
-                            except ValueError:
-                                pass
+                        # 改行で分割して個別の金額を処理
+                        for line in payout_text.split('\n'):
+                            line_clean = line.strip().replace(',', '').replace('円', '').replace('¥', '')
+                            # 数字のみ抽出
+                            import re
+                            numbers = re.findall(r'\d+', line_clean)
+                            
+                            for num_str in numbers:
+                                try:
+                                    payout_value = int(num_str)
+                                    if payout_value >= 100:  # 最低配当は100円
+                                        payout_values.append(payout_value)
+                                        break  # 1行につき1つの金額のみ取得
+                                except ValueError:
+                                    pass
                     
                     # 複勝の場合は最小値、それ以外は最初の値
                     if payout_values:
