@@ -1,0 +1,10 @@
+{
+  "date": "20260208",
+  "is_cancelled": true,
+  "reason": "雪のため",
+  "venues": ["東京", "京都"],
+  "checked_at": "2026-02-08T08:00:00+09:00",
+  "sources": [
+    "https://news.netkeiba.com/?pid=news_view&no=321639"
+  ]
+}
