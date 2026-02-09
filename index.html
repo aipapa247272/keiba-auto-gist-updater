@@ -376,6 +376,7 @@
         .result-badge.hit { background: rgba(76,175,80,0.2); color: #81c784; }
         .result-badge.miss { background: rgba(244,67,54,0.2); color: #e57373; }
         .result-badge.unavailable { background: rgba(158,158,158,0.2); color: #bdbdbd; }
+        .result-badge.cancelled { background: rgba(255,193,7,0.2); color: #ffd54f; }
 
         .result-details {
             display: grid;
@@ -841,6 +842,25 @@
             document.getElementById('predictions-tab').innerHTML = html;
         }
 
+        function getStatusInfo(status) {
+            // 開催中止の判定（中止関連のキーワードを含むかチェック）
+            if (status && (status.includes('中止') || status.includes('開催') || status.includes('雪') || status.includes('台風'))) {
+                return {
+                    class: 'cancelled',
+                    text: `⚠️ ${status}`
+                };
+            }
+            
+            // その他の status
+            if (status === 'hit') {
+                return { class: 'hit', text: '🎯 的中' };
+            } else if (status === 'miss') {
+                return { class: 'miss', text: '❌ 不的中' };
+            } else {
+                return { class: 'unavailable', text: '⚠️ 結果未取得' };
+            }
+        }
+
         function renderResults(data) {
             const results = data.results || [];
             const summary = data.summary || {};
@@ -883,17 +903,34 @@
             `;
 
             results.forEach(result => {
-                const statusClass = result.status === 'hit' ? 'hit' : result.status === 'miss' ? 'miss' : 'unavailable';
-                const statusText = result.status === 'hit' ? '🎯 的中' : result.status === 'miss' ? '❌ 不的中' : '⚠️ 結果未取得';
+                const statusInfo = getStatusInfo(result.status);
 
                 html += `
                     <div class="result-card">
-                        <span class="result-badge ${statusClass}">${statusText}</span>
+                        <span class="result-badge ${statusInfo.class}">${statusInfo.text}</span>
                         <div class="race-title">${result.venue_name || '-'} ${result.race_num || '-'}R ${result.race_name || '-'}</div>
                         <div class="race-info">${result.race_type || '-'} | 発走 ${result.start_time || '-'}</div>
                 `;
 
-                if (result.status !== 'unavailable') {
+                // 開催中止の場合は投資額・損益のみ表示
+                if (statusInfo.class === 'cancelled') {
+                    html += `
+                        <div class="result-details">
+                            <div class="result-item">
+                                <div class="result-label">投資額</div>
+                                <div class="result-value">¥${(result.investment || 0).toLocaleString()}</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-label">払戻</div>
+                                <div class="result-value">¥0</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-label">損益</div>
+                                <div class="result-value loss">-¥${(result.investment || 0).toLocaleString()}</div>
+                            </div>
+                        </div>
+                    `;
+                } else if (result.status !== 'unavailable') {
                     html += `
                         <div class="result-details">
                             <div class="result-item">
