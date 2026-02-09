@@ -1,13 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# fetch_race_results.py v8 - 払戻金取得修正版
-# v7からの変更点:
-# - 払戻金のHTML構造に対応（<br>区切りを正しく処理）
-# - get_html()内で<br>を改行に変換してから処理
-# v6からの変更点:
-# - 払戻金取得ロジックを改善（全券種対応）
-# - 複勝は最小値を取得
-# - 券種の正規化処理を追加
+# fetch_race_results.py v9 - 払戻金全券種対応版
+# v8からの変更点:
+# - 複数の払戻テーブルを探索（中央競馬は2テーブルに分かれている）
+# - 全券種を確実に取得（単勝、複勝、枠連、馬連、馬単、ワイド、三連複、三連単）
 
 
 def load_cancellation_info(ymd):
@@ -428,21 +424,35 @@ def fetch_single_race_result(race_id, ymd):
         sanrenpuku_result = '-'.join(sorted(top_3))
         print(f"  🎯 三連複: {sanrenpuku_result}")
         
-        # 払戻表を取得
-        payout_table = None
+        # 払戻表を取得（複数テーブルに対応）
+        payout_tables = []
         
         # 地方競馬
-        payout_table = soup.select_one('table.Payout_Detail_Table')
+        local_table = soup.select_one('table.Payout_Detail_Table')
+        if local_table:
+            payout_tables.append(local_table)
         
-        # 中央競馬
-        if not payout_table:
-            payout_table = soup.select_one('table.pay_table_01')
+        # 中央競馬（複数テーブルがある場合がある）
+        if not payout_tables:
+            central_tables = soup.select('table[summary="払い戻し"], table[summary="ワイド"]')
+            if central_tables:
+                payout_tables.extend(central_tables)
+            else:
+                # フォールバック
+                fallback = soup.select_one('table.pay_table_01')
+                if fallback:
+                    payout_tables.append(fallback)
         
         payouts = {}
         sanrenpuku_payout = 0
         
-        if payout_table:
-            payout_rows = payout_table.select('tr')
+        if payout_tables:
+            # 複数テーブルから払戻金を取得
+            all_payout_rows = []
+            for table in payout_tables:
+                all_payout_rows.extend(table.select('tr'))
+            
+            payout_rows = all_payout_rows
             
             # 券種の正規化マップ
             bet_type_map = {
