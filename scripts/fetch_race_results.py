@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# fetch_race_results.py v6 - 開催中止対応版
+# fetch_race_results.py v7 - 払戻金取得改善版
+# v6からの変更点:
+# - 払戻金取得ロジックを改善（全券種対応）
+# - 複勝は最小値を取得
+# - 券種の正規化処理を追加
 # v5からの変更点:
 # - load_cancellation_info() 関数を追加
 # - 結果取得失敗時に開催中止情報をチェック
@@ -441,34 +445,60 @@ def fetch_single_race_result(race_id, ymd):
         if payout_table:
             payout_rows = payout_table.select('tr')
             
+            # 券種の正規化マップ
+            bet_type_map = {
+                '単勝': '単勝',
+                '複勝': '複勝',
+                '枠連': '枠連',
+                '馬連': '馬連',
+                '馬単': '馬単',
+                'ワイド': 'ワイド',
+                '三連複': '三連複',
+                '三連単': '三連単',
+                '3連複': '三連複',
+                '3連単': '三連単'
+            }
+            
             for row in payout_rows:
                 th = row.select_one('th')
                 if not th:
                     continue
                 
-                bet_type = th.get_text(strip=True)
+                bet_type_raw = th.get_text(strip=True)
+                bet_type = bet_type_map.get(bet_type_raw, bet_type_raw)
                 
-                # 払戻金を取得
+                # 払戻金を取得（複数の金額がある場合は最小値を取得）
                 payout_td = row.select('td.txt_r, td')
                 
                 if payout_td:
+                    payout_values = []
+                    
                     for td in payout_td:
                         payout_text = td.get_text(strip=True).replace(',', '').replace('円', '').replace('¥', '')
                         # 数字のみ抽出
                         import re
                         numbers = re.findall(r'\d+', payout_text)
-                        if numbers:
+                        
+                        for num_str in numbers:
                             try:
-                                payout_value = int(numbers[0])
+                                payout_value = int(num_str)
                                 if payout_value >= 100:  # 最低配当は100円
-                                    payouts[bet_type] = payout_value
-                                    
-                                    if bet_type == '三連複':
-                                        sanrenpuku_payout = payout_value
-                                        print(f"  💰 三連複払戻: ¥{payout_value:,}")
-                                    break
+                                    payout_values.append(payout_value)
                             except ValueError:
                                 pass
+                    
+                    # 複勝の場合は最小値、それ以外は最初の値
+                    if payout_values:
+                        if bet_type == '複勝':
+                            final_payout = min(payout_values)
+                        else:
+                            final_payout = payout_values[0]
+                        
+                        payouts[bet_type] = final_payout
+                        
+                        if bet_type == '三連複':
+                            sanrenpuku_payout = final_payout
+                            print(f"  💰 三連複払戻: ¥{final_payout:,}")
         else:
             print(f"  ⚠️ 払戻テーブルが見つかりません")
         
