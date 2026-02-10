@@ -1,12 +1,12 @@
 {
-  "date": "2026/02/09",
-  "ymd": "20260209",
-  "generated_at": "2026-02-09 00:00:00",
+  "date": "2026/02/08",
+  "ymd": "20260208",
+  "generated_at": "2026-02-08 00:00:00",
   "summary": {
     "total_races": 5,
     "hit_count": 0,
     "miss_count": 3,
-    "unavailable_count": 2,
+    "unavailable_count": 0,
     "total_investment": 12000,
     "total_return": 0,
     "total_profit": -12000,
@@ -21,7 +21,7 @@
       "race_name": "4歳以上1勝クラス",
       "distance": 1300,
       "track": "ダ",
-      "status": "結果取得不可",
+      "status": "雪のため開催中止",
       "predicted": [
         "15-3-9"
       ],
@@ -42,7 +42,7 @@
       "race_name": "4歳以上2勝クラス",
       "distance": 1200,
       "track": "ダ",
-      "status": "結果取得不可",
+      "status": "雪のため開催中止",
       "predicted": [
         "2-4-9"
       ],
