@@ -714,7 +714,8 @@
 
         function formatDate(ymd) {
             if (!ymd) return '-';
-            return ymd.replace(/(\d{4})(\d{2})(\d{2})/, '$1/$2/$3');
+            if (typeof ymd === 'string' && ymd.includes('/')) return ymd;
+            return ymd.toString().replace(/(\d{4})(\d{2})(\d{2})/, '$1/$2/$3');
         }
 
         function renderPredictions(data) {
@@ -722,7 +723,6 @@
             const summary = data.summary || {};
             const turbulence = summary.turbulence || summary.波乱度別内訳 || {};
 
-            // 修正: レース数を動的に計算
             const selectedRacesCount = races.length;
             const totalRacesCount = data.total_races || summary.total_races || summary.総レース数 || 0;
             const totalInvestment = summary.total_investment || summary.総投資額 || 0;
@@ -745,7 +745,7 @@
                 <div class="summary-grid">
                     <div class="summary-card">
                         <div class="summary-label">対象日</div>
-                        <div class="summary-value">${formatDate(data.ymd)}</div>
+                        <div class="summary-value">${formatDate(data.ymd || data.date)}</div>
                     </div>
                     <div class="summary-card">
                         <div class="summary-label">AI厳選</div>
@@ -802,35 +802,34 @@
                 html += `
                     <div class="race-card">
                         <div class="race-header">
-                            <div class="race-title">${race.競馬場 || '-'} ${race.レース番号 || '-'}R ${race.レース名 || '-'}</div>
-                            <div class="race-info">${race.トラック || '-'}${race.距離 || '-'}m | 発走 ${race.発走時刻 || '-'}</div>
-                            <span class="turbulence-badge ${race.波乱度 || '中'}">${race.波乱度 || '中'}</span>
+                            <div class="race-title">${race.競馬場 || race.venue || '-'} ${race.レース番号 || race.race_num || '-'}R ${race.レース名 || race.race_name || '-'}</div>
+                            <div class="race-info">${race.トラック || race.track || '-'}${race.距離 || race.distance || '-'}m | 発走 ${race.発走時刻 || race.start_time || '-'}</div>
+                            <span class="turbulence-badge ${race.波乱度 || race.turbulence || '中'}">${race.波乱度 || race.turbulence || '中'}</span>
                         </div>
                 `;
 
                 horses.slice(0, 3).forEach((horse, index) => {
                     const score = getScore(horse);
-                    console.log(`Horse ${horse.馬名}: score = ${score}`);
                     
                     html += `
                         <div class="horse-card">
                             <div class="rank-badge">${rankSymbols[index]}</div>
                             <div class="horse-info">
-                                <div class="horse-name">${horse.馬名 || '-'}</div>
-                                <div class="horse-details">${horse.馬番 || '-'}番 | 枠${horse.枠番 || '-'} | ${horse.騎手名 || '-'}</div>
+                                <div class="horse-name">${horse.馬名 || horse.horse_name || '-'}</div>
+                                <div class="horse-details">${horse.馬番 || horse.horse_number || '-'}番 | 枠${horse.枠番 || horse.frame_number || '-'} | ${horse.騎手名 || horse.jockey_name || '-'}</div>
                             </div>
                             <div class="horse-score">${score.toFixed(1)}/100</div>
                         </div>
                     `;
                 });
 
-                const axisHorses = horses.slice(0, 3).map(h => `${h.馬番}${h.馬名}`).join('・');
+                const axisHorses = horses.slice(0, 3).map(h => `${h.馬番 || h.horse_number}${h.馬名 || h.horse_name}`).join('・');
                 
                 html += `
                         <div class="betting-section">
                             <div class="betting-title">💰 買い目</div>
                             <div class="betting-method">📋 三連複フォーメーション（軸3頭BOX）</div>
-                            <div class="betting-investment">投資額: ¥${(race.投資額 || 2400).toLocaleString()}</div>
+                            <div class="betting-investment">投資額: ¥${(race.投資額 || race.investment || 2400).toLocaleString()}</div>
                             <div class="betting-combinations">
                                 <div class="combination">${axisHorses}</div>
                             </div>
@@ -843,7 +842,6 @@
         }
 
         function getStatusInfo(status) {
-            // 開催中止の判定（中止関連のキーワードを含むかチェック）
             if (status && (status.includes('中止') || status.includes('開催') || status.includes('雪') || status.includes('台風'))) {
                 return {
                     class: 'cancelled',
@@ -851,10 +849,9 @@
                 };
             }
             
-            // その他の status
-            if (status === 'hit') {
+            if (status === 'hit' || status === '的中') {
                 return { class: 'hit', text: '🎯 的中' };
-            } else if (status === 'miss') {
+            } else if (status === 'miss' || status === '不的中') {
                 return { class: 'miss', text: '❌ 不的中' };
             } else {
                 return { class: 'unavailable', text: '⚠️ 結果未取得' };
@@ -862,8 +859,15 @@
         }
 
         function renderResults(data) {
-            const results = data.results || [];
-            const summary = data.summary || {};
+            // 修正: data.races を優先、フォールバックで data.results
+            const results = data.races || data.results || [];
+            
+            // 修正: サマリーデータを直接 data から取得
+            const summary = {
+                hit_rate: data.hit_rate || 0,
+                recovery_rate: data.recovery_rate || 0,
+                total_profit: data.total_profit || 0
+            };
 
             let html = `
                 <div class="success-message">
@@ -908,11 +912,10 @@
                 html += `
                     <div class="result-card">
                         <span class="result-badge ${statusInfo.class}">${statusInfo.text}</span>
-                        <div class="race-title">${result.venue_name || '-'} ${result.race_num || '-'}R ${result.race_name || '-'}</div>
-                        <div class="race-info">${result.race_type || '-'} | 発走 ${result.start_time || '-'}</div>
+                        <div class="race-title">${result.venue || '-'} ${result.race_num ? result.race_num + 'R' : ''} ${result.race_name || '-'}</div>
+                        <div class="race-info">${result.track || '-'}${result.distance || '-'}m | 発走 ${result.start_time || '-'}</div>
                 `;
 
-                // 開催中止の場合は投資額・損益のみ表示
                 if (statusInfo.class === 'cancelled') {
                     html += `
                         <div class="result-details">
@@ -930,7 +933,7 @@
                             </div>
                         </div>
                     `;
-                } else if (result.status !== 'unavailable') {
+                } else if (statusInfo.class !== 'unavailable') {
                     html += `
                         <div class="result-details">
                             <div class="result-item">
@@ -981,8 +984,8 @@
                             html += `
                                 <div class="weight-item">
                                     <span class="weight-rank">${idx + 1}着</span>
-                                    <span class="weight-horse">${hw.horse_name || '-'}</span>
-                                    <span class="weight-value">${hw.weight || '-'}kg</span>
+                                    <span class="weight-horse">${hw.horse_number || '-'}番</span>
+                                    <span class="weight-value">${hw.weight || '-'}</span>
                                 </div>`;
                         });
                         html += `</div></div>`;
