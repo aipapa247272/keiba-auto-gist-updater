@@ -93,7 +93,7 @@ def fetch_race_results(ymd):
         race_name = race.get('race_name', '不明')
         race_num = race.get('race_num', '')
         
-        print(f"[{i}/{len(selected)}] {venue} 第{race_num_int:02d}競走'{race_name}' ")
+        print(f"[{i}/{len(selected)}] {venue} 第{str(race_num).zfill(2)}競走'{race_name}' ")
         
         betting_plan = race.get('betting_plan', {})
         axis_horses = betting_plan.get('axis', [])
