@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DES_AI競馬予想</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(180deg, #0a1929 0%, #1a2332 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0d3251 0%, #1a2332 100%);
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #b0c4de;
+            margin-bottom: 3px;
+        }
+
+        .x-link {
+            display: inline-block;
+            background: transparent;
+            color: #4fc3f7;
+            padding: 12px 28px;
+            border: 2px solid #4fc3f7;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 15px;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+
+        .x-link:hover {
+            background: #4fc3f7;
+            color: #0a1929;
+        }
+
+        .tab-nav {
+            display: flex;
+            background: #1a2332;
+            padding: 5px;
+            gap: 5px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 16px 10px;
+            border: none;
+            background: transparent;
+            color: #7e8ea0;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 25px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #00bcd4 0%, #2196f3 100%);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(33,150,243,0.4);
+        }
+
+        .content {
+            padding: 20px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 12px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .refresh-btn {
+            background: linear-gradient(135deg, #00bcd4 0%, #2196f3 100%);
+            border: none;
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(33,150,243,0.3);
+        }
+
+        .update-info {
+            background: rgba(79,195,247,0.1);
+            border: 1px solid rgba(79,195,247,0.3);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .update-label {
+            font-size: 12px;
+            color: #4fc3f7;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .update-time {
+            font-size: 14px;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .summary-card {
+            background: rgba(255,255,255,0.08);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .summary-label {
+            font-size: 13px;
+            color: #b0c4de;
+            margin-bottom: 10px;
+        }
+
+        .summary-value {
+            font-size: 26px;
+            font-weight: 700;
+            color: #4fc3f7;
+        }
+
+        .turbulence-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 12px;
+            padding: 18px;
+            background: rgba(13,71,161,0.15);
+            border-radius: 12px;
+        }
+
+        .turbulence-item {
+            text-align: center;
+        }
+
+        .turbulence-label {
+            font-size: 12px;
+            color: #b0c4de;
+            margin-bottom: 8px;
+        }
+
+        .turbulence-value {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .turbulence-legend {
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+
+        .legend-title {
+            font-size: 12px;
+            color: #b0c4de;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .legend-items {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+        }
+
+        .legend-icon {
+            font-size: 18px;
+        }
+
+        .legend-text {
+            color: #b0c4de;
+        }
+
+        .race-card {
+            background: rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 15px;
+            border-left: 4px solid #4fc3f7;
+        }
+
+        .race-header {
+            margin-bottom: 15px;
+        }
+
+        .race-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        .race-info {
+            font-size: 13px;
+            color: #b0c4de;
+        }
+
+        .turbulence-badge {
+            display: inline-block;
+            padding: 5px 14px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .turbulence-badge.低 { background: rgba(76,175,80,0.2); color: #81c784; }
+        .turbulence-badge.中 { background: rgba(255,193,7,0.2); color: #ffd54f; }
+        .turbulence-badge.高 { background: rgba(244,67,54,0.2); color: #e57373; }
+
+        .horse-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 14px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .rank-badge {
+            font-size: 22px;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .horse-info {
+            flex: 1;
+        }
+
+        .horse-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .horse-details {
+            font-size: 12px;
+            color: #b0c4de;
+        }
+
+        .horse-score {
+            font-size: 18px;
+            font-weight: 700;
+            color: #4fc3f7;
+        }
+
+        .betting-section {
+            background: rgba(79,195,247,0.1);
+            border-radius: 8px;
+            padding: 14px;
+            margin-top: 12px;
+        }
+
+        .betting-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #4fc3f7;
+            margin-bottom: 10px;
+        }
+
+        .betting-method {
+            font-size: 12px;
+            color: #b0c4de;
+            margin-bottom: 8px;
+        }
+
+        .betting-investment {
+            font-size: 14px;
+            color: #fff;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .betting-combinations {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .combination {
+            background: rgba(255,255,255,0.1);
+            padding: 7px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #fff;
+        }
+
+        .result-card {
+            background: rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 15px;
+        }
+
+        .result-badge {
+            display: inline-block;
+            padding: 7px 16px;
+            border-radius: 15px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .result-badge.hit { background: rgba(76,175,80,0.2); color: #81c784; }
+        .result-badge.miss { background: rgba(244,67,54,0.2); color: #e57373; }
+        .result-badge.unavailable { background: rgba(158,158,158,0.2); color: #bdbdbd; }
+        .result-badge.cancelled { background: rgba(255,193,7,0.2); color: #ffd54f; }
+
+        .result-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .result-item {
+            text-align: center;
+            padding: 14px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+        }
+
+        .result-label {
+            font-size: 12px;
+            color: #b0c4de;
+            margin-bottom: 6px;
+        }
+
+        .result-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .result-value.profit { color: #81c784; }
+        .result-value.loss { color: #e57373; }
+
+        .weather-section {
+            background: rgba(33,150,243,0.1);
+            border-radius: 8px;
+            padding: 12px;
+            margin: 12px 0;
+        }
+
+        .weather-title {
+            font-size: 12px;
+            color: #4fc3f7;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .weather-info {
+            font-size: 13px;
+            color: #b0c4de;
+        }
+
+        .payout-section {
+            background: rgba(255,193,7,0.1);
+            border-radius: 8px;
+            padding: 12px;
+            margin: 12px 0;
+        }
+
+        .payout-title {
+            font-size: 12px;
+            color: #ffd54f;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .payout-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .payout-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
+        .payout-type {
+            color: #b0c4de;
+        }
+
+        .payout-amount {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .weight-section {
+            background: rgba(156,39,176,0.1);
+            border-radius: 8px;
+            padding: 12px;
+            margin: 12px 0;
+        }
+
+        .weight-title {
+            font-size: 12px;
+            color: #ce93d8;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .weight-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .weight-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
+        .weight-rank {
+            color: #ffd54f;
+            font-weight: 600;
+        }
+
+        .weight-horse {
+            color: #b0c4de;
+        }
+
+        .weight-value {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(79,195,247,0.2);
+            border-top-color: #4fc3f7;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            margin-top: 20px;
+            color: #b0c4de;
+            font-size: 15px;
+        }
+
+        .error-message {
+            background: rgba(244,67,54,0.15);
+            border: 1px solid rgba(244,67,54,0.3);
+            color: #e57373;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .success-message {
+            background: rgba(76,175,80,0.15);
+            border: 1px solid rgba(76,175,80,0.3);
+            color: #81c784;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="title">DES_AI競馬予想</div>
+        <div class="subtitle">デュアル・エッジ・システム</div>
+        <div class="subtitle">週単位プラス収支を目指す</div>
+        <div class="subtitle">AI戦略予想</div>
+        <a href="https://x.com/AIkeibayosouDES" target="_blank" class="x-link">
+            公式X: @AIkeibayosouDES
+        </a>
+    </div>
+
+    <div class="tab-nav">
+        <button class="tab-btn active" onclick="switchTab('predictions')">📊 今日の予想</button>
+        <button class="tab-btn" onclick="switchTab('results')">🎯 昨日の結果</button>
+        <button class="tab-btn" onclick="switchTab('stats')">📈 統計</button>
+    </div>
+
+    <div class="content">
+        <div id="predictions-tab" class="tab-content active">
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                <div class="loading-text">予想データを取得中...</div>
+            </div>
+        </div>
+
+        <div id="results-tab" class="tab-content">
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                <div class="loading-text">結果データを取得中...</div>
+            </div>
+        </div>
+
+        <div id="stats-tab" class="tab-content">
+            <div class="section-header">
+                <div class="section-title">📈 統計</div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-label">統計機能</div>
+                <div class="summary-value">準備中</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let predictionsData = null;
+        let resultsData = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPredictions();
+            loadResults();
+        });
+
+        function switchTab(tabName) {
+            console.log('Switching to tab:', tabName);
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                if (btn.getAttribute('onclick').includes(tabName)) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            const targetContent = document.getElementById(`${tabName}-tab`);
+            if (targetContent) {
+                targetContent.classList.add('active');
+            }
+        }
+
+        async function loadPredictions() {
+            try {
+                console.log('Loading predictions...');
+                
+                document.getElementById('predictions-tab').innerHTML = `
+                    <div class="loading">
+                        <div class="loading-spinner"></div>
+                        <div class="loading-text">予想データを更新中...</div>
+                    </div>
+                `;
+                
+                const url = `https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/latest_predictions.json?t=${Date.now()}`;
+                const response = await fetch(url, { cache: 'no-cache' });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                predictionsData = await response.json();
+                console.log('Predictions data:', predictionsData);
+                renderPredictions(predictionsData);
+            } catch (error) {
+                console.error('予想データ取得エラー:', error);
+                document.getElementById('predictions-tab').innerHTML = `
+                    <div class="error-message">
+                        ❌ 予想データの取得に失敗しました<br>
+                        エラー: ${error.message}
+                        <button class="refresh-btn" onclick="loadPredictions()" style="margin-top: 15px; display: block; margin-left: auto; margin-right: auto;">
+                            🔄 再試行
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        async function loadResults() {
+            try {
+                console.log('Loading results...');
+                
+                document.getElementById('results-tab').innerHTML = `
+                    <div class="loading">
+                        <div class="loading-spinner"></div>
+                        <div class="loading-text">結果データを更新中...</div>
+                    </div>
+                `;
+                
+                const url = `https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/latest_results.json?t=${Date.now()}`;
+                const response = await fetch(url, { cache: 'no-cache' });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                resultsData = await response.json();
+                console.log('Results data:', resultsData);
+                renderResults(resultsData);
+            } catch (error) {
+                console.error('結果データ取得エラー:', error);
+                document.getElementById('results-tab').innerHTML = `
+                    <div class="error-message">
+                        ❌ 結果データの取得に失敗しました<br>
+                        エラー: ${error.message}
+                        <button class="refresh-btn" onclick="loadResults()" style="margin-top: 15px; display: block; margin-left: auto; margin-right: auto;">
+                            🔄 再試行
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function getScore(horse) {
+            console.log('getScore called with horse:', horse);
+            
+            if (horse.des_score && typeof horse.des_score.total === 'number') {
+                console.log('Found des_score.total:', horse.des_score.total);
+                return Math.round(horse.des_score.total * 10) / 10;
+            }
+            
+            if (typeof horse.total_score === 'number') {
+                console.log('Found total_score:', horse.total_score);
+                return Math.round(horse.total_score * 10) / 10;
+            }
+            
+            if (typeof horse.score === 'number') {
+                console.log('Found score:', horse.score);
+                return Math.round(horse.score * 10) / 10;
+            }
+            
+            console.warn('No score found for horse:', horse);
+            return 0;
+        }
+
+        function formatDate(ymd) {
+            if (!ymd) return '-';
+            return ymd.replace(/(\d{4})(\d{2})(\d{2})/, '$1/$2/$3');
+        }
+
+        function renderPredictions(data) {
+            const races = data.selected_predictions || data.predictions || [];
+            const summary = data.summary || {};
+            const turbulence = summary.turbulence || summary.波乱度別内訳 || {};
+
+            // 修正: レース数を動的に計算
+            const selectedRacesCount = races.length;
+            const totalRacesCount = data.total_races || summary.total_races || summary.総レース数 || 0;
+            const totalInvestment = summary.total_investment || summary.総投資額 || 0;
+
+            let html = `
+                <div class="success-message">
+                    ✅ データ取得成功 (${new Date().toLocaleString('ja-JP')})
+                </div>
+
+                <div class="section-header">
+                    <div class="section-title">📊 今日の予想</div>
+                    <button class="refresh-btn" onclick="loadPredictions()">🔄 更新</button>
+                </div>
+
+                <div class="update-info">
+                    <div class="update-label">🕐 次回更新</div>
+                    <div class="update-time">明日 AM 8:00</div>
+                </div>
+
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="summary-label">対象日</div>
+                        <div class="summary-value">${formatDate(data.ymd)}</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">AI厳選</div>
+                        <div class="summary-value">${selectedRacesCount}R</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">全レース</div>
+                        <div class="summary-value">${totalRacesCount}R</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">投資額</div>
+                        <div class="summary-value">¥${totalInvestment.toLocaleString()}</div>
+                    </div>
+                </div>
+
+                <div class="turbulence-grid">
+                    <div class="turbulence-item">
+                        <div class="turbulence-label">🟢 低</div>
+                        <div class="turbulence-value" style="color: #81c784;">${turbulence['低'] || 0}</div>
+                    </div>
+                    <div class="turbulence-item">
+                        <div class="turbulence-label">🟡 中</div>
+                        <div class="turbulence-value" style="color: #ffd54f;">${turbulence['中'] || 0}</div>
+                    </div>
+                    <div class="turbulence-item">
+                        <div class="turbulence-label">🔴 高</div>
+                        <div class="turbulence-value" style="color: #e57373;">${turbulence['高'] || 0}</div>
+                    </div>
+                </div>
+
+                <div class="turbulence-legend">
+                    <div class="legend-title">📖 波乱度の見方</div>
+                    <div class="legend-items">
+                        <div class="legend-item">
+                            <span class="legend-icon">🟢</span>
+                            <span class="legend-text">低: 本命有利（堅い決着）</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-icon">🟡</span>
+                            <span class="legend-text">中: 拮抗（混戦）</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-icon">🔴</span>
+                            <span class="legend-text">高: 荒れる可能性（見送り推奨）</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            races.forEach(race => {
+                const horses = race.horses || [];
+                const rankSymbols = ['◎', '○', '▲'];
+                
+                html += `
+                    <div class="race-card">
+                        <div class="race-header">
+                            <div class="race-title">${race.競馬場 || '-'} ${race.レース番号 || '-'}R ${race.レース名 || '-'}</div>
+                            <div class="race-info">${race.トラック || '-'}${race.距離 || '-'}m | 発走 ${race.発走時刻 || '-'}</div>
+                            <span class="turbulence-badge ${race.波乱度 || '中'}">${race.波乱度 || '中'}</span>
+                        </div>
+                `;
+
+                horses.slice(0, 3).forEach((horse, index) => {
+                    const score = getScore(horse);
+                    console.log(`Horse ${horse.馬名}: score = ${score}`);
+                    
+                    html += `
+                        <div class="horse-card">
+                            <div class="rank-badge">${rankSymbols[index]}</div>
+                            <div class="horse-info">
+                                <div class="horse-name">${horse.馬名 || '-'}</div>
+                                <div class="horse-details">${horse.馬番 || '-'}番 | 枠${horse.枠番 || '-'} | ${horse.騎手名 || '-'}</div>
+                            </div>
+                            <div class="horse-score">${score.toFixed(1)}/100</div>
+                        </div>
+                    `;
+                });
+
+                const axisHorses = horses.slice(0, 3).map(h => `${h.馬番}${h.馬名}`).join('・');
+                
+                html += `
+                        <div class="betting-section">
+                            <div class="betting-title">💰 買い目</div>
+                            <div class="betting-method">📋 三連複フォーメーション（軸3頭BOX）</div>
+                            <div class="betting-investment">投資額: ¥${(race.投資額 || 2400).toLocaleString()}</div>
+                            <div class="betting-combinations">
+                                <div class="combination">${axisHorses}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('predictions-tab').innerHTML = html;
+        }
+
+        function getStatusInfo(status) {
+            // 開催中止の判定（中止関連のキーワードを含むかチェック）
+            if (status && (status.includes('中止') || status.includes('開催') || status.includes('雪') || status.includes('台風'))) {
+                return {
+                    class: 'cancelled',
+                    text: `⚠️ ${status}`
+                };
+            }
+            
+            // その他の status
+            if (status === 'hit') {
+                return { class: 'hit', text: '🎯 的中' };
+            } else if (status === 'miss') {
+                return { class: 'miss', text: '❌ 不的中' };
+            } else {
+                return { class: 'unavailable', text: '⚠️ 結果未取得' };
+            }
+        }
+
+        function renderResults(data) {
+            const results = data.races || [];
+            const summary = {
+                hit_rate: data.hit_rate || 0,
+                recovery_rate: data.recovery_rate || 0,
+                total_profit: data.total_profit || 0
+            };
+
+            let html = `
+                <div class="success-message">
+                    ✅ データ取得成功 (${new Date().toLocaleString('ja-JP')})
+                </div>
+
+                <div class="section-header">
+                    <div class="section-title">🎯 昨日の結果</div>
+                    <button class="refresh-btn" onclick="loadResults()">🔄 更新</button>
+                </div>
+
+                <div class="update-info">
+                    <div class="update-label">🕐 次回更新</div>
+                    <div class="update-time">今日 PM 11:00</div>
+                </div>
+
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="summary-label">対象日</div>
+                        <div class="summary-value">${formatDate(data.date)}</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">的中率</div>
+                        <div class="summary-value">${(summary.hit_rate || 0).toFixed(1)}%</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">回収率</div>
+                        <div class="summary-value">${(summary.recovery_rate || 0).toFixed(1)}%</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">損益</div>
+                        <div class="summary-value ${summary.total_profit >= 0 ? 'profit' : 'loss'}">
+                            ${summary.total_profit >= 0 ? '+' : ''}¥${(summary.total_profit || 0).toLocaleString()}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            results.forEach(result => {
+                const statusInfo = getStatusInfo(result.status);
+
+                html += `
+                    <div class="result-card">
+                        <span class="result-badge ${statusInfo.class}">${statusInfo.text}</span>
+                        <div class="race-title">${result.venue || result.venue_name || '-'} ${result.race_num || '-'}R ${result.race_name || '-'}</div>
+                        <div class="race-info">${result.distance || '-'}m ${result.track || '-'} | 発走 ${result.start_time || '-'}</div>
+                        <div class="race-info">🎯 予想: ${result.predicted || '-'}</div>
+                `;
+
+                // 開催中止の場合は投資額・損益のみ表示
+                if (statusInfo.class === 'cancelled') {
+                    html += `
+                        <div class="result-details">
+                            <div class="result-item">
+                                <div class="result-label">投資額</div>
+                                <div class="result-value">¥${(result.investment || 0).toLocaleString()}</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-label">払戻</div>
+                                <div class="result-value">¥0</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-label">損益</div>
+                                <div class="result-value loss">-¥${(result.investment || 0).toLocaleString()}</div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <div class="result-details">
+                            <div class="result-item">
+                                <div class="result-label">投資額</div>
+                                <div class="result-value">¥${(result.investment || 0).toLocaleString()}</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-label">払戻</div>
+                                <div class="result-value">¥${(result.return || 0).toLocaleString()}</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-label">損益</div>
+                                <div class="result-value ${result.profit >= 0 ? 'profit' : 'loss'}">
+                                    ${result.profit >= 0 ? '+' : ''}¥${(result.profit || 0).toLocaleString()}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    if (result.weather || result.track_condition) {
+                        html += `
+                            <div class="weather-section">
+                                <div class="weather-title">🌤️ レース環境</div>
+                                <div class="weather-info">天候: ${result.weather || '-'} | 馬場: ${result.track_condition || '-'}</div>
+                            </div>
+                        `;
+                    }
+
+                    if (result.payouts && Object.keys(result.payouts).length > 0) {
+                        html += `<div class="payout-section">
+                            <div class="payout-title">💴 払戻金</div>
+                            <div class="payout-grid">`;
+                        Object.entries(result.payouts).forEach(([type, amount]) => {
+                            html += `
+                                <div class="payout-item">
+                                    <span class="payout-type">${type}</span>
+                                    <span class="payout-amount">¥${amount.toLocaleString()}</span>
+                                </div>`;
+                        });
+                        html += `</div></div>`;
+                    }
+
+                    if (result.horse_weights && result.horse_weights.length > 0) {
+                        html += `<div class="weight-section">
+                            <div class="weight-title">⚖️ 馬体重（上位3頭）</div>
+                            <div class="weight-list">`;
+                        result.horse_weights.slice(0, 3).forEach((hw, idx) => {
+                            html += `
+                                <div class="weight-item">
+                                    <span class="weight-rank">${idx + 1}着</span>
+                                    <span class="weight-horse">${hw.horse_name || '-'}</span>
+                                    <span class="weight-value">${hw.weight || '-'}kg</span>
+                                </div>`;
+                        });
+                        html += `</div></div>`;
+                    }
+
+                    // 結果取得不可の場合でも表示
+                    if (result.status === 'unavailable') {
+                        html += `
+                            <div class="weather-section">
+                                <div class="weather-title">⚠️ 備考</div>
+                                <div class="weather-info">競馬場で結果が公開されていない可能性があります</div>
+                            </div>
+                        `;
+                    }
+                }
+
+                html += `</div>`;
+            });
+
+            document.getElementById('results-tab').innerHTML = html;
+        }
+    </script>
+</body>
+</html>
