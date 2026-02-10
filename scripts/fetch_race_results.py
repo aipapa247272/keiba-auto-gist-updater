@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# fetch_race_results.py v9 - 払戻金全券種対応版
-# v8からの変更点:
-# - 複数の払戻テーブルを探索（中央競馬は2テーブルに分かれている）
-# - 全券種を確実に取得（単勝、複勝、枠連、馬連、馬単、ワイド、三連複、三連単）
+# fetch_race_results.py v10 - 払戻金テーブル修正版
+# v9からの変更点:
+# - 払戻テーブル探索ロジックを修正（if not payout_tables の問題を解決）
+# - 中央競馬は必ず2テーブルを探索
 
 
 def load_cancellation_info(ymd):
@@ -427,13 +427,14 @@ def fetch_single_race_result(race_id, ymd):
         # 払戻表を取得（複数テーブルに対応）
         payout_tables = []
         
-        # 地方競馬
-        local_table = soup.select_one('table.Payout_Detail_Table')
-        if local_table:
-            payout_tables.append(local_table)
-        
-        # 中央競馬（複数テーブルがある場合がある）
-        if not payout_tables:
+        # 競馬場タイプを判定
+        if race_type == 'local':
+            # 地方競馬
+            local_table = soup.select_one('table.Payout_Detail_Table')
+            if local_table:
+                payout_tables.append(local_table)
+        else:
+            # 中央競馬（必ず2テーブルを探索）
             central_tables = soup.select('table[summary="払い戻し"], table[summary="ワイド"]')
             if central_tables:
                 payout_tables.extend(central_tables)
@@ -582,3 +583,4 @@ if __name__ == '__main__':
     else:
         print(f"\n❌ 処理失敗")
         sys.exit(1)
+             
