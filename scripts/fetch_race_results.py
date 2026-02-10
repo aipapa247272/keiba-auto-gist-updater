@@ -411,13 +411,14 @@ def fetch_single_race_result(race_id, ymd):
                     raw_bet_type = th.get_text(strip=True)
                     bet_type = bet_type_map.get(raw_bet_type, raw_bet_type)
                     
-                    # 払戻金を取得（最後の td のみ）
+                    # 払戻金を取得（ポイント: 2つ目の td が金額）
                     all_td = row.select('td')
                     if len(all_td) < 2:
                         continue
                     
-                    # 最後の td が金額のセル
-                    payout_td = all_td[-1]
+                    # 2つ目の td が金額のセル
+                    # tdの構成: 1=馬番, 2=金額, 3=人気
+                    payout_td = all_td[1] if len(all_td) >= 2 else all_td[-1]
                     payout_text = payout_td.get_text(separator='\n', strip=True)
                     payout_values = []
                     
