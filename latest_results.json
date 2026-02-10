@@ -1,5 +1,5 @@
 {
-  "date": "2026/02/08",
+  "date": "2026/02/09",
   "total_races": 5,
   "hit_count": 0,
   "miss_count": 0,
@@ -17,7 +17,7 @@
       "race_name": "4歳以上1勝クラス",
       "distance": 1300,
       "track": "ダ",
-      "status": "雪のため",
+      "status": "結果取得不可",
       "predicted": "3-9-15",
       "investment": 1200,
       "return": 0,
@@ -30,7 +30,7 @@
       "race_name": "4歳以上2勝クラス",
       "distance": 1200,
       "track": "ダ",
-      "status": "雪のため",
+      "status": "結果取得不可",
       "predicted": "2-4-9",
       "investment": 1200,
       "return": 0,
@@ -76,5 +76,5 @@
       "profit": -7200
     }
   ],
-  "generated_at": "2026-02-10 12:21:00"
+  "generated_at": "2026-02-10 12:23:02"
 }
