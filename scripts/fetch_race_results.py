@@ -348,7 +348,7 @@ def fetch_single_race_result(race_id):
         sanrenpuku_result = '-'.join(sorted(top_3))
         print(f"  🎯 三連複: {sanrenpuku_result}")
         
-        # 払戻表を取得（v11: 複数テーブル対応）
+                # 払戻表を取得（v11: 複数テーブル対応）
         payout_tables = []
         
         # 地方競馬
@@ -407,8 +407,6 @@ def fetch_single_race_result(race_id):
                     payout_values = []
                     for td in payout_td:
                         payout_text = td.get_text(strip=True).replace(',', '').replace('円', '').replace('¥', '')
-                        # <br>を改行に変換
-                        payout_text = payout_text.replace('<br>', '\n').replace('<br/>', '\n')
                         # 数字のみ抽出
                         import re
                         numbers = re.findall(r'\d+', payout_text)
@@ -434,7 +432,7 @@ def fetch_single_race_result(race_id):
                             print(f"  💰 三連複払戻: ¥{final_payout:,}")
         else:
             print(f"  ⚠️ 払戻テーブルが見つかりません")
-        
+   
         # 天候・馬場状態を取得
         weather = ''
         track_condition = ''
