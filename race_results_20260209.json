@@ -27,20 +27,13 @@
         "15-6-7"
       ],
       "result_sanrenpuku": "15-6-7",
-      "payout_sanrenpuku": 6715,
+      "payout_sanrenpuku": 0,
       "hit": false,
       "investment": 1200,
       "return": 0,
       "profit": -1200,
       "payouts": {
-        "単勝": 790,
-        "複勝": 7156,
-        "枠連": 1810,
-        "馬連": 715,
-        "ワイド": 71567615,
-        "馬単": 715,
-        "三連複": 6715,
-        "三連単": 7156
+        "三連単": 121
       },
       "horse_weights": [
         {
@@ -77,20 +70,13 @@
         "13-14-15"
       ],
       "result_sanrenpuku": "13-14-15",
-      "payout_sanrenpuku": 131415,
+      "payout_sanrenpuku": 0,
       "hit": false,
       "investment": 1200,
       "return": 0,
       "profit": -1200,
       "payouts": {
-        "単勝": 3360,
-        "複勝": 141513,
-        "枠連": 860,
-        "馬連": 1415,
-        "ワイド": 141513141315,
-        "馬単": 1415,
-        "三連複": 131415,
-        "三連単": 141513
+        "三連単": 404
       },
       "horse_weights": [
         {
@@ -127,20 +113,14 @@
         "10-15-4"
       ],
       "result_sanrenpuku": "10-15-4",
-      "payout_sanrenpuku": 41015,
+      "payout_sanrenpuku": 105,
       "hit": false,
       "investment": 1200,
       "return": 0,
       "profit": -1200,
       "payouts": {
-        "単勝": 2180,
-        "複勝": 15410,
-        "枠連": 2200,
-        "馬連": 415,
-        "ワイド": 4151015410,
-        "馬単": 154,
-        "三連複": 41015,
-        "三連単": 15410
+        "三連複": 105,
+        "三連単": 715
       },
       "horse_weights": [
         {
@@ -177,21 +157,12 @@
         "11-4-6"
       ],
       "result_sanrenpuku": "11-4-6",
-      "payout_sanrenpuku": 4611,
+      "payout_sanrenpuku": 0,
       "hit": false,
       "investment": 1200,
       "return": 0,
       "profit": -1200,
-      "payouts": {
-        "単勝": 790,
-        "複勝": 1164,
-        "枠連": 1260,
-        "馬連": 611,
-        "ワイド": 61141146,
-        "馬単": 116,
-        "三連複": 4611,
-        "三連単": 1164
-      },
+      "payouts": {},
       "horse_weights": [
         {
           "rank": 1,
@@ -227,21 +198,12 @@
         "1-10-4"
       ],
       "result_sanrenpuku": "1-10-4",
-      "payout_sanrenpuku": 1410,
+      "payout_sanrenpuku": 0,
       "hit": false,
       "investment": 7200,
       "return": 0,
       "profit": -7200,
-      "payouts": {
-        "単勝": 280,
-        "複勝": 1410,
-        "枠連": 1990,
-        "馬連": 1930,
-        "ワイド": 14110410,
-        "馬単": 2630,
-        "三連複": 1410,
-        "三連単": 1410
-      },
+      "payouts": {},
       "horse_weights": [
         {
           "rank": 1,
