@@ -96,8 +96,9 @@ def fetch_race_results(ymd):
         print(f"[{i}/{len(selected)}] {venue} 第{str(race_num).zfill(2)}競走'{race_name}' ")
         
         betting_plan = race.get('betting_plan', {})
-        axis_horses = betting_plan.get('axis', [])
-        
+        axis_list = betting_plan.get('軸', betting_plan.get('axis', []))
+        axis_horses = [horse['馬番'] if isinstance(horse, dict) else horse for horse in axis_list]
+
         if not axis_horses:
             print("  ⚠️ 軸馬が指定されていません")
             continue
