@@ -105,7 +105,8 @@ def fetch_race_results(ymd):
         
         predicted = '-'.join(map(str, axis_horses))
         
-        investment = betting_plan.get('investment_amount', 0)
+        investment = race.get('investment', betting_plan.get('investment_amount', 0))
+
         total_investment += investment
         
         # 結果を取得
