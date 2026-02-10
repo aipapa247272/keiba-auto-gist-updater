@@ -1,14 +1,80 @@
 {
   "date": "2026/02/08",
-  "total_races": 0,
+  "total_races": 5,
   "hit_count": 0,
   "miss_count": 0,
-  "unavailable_count": 0,
+  "unavailable_count": 5,
   "total_investment": 0,
   "total_return": 0,
   "total_profit": 0,
-  "hit_rate": 0,
+  "hit_rate": 0.0,
   "recovery_rate": 0,
-  "races": [],
-  "generated_at": "2026-02-10 12:11:07"
+  "races": [
+    {
+      "race_id": "202605010412",
+      "venue": "東京",
+      "race_num": "",
+      "race_name": "4歳以上1勝クラス",
+      "distance": 1300,
+      "track": "ダ",
+      "status": "雪のため",
+      "predicted": "3-9-15",
+      "investment": 0,
+      "return": 0,
+      "profit": 0
+    },
+    {
+      "race_id": "202608020412",
+      "venue": "京都",
+      "race_num": "",
+      "race_name": "4歳以上2勝クラス",
+      "distance": 1200,
+      "track": "ダ",
+      "status": "雪のため",
+      "predicted": "2-4-9",
+      "investment": 0,
+      "return": 0,
+      "profit": 0
+    },
+    {
+      "race_id": "202610010609",
+      "venue": "小倉",
+      "race_num": "",
+      "race_name": "かささぎ賞",
+      "distance": 1200,
+      "track": "芝",
+      "status": "結果取得不可",
+      "predicted": "9-5-7",
+      "investment": 0,
+      "return": 0,
+      "profit": 0
+    },
+    {
+      "race_id": "202610010603",
+      "venue": "小倉",
+      "race_num": "",
+      "race_name": "4歳以上1勝クラス",
+      "distance": 1000,
+      "track": "ダ",
+      "status": "結果取得不可",
+      "predicted": "4-8-9",
+      "investment": 0,
+      "return": 0,
+      "profit": 0
+    },
+    {
+      "race_id": "202610010602",
+      "venue": "小倉",
+      "race_num": "",
+      "race_name": "3歳未勝利",
+      "distance": 1200,
+      "track": "芝",
+      "status": "結果取得不可",
+      "predicted": "2-10-3",
+      "investment": 0,
+      "return": 0,
+      "profit": 0
+    }
+  ],
+  "generated_at": "2026-02-10 12:16:02"
 }
