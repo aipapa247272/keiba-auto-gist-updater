@@ -13,7 +13,7 @@
     {
       "race_id": "202605010412",
       "venue": "東京",
-      "race_num": "",
+      "race_num": "04",
       "race_name": "4歳以上1勝クラス",
       "distance": 1300,
       "track": "ダ",
@@ -26,7 +26,7 @@
     {
       "race_id": "202608020412",
       "venue": "京都",
-      "race_num": "",
+      "race_num": "04",
       "race_name": "4歳以上2勝クラス",
       "distance": 1200,
       "track": "ダ",
@@ -39,7 +39,7 @@
     {
       "race_id": "202610010609",
       "venue": "小倉",
-      "race_num": "",
+      "race_num": "06",
       "race_name": "かささぎ賞",
       "distance": 1200,
       "track": "芝",
@@ -52,7 +52,7 @@
     {
       "race_id": "202610010603",
       "venue": "小倉",
-      "race_num": "",
+      "race_num": "06",
       "race_name": "4歳以上1勝クラス",
       "distance": 1000,
       "track": "ダ",
@@ -65,7 +65,7 @@
     {
       "race_id": "202610010602",
       "venue": "小倉",
-      "race_num": "",
+      "race_num": "06",
       "race_name": "3歳未勝利",
       "distance": 1200,
       "track": "芝",
@@ -76,5 +76,5 @@
       "profit": -7200
     }
   ],
-  "generated_at": "2026-02-10 12:23:02"
+  "generated_at": "2026-02-10 12:47:06"
 }
