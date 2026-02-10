@@ -165,21 +165,19 @@ def fetch_race_results(ymd):
     date_str = date_obj.strftime('%Y/%m/%d')
     
     output_data = {
-        'date': date_str,  # ★ 修正: YYYY/MM/DD 形式
+        'date': date_str,
         'ymd': ymd,
-        'generated_at': date_obj.strftime('%Y-%m-%d %H:%M:%S'),  # ★ 修正
-        'summary': {
-            'total_races': total_races,
-            'hit_count': hit_count,
-            'miss_count': miss_count,
-            'unavailable_count': unavailable_count,
-            'total_investment': total_investment,
-            'total_return': total_return,
-            'total_profit': total_profit,
-            'hit_rate': round(hit_rate, 1),
-            'recovery_rate': round(recovery_rate, 1)
-        },
-        'results': results
+        'generated_at': date_obj.strftime('%Y-%m-%d %H:%M:%S'),
+        'total_races': total_races,
+        'hit_count': hit_count,
+        'miss_count': miss_count,
+        'unavailable_count': unavailable_count,
+        'total_investment': total_investment,
+        'total_return': total_return,
+        'total_profit': total_profit,
+        'hit_rate': round(hit_rate, 1),
+        'recovery_rate': round(recovery_rate, 1),
+        'races': results
     }
     
     # 結果をファイルに保存
