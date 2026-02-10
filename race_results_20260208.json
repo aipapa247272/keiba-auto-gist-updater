@@ -4,11 +4,11 @@
   "hit_count": 0,
   "miss_count": 0,
   "unavailable_count": 5,
-  "total_investment": 0,
+  "total_investment": 12000,
   "total_return": 0,
-  "total_profit": 0,
+  "total_profit": -12000,
   "hit_rate": 0.0,
-  "recovery_rate": 0,
+  "recovery_rate": 0.0,
   "races": [
     {
       "race_id": "202605010412",
@@ -19,9 +19,9 @@
       "track": "ダ",
       "status": "雪のため",
       "predicted": "3-9-15",
-      "investment": 0,
+      "investment": 1200,
       "return": 0,
-      "profit": 0
+      "profit": -1200
     },
     {
       "race_id": "202608020412",
@@ -32,9 +32,9 @@
       "track": "ダ",
       "status": "雪のため",
       "predicted": "2-4-9",
-      "investment": 0,
+      "investment": 1200,
       "return": 0,
-      "profit": 0
+      "profit": -1200
     },
     {
       "race_id": "202610010609",
@@ -45,9 +45,9 @@
       "track": "芝",
       "status": "結果取得不可",
       "predicted": "9-5-7",
-      "investment": 0,
+      "investment": 1200,
       "return": 0,
-      "profit": 0
+      "profit": -1200
     },
     {
       "race_id": "202610010603",
@@ -58,9 +58,9 @@
       "track": "ダ",
       "status": "結果取得不可",
       "predicted": "4-8-9",
-      "investment": 0,
+      "investment": 1200,
       "return": 0,
-      "profit": 0
+      "profit": -1200
     },
     {
       "race_id": "202610010602",
@@ -71,10 +71,10 @@
       "track": "芝",
       "status": "結果取得不可",
       "predicted": "2-10-3",
-      "investment": 0,
+      "investment": 7200,
       "return": 0,
-      "profit": 0
+      "profit": -7200
     }
   ],
-  "generated_at": "2026-02-10 12:16:02"
+  "generated_at": "2026-02-10 12:21:00"
 }
