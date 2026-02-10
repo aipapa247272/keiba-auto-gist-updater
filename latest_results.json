@@ -2,18 +2,16 @@
   "date": "2026/02/09",
   "ymd": "20260209",
   "generated_at": "2026-02-09 00:00:00",
-  "summary": {
-    "total_races": 5,
-    "hit_count": 0,
-    "miss_count": 5,
-    "unavailable_count": 0,
-    "total_investment": 12000,
-    "total_return": 0,
-    "total_profit": -12000,
-    "hit_rate": 0.0,
-    "recovery_rate": 0.0
-  },
-  "results": [
+  "total_races": 5,
+  "hit_count": 0,
+  "miss_count": 5,
+  "unavailable_count": 0,
+  "total_investment": 12000,
+  "total_return": 0,
+  "total_profit": -12000,
+  "hit_rate": 0.0,
+  "recovery_rate": 0.0,
+  "races": [
     {
       "race_id": "202605010412",
       "venue": "東京",
