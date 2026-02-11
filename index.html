@@ -691,25 +691,19 @@
         }
 
         function getScore(horse) {
-            console.log('getScore called with horse:', horse);
-            
-            if (horse.des_score && typeof horse.des_score.total === 'number') {
-                console.log('Found des_score.total:', horse.des_score.total);
-                return Math.round(horse.des_score.total * 10) / 10;
+            if (horse.スコア !== undefined) {
+                return Math.round(horse.スコア * 10) / 10;
             }
-            
-            if (typeof horse.total_score === 'number') {
-                console.log('Found total_score:', horse.total_score);
-                return Math.round(horse.total_score * 10) / 10;
-            }
-            
             if (typeof horse.score === 'number') {
-                console.log('Found score:', horse.score);
                 return Math.round(horse.score * 10) / 10;
             }
-            
-            console.warn('No score found for horse:', horse);
             return 0;
+        }
+
+        function extractRaceNumber(raceId) {
+            if (!raceId || typeof raceId !== 'string') return '-';
+            const match = raceId.match(/\d{2}(\d{2})$/);
+            return match ? match[1] : '-';
         }
 
         function formatDate(ymd) {
@@ -796,43 +790,43 @@
             `;
 
             races.forEach(race => {
-                const horses = race.horses || [];
+                const axisHorses = race.betting_plan?.軸 || [];
+                const raceNum = extractRaceNumber(race.race_id);
                 const rankSymbols = ['◎', '○', '▲'];
                 
                 html += `
                     <div class="race-card">
                         <div class="race-header">
-                            <div class="race-title">${race.競馬場 || '-'} ${race.レース番号 || '-'}R ${race.レース名 || '-'}</div>
-                            <div class="race-info">${race.トラック || '-'}${race.距離 || '-'}m | 発走 ${race.発走時刻 || '-'}</div>
-                            <span class="turbulence-badge ${race.波乱度 || '中'}">${race.波乱度 || '中'}</span>
+                            <div class="race-title">${race.venue || '-'} ${raceNum}R ${race.race_name || '-'}</div>
+                            <div class="race-info">${race.track || '-'}${race.distance || '-'}m | 発走 ${race.start_time || '-'}</div>
+                            <span class="turbulence-badge ${race.turbulence || '中'}">${race.turbulence || '中'}</span>
                         </div>
                 `;
 
-                horses.slice(0, 3).forEach((horse, index) => {
+                axisHorses.slice(0, 3).forEach((horse, index) => {
                     const score = getScore(horse);
-                    console.log(`Horse ${horse.馬名}: score = ${score}`);
                     
                     html += `
                         <div class="horse-card">
                             <div class="rank-badge">${rankSymbols[index]}</div>
                             <div class="horse-info">
                                 <div class="horse-name">${horse.馬名 || '-'}</div>
-                                <div class="horse-details">${horse.馬番 || '-'}番 | 枠${horse.枠番 || '-'} | ${horse.騎手名 || '-'}</div>
+                                <div class="horse-details">${horse.馬番 || '-'}番 | ${horse.評価 || '-'}</div>
                             </div>
                             <div class="horse-score">${score.toFixed(1)}/100</div>
                         </div>
                     `;
                 });
 
-                const axisHorses = horses.slice(0, 3).map(h => `${h.馬番}${h.馬名}`).join('・');
+                const axisNumbers = axisHorses.slice(0, 3).map(h => `${h.馬番}番 ${h.馬名}`).join('・');
                 
                 html += `
                         <div class="betting-section">
                             <div class="betting-title">💰 買い目</div>
-                            <div class="betting-method">📋 三連複フォーメーション（軸3頭BOX）</div>
-                            <div class="betting-investment">投資額: ¥${(race.投資額 || 2400).toLocaleString()}</div>
+                            <div class="betting-method">📋 ${race.betting_plan?.買い目タイプ || '三連複フォーメーション'}</div>
+                            <div class="betting-investment">投資額: ¥${(race.investment || 1200).toLocaleString()}</div>
                             <div class="betting-combinations">
-                                <div class="combination">${axisHorses}</div>
+                                <div class="combination">${axisNumbers}</div>
                             </div>
                         </div>
                     </div>
