@@ -326,13 +326,22 @@ def main():
     all_race_list = []
     
     if is_weekend:
-        # 土日祝：JRAのみ
-        print("\n🏇 土日祝モード: JRAのみ取得")
+        # 土日祝：JRAを優先、なければ地方も取得
+        print("\n🏇 土日祝モード: JRAを優先、なければ地方も取得")
         jra_races_by_jyo, jra_race_ids, jra_race_list = fetch_jra_races(ymd)
         
         all_races_by_jyo.update(jra_races_by_jyo)
         all_race_ids.extend(jra_race_ids)
         all_race_list.extend(jra_race_list)
+        
+        # JRAがない場合は地方も取得
+        if not jra_race_ids:
+            print("⚠️ JRAが開催されていないため、地方競馬も取得")
+            nar_races_by_jyo, nar_race_ids, nar_race_list = fetch_nar_races(ymd)
+            
+            all_races_by_jyo.update(nar_races_by_jyo)
+            all_race_ids.extend(nar_race_ids)
+            all_race_list.extend(nar_race_list)
     else:
         # 平日：中央→地方の順
         print("\n🏇 平日モード: 中央→地方の順で取得")
