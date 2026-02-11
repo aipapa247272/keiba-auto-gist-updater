@@ -3,6 +3,12 @@ name: Daily Select
 
 on:
   workflow_dispatch:
+    inputs:
+      date:
+        description: '対象日付 (YYYYMMDD形式、空欄=今日)'
+        required: false
+        default: ''
+        type: string
 
   schedule:
     - cron: '0 23 * * *'  # UTC 23:00 = JST 08:00
@@ -29,7 +35,14 @@ jobs:
       - name: Get date
         id: get_ymd
         run: |
-          ymd=$(TZ=Asia/Tokyo date +%Y%m%d)
+          # 手動実行時に日付が指定されていればそれを使用、なければ今日の日付
+          if [ -n "${{ github.event.inputs.date }}" ]; then
+            ymd="${{ github.event.inputs.date }}"
+            echo "📅 指定された日付: ${ymd}"
+          else
+            ymd=$(TZ=Asia/Tokyo date +%Y%m%d)
+            echo "📅 自動取得日付: ${ymd}"
+          fi
           echo "ymd=${ymd}" >> $GITHUB_OUTPUT
           echo "📅 対象日付: ${ymd}"
       
