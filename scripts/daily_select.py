@@ -127,29 +127,45 @@ def validate_race_id(race_id: str, target_ymd: str) -> bool:
     """
     race_idが指定日付のレースか確認
     
-    race_idの最初の8桁が開催回+日目（例: 20260501 = 1回東京3〜4日目）
-    実際の日付と照合する必要がある
+    JRA race_id: YYYY + 場コード + 開催回 + 日目 + RR
+    NAR race_id: YYYY + 場コード + MM + DD + RR
     
-    簡易版: race_idの前8桁が target_ymd の前後3日以内なら有効とする
+    NARの場合、位置6:8が月、位置8:10が日
     """
+    from datetime import datetime
+    
+    NAR_VENUE_MAP = {
+        '30': '門別', '35': '盛岡', '36': '水沢', '42': '浦和', '43': '船橋',
+        '44': '大井', '45': '川崎', '46': '金沢', '47': '笠松', '48': '名古屋',
+        '50': '園田', '51': '姫路', '54': '高知', '55': '佐賀', '65': '帯広ば'
+    }
+    
     try:
-        # race_idの日付部分を取得（開催回+競馬場+日目の情報）
-        # 例: 202605010312 → 20260501 (開催情報)
-        
-        # 簡易的に、race_idが明らかに未来（target_ymdより7日以上先）でないか確認
-        race_date_part = race_id[:8]
+        venue_code = race_id[4:6]
         target_date = datetime.strptime(target_ymd, "%Y%m%d")
         race_year = int(race_id[:4])
-        race_month = int(race_id[4:6])
         
-        # 年月が一致するか確認
+        # 年が一致するか確認
         if abs(race_year - target_date.year) > 0:
             return False
         
-        if abs(race_month - target_date.month) > 1:
-            return False
+        # NARの場合、位置6:8が月、位置8:10が日
+        if venue_code in NAR_VENUE_MAP:
+            race_month = int(race_id[6:8])
+            race_day = int(race_id[8:10])
+            
+            # 月が一致するか確認
+            if abs(race_month - target_date.month) > 1:
+                return False
+            
+            # 日が一致するか確認
+            if abs(race_day - target_date.day) > 7:
+                return False
+        else:
+            # JRAの場合、位置4:6が場コード
+            # 簡易的に年が一致すればOK
+            pass
         
-        # 一致していれば有効
         return True
         
     except Exception as e:
@@ -241,8 +257,18 @@ def fetch_nar_races(ymd: str) -> tuple:
     """
     url = f"https://nar.netkeiba.com/top/race_list_sub.html?kaisai_date={ymd}"
     
+    # NAR は Referer が必要
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        'Referer': 'https://nar.netkeiba.com/top/race_list.html'
+    }
+    
     try:
-        html = http_get(url)
+        print(f"📡 NAR fetch_url: {url}")
+        r = requests.get(url, headers=headers, timeout=20)
+        r.raise_for_status()
+        html = r.text
+        print(f"📊 NAR status: {r.status_code}, len: {len(html)}")
     except Exception as e:
         print(f"❌ NAR fetch failed: {e}")
         return {}, [], []
