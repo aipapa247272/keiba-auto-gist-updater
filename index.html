@@ -278,7 +278,6 @@
         .turbulence-badge.中 { background: rgba(255,193,7,0.2); color: #ffd54f; }
         .turbulence-badge.高 { background: rgba(244,67,54,0.2); color: #e57373; }
 
-        /* 🔥 修正: メイン3頭の表示形式変更 */
         .horse-card {
             background: rgba(255,255,255,0.05);
             border-radius: 8px;
@@ -299,7 +298,6 @@
             flex: 1;
         }
 
-        /* 🔥 修正: 馬番:馬名を1行表示 */
         .horse-name {
             font-size: 15px;
             font-weight: 600;
@@ -307,14 +305,12 @@
             margin-bottom: 5px;
         }
 
-        /* 🔥 修正: DESスコアを下段に移動 */
         .horse-score {
             font-size: 16px;
             font-weight: 700;
             color: #4fc3f7;
         }
 
-        /* 🔥 新規追加: 穴候補セクション */
         .dark-horses-section {
             background: rgba(255,255,255,0.03);
             border-radius: 8px;
@@ -387,156 +383,6 @@
             color: #fff;
         }
 
-        .result-card {
-            background: rgba(255,255,255,0.08);
-            border-radius: 12px;
-            padding: 18px;
-            margin-bottom: 15px;
-        }
-
-        .result-badge {
-            display: inline-block;
-            padding: 7px 16px;
-            border-radius: 15px;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-
-        .result-badge.hit { background: rgba(76,175,80,0.2); color: #81c784; }
-        .result-badge.miss { background: rgba(244,67,54,0.2); color: #e57373; }
-        .result-badge.unavailable { background: rgba(158,158,158,0.2); color: #bdbdbd; }
-        .result-badge.cancelled { background: rgba(255,193,7,0.2); color: #ffd54f; }
-
-        .result-details {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
-            margin-top: 12px;
-        }
-
-        .result-item {
-            text-align: center;
-            padding: 14px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 8px;
-        }
-
-        .result-label {
-            font-size: 12px;
-            color: #b0c4de;
-            margin-bottom: 6px;
-        }
-
-        .result-value {
-            font-size: 18px;
-            font-weight: 700;
-            color: #fff;
-        }
-
-        .result-value.profit { color: #81c784; }
-        .result-value.loss { color: #e57373; }
-
-        .weather-section {
-            background: rgba(33,150,243,0.1);
-            border-radius: 8px;
-            padding: 12px;
-            margin: 12px 0;
-        }
-
-        .weather-title {
-            font-size: 12px;
-            color: #4fc3f7;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .weather-info {
-            font-size: 13px;
-            color: #b0c4de;
-        }
-
-        .payout-section {
-            background: rgba(255,193,7,0.1);
-            border-radius: 8px;
-            padding: 12px;
-            margin: 12px 0;
-        }
-
-        .payout-title {
-            font-size: 12px;
-            color: #ffd54f;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .payout-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-        }
-
-        .payout-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 6px;
-            font-size: 12px;
-        }
-
-        .payout-type {
-            color: #b0c4de;
-        }
-
-        .payout-amount {
-            color: #fff;
-            font-weight: 600;
-        }
-
-        .weight-section {
-            background: rgba(156,39,176,0.1);
-            border-radius: 8px;
-            padding: 12px;
-            margin: 12px 0;
-        }
-
-        .weight-title {
-            font-size: 12px;
-            color: #ce93d8;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .weight-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .weight-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 6px;
-            font-size: 12px;
-        }
-
-        .weight-rank {
-            color: #ffd54f;
-            font-weight: 600;
-        }
-
-        .weight-horse {
-            color: #b0c4de;
-        }
-
-        .weight-value {
-            color: #fff;
-            font-weight: 600;
-        }
-
         .loading {
             text-align: center;
             padding: 60px 20px;
@@ -572,17 +418,6 @@
             margin: 20px 0;
             font-size: 14px;
             line-height: 1.6;
-        }
-
-        .success-message {
-            background: rgba(76,175,80,0.15);
-            border: 1px solid rgba(76,175,80,0.3);
-            color: #81c784;
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 13px;
         }
     </style>
 </head>
@@ -635,7 +470,6 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             loadPredictions();
-            loadResults();
         });
 
         function switchTab(tabName) {
@@ -689,45 +523,10 @@
             }
         }
 
-        async function loadResults() {
-            try {
-                console.log('Loading results...');
-                
-                document.getElementById('results-tab').innerHTML = `
-                    <div class="loading">
-                        <div class="loading-spinner"></div>
-                        <div class="loading-text">結果データを更新中...</div>
-                    </div>
-                `;
-                
-                const url = `https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/latest_results.json?t=${Date.now()}`;
-                const response = await fetch(url, { cache: 'no-cache' });
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                resultsData = await response.json();
-                console.log('Results data:', resultsData);
-                renderResults(resultsData);
-            } catch (error) {
-                console.error('結果データ取得エラー:', error);
-                document.getElementById('results-tab').innerHTML = `
-                    <div class="error-message">
-                        ❌ 結果データの取得に失敗しました<br>
-                        エラー: ${error.message}
-                        <button class="refresh-btn" onclick="loadResults()" style="margin-top: 15px; display: block; margin-left: auto; margin-right: auto;">
-                            🔄 再試行
-                        </button>
-                    </div>
-                `;
-            }
-        }
-
-        function getScore(horse) {
-            if (horse.スコア !== undefined) {
-                return Math.round(horse.スコア * 10) / 10;
-            }
-            if (typeof horse.score === 'number') {
-                return Math.round(horse.score * 10) / 10;
-            }
-            return 0;
+        function formatDate(ymd) {
+            if (!ymd) return '-';
+            const str = String(ymd);
+            return str.replace(/(\d{4})(\d{2})(\d{2})/, '$1/$2/$3');
         }
 
         function extractRaceNumber(raceId) {
@@ -736,20 +535,16 @@
             return match ? match[1] : '-';
         }
 
-        function formatDate(ymd) {
-            if (!ymd) return '-';
-            return ymd.replace(/(\d{4})(\d{2})(\d{2})/, '$1/$2/$3');
-        }
-
         function renderPredictions(data) {
-            const races = data.selected_predictions || data.predictions || [];
+            const races = data.selected_predictions || [];
             const summary = data.summary || {};
-            const turbulence = summary.turbulence || summary.波乱度別内訳 || {};
+            const turbulence = summary.turbulence || {};
 
-            const selectedRacesCount = races.length;
-            const totalRacesCount = data.total_races || summary.total_races || summary.総レース数 || 0;
-            const totalInvestment = summary.total_investment || summary.投資額合計 || 0;
-            const updateTime = data.generated_at || data.timestamp || new Date().toLocaleString('ja-JP');
+            const selectedRacesCount = data.selected_races || races.length;
+            const totalRacesCount = data.total_races || 0;
+            const totalInvestment = summary.total_investment || 0;
+            const updateTime = data.generated_at || new Date().toLocaleString('ja-JP');
+            const targetDate = data.ymd || '';
 
             let html = `
                 <div class="section-header">
@@ -765,7 +560,7 @@
                 <div class="summary-grid">
                     <div class="summary-card">
                         <div class="summary-label">対象日</div>
-                        <div class="summary-value">${formatDate(data.target_date || data.date)}</div>
+                        <div class="summary-value">${formatDate(targetDate)}</div>
                     </div>
                     <div class="summary-card">
                         <div class="summary-label">AI選定レース</div>
@@ -815,18 +610,19 @@
                 </div>
             `;
 
-            // レース詳細を生成
             races.forEach(race => {
-                const raceNum = extractRaceNumber(race.race_id || race.レースID);
-                const venue = race.競馬場 || race.venue || '-';
-                const raceName = race.レース名 || race.race_name || `${raceNum}R`;
-                const distance = race.距離 || race.distance || '-';
-                const startTime = race.発走時刻 || race.start_time || '-';
-                const turbLevel = race.波乱度 || race.turbulence || '-';
-                const investment = race.投資額 || race.investment || 0;
+                const raceNum = extractRaceNumber(race.race_id);
+                const venue = race.venue || '-';
+                const raceName = race.race_name || `${raceNum}R`;
+                const distance = race.distance ? `${race.track}${race.distance}m` : '-';
+                const startTime = race.start_time || '-';
+                const turbLevel = race.turbulence || '-';
+                const investment = race.investment || 0;
 
-                const topHorses = race.予想印 || race.top_horses || [];
-                const darkHorses = race.穴候補 || race.dark_horses || [];
+                // 🔥 修正: betting_plan.軸 からメイン3頭を取得
+                const topHorses = race.betting_plan?.軸 || [];
+                // 🔥 修正: betting_plan.相手 から穴候補を取得
+                const darkHorses = race.betting_plan?.相手 || [];
                 
                 html += `
                     <div class="race-card">
@@ -839,12 +635,12 @@
                         </div>
                 `;
 
-                // 🔥 修正: メイン3頭の表示（馬番:馬名を1行、スコアを下段）
-                topHorses.slice(0, 3).forEach((horse, idx) => {
-                    const rank = ['◎', '○', '▲'][idx];
-                    const score = getScore(horse);
-                    const horseNum = horse.馬番 || horse.horse_number || '-';
-                    const horseName = horse.馬名 || horse.horse_name || '-';
+                // 🔥 メイン3頭の表示（馬番:馬名、スコアは下段）
+                topHorses.slice(0, 3).forEach(horse => {
+                    const rank = horse.評価 || '-';
+                    const score = Math.round((horse.スコア || 0) * 10) / 10;
+                    const horseNum = horse.馬番 || '-';
+                    const horseName = horse.馬名 || '-';
                     
                     html += `
                         <div class="horse-card">
@@ -857,7 +653,7 @@
                     `;
                 });
 
-                // 🔥 新規追加: 穴候補セクション（縦並びリスト）
+                // 🔥 穴候補セクション（縦並びリスト、馬番:馬名のみ）
                 if (darkHorses && darkHorses.length > 0) {
                     html += `
                         <div class="dark-horses-section">
@@ -866,8 +662,8 @@
                     `;
                     
                     darkHorses.forEach(horse => {
-                        const horseNum = horse.馬番 || horse.horse_number || '-';
-                        const horseName = horse.馬名 || horse.horse_name || '-';
+                        const horseNum = horse.馬番 || '-';
+                        const horseName = horse.馬名 || '-';
                         html += `<div class="dark-horse-item">${horseNum}番:${horseName}</div>`;
                     });
                     
@@ -878,37 +674,36 @@
                 }
 
                 // 買い目提案
-                const betting = race.買い目 || race.betting || {};
-                const method = betting.券種 || betting.type || '三連複フォーメーション';
-                const axis = betting.軸 || betting.axis || [];
-                const partners = betting.相手 || betting.partners || [];
+                const bettingType = race.betting_plan?.買い目タイプ || '三連複フォーメーション';
+                const axisNums = topHorses.map(h => h.馬番).filter(n => n);
+                const partnerNums = darkHorses.map(h => h.馬番).filter(n => n);
                 
                 html += `
                     <div class="betting-section">
                         <div class="betting-title">💰 買い目提案</div>
-                        <div class="betting-method">📝 ${method}</div>
+                        <div class="betting-method">📝 ${bettingType}</div>
                         <div class="betting-investment">投資額: ¥${investment.toLocaleString()}</div>
                 `;
 
-                if (axis.length > 0) {
+                if (axisNums.length > 0) {
                     html += `
                         <div style="margin-bottom: 8px;">
                             <span style="color: #4fc3f7; font-size: 12px;">軸:</span>
                             <div class="betting-combinations">
                     `;
-                    axis.forEach(num => {
+                    axisNums.forEach(num => {
                         html += `<div class="combination">${num}番</div>`;
                     });
                     html += `</div></div>`;
                 }
 
-                if (partners.length > 0) {
+                if (partnerNums.length > 0) {
                     html += `
                         <div>
                             <span style="color: #4fc3f7; font-size: 12px;">相手:</span>
                             <div class="betting-combinations">
                     `;
-                    partners.forEach(num => {
+                    partnerNums.forEach(num => {
                         html += `<div class="combination">${num}番</div>`;
                     });
                     html += `</div></div>`;
@@ -921,103 +716,6 @@
             });
 
             document.getElementById('predictions-tab').innerHTML = html;
-        }
-
-        function renderResults(data) {
-            const results = data.results || [];
-            const summary = data.summary || {};
-
-            let html = `
-                <div class="section-header">
-                    <div class="section-title">🎯 昨日の結果</div>
-                    <button class="refresh-btn" onclick="loadResults()">🔄 更新</button>
-                </div>
-
-                <div class="update-info">
-                    <div class="update-label">📅 対象日</div>
-                    <div class="update-time">${formatDate(data.target_date || data.date)}</div>
-                </div>
-
-                <div class="summary-grid">
-                    <div class="summary-card">
-                        <div class="summary-label">対象レース</div>
-                        <div class="summary-value">${summary.total_races || 0}R</div>
-                    </div>
-                    <div class="summary-card">
-                        <div class="summary-label">的中数</div>
-                        <div class="summary-value">${summary.hit_count || 0}R</div>
-                    </div>
-                    <div class="summary-card">
-                        <div class="summary-label">的中率</div>
-                        <div class="summary-value">${summary.hit_rate || 0}%</div>
-                    </div>
-                    <div class="summary-card">
-                        <div class="summary-label">収支</div>
-                        <div class="summary-value ${(summary.profit || 0) >= 0 ? 'profit' : 'loss'}">
-                            ${(summary.profit || 0) >= 0 ? '+' : ''}¥${(summary.profit || 0).toLocaleString()}
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            if (results.length === 0) {
-                html += `
-                    <div class="error-message" style="background: rgba(158,158,158,0.15); border-color: rgba(158,158,158,0.3); color: #bdbdbd;">
-                        📭 昨日の結果データがありません
-                    </div>
-                `;
-            } else {
-                results.forEach(result => {
-                    const status = result.status || result.結果 || 'unavailable';
-                    const statusText = {
-                        'hit': '🎯 的中',
-                        'miss': '❌ 不的中',
-                        'cancelled': '⚠️ 中止',
-                        'unavailable': '📭 データなし'
-                    }[status] || '📭 不明';
-
-                    const raceNum = extractRaceNumber(result.race_id);
-                    const venue = result.競馬場 || '-';
-                    const raceName = result.レース名 || `${raceNum}R`;
-                    
-                    html += `
-                        <div class="result-card">
-                            <div class="race-header">
-                                <div class="race-title">${venue} ${raceNum}R ${raceName}</div>
-                            </div>
-                            <div class="result-badge ${status}">${statusText}</div>
-                    `;
-
-                    if (status === 'hit') {
-                        const payout = result.払戻金 || result.payout || 0;
-                        const investment = result.投資額 || result.investment || 0;
-                        const profit = payout - investment;
-                        
-                        html += `
-                            <div class="result-details">
-                                <div class="result-item">
-                                    <div class="result-label">投資額</div>
-                                    <div class="result-value">¥${investment.toLocaleString()}</div>
-                                </div>
-                                <div class="result-item">
-                                    <div class="result-label">払戻金</div>
-                                    <div class="result-value profit">¥${payout.toLocaleString()}</div>
-                                </div>
-                                <div class="result-item">
-                                    <div class="result-label">収支</div>
-                                    <div class="result-value ${profit >= 0 ? 'profit' : 'loss'}">
-                                        ${profit >= 0 ? '+' : ''}¥${profit.toLocaleString()}
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    }
-
-                    html += `</div>`;
-                });
-            }
-
-            document.getElementById('results-tab').innerHTML = html;
         }
     </script>
 </body>
