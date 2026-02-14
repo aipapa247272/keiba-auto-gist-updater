@@ -4,8 +4,8 @@
   "generated_at": "2026-02-14 00:00:00",
   "total_races": 5,
   "hit_count": 0,
-  "miss_count": 0,
-  "unavailable_count": 5,
+  "miss_count": 5,
+  "unavailable_count": 0,
   "total_investment": 12000,
   "total_return": 0,
   "total_profit": -12000,
@@ -19,19 +19,48 @@
       "race_name": "4歳以上1勝クラス",
       "distance": 1200,
       "track": "芝",
-      "status": "結果取得不可",
+      "status": "不的中",
       "predicted": [
         "1-12-3"
       ],
-      "actual": [],
+      "actual": [
+        "11-17-18"
+      ],
+      "result_sanrenpuku": "11-17-18",
+      "payout_sanrenpuku": 139470,
       "hit": false,
       "investment": 1600,
       "return": 0,
       "profit": -1600,
-      "payouts": {},
-      "horse_weights": [],
-      "weather": "",
-      "track_condition": ""
+      "payouts": {
+        "単勝": 1420,
+        "複勝": 400,
+        "枠連": 780,
+        "馬連": 21240,
+        "ワイド": 3620,
+        "馬単": 33030,
+        "三連複": 139470,
+        "三連単": 897910
+      },
+      "horse_weights": [
+        {
+          "rank": 1,
+          "horse_number": "11",
+          "weight": "448(-2)"
+        },
+        {
+          "rank": 2,
+          "horse_number": "17",
+          "weight": "452(-9)"
+        },
+        {
+          "rank": 3,
+          "horse_number": "18",
+          "weight": "458(+2)"
+        }
+      ],
+      "weather": "曇",
+      "track_condition": "良"
     },
     {
       "race_id": "202605010508",
@@ -40,19 +69,48 @@
       "race_name": "4歳以上2勝クラス",
       "distance": 1600,
       "track": "ダ",
-      "status": "結果取得不可",
+      "status": "不的中",
       "predicted": [
         "2-5-6"
       ],
-      "actual": [],
+      "actual": [
+        "11-2-8"
+      ],
+      "result_sanrenpuku": "11-2-8",
+      "payout_sanrenpuku": 10560,
       "hit": false,
       "investment": 1600,
       "return": 0,
       "profit": -1600,
-      "payouts": {},
-      "horse_weights": [],
-      "weather": "",
-      "track_condition": ""
+      "payouts": {
+        "単勝": 2300,
+        "複勝": 120,
+        "枠連": 14570,
+        "馬連": 21760,
+        "ワイド": 4850,
+        "馬単": 49630,
+        "三連複": 10560,
+        "三連単": 158250
+      },
+      "horse_weights": [
+        {
+          "rank": 1,
+          "horse_number": "2",
+          "weight": "516(+8)"
+        },
+        {
+          "rank": 2,
+          "horse_number": "8",
+          "weight": "486(+2)"
+        },
+        {
+          "rank": 3,
+          "horse_number": "11",
+          "weight": "482(+2)"
+        }
+      ],
+      "weather": "晴",
+      "track_condition": "良"
     },
     {
       "race_id": "202610010702",
@@ -61,19 +119,48 @@
       "race_name": "3歳未勝利",
       "distance": 1200,
       "track": "芝",
-      "status": "結果取得不可",
+      "status": "不的中",
       "predicted": [
         "12-8-9"
       ],
-      "actual": [],
+      "actual": [
+        "1-18-2"
+      ],
+      "result_sanrenpuku": "1-18-2",
+      "payout_sanrenpuku": 5480,
       "hit": false,
       "investment": 3600,
       "return": 0,
       "profit": -3600,
-      "payouts": {},
-      "horse_weights": [],
-      "weather": "",
-      "track_condition": ""
+      "payouts": {
+        "単勝": 240,
+        "複勝": 140,
+        "枠連": 450,
+        "馬連": 1200,
+        "ワイド": 550,
+        "馬単": 1660,
+        "三連複": 5480,
+        "三連単": 14380
+      },
+      "horse_weights": [
+        {
+          "rank": 1,
+          "horse_number": "1",
+          "weight": "536(+6)"
+        },
+        {
+          "rank": 2,
+          "horse_number": "18",
+          "weight": "470(+6)"
+        },
+        {
+          "rank": 3,
+          "horse_number": "2",
+          "weight": "468(-2)"
+        }
+      ],
+      "weather": "晴",
+      "track_condition": "良"
     },
     {
       "race_id": "202610010705",
@@ -82,19 +169,48 @@
       "race_name": "3歳未勝利",
       "distance": 2000,
       "track": "芝",
-      "status": "結果取得不可",
+      "status": "不的中",
       "predicted": [
         "1-5-7"
       ],
-      "actual": [],
+      "actual": [
+        "14-5-6"
+      ],
+      "result_sanrenpuku": "14-5-6",
+      "payout_sanrenpuku": 9130,
       "hit": false,
       "investment": 3600,
       "return": 0,
       "profit": -3600,
-      "payouts": {},
-      "horse_weights": [],
-      "weather": "",
-      "track_condition": ""
+      "payouts": {
+        "単勝": 540,
+        "複勝": 210,
+        "枠連": 780,
+        "馬連": 4790,
+        "ワイド": 1450,
+        "馬単": 8420,
+        "三連複": 9130,
+        "三連単": 54590
+      },
+      "horse_weights": [
+        {
+          "rank": 1,
+          "horse_number": "6",
+          "weight": "436(-4)"
+        },
+        {
+          "rank": 2,
+          "horse_number": "14",
+          "weight": "462(0)"
+        },
+        {
+          "rank": 3,
+          "horse_number": "5",
+          "weight": "476(-4)"
+        }
+      ],
+      "weather": "曇",
+      "track_condition": "良"
     },
     {
       "race_id": "202610010710",
@@ -103,19 +219,48 @@
       "race_name": "伊万里特別",
       "distance": 1000,
       "track": "ダ",
-      "status": "結果取得不可",
+      "status": "不的中",
       "predicted": [
         "1-12-9"
       ],
-      "actual": [],
+      "actual": [
+        "13-2-4"
+      ],
+      "result_sanrenpuku": "13-2-4",
+      "payout_sanrenpuku": 9750,
       "hit": false,
       "investment": 1600,
       "return": 0,
       "profit": -1600,
-      "payouts": {},
-      "horse_weights": [],
-      "weather": "",
-      "track_condition": ""
+      "payouts": {
+        "単勝": 760,
+        "複勝": 230,
+        "枠連": 2520,
+        "馬連": 3420,
+        "ワイド": 1180,
+        "馬単": 6710,
+        "三連複": 9750,
+        "三連単": 53660
+      },
+      "horse_weights": [
+        {
+          "rank": 1,
+          "horse_number": "2",
+          "weight": "514(+2)"
+        },
+        {
+          "rank": 2,
+          "horse_number": "4",
+          "weight": "540(0)"
+        },
+        {
+          "rank": 3,
+          "horse_number": "13",
+          "weight": "444(-8)"
+        }
+      ],
+      "weather": "曇",
+      "track_condition": "良"
     }
   ]
 }
