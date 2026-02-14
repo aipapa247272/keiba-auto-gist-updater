@@ -1,6 +1,6 @@
 {
   "ymd": "20260214",
-  "generated_at": "2026-02-13 16:12:43",
+  "generated_at": "2026-02-14 15:00:09",
   "total_races": 36,
   "selected_races": 5,
   "skipped_races": 31,
@@ -100,7 +100,7 @@
       "venue": "東京",
       "distance": 1600,
       "track": "ダ",
-      "start_time": "14:00",
+      "start_time": "14:01",
       "turbulence": "中",
       "evaluation_score": 108.66666666666667,
       "top_3_avg": 78.66666666666667,
