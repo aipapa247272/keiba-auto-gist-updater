@@ -181,6 +181,9 @@
             color: #4fc3f7;
         }
 
+        .summary-value.profit { color: #81c784; }
+        .summary-value.loss { color: #e57373; }
+
         .turbulence-grid {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
@@ -383,6 +386,54 @@
             color: #fff;
         }
 
+        .result-card {
+            background: rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 15px;
+        }
+
+        .result-badge {
+            display: inline-block;
+            padding: 7px 16px;
+            border-radius: 15px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .result-badge.hit { background: rgba(76,175,80,0.2); color: #81c784; }
+        .result-badge.miss { background: rgba(244,67,54,0.2); color: #e57373; }
+
+        .result-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .result-item {
+            text-align: center;
+            padding: 14px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+        }
+
+        .result-label {
+            font-size: 12px;
+            color: #b0c4de;
+            margin-bottom: 6px;
+        }
+
+        .result-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .result-value.profit { color: #81c784; }
+        .result-value.loss { color: #e57373; }
+
         .loading {
             text-align: center;
             padding: 60px 20px;
@@ -470,6 +521,7 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             loadPredictions();
+            loadResults();
         });
 
         function switchTab(tabName) {
@@ -516,6 +568,37 @@
                         ❌ 予想データの取得に失敗しました<br>
                         エラー: ${error.message}
                         <button class="refresh-btn" onclick="loadPredictions()" style="margin-top: 15px; display: block; margin-left: auto; margin-right: auto;">
+                            🔄 再試行
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        async function loadResults() {
+            try {
+                console.log('Loading results...');
+                
+                document.getElementById('results-tab').innerHTML = `
+                    <div class="loading">
+                        <div class="loading-spinner"></div>
+                        <div class="loading-text">結果データを更新中...</div>
+                    </div>
+                `;
+                
+                const url = `https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/latest_results.json?t=${Date.now()}`;
+                const response = await fetch(url, { cache: 'no-cache' });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                resultsData = await response.json();
+                console.log('Results data:', resultsData);
+                renderResults(resultsData);
+            } catch (error) {
+                console.error('結果データ取得エラー:', error);
+                document.getElementById('results-tab').innerHTML = `
+                    <div class="error-message">
+                        ❌ 結果データの取得に失敗しました<br>
+                        エラー: ${error.message}
+                        <button class="refresh-btn" onclick="loadResults()" style="margin-top: 15px; display: block; margin-left: auto; margin-right: auto;">
                             🔄 再試行
                         </button>
                     </div>
@@ -619,9 +702,7 @@
                 const turbLevel = race.turbulence || '-';
                 const investment = race.investment || 0;
 
-                // 🔥 修正: betting_plan.軸 からメイン3頭を取得
                 const topHorses = race.betting_plan?.軸 || [];
-                // 🔥 修正: betting_plan.相手 から穴候補を取得
                 const darkHorses = race.betting_plan?.相手 || [];
                 
                 html += `
@@ -635,7 +716,6 @@
                         </div>
                 `;
 
-                // 🔥 メイン3頭の表示（馬番:馬名、スコアは下段）
                 topHorses.slice(0, 3).forEach(horse => {
                     const rank = horse.評価 || '-';
                     const score = Math.round((horse.スコア || 0) * 10) / 10;
@@ -653,7 +733,6 @@
                     `;
                 });
 
-                // 🔥 穴候補セクション（縦並びリスト、馬番:馬名のみ）
                 if (darkHorses && darkHorses.length > 0) {
                     html += `
                         <div class="dark-horses-section">
@@ -673,7 +752,6 @@
                     `;
                 }
 
-                // 買い目提案
                 const bettingType = race.betting_plan?.買い目タイプ || '三連複フォーメーション';
                 const axisNums = topHorses.map(h => h.馬番).filter(n => n);
                 const partnerNums = darkHorses.map(h => h.馬番).filter(n => n);
@@ -716,6 +794,101 @@
             });
 
             document.getElementById('predictions-tab').innerHTML = html;
+        }
+
+        function renderResults(data) {
+            const races = data.races || [];
+            const targetDate = data.date || data.ymd || '';
+            const totalRaces = data.total_races || races.length;
+            const hitCount = data.hit_count || 0;
+            const totalInvestment = data.total_investment || 0;
+            const totalProfit = data.total_profit || 0;
+            const hitRate = data.hit_rate || 0;
+            const recoveryRate = data.recovery_rate || 0;
+
+            let html = `
+                <div class="section-header">
+                    <div class="section-title">🎯 昨日の結果</div>
+                    <button class="refresh-btn" onclick="loadResults()">🔄 更新</button>
+                </div>
+
+                <div class="update-info">
+                    <div class="update-label">📅 対象日</div>
+                    <div class="update-time">${formatDate(targetDate)}</div>
+                </div>
+
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="summary-label">対象レース</div>
+                        <div class="summary-value">${totalRaces}R</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">的中数</div>
+                        <div class="summary-value">${hitCount}R</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">的中率</div>
+                        <div class="summary-value">${hitRate.toFixed(1)}%</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">収支</div>
+                        <div class="summary-value ${totalProfit >= 0 ? 'profit' : 'loss'}">
+                            ${totalProfit >= 0 ? '+' : ''}¥${totalProfit.toLocaleString()}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            if (races.length === 0) {
+                html += `
+                    <div class="error-message" style="background: rgba(158,158,158,0.15); border-color: rgba(158,158,158,0.3); color: #bdbdbd;">
+                        📭 昨日の結果データがありません
+                    </div>
+                `;
+            } else {
+                races.forEach(result => {
+                    const statusText = result.hit ? '🎯 的中' : '❌ 不的中';
+                    const statusClass = result.hit ? 'hit' : 'miss';
+                    
+                    const raceNum = result.race_num || extractRaceNumber(result.race_id);
+                    const venue = result.venue || '-';
+                    const raceName = result.race_name || `${raceNum}R`;
+                    const distance = result.distance ? `${result.track}${result.distance}m` : '-';
+                    const predicted = result.predicted?.join(', ') || '-';
+                    const actual = result.actual?.join(', ') || '-';
+                    const investment = result.investment || 0;
+                    const returnAmount = result.return || 0;
+                    const profit = result.profit || 0;
+                    
+                    html += `
+                        <div class="result-card">
+                            <div class="race-header">
+                                <div class="race-title">${venue} ${raceNum}R ${raceName}</div>
+                                <div class="race-info">${distance}</div>
+                            </div>
+                            <div class="result-badge ${statusClass}">${statusText}</div>
+                            <div style="margin: 12px 0; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 8px;">
+                                <div style="font-size: 12px; color: #b0c4de; margin-bottom: 6px;">予想: ${predicted}</div>
+                                <div style="font-size: 12px; color: #fff;">結果: ${actual}</div>
+                            </div>
+                            <div class="result-details">
+                                <div class="result-item">
+                                    <div class="result-label">投資額</div>
+                                    <div class="result-value">¥${investment.toLocaleString()}</div>
+                                </div>
+                                <div class="result-item">
+                                    <div class="result-label">収支</div>
+                                    <div class="result-value ${profit >= 0 ? 'profit' : 'loss'}">
+                                        ${profit >= 0 ? '+' : ''}¥${profit.toLocaleString()}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            document.getElementById('results-tab').innerHTML = html;
         }
     </script>
 </body>
