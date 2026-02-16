@@ -361,6 +361,12 @@ def main():
     
     print(f"\n[SUCCESS] {output_file} を生成しました")
     
+    # latest_predictions.json も生成(フロントエンド用)
+    latest_file = "latest_predictions.json"
+    with open(latest_file, "w", encoding="utf-8") as f:
+        json.dump(output_data, f, ensure_ascii=False, indent=2)
+    print(f"[SUCCESS] {latest_file} も生成しました")
+    
     # サマリー表示
     print(f"\n# 📊 本日の予想サマリー")
     print(f"")
