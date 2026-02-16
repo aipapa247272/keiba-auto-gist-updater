@@ -2,7 +2,7 @@ name: Fetch Race Results
 
 on:
   schedule:
-    - cron: '0 14 * * *'  # 毎日 23:00 JST (UTC 14:00) - レース結果取得
+    - cron: '0 13 * * *'  # 毎日 22:00 JST (UTC 13:00) - レース結果取得
   workflow_dispatch:
     inputs:
       date:
