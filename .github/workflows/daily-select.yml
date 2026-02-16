@@ -73,7 +73,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add race_data_*.json today_jobs.latest.json predictions_*.md final_predictions_*.json warnings_report_*.md latest_predictions.json || true
+          git add race_data_*.json today_jobs.latest.json predictions_*.md final_predictions_*.json latest_predictions.json 2>/dev/null || true
+          git add warnings_report_*.md 2>/dev/null || true
           if ! git diff --cached --quiet; then
             git commit -m "chore: update race data with predictions for ${{ steps.get_ymd.outputs.ymd }}"
             git push
