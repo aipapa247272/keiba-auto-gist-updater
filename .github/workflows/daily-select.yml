@@ -4,11 +4,11 @@ on:
   workflow_dispatch:
     inputs:
       target_date:
-        description: 'Target date (YYYYMMDD, optional)'
+        description: 'Target date (YYYYMMDD, leave empty for tomorrow)'
         required: false
         type: string
   schedule:
-    - cron: "0 14 * * *"  # 毎日23:00 JST (14:00 UTC)
+    - cron: '0 14 * * *'  # 23:00 JST daily
 
 jobs:
   daily-select:
@@ -16,105 +16,105 @@ jobs:
     
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-      
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      
+
       - name: Install dependencies
         run: |
-          pip install beautifulsoup4 requests
-      
+          pip install requests beautifulsoup4
+
       - name: Get date
-        id: get_ymd
+        id: get_date
         run: |
-          if [ -n "${{ github.event.inputs.target_date }}" ]; then
-            echo "ymd=${{ github.event.inputs.target_date }}" >> $GITHUB_OUTPUT
+          if [ -z "${{ github.event.inputs.target_date }}" ]; then
+            echo "date=$(TZ=Asia/Tokyo date -d '+1 day' +%Y%m%d)" >> $GITHUB_OUTPUT
           else
-            echo "ymd=$(date -d '+1 day' +%Y%m%d)" >> $GITHUB_OUTPUT
+            echo "date=${{ github.event.inputs.target_date }}" >> $GITHUB_OUTPUT
           fi
-      
+          echo "Target date: $(cat $GITHUB_OUTPUT | grep date | cut -d'=' -f2)"
+
       - name: Run daily select
         run: |
-          python scripts/daily_select.py ${{ steps.get_ymd.outputs.ymd }}
-      
+          python scripts/daily_select.py ${{ steps.get_date.outputs.date }}
+
       - name: Check race cancellation
         id: check_cancel
         run: |
-          if [ ! -f "today_jobs.latest.json" ]; then
+          # ✅ フルパス指定を追加
+          JSON_FILE="${GITHUB_WORKSPACE}/today_jobs.latest.json"
+          
+          echo "📂 Checking file: $JSON_FILE"
+          
+          if [ ! -f "$JSON_FILE" ]; then
             echo "❌ レースデータが取得できませんでした"
             echo "cancelled=true" >> $GITHUB_OUTPUT
             exit 0
           fi
           
-          RACE_COUNT=$(jq '.total_race_count // 0' today_jobs.latest.json)
+          echo "✅ File found"
+          
+          RACE_COUNT=$(jq '.total_race_count // 0' "$JSON_FILE")
+          
+          echo "📊 Race count: $RACE_COUNT"
+          
           if [ "$RACE_COUNT" -eq 0 ]; then
             echo "ℹ️ 本日は開催レースがありません"
             echo "cancelled=true" >> $GITHUB_OUTPUT
-            exit 0
+          else
+            echo "✅ 本日は${RACE_COUNT}レース開催"
+            echo "cancelled=false" >> $GITHUB_OUTPUT
           fi
-          
-          echo "cancelled=false" >> $GITHUB_OUTPUT
-      
+
       - name: Fetch shutuba data
         if: steps.check_cancel.outputs.cancelled == 'false'
         run: |
-          python scripts/fetch_shutuba_table.py ${{ steps.get_ymd.outputs.ymd }}
-      
+          python scripts/fetch_shutuba.py ${{ steps.get_date.outputs.date }}
+
       - name: Fetch past races data
         if: steps.check_cancel.outputs.cancelled == 'false'
         run: |
-          python scripts/fetch_past_races.py ${{ steps.get_ymd.outputs.ymd }}
-      
+          python scripts/fetch_past_races.py ${{ steps.get_date.outputs.date }}
+
       - name: Calculate DES scores
         if: steps.check_cancel.outputs.cancelled == 'false'
         run: |
-          python scripts/calculate_des_scores.py ${{ steps.get_ymd.outputs.ymd }}
-      
+          python scripts/calculate_des.py ${{ steps.get_date.outputs.date }}
+
       - name: Calculate NEW scores
         if: steps.check_cancel.outputs.cancelled == 'false'
         run: |
-          python scripts/calculate_new_score.py race_data_${{ steps.get_ymd.outputs.ymd }}.json
-      
+          python scripts/calculate_new_score.py race_data_${{ steps.get_date.outputs.date }}.json
+
       - name: Select predictions
         if: steps.check_cancel.outputs.cancelled == 'false'
         run: |
-          python scripts/select_predictions.py ${{ steps.get_ymd.outputs.ymd }}
-      
+          python scripts/select_predictions.py ${{ steps.get_date.outputs.date }}
+
       - name: Commit race_data JSON
         if: steps.check_cancel.outputs.cancelled == 'false'
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          
-          git add race_data_*.json 2>/dev/null || true
-          git add today_jobs.latest.json 2>/dev/null || true
-          git add predictions_*.md 2>/dev/null || true
-          git add final_predictions_*.json 2>/dev/null || true
-          git add warnings_report_*.md 2>/dev/null || true
-          git add latest_predictions.json 2>/dev/null || true
-          
-          if ! git diff --cached --quiet; then
-            git commit -m "chore: update race data with predictions for ${{ steps.get_ymd.outputs.ymd }}"
-            git push
-          else
-            echo "📝 変更なし(コミット不要)"
-          fi
-      
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git add race_data_*.json
+          git diff --cached --quiet || git commit -m "Add race_data for ${{ steps.get_date.outputs.date }}"
+          git push
+
       - name: Generate final output
         if: steps.check_cancel.outputs.cancelled == 'false'
-        continue-on-error: true
         run: |
-          echo "✅ 予想生成完了"
-      
+          echo "✅ 予想データを生成しました"
+
       - name: Validate predictions
         if: steps.check_cancel.outputs.cancelled == 'false'
-        continue-on-error: true
         run: |
-          if [ -f "latest_predictions.json" ]; then
-            echo "✅ latest_predictions.json が生成されました"
-          else
-            echo "⚠️ latest_predictions.json が見つかりません"
+          if [ ! -f "latest_predictions.json" ]; then
+            echo "❌ latest_predictions.json が生成されませんでした"
+            exit 1
           fi
+          echo "✅ latest_predictions.json を確認しました"
