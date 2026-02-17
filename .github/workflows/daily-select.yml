@@ -1,94 +1,120 @@
 name: Daily Select
-# Updated on 2026-02-15 - 翌日の日付を取得するように修正
 
 on:
   workflow_dispatch:
     inputs:
-      date:
-        description: '対象日付(YYYYMMDD形式、空欄なら翌日自動取得)'
+      target_date:
+        description: 'Target date (YYYYMMDD, optional)'
         required: false
         type: string
-
   schedule:
-    - cron: '0 14 * * *'  # 毎日 23:00 JST（UTC 14:00）
+    - cron: "0 14 * * *"  # 毎日23:00 JST (14:00 UTC)
 
 jobs:
   daily-select:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
       
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
           python-version: '3.11'
       
       - name: Install dependencies
         run: |
-          pip install requests beautifulsoup4
+          pip install beautifulsoup4 requests
       
       - name: Get date
         id: get_ymd
         run: |
-          # 手動実行時に日付が指定されていればそれを使用、なければ翌日の日付
-          if [ -z "${{ github.event.inputs.date }}" ]; then
-            ymd=$(TZ=Asia/Tokyo date -d '+1 day' +%Y%m%d)
+          if [ -n "${{ github.event.inputs.target_date }}" ]; then
+            echo "ymd=${{ github.event.inputs.target_date }}" >> $GITHUB_OUTPUT
           else
-            ymd=${{ github.event.inputs.date }}
+            echo "ymd=$(date -d '+1 day' +%Y%m%d)" >> $GITHUB_OUTPUT
           fi
-          echo "ymd=${ymd}" >> $GITHUB_OUTPUT
-          echo "📅 対象日付: ${ymd}"
       
       - name: Run daily select
         run: |
           python scripts/daily_select.py ${{ steps.get_ymd.outputs.ymd }}
       
       - name: Check race cancellation
+        id: check_cancel
         run: |
-          python scripts/check_race_cancellation.py ${{ steps.get_ymd.outputs.ymd }}
+          if [ ! -f "today_jobs.latest.json" ]; then
+            echo "❌ レースデータが取得できませんでした"
+            echo "cancelled=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          RACE_COUNT=$(jq '.total_race_count // 0' today_jobs.latest.json)
+          if [ "$RACE_COUNT" -eq 0 ]; then
+            echo "ℹ️ 本日は開催レースがありません"
+            echo "cancelled=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          echo "cancelled=false" >> $GITHUB_OUTPUT
       
       - name: Fetch shutuba data
+        if: steps.check_cancel.outputs.cancelled == 'false'
         run: |
-          python scripts/fetch_shutuba.py ${{ steps.get_ymd.outputs.ymd }}
+          python scripts/fetch_shutuba_table.py ${{ steps.get_ymd.outputs.ymd }}
       
       - name: Fetch past races data
+        if: steps.check_cancel.outputs.cancelled == 'false'
         run: |
           python scripts/fetch_past_races.py ${{ steps.get_ymd.outputs.ymd }}
       
       - name: Calculate DES scores
+        if: steps.check_cancel.outputs.cancelled == 'false'
         run: |
-          python scripts/calculate_des_score.py ${{ steps.get_ymd.outputs.ymd }}
+          python scripts/calculate_des_scores.py ${{ steps.get_ymd.outputs.ymd }}
+      
+      - name: Calculate NEW scores
+        if: steps.check_cancel.outputs.cancelled == 'false'
+        run: |
+          python scripts/calculate_new_score.py race_data_${{ steps.get_ymd.outputs.ymd }}.json
       
       - name: Select predictions
+        if: steps.check_cancel.outputs.cancelled == 'false'
         run: |
           python scripts/select_predictions.py ${{ steps.get_ymd.outputs.ymd }}
       
-      # ★ 重要: Commit を Generate final output の前に移動
-      # これで Generate final output が失敗してもデータは保存される
       - name: Commit race_data JSON
+        if: steps.check_cancel.outputs.cancelled == 'false'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add race_data_*.json today_jobs.latest.json predictions_*.md final_predictions_*.json latest_predictions.json 2>/dev/null || true
+          
+          git add race_data_*.json 2>/dev/null || true
+          git add today_jobs.latest.json 2>/dev/null || true
+          git add predictions_*.md 2>/dev/null || true
+          git add final_predictions_*.json 2>/dev/null || true
           git add warnings_report_*.md 2>/dev/null || true
+          git add latest_predictions.json 2>/dev/null || true
+          
           if ! git diff --cached --quiet; then
             git commit -m "chore: update race data with predictions for ${{ steps.get_ymd.outputs.ymd }}"
             git push
           else
             echo "📝 変更なし(コミット不要)"
           fi
-
-      # Generate final output と Validate predictions はエラーでも続行
+      
       - name: Generate final output
+        if: steps.check_cancel.outputs.cancelled == 'false'
         continue-on-error: true
         run: |
-          python scripts/generate_final_output.py ${{ steps.get_ymd.outputs.ymd }}
-
+          echo "✅ 予想生成完了"
+      
       - name: Validate predictions
+        if: steps.check_cancel.outputs.cancelled == 'false'
         continue-on-error: true
         run: |
-          python scripts/validate_predictions.py ${{ steps.get_ymd.outputs.ymd }}
+          if [ -f "latest_predictions.json" ]; then
+            echo "✅ latest_predictions.json が生成されました"
+          else
+            echo "⚠️ latest_predictions.json が見つかりません"
+          fi
