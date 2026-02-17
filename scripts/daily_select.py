@@ -415,7 +415,7 @@ def main():
         "generated_at": datetime.now(jst).isoformat(),
         "is_weekend": is_weekend,
         "weekday": weekday_name,
-        "total_races": len(all_race_ids),
+        "total_race_count": len(all_race_ids),
         "total_venues": len(all_races_by_jyo),
         "jra_races": len(jra_race_ids) if 'jra_race_ids' in locals() else 0,
         "nar_races": len(nar_race_ids) if 'nar_race_ids' in locals() else 0,
