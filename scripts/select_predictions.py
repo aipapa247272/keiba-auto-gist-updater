@@ -2,14 +2,77 @@
 # -*- coding: utf-8 -*-
 """
 新予想ロジック対応: レース選定スクリプト
-修正日: 2026/02/16
-変更点: 旧DESスコア → 新スコアに変更
+修正日: 2026/02/17
+変更点: 予想根拠の生成機能を追加
 """
 
 import json
 import sys
 import os
 from datetime import datetime
+
+def generate_reason(horse_data):
+    """
+    予想根拠を生成
+    
+    Args:
+        horse_data (dict): 馬データ
+    
+    Returns:
+        str: 予想根拠の文字列
+    """
+    reasons = []
+    
+    # 新スコア内訳を取得
+    breakdown = horse_data.get('新スコア_内訳', {})
+    
+    # 前走人気
+    popularity_score = breakdown.get('前走人気', 0)
+    if popularity_score >= 90:
+        reasons.append("前走1-2位人気")
+    elif popularity_score >= 70:
+        reasons.append("前走3-5位人気")
+    
+    # 馬体重増減
+    weight_score = breakdown.get('馬体重増減', 0)
+    if weight_score >= 80:
+        reasons.append("体重減で好調")
+    elif weight_score <= 30:
+        reasons.append("体重増で不安")
+    
+    # 経験値
+    experience_score = breakdown.get('経験値', 0)
+    if experience_score >= 80:
+        reasons.append("実績豊富")
+    elif experience_score <= 40:
+        reasons.append("実績不足")
+    
+    # 騎手・厩舎
+    jockey_score = breakdown.get('騎手厩舎', 0)
+    if jockey_score >= 90:
+        reasons.append("好騎手")
+    
+    # 距離・馬場適性
+    distance_score = breakdown.get('距離馬場適性', 0)
+    if distance_score >= 90:
+        reasons.append("適性抜群")
+    
+    # 脚質
+    gait_score = breakdown.get('脚質', 0)
+    if gait_score >= 90:
+        reasons.append("展開有利")
+    
+    # 理由が無い場合のデフォルト
+    if not reasons:
+        total_score = horse_data.get('新スコア', 0)
+        if total_score >= 80:
+            reasons.append("総合力高い")
+        elif total_score >= 60:
+            reasons.append("堅実な評価")
+        else:
+            reasons.append("穴候補")
+    
+    return "、".join(reasons)
 
 def calculate_turbulence(race):
     """
@@ -81,7 +144,8 @@ def generate_betting_plan(race):
                 "馬名": h.get('馬名'),
                 "評価": ["◎", "○", "▲"][i],
                 "スコア": h.get('新スコア', 0),
-                "内訳": h.get('新スコア_内訳', {})
+                "内訳": h.get('新スコア_内訳', {}),
+                "根拠": generate_reason(h)  # ← 追加
             }
             for i, h in enumerate(axis_horses)
         ],
@@ -90,7 +154,8 @@ def generate_betting_plan(race):
                 "馬番": h.get('馬番'),
                 "馬名": h.get('馬名'),
                 "評価": "△",
-                "スコア": h.get('新スコア', 0)
+                "スコア": h.get('新スコア', 0),
+                "根拠": generate_reason(h)  # ← 追加
             }
             for h in opponent_horses
         ],
