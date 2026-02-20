@@ -13,15 +13,15 @@
   "recovery_rate": 0.0,
   "races": [
     {
-      "race_id": "202644022002",
-      "venue": "大井",
-      "race_num": "02",
-      "race_name": "3歳四五",
+      "race_id": "202605010712",
+      "venue": "東京",
+      "race_num": "12",
+      "race_name": "4歳以上1勝クラス",
       "distance": 1600,
       "track": "ダ",
       "status": "結果取得不可",
       "predicted": [
-        "1-12-9"
+        "None-None-None"
       ],
       "actual": [],
       "hit": false,
@@ -34,36 +34,15 @@
       "track_condition": ""
     },
     {
-      "race_id": "202647022008",
-      "venue": "笠松",
-      "race_num": "08",
-      "race_name": "C5組",
-      "distance": 1600,
-      "track": "ダ",
-      "status": "結果取得不可",
-      "predicted": [
-        "5-6-8"
-      ],
-      "actual": [],
-      "hit": false,
-      "investment": 2400,
-      "return": 0,
-      "profit": -2400,
-      "payouts": {},
-      "horse_weights": [],
-      "weather": "",
-      "track_condition": ""
-    },
-    {
-      "race_id": "202647022001",
-      "venue": "笠松",
-      "race_num": "01",
+      "race_id": "202610010903",
+      "venue": "小倉",
+      "race_num": "03",
       "race_name": "3歳未勝利",
-      "distance": 800,
+      "distance": 1000,
       "track": "ダ",
       "status": "結果取得不可",
       "predicted": [
-        "2-4-9"
+        "None-None-None"
       ],
       "actual": [],
       "hit": false,
@@ -76,15 +55,36 @@
       "track_condition": ""
     },
     {
-      "race_id": "202647022004",
-      "venue": "笠松",
-      "race_num": "04",
-      "race_name": "ささケー、あなたならできる記念(C)",
+      "race_id": "202610010909",
+      "venue": "小倉",
+      "race_num": "09",
+      "race_name": "あざみ賞",
+      "distance": 1200,
+      "track": "芝",
+      "status": "結果取得不可",
+      "predicted": [
+        "None-None-None"
+      ],
+      "actual": [],
+      "hit": false,
+      "investment": 2400,
+      "return": 0,
+      "profit": -2400,
+      "payouts": {},
+      "horse_weights": [],
+      "weather": "",
+      "track_condition": ""
+    },
+    {
+      "race_id": "202605010707",
+      "venue": "東京",
+      "race_num": "07",
+      "race_name": "4歳以上1勝クラス",
       "distance": 1400,
       "track": "ダ",
       "status": "結果取得不可",
       "predicted": [
-        "1-7-8"
+        "None-None-None"
       ],
       "actual": [],
       "hit": false,
@@ -97,15 +97,15 @@
       "track_condition": ""
     },
     {
-      "race_id": "202644022005",
-      "venue": "大井",
-      "race_num": "05",
-      "race_name": "3歳一二三(3歳二)",
-      "distance": 1200,
+      "race_id": "202610010907",
+      "venue": "小倉",
+      "race_num": "07",
+      "race_name": "4歳以上1勝クラス",
+      "distance": 1700,
       "track": "ダ",
       "status": "結果取得不可",
       "predicted": [
-        "1-6-7"
+        "None-None-None"
       ],
       "actual": [],
       "hit": false,
