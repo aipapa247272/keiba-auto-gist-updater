@@ -244,6 +244,14 @@
             color: #b0c4de;
         }
 
+        /* 予想番号表示用スタイル */
+        .race-number {
+            font-size: 11px;
+            color: #7e8ea0;
+            margin-bottom: 4px;
+            font-weight: normal;
+        }
+
         .race-card {
             background: rgba(255,255,255,0.08);
             border-radius: 12px;
@@ -261,11 +269,52 @@
             font-weight: 700;
             color: #fff;
             margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* トラック色分け用スタイル */
+        .track-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .track-badge.芝 {
+            background: rgba(76,175,80,0.2);
+            color: #81c784;
+        }
+
+        .track-badge.ダ {
+            background: rgba(255,152,0,0.2);
+            color: #ffb74d;
+        }
+
+        /* 距離アイコン用スタイル */
+        .distance-icon {
+            font-size: 14px;
         }
 
         .race-info {
             font-size: 13px;
             color: #b0c4de;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        /* 発走時刻の強調表示 */
+        .start-time {
+            font-size: 15px;
+            font-weight: 600;
+            color: #4fc3f7;
+            padding: 4px 10px;
+            background: rgba(79,195,247,0.15);
+            border-radius: 8px;
         }
 
         .turbulence-badge {
@@ -286,6 +335,18 @@
             border-radius: 8px;
             padding: 14px;
             margin-bottom: 10px;
+        }
+
+        .horse-card.expandable {
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .horse-card.expandable:hover {
+            background: rgba(255,255,255,0.08);
+        }
+
+        .horse-main-info {
             display: flex;
             align-items: center;
             gap: 12px;
@@ -312,6 +373,78 @@
             font-size: 16px;
             font-weight: 700;
             color: #4fc3f7;
+        }
+
+        /* 根拠表示用スタイル */
+        .horse-reason {
+            font-size: 12px;
+            color: #b0c4de;
+            margin-top: 6px;
+            padding-left: 52px;
+        }
+
+        /* スコア内訳展開用スタイル */
+        .score-breakdown {
+            display: none;
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(79,195,247,0.1);
+            border-radius: 8px;
+            border-left: 3px solid #4fc3f7;
+        }
+
+        .score-breakdown.expanded {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+            }
+            to {
+                opacity: 1;
+                max-height: 500px;
+            }
+        }
+
+        .breakdown-title {
+            font-size: 12px;
+            color: #4fc3f7;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .breakdown-item {
+            margin-bottom: 8px;
+        }
+
+        .breakdown-label {
+            font-size: 11px;
+            color: #b0c4de;
+            margin-bottom: 4px;
+        }
+
+        .breakdown-bar-container {
+            background: rgba(255,255,255,0.1);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .breakdown-bar {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease-out;
+            background: linear-gradient(90deg, #00bcd4 0%, #2196f3 100%);
+        }
+
+        .breakdown-value {
+            font-size: 11px;
+            color: #fff;
+            font-weight: 600;
+            margin-top: 2px;
         }
 
         .dark-horses-section {
@@ -343,6 +476,15 @@
             padding: 6px 10px;
             background: rgba(255,255,255,0.05);
             border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dark-horse-score {
+            font-size: 12px;
+            color: #4fc3f7;
+            font-weight: 600;
         }
 
         .betting-section {
@@ -352,11 +494,28 @@
             margin-top: 12px;
         }
 
+        .betting-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
         .betting-title {
             font-size: 13px;
             font-weight: 600;
             color: #4fc3f7;
-            margin-bottom: 10px;
+        }
+
+        .expand-icon {
+            font-size: 14px;
+            color: #4fc3f7;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .expand-icon.expanded {
+            transform: rotate(180deg);
         }
 
         .betting-method {
@@ -384,6 +543,41 @@
             border-radius: 6px;
             font-size: 13px;
             color: #fff;
+        }
+
+        /* 投資額内訳展開用スタイル */
+        .investment-breakdown {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 6px;
+        }
+
+        .investment-breakdown.expanded {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .investment-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 12px;
+        }
+
+        .investment-item:last-child {
+            border-bottom: none;
+        }
+
+        .investment-label {
+            color: #b0c4de;
+        }
+
+        .investment-value {
+            color: #fff;
+            font-weight: 600;
         }
 
         .result-badge {
@@ -694,10 +888,42 @@
             return match ? match[1] : '-';
         }
 
+        function getDistanceIcon(distance) {
+            if (!distance) return '';
+            const dist = parseInt(distance);
+            if (dist < 1400) return '⚡'; // 短距離
+            if (dist < 1800) return '🏃'; // マイル
+            if (dist < 2200) return '🐎'; // 中距離
+            return '🏇'; // 長距離
+        }
+
+        function toggleScoreBreakdown(raceId, horseNum) {
+            const element = document.getElementById(`breakdown-${raceId}-${horseNum}`);
+            if (element) {
+                element.classList.toggle('expanded');
+            }
+        }
+
+        function toggleInvestmentBreakdown(raceId) {
+            const element = document.getElementById(`investment-${raceId}`);
+            const icon = document.getElementById(`expand-icon-${raceId}`);
+            if (element && icon) {
+                element.classList.toggle('expanded');
+                icon.classList.toggle('expanded');
+            }
+        }
+
         function renderPredictions(data) {
             const races = data.selected_predictions || [];
             const summary = data.summary || {};
             const turbulence = summary.turbulence || {};
+
+            // 開催時間順にソート
+            races.sort((a, b) => {
+                const timeA = a.start_time || '00:00';
+                const timeB = b.start_time || '00:00';
+                return timeA.localeCompare(timeB);
+            });
 
             const selectedRacesCount = data.selected_races || races.length;
             const totalRacesCount = data.total_races || 0;
@@ -755,25 +981,27 @@
                     <div class="legend-items">
                         <div class="legend-item">
                             <span class="legend-icon">🟢</span>
-                            <span class="legend-text">低: 本命有利（DESスコア差 ≥15点）</span>
+                            <span class="legend-text">低: 本命有利（新スコア上位3頭平均≥70点、差≥10点）</span>
                         </div>
                         <div class="legend-item">
                             <span class="legend-icon">🟡</span>
-                            <span class="legend-text">中: 拮抗（スコア差 5～15点）</span>
+                            <span class="legend-text">中: 拮抗（平均≥55点 or 差≥5点）</span>
                         </div>
                         <div class="legend-item">
                             <span class="legend-icon">🔴</span>
-                            <span class="legend-text">高: 大混戦（スコア差 <5点）</span>
+                            <span class="legend-text">高: 大混戦（それ以外）</span>
                         </div>
                     </div>
                 </div>
             `;
 
-            races.forEach(race => {
+            races.forEach((race, index) => {
                 const raceNum = extractRaceNumber(race.race_id);
                 const venue = race.venue || '-';
                 const raceName = race.race_name || `${raceNum}R`;
-                const distance = race.distance ? `${race.track}${race.distance}m` : '-';
+                const track = race.track || '-';
+                const distance = race.distance || '-';
+                const distanceIcon = getDistanceIcon(distance);
                 const startTime = race.start_time || '-';
                 const turbLevel = race.turbulence || '-';
                 const investment = race.investment || 0;
@@ -781,12 +1009,21 @@
                 const topHorses = race.betting_plan?.軸 || [];
                 const darkHorses = race.betting_plan?.相手 || [];
                 
+                // 穴候補の頭数を計算（出馬数÷2+1）
+                const totalHorses = (topHorses.length + darkHorses.length) || 0;
+                const expectedDarkHorses = Math.floor(totalHorses / 2) + 1;
+                
                 html += `
                     <div class="race-card">
                         <div class="race-header">
-                            <div class="race-title">${venue} ${raceNum}R ${raceName}</div>
+                            <div class="race-number">AI予想レース${index + 1}</div>
+                            <div class="race-title">
+                                ${venue} ${raceNum}R ${raceName}
+                            </div>
                             <div class="race-info">
-                                ${distance} | 発走 ${startTime}
+                                <span class="track-badge ${track}">${track}</span>
+                                <span>${distanceIcon} ${distance}m</span>
+                                <span class="start-time">🕐 ${startTime}</span>
                             </div>
                             <div class="turbulence-badge ${turbLevel}">${turbLevel}</div>
                         </div>
@@ -797,29 +1034,66 @@
                     const score = Math.round((horse.スコア || 0) * 10) / 10;
                     const horseNum = horse.馬番 || '-';
                     const horseName = horse.馬名 || '-';
+                    const reason = horse.根拠 || '';
+                    const breakdown = horse.内訳 || horse['スコア内訳'] || horse['新スコア_内訳'] || {};
                     
                     html += `
-                        <div class="horse-card">
-                            <div class="rank-badge">${rank}</div>
-                            <div class="horse-info">
-                                <div class="horse-name">${horseNum}番:${horseName}</div>
-                                <div class="horse-score">${score}/100</div>
+                        <div class="horse-card expandable" onclick="toggleScoreBreakdown('${race.race_id}', ${horseNum})">
+                            <div class="horse-main-info">
+                                <div class="rank-badge">${rank}</div>
+                                <div class="horse-info">
+                                    <div class="horse-name">${horseNum}番:${horseName}</div>
+                                    <div class="horse-score">${score}/100</div>
+                                </div>
                             </div>
-                        </div>
                     `;
+                    
+                    if (reason) {
+                        html += `<div class="horse-reason">💡 ${reason}</div>`;
+                    }
+                    
+                    if (Object.keys(breakdown).length > 0) {
+                        html += `
+                            <div class="score-breakdown" id="breakdown-${race.race_id}-${horseNum}">
+                                <div class="breakdown-title">📊 スコア内訳</div>
+                        `;
+                        
+                        Object.keys(breakdown).forEach(key => {
+                            const value = breakdown[key] || 0;
+                            html += `
+                                <div class="breakdown-item">
+                                    <div class="breakdown-label">${key}</div>
+                                    <div class="breakdown-bar-container">
+                                        <div class="breakdown-bar" style="width: ${value}%"></div>
+                                    </div>
+                                    <div class="breakdown-value">${value}/100</div>
+                                </div>
+                            `;
+                        });
+                        
+                        html += `</div>`;
+                    }
+                    
+                    html += `</div>`;
                 });
 
                 if (darkHorses && darkHorses.length > 0) {
                     html += `
                         <div class="dark-horses-section">
-                            <div class="dark-horses-title">🔸 穴候補 △</div>
+                            <div class="dark-horses-title">🔸 穴候補 △ (${darkHorses.length}頭)</div>
                             <div class="dark-horses-list">
                     `;
                     
                     darkHorses.forEach(horse => {
                         const horseNum = horse.馬番 || '-';
                         const horseName = horse.馬名 || '-';
-                        html += `<div class="dark-horse-item">${horseNum}番:${horseName}</div>`;
+                        const score = horse.スコア ? Math.round(horse.スコア * 10) / 10 : '';
+                        html += `
+                            <div class="dark-horse-item">
+                                <span>${horseNum}番:${horseName}</span>
+                                ${score ? `<span class="dark-horse-score">${score}</span>` : ''}
+                            </div>
+                        `;
                     });
                     
                     html += `
@@ -834,9 +1108,27 @@
                 
                 html += `
                     <div class="betting-section">
-                        <div class="betting-title">💰 買い目提案</div>
+                        <div class="betting-header">
+                            <div class="betting-title">💰 買い目提案</div>
+                            <div class="expand-icon" id="expand-icon-${race.race_id}" onclick="toggleInvestmentBreakdown('${race.race_id}')">▼</div>
+                        </div>
                         <div class="betting-method">📝 ${bettingType}</div>
                         <div class="betting-investment">投資額: ¥${investment.toLocaleString()}</div>
+                        
+                        <div class="investment-breakdown" id="investment-${race.race_id}">
+                            <div class="investment-item">
+                                <span class="investment-label">1点あたり</span>
+                                <span class="investment-value">¥100</span>
+                            </div>
+                            <div class="investment-item">
+                                <span class="investment-label">組み合わせ数</span>
+                                <span class="investment-value">${(investment / 100).toFixed(0)}通り</span>
+                            </div>
+                            <div class="investment-item">
+                                <span class="investment-label">合計</span>
+                                <span class="investment-value">¥${investment.toLocaleString()}</span>
+                            </div>
+                        </div>
                 `;
 
                 if (axisNums.length > 0) {
