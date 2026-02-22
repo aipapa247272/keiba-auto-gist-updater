@@ -1629,6 +1629,290 @@
                 console.error('統計データ取得エラー:', error);
             }
         }
+        <!-- JavaScript（<script>タグ内に追加） -->
+// レポート読み込み
+async function loadReport(reportType) {
+    const container = document.getElementById('report-container');
+    container.innerHTML = '<div class="loading">📊 レポートを読み込み中...</div>';
+    
+    // ボタンのアクティブ状態を更新
+    document.querySelectorAll('.report-type-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+    
+    try {
+        // レポートファイル名を決定
+        const today = new Date();
+        let filename;
+        if (reportType === 'daily') {
+            filename = `daily_report_${formatDate(today, 'YYYYMMDD')}.json`;
+        } else if (reportType === 'weekly') {
+            const monday = getMonday(today);
+            filename = `weekly_report_${formatDate(monday, 'YYYYMMDD')}.json`;
+        } else if (reportType === 'monthly') {
+            filename = `monthly_report_${formatDate(today, 'YYYYMM')}.json`;
+        }
+        
+        const response = await fetch(`https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/${filename}`);
+        
+        if (!response.ok) {
+            throw new Error('レポートが見つかりません');
+        }
+        
+        const report = await response.json();
+        renderReport(report);
+        
+    } catch (error) {
+        container.innerHTML = `
+            <div class="error-message">
+                <div class="error-icon">⚠️</div>
+                <div class="error-text">レポートの読み込みに失敗しました</div>
+                <div class="error-detail">${error.message}</div>
+                <div class="error-hint">レポートがまだ生成されていない可能性があります</div>
+            </div>
+        `;
+    }
+}
+
+// レポート表示
+function renderReport(report) {
+    const container = document.getElementById('report-container');
+    const summary = report.summary;
+    
+    let html = `
+        <div class="report-header">
+            <div class="report-title">${getReportTypeLabel(report.report_type)}</div>
+            <div class="report-period">${getReportPeriod(report)}</div>
+        </div>
+    `;
+    
+    // サマリー
+    if (summary) {
+        html += `
+            <div class="report-section">
+                <div class="report-section-title">📊 総合成績</div>
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="summary-label">レース数</div>
+                        <div class="summary-value">${summary.total_races}</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">的中率</div>
+                        <div class="summary-value ${summary.hit_rate >= 15 ? 'positive' : ''}">${summary.hit_rate}%</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">回収率</div>
+                        <div class="summary-value ${summary.recovery_rate >= 100 ? 'positive' : ''}">${summary.recovery_rate}%</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">収支</div>
+                        <div class="summary-value ${summary.profit >= 0 ? 'positive' : 'negative'}">¥${summary.profit.toLocaleString()}</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">投資額</div>
+                        <div class="summary-value">¥${summary.total_investment.toLocaleString()}</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">払戻額</div>
+                        <div class="summary-value">¥${summary.total_payout.toLocaleString()}</div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    // セグメント別分析
+    if (report.performance_by_segment || report.segment_performance) {
+        const segments = report.performance_by_segment || report.segment_performance;
+        html += renderSegmentAnalysis(segments);
+    }
+    
+    // レース展開分析
+    if (report.pace_analysis) {
+        html += renderPaceAnalysis(report.pace_analysis);
+    }
+    
+    // インサイト
+    if (report.insights && report.insights.length > 0) {
+        html += `
+            <div class="report-section">
+                <div class="report-section-title">💡 インサイト</div>
+                ${report.insights.map(insight => `
+                    <div class="insight-item ${insight.type}">
+                        <div class="insight-message">${insight.message}</div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+    
+    // 推奨アクション
+    if (report.recommendations && report.recommendations.length > 0) {
+        html += `
+            <div class="report-section">
+                <div class="report-section-title">🎯 推奨アクション</div>
+                ${report.recommendations.map(rec => `
+                    <div class="insight-item">
+                        <div class="summary-label">${rec.category}</div>
+                        <div class="insight-message">${rec.suggestion}</div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+    
+    container.innerHTML = html;
+}
+
+// セグメント分析表示
+function renderSegmentAnalysis(segments) {
+    let html = '<div class="report-section"><div class="report-section-title">📈 セグメント別分析</div>';
+    
+    const segmentLabels = {
+        'by_num_horses': '出馬数別',
+        'by_track': 'トラック別',
+        'by_distance_category': '距離カテゴリ別',
+        'by_turbulence': '混沌度別',
+        'by_venue': '会場別',
+        'by_hole_count': '穴候補頭数別'
+    };
+    
+    for (const [key, data] of Object.entries(segments)) {
+        if (Object.keys(data).length === 0) continue;
+        
+        html += `
+            <h4 style="color: #4fc3f7; margin-top: 20px; margin-bottom: 12px;">${segmentLabels[key] || key}</h4>
+            <table class="segment-table">
+                <thead>
+                    <tr>
+                        <th>区分</th>
+                        <th>レース数</th>
+                        <th>的中</th>
+                        <th>的中率</th>
+                        <th>回収率</th>
+                        <th>収支</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${Object.entries(data).sort((a, b) => b[1].recovery_rate - a[1].recovery_rate).map(([name, stats]) => `
+                        <tr>
+                            <td><strong>${name}</strong></td>
+                            <td>${stats.races}</td>
+                            <td>${stats.hits}</td>
+                            <td style="color: ${stats.hit_rate >= 15 ? '#4caf50' : '#fff'}">${stats.hit_rate}%</td>
+                            <td style="color: ${stats.recovery_rate >= 100 ? '#4caf50' : stats.recovery_rate >= 80 ? '#fff' : '#f44336'}">${stats.recovery_rate}%</td>
+                            <td style="color: ${stats.profit >= 0 ? '#4caf50' : '#f44336'}">¥${stats.profit.toLocaleString()}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+    }
+    
+    html += '</div>';
+    return html;
+}
+
+// ペース分析表示
+function renderPaceAnalysis(paceData) {
+    let html = `
+        <div class="report-section">
+            <div class="report-section-title">⚡ レース展開分析</div>
+            <div class="pace-grid">
+    `;
+    
+    for (const [pace, stats] of Object.entries(paceData)) {
+        html += `
+            <div class="pace-card">
+                <div class="pace-name">${pace}</div>
+                <div class="pace-stat">
+                    <span class="pace-stat-label">レース数</span>
+                    <span class="pace-stat-value">${stats.races}</span>
+                </div>
+                <div class="pace-stat">
+                    <span class="pace-stat-label">的中率</span>
+                    <span class="pace-stat-value" style="color: ${stats.hit_rate >= 15 ? '#4caf50' : '#fff'}">${stats.hit_rate}%</span>
+                </div>
+                <div class="pace-stat">
+                    <span class="pace-stat-label">回収率</span>
+                    <span class="pace-stat-value" style="color: ${stats.recovery_rate >= 100 ? '#4caf50' : '#fff'}">${stats.recovery_rate}%</span>
+                </div>
+                <div class="pace-stat">
+                    <span class="pace-stat-label">収支</span>
+                    <span class="pace-stat-value" style="color: ${stats.profit >= 0 ? '#4caf50' : '#f44336'}">¥${stats.profit.toLocaleString()}</span>
+                </div>
+        `;
+        
+        // 軸馬脚質別成績
+        if (stats.axis_runstyle_performance && Object.keys(stats.axis_runstyle_performance).length > 0) {
+            html += `
+                <div class="runstyle-breakdown">
+                    <div class="summary-label">◎軸馬の脚質別的中率</div>
+            `;
+            for (const [runstyle, rsStats] of Object.entries(stats.axis_runstyle_performance)) {
+                html += `
+                    <div class="runstyle-item">
+                        <span class="runstyle-name">${runstyle}</span>
+                        <span class="runstyle-hitrate">${rsStats.hit_rate}% (${rsStats.hits}/${rsStats.races})</span>
+                    </div>
+                `;
+            }
+            html += '</div>';
+        }
+        
+        html += '</div>';
+    }
+    
+    html += '</div></div>';
+    return html;
+}
+
+// ヘルパー関数
+function getReportTypeLabel(type) {
+    const labels = {
+        'daily': '📅 日次レポート',
+        'weekly': '📊 週次レポート',
+        'monthly': '📈 月次レポート'
+    };
+    return labels[type] || 'レポート';
+}
+
+function getReportPeriod(report) {
+    if (report.target_date) {
+        return report.target_date;
+    } else if (report.period) {
+        return report.period;
+    } else if (report.year_month) {
+        return report.year_month;
+    }
+    return '';
+}
+
+function formatDate(date, format) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    
+    if (format === 'YYYYMMDD') {
+        return `${year}${month}${day}`;
+    } else if (format === 'YYYYMM') {
+        return `${year}${month}`;
+    }
+    return `${year}-${month}-${day}`;
+}
+
+function getMonday(date) {
+    const d = new Date(date);
+    const day = d.getDay();
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+    return new Date(d.setDate(diff));
+}
+
+// 初期読み込み（レポートタブが開かれたとき）
+function initReports() {
+    loadReport('daily');
+}
     </script>
 </body>
 </html>
