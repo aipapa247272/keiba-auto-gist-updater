@@ -1,0 +1,89 @@
+name: Generate Daily Report
+
+on:
+  schedule:
+    # 毎日21:00 JST (12:00 UTC) に実行
+    - cron: '0 12 * * *'
+  workflow_dispatch:
+    inputs:
+      target_date:
+        description: 'Target date (YYYYMMDD)'
+        required: false
+        default: ''
+
+jobs:
+  generate-report:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      
+      - name: Determine target date
+        id: date
+        run: |
+          if [ -n "${{ github.event.inputs.target_date }}" ]; then
+            TARGET_DATE="${{ github.event.inputs.target_date }}"
+          else
+            TARGET_DATE=$(TZ=Asia/Tokyo date +%Y%m%d)
+          fi
+          echo "target_date=${TARGET_DATE}" >> $GITHUB_OUTPUT
+          echo "📅 Target date: ${TARGET_DATE}"
+      
+      - name: Download required files
+        run: |
+          TARGET_DATE="${{ steps.date.outputs.target_date }}"
+          
+          # 予想データ
+          if [ -f "final_predictions_${TARGET_DATE}.json" ]; then
+            cp "final_predictions_${TARGET_DATE}.json" predictions.json
+          elif [ -f "latest_predictions.json" ]; then
+            cp latest_predictions.json predictions.json
+          else
+            echo "⚠️ 予想データが見つかりません"
+            echo '{"selected_predictions":[]}' > predictions.json
+          fi
+          
+          # 結果データ
+          if [ -f "results_${TARGET_DATE}.json" ]; then
+            cp "results_${TARGET_DATE}.json" results.json
+          elif [ -f "latest_results.json" ]; then
+            cp latest_results.json results.json
+          else
+            echo "⚠️ 結果データが見つかりません"
+            echo '{"races":[]}' > results.json
+          fi
+          
+          # 統計データ
+          if [ -f "statistics.json" ]; then
+            cp statistics.json statistics.json
+          else
+            echo "⚠️ 統計データが見つかりません"
+            echo '{}' > statistics.json
+          fi
+      
+      - name: Generate daily report
+        run: |
+          python3 scripts/generate_reports.py daily predictions.json results.json statistics.json
+      
+      - name: Commit and push report
+        run: |
+          TARGET_DATE="${{ steps.date.outputs.target_date }}"
+          REPORT_FILE="daily_report_${TARGET_DATE}.json"
+          
+          if [ -f "${REPORT_FILE}" ]; then
+            git config --local user.email "github-actions[bot]@users.noreply.github.com"
+            git config --local user.name "github-actions[bot]"
+            git add "${REPORT_FILE}"
+            git commit -m "📊 Generate daily report for ${TARGET_DATE}" || echo "No changes to commit"
+            git push || echo "Nothing to push"
+            echo "✅ レポート生成完了: ${REPORT_FILE}"
+          else
+            echo "❌ レポートファイルが生成されませんでした"
+            exit 1
+          fi
