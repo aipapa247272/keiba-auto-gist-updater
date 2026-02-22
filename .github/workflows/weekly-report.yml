@@ -1,0 +1,96 @@
+name: Generate Weekly Report
+
+on:
+  schedule:
+    # 毎週月曜日 09:00 JST (00:00 UTC) に実行
+    - cron: '0 0 * * 1'
+  workflow_dispatch:
+
+jobs:
+  generate-report:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      
+      - name: Calculate week dates
+        id: dates
+        run: |
+          # 今週の月曜日を取得
+          MONDAY=$(TZ=Asia/Tokyo date -d "monday" +%Y%m%d)
+          echo "monday=${MONDAY}" >> $GITHUB_OUTPUT
+          echo "📅 Week starting: ${MONDAY}"
+      
+      - name: Collect week data
+        run: |
+          # 過去7日分のデータを収集
+          echo "📦 Collecting data for the past week..."
+          
+          # 予想データと結果データをマージ
+          python3 << 'EOF'
+import json
+import glob
+from datetime import datetime, timedelta
+
+# 今週の月曜日から日曜日までの日付を生成
+today = datetime.now()
+monday = today - timedelta(days=today.weekday())
+dates = [(monday + timedelta(days=i)).strftime('%Y%m%d') for i in range(7)]
+
+all_predictions = []
+all_results = []
+
+# 各日付のデータを収集
+for date in dates:
+    # 予想データ
+    try:
+        with open(f'final_predictions_{date}.json', 'r') as f:
+            data = json.load(f)
+            all_predictions.extend(data.get('selected_predictions', []))
+    except FileNotFoundError:
+        pass
+    
+    # 結果データ
+    try:
+        with open(f'results_{date}.json', 'r') as f:
+            data = json.load(f)
+            all_results.extend(data.get('races', []))
+    except FileNotFoundError:
+        pass
+
+# マージしたデータを保存
+with open('weekly_predictions.json', 'w') as f:
+    json.dump({'selected_predictions': all_predictions}, f, ensure_ascii=False)
+
+with open('weekly_results.json', 'w') as f:
+    json.dump({'races': all_results}, f, ensure_ascii=False)
+
+print(f"✅ Collected {len(all_predictions)} predictions and {len(all_results)} results")
+EOF
+      
+      - name: Generate weekly report
+        run: |
+          python3 scripts/generate_reports.py weekly weekly_predictions.json weekly_results.json statistics.json
+      
+      - name: Commit and push report
+        run: |
+          MONDAY="${{ steps.dates.outputs.monday }}"
+          REPORT_FILE="weekly_report_${MONDAY}.json"
+          
+          if [ -f "${REPORT_FILE}" ]; then
+            git config --local user.email "github-actions[bot]@users.noreply.github.com"
+            git config --local user.name "github-actions[bot]"
+            git add "${REPORT_FILE}"
+            git commit -m "📊 Generate weekly report for week of ${MONDAY}" || echo "No changes to commit"
+            git push || echo "Nothing to push"
+            echo "✅ 週次レポート生成完了: ${REPORT_FILE}"
+          else
+            echo "❌ レポートファイルが生成されませんでした"
+            exit 1
+          fi

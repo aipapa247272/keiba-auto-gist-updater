@@ -1,0 +1,101 @@
+name: Generate Monthly Report
+
+on:
+  schedule:
+    # 毎月1日 09:00 JST (00:00 UTC) に実行
+    - cron: '0 0 1 * *'
+  workflow_dispatch:
+
+jobs:
+  generate-report:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      
+      - name: Calculate month
+        id: month
+        run: |
+          YEAR_MONTH=$(TZ=Asia/Tokyo date -d "last month" +%Y%m)
+          echo "year_month=${YEAR_MONTH}" >> $GITHUB_OUTPUT
+          echo "📅 Target month: ${YEAR_MONTH}"
+      
+      - name: Collect month data
+        run: |
+          YEAR_MONTH="${{ steps.month.outputs.year_month }}"
+          echo "📦 Collecting data for ${YEAR_MONTH}..."
+          
+          # 先月のデータを収集
+          python3 << EOF
+import json
+import glob
+from datetime import datetime, timedelta
+import calendar
+
+# 先月の年月を取得
+year_month = "${YEAR_MONTH}"
+year = int(year_month[:4])
+month = int(year_month[4:6])
+
+# 先月の日数を取得
+_, num_days = calendar.monthrange(year, month)
+
+all_predictions = []
+all_results = []
+
+# 先月の全日付のデータを収集
+for day in range(1, num_days + 1):
+    date = f"{year}{month:02d}{day:02d}"
+    
+    # 予想データ
+    try:
+        with open(f'final_predictions_{date}.json', 'r') as f:
+            data = json.load(f)
+            all_predictions.extend(data.get('selected_predictions', []))
+    except FileNotFoundError:
+        pass
+    
+    # 結果データ
+    try:
+        with open(f'results_{date}.json', 'r') as f:
+            data = json.load(f)
+            all_results.extend(data.get('races', []))
+    except FileNotFoundError:
+        pass
+
+# マージしたデータを保存
+with open('monthly_predictions.json', 'w') as f:
+    json.dump({'selected_predictions': all_predictions}, f, ensure_ascii=False)
+
+with open('monthly_results.json', 'w') as f:
+    json.dump({'races': all_results}, f, ensure_ascii=False)
+
+print(f"✅ Collected {len(all_predictions)} predictions and {len(all_results)} results for {year_month}")
+EOF
+      
+      - name: Generate monthly report
+        run: |
+          python3 scripts/generate_reports.py monthly monthly_predictions.json monthly_results.json statistics.json
+      
+      - name: Commit and push report
+        run: |
+          YEAR_MONTH="${{ steps.month.outputs.year_month }}"
+          REPORT_FILE="monthly_report_${YEAR_MONTH}.json"
+          
+          if [ -f "${REPORT_FILE}" ]; then
+            git config --local user.email "github-actions[bot]@users.noreply.github.com"
+            git config --local user.name "github-actions[bot]"
+            git add "${REPORT_FILE}"
+            git commit -m "📊 Generate monthly report for ${YEAR_MONTH}" || echo "No changes to commit"
+            git push || echo "Nothing to push"
+            echo "✅ 月次レポート生成完了: ${REPORT_FILE}"
+          else
+            echo "❌ レポートファイルが生成されませんでした"
+            exit 1
+          fi
