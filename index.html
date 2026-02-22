@@ -674,6 +674,8 @@
         <button class="tab-btn active" onclick="switchTab('predictions')">📊 今日の予想</button>
         <button class="tab-btn" onclick="switchTab('results')">🎯 昨日の結果</button>
         <button class="tab-btn" onclick="switchTab('stats')">📈 統計</button>
+        <!-- レポートタブボタン（タブナビゲーションに追加） -->
+        <button class="tab-btn" onclick="switchTab('reports')">📊 レポート</button>
     </div>
 
     <div class="content">
@@ -696,7 +698,22 @@
                 <div class="section-title">📈 統計</div>
                 <button class="refresh-btn" onclick="loadStatistics()" style="margin-left: auto;">🔄 更新</button>
             </div>
-            
+            <!-- レポートタブコンテンツ（タブコンテンツ内に追加） -->
+       <div id="reports" class="tab-content">
+       <div class="section-title">📊 分析レポート</div>
+    
+    <!-- レポート種類選択 -->
+       <div class="report-type-selector">
+        <button class="report-type-btn active" onclick="loadReport('daily')">📅 日次レポート</button>
+        <button class="report-type-btn" onclick="loadReport('weekly')">📊 週次レポート</button>
+               <button class="report-type-btn" onclick="loadReport('monthly')">📈 月次レポート</button>
+                </div>
+    
+            <!-- レポート表示エリア -->
+            <div id="report-container" class="report-container">
+            <div class="loading">📊 レポートを読み込み中...</div>
+                </div>
+                </div>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px;">
                 <div class="summary-card">
                     <div class="summary-label">総レース数</div>
