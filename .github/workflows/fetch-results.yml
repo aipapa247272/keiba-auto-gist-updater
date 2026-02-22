@@ -43,6 +43,37 @@ jobs:
         run: |
           python scripts/fetch_race_results.py ${{ steps.get_ymd.outputs.ymd }}
       
+      # ===== 🆕 展開情報追加ステップ =====
+      - name: Add pace information to results
+        run: |
+          YMD="${{ steps.get_ymd.outputs.ymd }}"
+          
+          # race_data と race_results の存在確認
+          if [ -f "race_data_${YMD}.json" ] && [ -f "race_results_${YMD}.json" ]; then
+            echo "📊 Adding pace information..."
+            python scripts/add_pace_info.py \
+              "race_data_${YMD}.json" \
+              "race_results_${YMD}.json" \
+              "race_results_${YMD}_temp.json"
+            
+            # 成功したら上書き
+            if [ -f "race_results_${YMD}_temp.json" ]; then
+              mv "race_results_${YMD}_temp.json" "race_results_${YMD}.json"
+              echo "✅ Pace information added successfully"
+            else
+              echo "⚠️ Failed to add pace information, using original file"
+            fi
+          else
+            echo "⚠️ Required files not found, skipping pace analysis"
+            if [ ! -f "race_data_${YMD}.json" ]; then
+              echo "   Missing: race_data_${YMD}.json"
+            fi
+            if [ ! -f "race_results_${YMD}.json" ]; then
+              echo "   Missing: race_results_${YMD}.json"
+            fi
+          fi
+      # ===== 展開情報追加ステップ終了 =====
+      
       - name: Generate results summary
         run: |
           if [ -f "scripts/generate_results_summary.py" ]; then
