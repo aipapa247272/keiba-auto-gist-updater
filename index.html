@@ -657,6 +657,240 @@
             font-size: 14px;
             line-height: 1.6;
         }
+<!-- CSS（<style>タグ内に追加） -->
+.report-type-selector {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.report-type-btn {
+    padding: 12px 24px;
+    background: #1a2332;
+    border: 2px solid #2c3e50;
+    border-radius: 8px;
+    color: #b0c4de;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.report-type-btn:hover {
+    background: #2c3e50;
+    border-color: #4fc3f7;
+    color: #4fc3f7;
+}
+
+.report-type-btn.active {
+    background: linear-gradient(135deg, #4fc3f7 0%, #29b6f6 100%);
+    border-color: #4fc3f7;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(79, 195, 247, 0.4);
+}
+
+.report-container {
+    background: #1a2332;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.report-header {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #2c3e50;
+}
+
+.report-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+.report-period {
+    font-size: 14px;
+    color: #7e8ea0;
+}
+
+.report-section {
+    margin-bottom: 32px;
+}
+
+.report-section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #4fc3f7;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.summary-card {
+    background: linear-gradient(135deg, #2c3e50 0%, #1a2332 100%);
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid #2c3e50;
+}
+
+.summary-label {
+    font-size: 12px;
+    color: #7e8ea0;
+    margin-bottom: 8px;
+}
+
+.summary-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.summary-value.positive {
+    color: #4caf50;
+}
+
+.summary-value.negative {
+    color: #f44336;
+}
+
+.segment-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+}
+
+.segment-table thead {
+    background: #2c3e50;
+}
+
+.segment-table th {
+    padding: 12px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 600;
+    color: #b0c4de;
+    border-bottom: 2px solid #4fc3f7;
+}
+
+.segment-table td {
+    padding: 12px;
+    border-bottom: 1px solid #2c3e50;
+    font-size: 14px;
+}
+
+.segment-table tr:hover {
+    background: rgba(79, 195, 247, 0.1);
+}
+
+.insight-item {
+    background: linear-gradient(135deg, #2c3e50 0%, #1a2332 100%);
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    border-left: 4px solid #4fc3f7;
+}
+
+.insight-item.positive {
+    border-left-color: #4caf50;
+}
+
+.insight-item.warning {
+    border-left-color: #ff9800;
+}
+
+.insight-message {
+    font-size: 14px;
+    color: #e0e0e0;
+}
+
+.pace-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+    margin-top: 12px;
+}
+
+.pace-card {
+    background: linear-gradient(135deg, #2c3e50 0%, #1a2332 100%);
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid #2c3e50;
+}
+
+.pace-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #4fc3f7;
+    margin-bottom: 12px;
+}
+
+.pace-stat {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+.pace-stat-label {
+    color: #7e8ea0;
+}
+
+.pace-stat-value {
+    color: #fff;
+    font-weight: 600;
+}
+
+.runstyle-breakdown {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #2c3e50;
+}
+
+.runstyle-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    font-size: 12px;
+}
+
+.runstyle-name {
+    color: #b0c4de;
+}
+
+.runstyle-hitrate {
+    color: #4fc3f7;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .pace-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .segment-table {
+        font-size: 12px;
+    }
+    
+    .segment-table th,
+    .segment-table td {
+        padding: 8px;
+    }
+}
     </style>
 </head>
 <body>
