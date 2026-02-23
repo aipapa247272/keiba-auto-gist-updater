@@ -13,6 +13,8 @@ import json
 import sys
 import os
 from datetime import datetime
+from math import comb
+from itertools import combinations as iter_combinations
 
 def generate_reason(horse_data):
     """予想根拠を生成"""
@@ -88,9 +90,10 @@ def generate_betting_plan(race):
     # 穴候補: 4位以降
     opponent_horses = top_candidates[3:]
     
-    # 組み合わせ数: 10 + 3 × 穴候補数
+    # 組み合わせ数: C(軸数+相手数, 3) - C(相手数, 3) ← 軸1頭以上含む全組み合わせ
+    num_axis = len(axis_horses)
     num_opponents = len(opponent_horses)
-    combinations = 10 + 3 * num_opponents
+    combinations = comb(num_axis + num_opponents, 3) - comb(num_opponents, 3)
     investment = combinations * 100
     
     betting_plan = {
@@ -116,7 +119,16 @@ def generate_betting_plan(race):
             for h in opponent_horses
         ],
         "買い目タイプ": "三連複フォーメーション（軸1-2頭流し）",
-        "組み合わせ数": combinations
+        "組み合わせ数": combinations,
+        "全買い目": [
+            '-'.join(sorted(str(n) for n in combo))
+            for combo in iter_combinations(
+                [h.get('馬番') for h in axis_horses] +
+                [h.get('馬番') for h in opponent_horses],
+                3
+            )
+            if any(str(h.get('馬番')) in [str(x) for x in combo] for h in axis_horses)
+        ]
     }
     
     return betting_plan, investment
