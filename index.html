@@ -58,31 +58,62 @@
         }
 
         .tab-nav {
-            display: flex;
-            background: #1a2332;
-            padding: 5px;
-            gap: 5px;
-        }
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    background: rgba(255,255,255,0.04);
+    border-radius: 14px;
+    padding: 5px;
+    margin-bottom: 16px;
+    gap: 3px;
+}
+.tab-nav::-webkit-scrollbar { display: none; }
 
-        .tab-btn {
-            flex: 1;
-            padding: 16px 10px;
-            border: none;
-            background: transparent;
-            color: #7e8ea0;
-            font-size: 15px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border-radius: 25px;
-            font-weight: 500;
-            white-space: nowrap;
-        }
+.tab-btn {
+    flex: 1;
+    min-width: 0;
+    padding: 6px 4px;
+    background: transparent;
+    border: none;
+    /* 非アクティブ時: ページ背景に馴染むグレー */
+    color: #5a6a7e;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: all 0.2s;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+}
 
-        .tab-btn.active {
-            background: linear-gradient(135deg, #00bcd4 0%, #2196f3 100%);
-            color: #fff;
-            box-shadow: 0 4px 12px rgba(33,150,243,0.4);
-        }
+.tab-icon {
+    font-size: 18px;
+    line-height: 1;
+    display: block;
+}
+
+.tab-label {
+    font-size: 9px;
+    font-weight: 600;
+    line-height: 1;
+    display: block;
+    letter-spacing: 0.3px;
+    /* 非アクティブ: 背景色に合わせたサブカラー */
+    color: #5a6a7e;
+}
+
+.tab-btn.active {
+    background: linear-gradient(135deg, #00bcd4 0%, #1565c0 100%);
+    box-shadow: 0 2px 10px rgba(0, 188, 212, 0.45);
+}
+
+.tab-btn.active .tab-icon,
+.tab-btn.active .tab-label {
+    /* アクティブ時: 白 */
+    color: #ffffff;
+}
 
         .content {
             padding: 20px;
@@ -743,28 +774,42 @@
 
 .summary-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
-    margin-bottom: 24px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+/* KPIカード専用グリッド（統計ページ用） */
+.stats-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 16px;
 }
 
 .summary-card {
     background: linear-gradient(135deg, #2c3e50 0%, #1a2332 100%);
-    padding: 16px;
+    padding: 12px 8px;
     border-radius: 8px;
-    border: 1px solid #2c3e50;
+    border: 1px solid rgba(79, 195, 247, 0.2);
+    text-align: center;
 }
 
 .summary-label {
-    font-size: 12px;
-    color: #7e8ea0;
-    margin-bottom: 8px;
+    font-size: 10px;
+    /* ラベル色: ページ配色に合わせた薄いブルーグレー */
+    color: #8fa8c0;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .summary-value {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 700;
     color: #fff;
+    text-align: center;
 }
 
 .summary-value.positive {
@@ -902,6 +947,16 @@
         padding: 8px;
     }
 }
+
+
+/* 統計テーブルのtd */
+#daily-tbody td,
+#venue-tbody td,
+#track-tbody td {
+    padding: 5px 4px;
+    font-size: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
     </style>
 </head>
 <body>
@@ -916,11 +971,22 @@
     </div>
 
     <div class="tab-nav">
-        <button class="tab-btn active" onclick="switchTab('predictions')">📊 今日の予想</button>
-        <button class="tab-btn" onclick="switchTab('results')">🎯 昨日の結果</button>
-        <button class="tab-btn" onclick="switchTab('stats')">📈 統計</button>
-        
-        <button class="tab-btn" onclick="switchTab('reports')">📊 レポート</button>
+        <button class="tab-btn active" onclick="switchTab('predictions')">
+            <span class="tab-label">予想</span>
+            <span class="tab-icon">📊</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab('results')">
+            <span class="tab-label">結果</span>
+            <span class="tab-icon">🎯</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab('stats')">
+            <span class="tab-label">統計</span>
+            <span class="tab-icon">📈</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab('reports')">
+            <span class="tab-label">レポート</span>
+            <span class="tab-icon">📋</span>
+        </button>
     </div>
 
     <div class="content">
@@ -944,7 +1010,7 @@
                 <button class="refresh-btn" onclick="loadStatistics()" style="margin-left: auto;">🔄 更新</button>
             </div>
        
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px;">
+            <div class="stats-kpi-grid">
                 <div class="summary-card">
                     <div class="summary-label">総レース数</div>
                     <div class="summary-value" id="stat-total-races" style="color: #4fc3f7;">-</div>
@@ -971,18 +1037,18 @@
                 </div>
             </div>
 
-            <div class="summary-card" style="margin-bottom: 15px;">
-                <div class="summary-label" style="font-size: 18px; margin-bottom: 10px;">📅 日別成績</div>
+            <div class="summary-card" style="margin-bottom: 10px;">
+                <div class="summary-label" style="font-size: 14px; font-weight: 700; margin-bottom: 8px;">📅 日別成績</div>
                 <div style="overflow-x: auto;">
                     <table style="width: 100%; border-collapse: collapse;">
                         <thead>
                             <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
-                                <th style="padding: 8px; text-align: left; color: #4fc3f7;">日付</th>
-                                <th style="padding: 8px; text-align: center; color: #4fc3f7;">レース</th>
-                                <th style="padding: 8px; text-align: center; color: #4fc3f7;">的中</th>
-                                <th style="padding: 8px; text-align: center; color: #4fc3f7;">的中率</th>
-                                <th style="padding: 8px; text-align: right; color: #4fc3f7;">投資額</th>
-                                <th style="padding: 8px; text-align: right; color: #4fc3f7;">収支</th>
+                                <th style="padding: 6px 4px; text-align: left; color: #4fc3f7; font-size: 11px;">日付</th>
+                                <th style="padding: 6px 4px; text-align: center; color: #4fc3f7; font-size: 11px;">R数</th>
+                                <th style="padding: 6px 4px; text-align: center; color: #4fc3f7; font-size: 11px;">的中</th>
+                                <th style="padding: 6px 4px; text-align: center; color: #4fc3f7; font-size: 11px;">的中率</th>
+                                <th style="padding: 6px 4px; text-align: right; color: #4fc3f7; font-size: 11px;">投資額</th>
+                                <th style="padding: 6px 4px; text-align: right; color: #4fc3f7; font-size: 11px;">収支</th>
                             </tr>
                         </thead>
                         <tbody id="daily-tbody"></tbody>
@@ -990,17 +1056,17 @@
                 </div>
             </div>
 
-            <div class="summary-card" style="margin-bottom: 15px;">
-                <div class="summary-label" style="font-size: 18px; margin-bottom: 10px;">🏇 競馬場別成績</div>
+            <div class="summary-card" style="margin-bottom: 10px;">
+                <div class="summary-label" style="font-size: 14px; font-weight: 700; margin-bottom: 8px;">🏇 競馬場別成績</div>
                 <div style="overflow-x: auto;">
                     <table style="width: 100%; border-collapse: collapse;">
                         <thead>
                             <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
-                                <th style="padding: 8px; text-align: left; color: #4fc3f7;">競馬場</th>
-                                <th style="padding: 8px; text-align: center; color: #4fc3f7;">レース</th>
-                                <th style="padding: 8px; text-align: center; color: #4fc3f7;">的中</th>
-                                <th style="padding: 8px; text-align: center; color: #4fc3f7;">的中率</th>
-                                <th style="padding: 8px; text-align: center; color: #4fc3f7;">回収率</th>
+                                <th style="padding: 6px 4px; text-align: left; color: #4fc3f7; font-size: 11px;">競馬場</th>
+                                <th style="padding: 6px 4px; text-align: center; color: #4fc3f7; font-size: 11px;">R数</th>
+                                <th style="padding: 6px 4px; text-align: center; color: #4fc3f7; font-size: 11px;">的中</th>
+                                <th style="padding: 6px 4px; text-align: center; color: #4fc3f7; font-size: 11px;">的中率</th>
+                                <th style="padding: 6px 4px; text-align: center; color: #4fc3f7; font-size: 11px;">回収率</th>
                             </tr>
                         </thead>
                         <tbody id="venue-tbody"></tbody>
@@ -1009,16 +1075,16 @@
             </div>
 
             <div class="summary-card">
-                <div class="summary-label" style="font-size: 18px; margin-bottom: 10px;">🏁 トラック別成績</div>
+                <div class="summary-label" style="font-size: 14px; font-weight: 700; margin-bottom: 8px;">🏁 トラック別成績</div>
                 <div style="overflow-x: auto;">
                     <table style="width: 100%; border-collapse: collapse;">
                         <thead>
                             <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
-                                <th style="padding: 8px; text-align: left; color: #4fc3f7;">トラック</th>
-                                <th style="padding: 8px; text-align: center; color: #4fc3f7;">レース</th>
-                                <th style="padding: 8px; text-align: center; color: #4fc3f7;">的中</th>
-                                <th style="padding: 8px; text-align: center; color: #4fc3f7;">的中率</th>
-                                <th style="padding: 8px; text-align: center; color: #4fc3f7;">回収率</th>
+                                <th style="padding: 6px 4px; text-align: left; color: #4fc3f7; font-size: 11px;">トラック</th>
+                                <th style="padding: 6px 4px; text-align: center; color: #4fc3f7; font-size: 11px;">R数</th>
+                                <th style="padding: 6px 4px; text-align: center; color: #4fc3f7; font-size: 11px;">的中</th>
+                                <th style="padding: 6px 4px; text-align: center; color: #4fc3f7; font-size: 11px;">的中率</th>
+                                <th style="padding: 6px 4px; text-align: center; color: #4fc3f7; font-size: 11px;">回収率</th>
                             </tr>
                         </thead>
                         <tbody id="track-tbody"></tbody>
