@@ -156,7 +156,7 @@
 
         /* 問題のCSSコメントも削除 */
 
-/* ↓ .summary-grid → .rpt-summary-grid に変更 */
+
 .rpt-summary-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -164,7 +164,7 @@
     margin-bottom: 24px;
 }
 
-/* ↓ .summary-card → .rpt-summary-card に変更 */
+
 .rpt-summary-card {
     background: linear-gradient(135deg, #2c3e50 0%, #1a2332 100%);
     padding: 16px;
@@ -172,14 +172,14 @@
     border: 1px solid #2c3e50;
 }
 
-/* ↓ .summary-label → .rpt-summary-label に変更 */
+
 .rpt-summary-label {
     font-size: 12px;
     color: #7e8ea0;
     margin-bottom: 8px;
 }
 
-/* ↓ .summary-value → .rpt-summary-value に変更 */
+
 .rpt-summary-value {
     font-size: 24px;
     font-weight: 700;
@@ -943,19 +943,7 @@
                 <div class="section-title">📈 統計</div>
                 <button class="refresh-btn" onclick="loadStatistics()" style="margin-left: auto;">🔄 更新</button>
             </div>
-       <div id="reports" class="tab-content">
-       <div class="section-title">📊 分析レポート</div>
-    
-       <div class="report-type-selector">
-        <button class="report-type-btn active" onclick="loadReport('daily')">📅 日次レポート</button>
-        <button class="report-type-btn" onclick="loadReport('weekly')">📊 週次レポート</button>
-               <button class="report-type-btn" onclick="loadReport('monthly')">📈 月次レポート</button>
-                </div>
-    
-            <div id="report-container" class="report-container">
-            <div class="loading">📊 レポートを読み込み中...</div>
-                </div>
-                </div>
+       
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px;">
                 <div class="summary-card">
                     <div class="summary-label">総レース数</div>
@@ -1038,6 +1026,19 @@
                 </div>
             </div>
         </div>
+        <div id="reports-tab" class="tab-content">
+       <div class="section-title">📊 分析レポート</div>
+    
+       <div class="report-type-selector">
+        <button class="report-type-btn active" onclick="loadReport('daily')">📅 日次レポート</button>
+        <button class="report-type-btn" onclick="loadReport('weekly')">📊 週次レポート</button>
+               <button class="report-type-btn" onclick="loadReport('monthly')">📈 月次レポート</button>
+                </div>
+    
+            <div id="report-container" class="report-container">
+            <div class="loading">📊 レポートを読み込み中...</div>
+                </div>
+                </div>
     </div>
 
     <script>
@@ -1071,10 +1072,9 @@
             if (tabName === 'stats') {
                 loadStatistics();
                 } else if (tabName === 'reports') {
-                initReports();
+                    initReports();
                 }
            }
-                }
 
         async function loadPredictions() {
             try {
@@ -1657,12 +1657,12 @@ async function loadReport(reportType) {
         const today = new Date();
         let filename;
         if (reportType === 'daily') {
-            filename = `daily_report_${formatDate(today, 'YYYYMMDD')}.json`;
+            filename = `daily_report_${formatReportDate(today, 'YYYYMMDD')}.json`;
         } else if (reportType === 'weekly') {
             const monday = getMonday(today);
-            filename = `weekly_report_${formatDate(monday, 'YYYYMMDD')}.json`;
+            filename = `weekly_report_${formatReportDate(monday, 'YYYYMMDD')}.json`;
         } else if (reportType === 'monthly') {
-            filename = `monthly_report_${formatDate(today, 'YYYYMM')}.json`;
+            filename = `monthly_report_${formatReportDate(today, 'YYYYMM')}.json`;
         }
         
         const response = await fetch(`https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/${filename}`);
@@ -1700,10 +1700,9 @@ function renderReport(report) {
     
     // サマリー
     if (summary) {
-        // ↓ summary-grid → rpt-summary-grid
-// ↓ summary-card → rpt-summary-card
-// ↓ summary-label → rpt-summary-label
-// ↓ summary-value → rpt-summary-value
+
+
+
 
 html += `
     <div class="report-section">
@@ -1906,7 +1905,7 @@ function getReportPeriod(report) {
     return '';
 }
 
-function formatDate(date, format) {
+function formatReportDate(date, format) {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
