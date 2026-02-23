@@ -1062,8 +1062,11 @@
             
             if (tabName === 'stats') {
                 loadStatistics();
-            }
-        }
+                } else if (tabName === 'reports') {
+                initReports();
+                }
+           }
+                }
 
         async function loadPredictions() {
             try {
