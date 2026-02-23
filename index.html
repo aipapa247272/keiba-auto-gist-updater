@@ -1700,37 +1700,43 @@ function renderReport(report) {
     
     // サマリー
     if (summary) {
-        html += `
-            <div class="report-section">
-                <div class="report-section-title">📊 総合成績</div>
-                <div class="summary-grid">
-                    <div class="summary-card">
-                        <div class="summary-label">レース数</div>
-                        <div class="summary-value">${summary.total_races}</div>
-                    </div>
-                    <div class="summary-card">
-                        <div class="summary-label">的中率</div>
-                        <div class="summary-value ${summary.hit_rate >= 15 ? 'positive' : ''}">${summary.hit_rate}%</div>
-                    </div>
-                    <div class="summary-card">
-                        <div class="summary-label">回収率</div>
-                        <div class="summary-value ${summary.recovery_rate >= 100 ? 'positive' : ''}">${summary.recovery_rate}%</div>
-                    </div>
-                    <div class="summary-card">
-                        <div class="summary-label">収支</div>
-                        <div class="summary-value ${summary.profit >= 0 ? 'positive' : 'negative'}">¥${summary.profit.toLocaleString()}</div>
-                    </div>
-                    <div class="summary-card">
-                        <div class="summary-label">投資額</div>
-                        <div class="summary-value">¥${summary.total_investment.toLocaleString()}</div>
-                    </div>
-                    <div class="summary-card">
-                        <div class="summary-label">払戻額</div>
-                        <div class="summary-value">¥${summary.total_payout.toLocaleString()}</div>
-                    </div>
-                </div>
+        // ↓ summary-grid → rpt-summary-grid
+// ↓ summary-card → rpt-summary-card
+// ↓ summary-label → rpt-summary-label
+// ↓ summary-value → rpt-summary-value
+
+html += `
+    <div class="report-section">
+        <div class="report-section-title">📊 総合成績</div>
+        <div class="rpt-summary-grid">
+            <div class="rpt-summary-card">
+                <div class="rpt-summary-label">レース数</div>
+                <div class="rpt-summary-value">${summary.total_races}</div>
             </div>
-        `;
+            <div class="rpt-summary-card">
+                <div class="rpt-summary-label">的中率</div>
+                <div class="rpt-summary-value ${summary.hit_rate >= 15 ? 'positive' : ''}">${summary.hit_rate}%</div>
+            </div>
+            <div class="rpt-summary-card">
+                <div class="rpt-summary-label">回収率</div>
+                <div class="rpt-summary-value ${summary.recovery_rate >= 100 ? 'positive' : ''}">${summary.recovery_rate}%</div>
+            </div>
+            <div class="rpt-summary-card">
+                <div class="rpt-summary-label">収支</div>
+                <div class="rpt-summary-value ${summary.profit >= 0 ? 'positive' : 'negative'}">¥${summary.profit.toLocaleString()}</div>
+            </div>
+            <div class="rpt-summary-card">
+                <div class="rpt-summary-label">投資額</div>
+                <div class="rpt-summary-value">¥${summary.total_investment.toLocaleString()}</div>
+            </div>
+            <div class="rpt-summary-card">
+                <div class="rpt-summary-label">払戻額</div>
+                <div class="rpt-summary-value">¥${summary.total_payout.toLocaleString()}</div>
+            </div>
+        </div>
+    </div>
+`;
+
     }
     
     // セグメント別分析
