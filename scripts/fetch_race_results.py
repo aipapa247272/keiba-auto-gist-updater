@@ -5,6 +5,7 @@ import sys
 import os
 from datetime import datetime
 import time
+from itertools import combinations as iter_combinations
 
 def fetch_race_results(ymd):
     """
@@ -80,19 +81,34 @@ def fetch_race_results(ymd):
         # =====================================================
         predicted_combinations = []
         axis_numbers_raw = []
+        opponent_numbers_raw = []
         
         for h in axis_horses[:3]:
             uma_num = h.get('馬番')
-            # None や空文字、'None'文字列を除外
             if uma_num is None or str(uma_num).strip() == '' or str(uma_num).strip().lower() == 'none':
-                print(f"  ⚠️ 馬番が不正な値: {uma_num} → スキップ")
+                print(f"  ⚠️ 軸馬番が不正: {uma_num} → スキップ")
                 continue
             axis_numbers_raw.append(str(uma_num).strip())
         
+        # 相手馬番も取得
+        opponent_horses_raw = betting_plan.get('相手', [])
+        for h in opponent_horses_raw:
+            uma_num = h.get('馬番')
+            if uma_num is None or str(uma_num).strip() == '' or str(uma_num).strip().lower() == 'none':
+                continue
+            opponent_numbers_raw.append(str(uma_num).strip())
+        
         if len(axis_numbers_raw) >= 3:
-            axis_numbers = sorted(axis_numbers_raw[:3])
-            predicted_combinations = ['-'.join(axis_numbers)]
-            print(f"  🎯 予想: {predicted_combinations[0]}")
+            # フォーメーション全組み合わせを生成（軸1頭以上含む全パターン）
+            all_nums = axis_numbers_raw + opponent_numbers_raw
+            axis_set = set(axis_numbers_raw)
+            all_combos = [
+                '-'.join(sorted(combo))
+                for combo in iter_combinations(all_nums, 3)
+                if any(n in axis_set for n in combo)
+            ]
+            predicted_combinations = all_combos
+            print(f"  🎯 予想: 軸{axis_numbers_raw} 相手{opponent_numbers_raw} → {len(predicted_combinations)}通り")
         else:
             print(f"  ⚠️ 有効な軸馬が{len(axis_numbers_raw)}頭のみ（3頭必要）→ 予想なしとして記録")
         
