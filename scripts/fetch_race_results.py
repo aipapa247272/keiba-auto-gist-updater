@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import sys
+import os
 from datetime import datetime
 import time
 
@@ -11,17 +12,44 @@ def fetch_race_results(ymd):
     ymd: YYYYMMDD形式の日付文字列
     """
     
-    # latest_predictions.json からデータを読み込む
-    try:
-        with open('latest_predictions.json', 'r', encoding='utf-8') as f:
-            predictions_data = json.load(f)
-    except FileNotFoundError:
-        print(f"❌ エラー: latest_predictions.json が見つかりません")
-        return None
+    # =====================================================
+    # バグ修正1: final_predictions_{ymd}.json を優先読み込み
+    # latest_predictions.json は日付不一致の場合があるため
+    # =====================================================
+    pred_file = f'final_predictions_{ymd}.json'
+    fallback_file = 'latest_predictions.json'
     
-    # 日付が一致するか確認
-    if predictions_data.get('ymd') != ymd:
-        print(f"⚠️ 警告: 予想データの日付 ({predictions_data.get('ymd')}) と指定日付 ({ymd}) が一致しません")
+    predictions_data = None
+    
+    # まず final_predictions_{ymd}.json を試みる
+    if os.path.exists(pred_file):
+        try:
+            with open(pred_file, 'r', encoding='utf-8') as f:
+                predictions_data = json.load(f)
+            print(f"✅ {pred_file} を使用")
+        except Exception as e:
+            print(f"⚠️ {pred_file} の読み込み失敗: {e}")
+            predictions_data = None
+    
+    # ファイルが存在しない場合は latest_predictions.json にフォールバック
+    if predictions_data is None:
+        if not os.path.exists(fallback_file):
+            print(f"❌ エラー: {pred_file} も {fallback_file} も見つかりません")
+            return None
+        try:
+            with open(fallback_file, 'r', encoding='utf-8') as f:
+                predictions_data = json.load(f)
+            print(f"⚠️ {pred_file} が見つからないため {fallback_file} を使用")
+        except Exception as e:
+            print(f"❌ エラー: {fallback_file} の読み込み失敗: {e}")
+            return None
+    
+    # 日付チェック: 不一致の場合は処理を中断（バグ修正1の核心）
+    data_ymd = predictions_data.get('ymd')
+    if data_ymd != ymd:
+        print(f"❌ エラー: 予想データの日付 ({data_ymd}) と指定日付 ({ymd}) が一致しません")
+        print(f"   処理を中断します。正しい予想ファイルを確認してください。")
+        return None
     
     # 選定されたレースを取得
     selected_races = predictions_data.get('selected_predictions', [])
@@ -47,10 +75,26 @@ def fetch_race_results(ymd):
         betting_plan = race.get('betting_plan', {})
         axis_horses = betting_plan.get('軸', [])
         
+        # =====================================================
+        # バグ修正2: 馬番がNone/空文字の場合のガード処理
+        # =====================================================
         predicted_combinations = []
-        if len(axis_horses) >= 3:
-            axis_numbers = sorted([str(h.get('馬番', '')) for h in axis_horses[:3]])
+        axis_numbers_raw = []
+        
+        for h in axis_horses[:3]:
+            uma_num = h.get('馬番')
+            # None や空文字、'None'文字列を除外
+            if uma_num is None or str(uma_num).strip() == '' or str(uma_num).strip().lower() == 'none':
+                print(f"  ⚠️ 馬番が不正な値: {uma_num} → スキップ")
+                continue
+            axis_numbers_raw.append(str(uma_num).strip())
+        
+        if len(axis_numbers_raw) >= 3:
+            axis_numbers = sorted(axis_numbers_raw[:3])
             predicted_combinations = ['-'.join(axis_numbers)]
+            print(f"  🎯 予想: {predicted_combinations[0]}")
+        else:
+            print(f"  ⚠️ 有効な軸馬が{len(axis_numbers_raw)}頭のみ（3頭必要）→ 予想なしとして記録")
         
         investment = race.get('investment', 2400)
         
@@ -85,6 +129,7 @@ def fetch_race_results(ymd):
         hit = False
         return_amount = 0
         
+        # 予想がある場合のみ的中判定
         if sanrenpuku_result and predicted_combinations:
             actual_numbers = set(sanrenpuku_result.split('-'))
             
@@ -97,7 +142,10 @@ def fetch_race_results(ymd):
                     break
         
         if not hit:
-            print(f"  ❌ 不的中")
+            if not predicted_combinations:
+                print(f"  ⚠️ 予想なし（馬番データ不足のためスキップ）")
+            else:
+                print(f"  ❌ 不的中")
         
         profit = return_amount - investment
         
@@ -108,7 +156,7 @@ def fetch_race_results(ymd):
             'race_name': race_name,
             'distance': distance,
             'track': track,
-            'status': '的中' if hit else '不的中',
+            'status': '的中' if hit else ('予想なし' if not predicted_combinations else '不的中'),
             'predicted': predicted_combinations,
             'actual': [sanrenpuku_result] if sanrenpuku_result else [],
             'result_sanrenpuku': sanrenpuku_result,
@@ -129,23 +177,27 @@ def fetch_race_results(ymd):
     hit_count = sum(1 for r in results if r['status'] == '的中')
     miss_count = sum(1 for r in results if r['status'] == '不的中')
     unavailable_count = sum(1 for r in results if r['status'] == '結果取得不可')
+    no_pred_count = sum(1 for r in results if r['status'] == '予想なし')
+    
+    # 的中率計算は「予想あり」レースのみを対象にする
+    valid_races = hit_count + miss_count
     
     total_investment = sum(r['investment'] for r in results)
     total_return = sum(r['return'] for r in results)
     total_profit = total_return - total_investment
     
-    hit_rate = (hit_count / total_races * 100) if total_races > 0 else 0
+    hit_rate = (hit_count / valid_races * 100) if valid_races > 0 else 0
     recovery_rate = (total_return / total_investment * 100) if total_investment > 0 else 0
     
     print(f"\n{'='*50}")
     print(f"📊 結果サマリー")
     print(f"{'='*50}")
     print(f"総レース数: {total_races}")
-    print(f"的中: {hit_count} / 不的中: {miss_count} / 取得不可: {unavailable_count}")
+    print(f"的中: {hit_count} / 不的中: {miss_count} / 取得不可: {unavailable_count} / 予想なし: {no_pred_count}")
     print(f"投資額: ¥{total_investment:,}")
     print(f"払戻額: ¥{total_return:,}")
     print(f"収支: {'+' if total_profit >= 0 else ''}¥{total_profit:,}")
-    print(f"的中率: {hit_rate:.1f}%")
+    print(f"的中率: {hit_rate:.1f}%（予想ありレース{valid_races}件中）")
     print(f"回収率: {recovery_rate:.1f}%")
     print(f"{'='*50}\n")
     
@@ -155,11 +207,13 @@ def fetch_race_results(ymd):
     output_data = {
         'date': date_str,
         'ymd': ymd,
-        'generated_at': date_obj.strftime('%Y-%m-%d %H:%M:%S'),
+        'generated_at': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
         'total_races': total_races,
         'hit_count': hit_count,
         'miss_count': miss_count,
         'unavailable_count': unavailable_count,
+        'no_pred_count': no_pred_count,
+        'valid_races': valid_races,
         'total_investment': total_investment,
         'total_return': total_return,
         'total_profit': total_profit,
@@ -292,7 +346,7 @@ def fetch_single_race_result(race_id, ymd):
             print(f"  ❌ 上位3頭のデータが不足")
             return None
         
-        # ★ 修正: sorted() を削除
+        # 着順通りの並び（sorted()なし）
         sanrenpuku_result = '-'.join(top_3)
         print(f"  🎯 三連複: {sanrenpuku_result}")
         
