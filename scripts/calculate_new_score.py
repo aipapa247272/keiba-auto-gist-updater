@@ -3,7 +3,16 @@
 """
 新予想ロジック: スコア計算スクリプト
 作成日: 2026/02/16
+更新日: 2026/02/24 Phase1重み調整適用
 目的: 実データに基づいた入賞要因を数値化し、予想精度を向上させる
+
+【Phase1変更点】
+  馬体重増減: 0.30 → 0.10 (-20%) ※過剰評価を是正
+  前走人気:   0.25 → 0.30 (+5%)  ※人気は信頼度高
+  経験値:     0.15 → 0.05 (-10%) ※経験値より実力重視
+  騎手厩舎:   0.15 → 0.25 (+10%) ※騎手・厩舎の影響大
+  距離馬場適性:0.10 → 0.20 (+10%) ※適性は重要指標
+  脚質:       0.05 → 0.10 (+5%)  ※展開影響を強化
 """
 
 import json
@@ -12,7 +21,7 @@ from typing import Dict, Any
 
 def calculate_weight_change_score(weight_change: float) -> int:
     """
-    馬体重増減スコア計算（30%の重み）
+    馬体重増減スコア計算（10%の重み ← Phase1: 30%→10%）
     入賞馬は平均-0.47kg、不入賞馬は+1.66kg
     """
     if weight_change is None:
@@ -31,7 +40,7 @@ def calculate_weight_change_score(weight_change: float) -> int:
 
 def calculate_popularity_score(last_popularity: str) -> int:
     """
-    前走人気スコア計算（25%の重み）
+    前走人気スコア計算（30%の重み ← Phase1: 25%→30%）
     入賞馬の40%が前走1-2番人気
     """
     if not last_popularity:
@@ -54,7 +63,7 @@ def calculate_popularity_score(last_popularity: str) -> int:
 
 def calculate_experience_score(past_races_count: int) -> int:
     """
-    経験値スコア計算（15%の重み）
+    経験値スコア計算（5%の重み ← Phase1: 15%→5%）
     入賞馬は平均3.6レース、不入賞馬は2.65レース
     """
     if past_races_count >= 5:
@@ -70,7 +79,7 @@ def calculate_experience_score(past_races_count: int) -> int:
 
 def calculate_jockey_stable_score(des_jockey_stable: float) -> int:
     """
-    騎手厩舎スコア計算（15%の重み）
+    騎手厩舎スコア計算（25%の重み ← Phase1: 15%→25%）
     旧DESスコアを正規化（0-10点 → 0-100点）
     """
     if des_jockey_stable is None:
@@ -82,7 +91,7 @@ def calculate_jockey_stable_score(des_jockey_stable: float) -> int:
 
 def calculate_aptitude_score(des_aptitude: float) -> int:
     """
-    距離馬場適性スコア計算（10%の重み）
+    距離馬場適性スコア計算（20%の重み ← Phase1: 10%→20%）
     旧DESスコアを正規化（0-25点 → 0-100点）
     """
     if des_aptitude is None:
@@ -94,7 +103,7 @@ def calculate_aptitude_score(des_aptitude: float) -> int:
 
 def calculate_leg_type_score(leg_type: str) -> int:
     """
-    脚質スコア計算（5%の重み）
+    脚質スコア計算（10%の重み ← Phase1: 5%→10%）
     逃げ33.3% > 先行26.7% > 差し40.0%（逃げ・先行が有利）
     """
     leg_scores = {
@@ -149,14 +158,21 @@ def calculate_new_score(horse: Dict[str, Any]) -> tuple[float, Dict[str, int]]:
         "脚質": calculate_leg_type_score(horse.get("推定脚質", "")),
     }
     
-    # 総合スコア計算（重み付け）
+    # ===== Phase1重み =====
+    # 前走人気:    0.30 (+5%)
+    # 騎手厩舎:    0.25 (+10%)
+    # 距離馬場適性: 0.20 (+10%)
+    # 脚質:        0.10 (+5%)
+    # 馬体重増減:  0.10 (-20%)
+    # 経験値:      0.05 (-10%)
+    # 合計:        1.00
     total_score = (
-        score_components["馬体重増減"] * 0.30 +
-        score_components["前走人気"] * 0.25 +
-        score_components["経験値"] * 0.15 +
-        score_components["騎手厩舎"] * 0.15 +
-        score_components["距離馬場適性"] * 0.10 +
-        score_components["脚質"] * 0.05
+        score_components["前走人気"]     * 0.30 +
+        score_components["騎手厩舎"]     * 0.25 +
+        score_components["距離馬場適性"] * 0.20 +
+        score_components["脚質"]         * 0.10 +
+        score_components["馬体重増減"]   * 0.10 +
+        score_components["経験値"]       * 0.05
     )
     
     return round(total_score, 2), score_components
@@ -199,7 +215,7 @@ def main():
         print(f"[ERROR] ファイルが見つかりません: {input_file}")
         sys.exit(1)
     except json.JSONDecodeError as e:
-        print(f"[ERROR] JSON解析エラー: {e}")
+        print(f"[ERROR] JSON解析エラー: {e}\"")
         sys.exit(1)
     except Exception as e:
         print(f"[ERROR] 予期しないエラー: {e}")
