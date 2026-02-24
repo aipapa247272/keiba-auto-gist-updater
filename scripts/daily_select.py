@@ -433,6 +433,67 @@ def main():
     print(f"📊 race_ids: {len(all_race_ids)}件")
     print(f"📊 selected_predictions: {len(all_race_list)}件")
     
+
+    # ===== 🆕 レース0件時の処理（メンテナンス・全場休催対応）=====
+    if len(all_race_ids) == 0:
+        print("\n⚠️ 本日はレースが0件です")
+        
+        # 休催理由を推定
+        no_race_reason = "本日は競馬の開催がありません"
+        no_race_type = "no_race"
+        
+        # NARサイトにアクセスして休催理由を確認
+        try:
+            nar_url = f"https://nar.netkeiba.com/top/race_list_sub.html?kaisai_date={ymd}"
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+                'Referer': 'https://nar.netkeiba.com/'
+            }
+            r = requests.get(nar_url, headers=headers, timeout=10)
+            nar_text = r.text.lower()
+            if 'メンテナンス' in r.text or 'maintenance' in nar_text or 'システム' in r.text:
+                no_race_reason = "システムメンテナンスのため全地方競馬休催日"
+                no_race_type = "maintenance"
+                print("🔧 システムメンテナンスによる休催を検知")
+            elif '休止' in r.text or '休催' in r.text:
+                no_race_reason = "本日は全競馬場が休催です"
+                no_race_type = "closed"
+                print("🚫 全場休催を検知")
+        except Exception as e:
+            print(f"⚠️ 休催理由の確認に失敗: {e}")
+        
+        # latest_predictions.json を「開催なし」状態で更新
+        jst = ZoneInfo("Asia/Tokyo")
+        no_race_data = {
+            "ymd": ymd,
+            "generated_at": datetime.now(jst).strftime("%Y-%m-%d %H:%M:%S"),
+            "no_race": True,
+            "no_race_type": no_race_type,
+            "no_race_reason": no_race_reason,
+            "total_races": 0,
+            "selected_races": 0,
+            "skipped_races": 0,
+            "selected_predictions": [],
+            "summary": {
+                "turbulence": {"低": 0, "中": 0, "高": 0},
+                "total_investment": 0
+            }
+        }
+        
+        with open("latest_predictions.json", "w", encoding="utf-8") as f:
+            json.dump(no_race_data, f, ensure_ascii=False, indent=2)
+        
+        # 日付別ファイルも保存
+        no_race_file = f"final_predictions_{ymd}.json"
+        with open(no_race_file, "w", encoding="utf-8") as f:
+            json.dump(no_race_data, f, ensure_ascii=False, indent=2)
+        
+        print(f"✅ latest_predictions.json を「開催なし」状態で更新: {no_race_reason}")
+        print(f"✅ {no_race_file} を作成")
+        print("\n✅ 処理完了（開催なし）")
+        return 0
+    # ===== 0件処理終わり =====
+
     # サンプル表示
     if all_race_list:
         print("\n📋 サンプル（最初の3件）:")
