@@ -97,13 +97,15 @@ jobs:
           python scripts/select_predictions.py ${{ steps.get_date.outputs.date }}
 
       - name: Commit race_data JSON
-        if: steps.check_cancel.outputs.cancelled == 'false'
         run: |
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git add race_data_*.json final_predictions_*.json latest_predictions.json
+          # 通常時: race_data, final_predictions, latest_predictions
+          # 開催なし時: final_predictions_{ymd}.json(no_race), latest_predictions.json のみ
+          git add race_data_*.json 2>/dev/null || true
+          git add final_predictions_*.json latest_predictions.json today_jobs.latest.json
           git diff --cached --quiet || git commit -m "Add race_data for ${{ steps.get_date.outputs.date }}"
-          git push
+          git push || true
 
       - name: Generate final output
         if: steps.check_cancel.outputs.cancelled == 'false'
