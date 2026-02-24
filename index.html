@@ -1242,6 +1242,54 @@
         }
 
         function renderPredictions(data) {
+            const container = document.getElementById('predictions-tab');
+
+            // ===== 🆕 開催なし・メンテナンス対応 =====
+            if (data.no_race) {
+                const noRaceType = data.no_race_type || 'no_race';
+                const noRaceReason = data.no_race_reason || '本日は競馬の開催がありません';
+                const targetDate = data.ymd || '';
+                const updateTime = data.generated_at || '';
+                
+                let icon = '🚫';
+                let bgColor = '#1a2744';
+                let borderColor = '#3a4d7a';
+                if (noRaceType === 'maintenance') {
+                    icon = '🔧';
+                    bgColor = '#1a2233';
+                    borderColor = '#4a5d8a';
+                }
+                
+                container.innerHTML = `
+                    <div class="section-header">
+                        <div class="section-title">📊 今日の予想</div>
+                        <button class="refresh-btn" onclick="loadPredictions()">🔄 更新</button>
+                    </div>
+                    <div class="update-info">
+                        <div class="update-label">📅 データ取得日時</div>
+                        <div class="update-time">${updateTime}</div>
+                    </div>
+                    <div style="
+                        background: ${bgColor};
+                        border: 2px solid ${borderColor};
+                        border-radius: 12px;
+                        padding: 30px 20px;
+                        text-align: center;
+                        margin: 20px 0;
+                    ">
+                        <div style="font-size: 3em; margin-bottom: 12px;">${icon}</div>
+                        <div style="font-size: 1.2em; font-weight: bold; color: #90caf9; margin-bottom: 8px;">
+                            ${formatDate(targetDate)} の競馬
+                        </div>
+                        <div style="font-size: 1em; color: #b0bec5; line-height: 1.6;">
+                            ${noRaceReason}
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            // ===== 開催なし処理終わり =====
+
             const races = data.selected_predictions || [];
             const summary = data.summary || {};
             const turbulence = summary.turbulence || {};
