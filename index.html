@@ -1597,7 +1597,8 @@
                     const venue = result.venue || '-';
                     const raceName = result.race_name || `${raceNum}R`;
                     const distance = result.distance ? `${result.track}${result.distance}m` : '-';
-                    const predicted = result.predicted?.join(', ') || '-';
+                    const predictedArray = Array.isArray(result.predicted) ? result.predicted : [];
+                    const predicted = predictedArray.join(', ') || '-';
                     const actual = result.actual?.join(', ') || '-';
                     const investment = result.investment || 0;
                     const returnAmount = result.return || 0;
@@ -1618,10 +1619,10 @@
                             <div style="margin: 12px 0; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 8px;">
                                 <details style="font-size: 12px;">
                                     <summary style="color: #b0c4de; cursor: pointer; user-select: none; margin-bottom: 4px;">
-                                        🎯 予想: <strong style="color: #4fc3f7;">${predicted.length}点買い</strong>（タップで展開）
+                                        🎯 予想: <strong style="color: #4fc3f7;">${predictedArray.length}点買い</strong>（タップで展開）
                                     </summary>
                                     <div style="margin-top: 8px; color: #b0c4de; word-break: break-all; line-height: 1.8;">
-                                        ${predicted.join(', ')}
+                                        ${predictedArray.join(', ')}
                                     </div>
                                 </details>
                                 <div style="font-size: 13px; color: #fff; margin-top: 8px;">
