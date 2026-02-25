@@ -1621,8 +1621,19 @@
                                     <summary style="color: #b0c4de; cursor: pointer; user-select: none; margin-bottom: 4px;">
                                         🎯 予想: <strong style="color: #4fc3f7;">${predictedArray.length}点買い</strong>（タップで展開）
                                     </summary>
-                                    <div style="margin-top: 8px; color: #b0c4de; word-break: break-all; line-height: 1.8;">
-                                        ${predictedArray.join(', ')}
+                                    <div style="margin-top: 8px; word-break: break-all; line-height: 1.8;">
+                                        ${(() => {
+                                            const actualStr = (result.actual?.[0] || '').trim();
+                                            const actualSet = new Set(actualStr ? actualStr.split('-') : []);
+                                            return predictedArray.map(combo => {
+                                                const comboSet = new Set(combo.split('-'));
+                                                const isHit = actualSet.size === 3 && comboSet.size === 3
+                                                    && [...actualSet].every(x => comboSet.has(x));
+                                                return isHit
+                                                    ? `<span style="color:#00e676;font-weight:bold;background:rgba(0,230,118,0.15);padding:1px 5px;border-radius:4px;border:1px solid rgba(0,230,118,0.4);">⭐${combo}</span>`
+                                                    : `<span style="color:#78909c;">${combo}</span>`;
+                                            }).join('<span style="color:#546e7a;"> / </span>');
+                                        })()}
                                     </div>
                                 </details>
                                 <div style="font-size: 13px; color: #fff; margin-top: 8px;">
@@ -1637,7 +1648,13 @@
                                 </div>
                                 <div class="result-item">
                                     <div class="result-label">払戻</div>
-                                    <div class="result-value">${returnAmount > 0 ? '¥' + returnAmount.toLocaleString() : '¥0'}</div>
+                                    <div class="result-value">
+                                        ${returnAmount > 0 
+                                            ? '¥' + returnAmount.toLocaleString()
+                                            : result.hit 
+                                                ? '<span style="color:#ffb300;font-size:11px;">⚠️ 取得中</span>'
+                                                : '¥0'}
+                                    </div>
                                 </div>
                                 <div class="result-item">
                                     <div class="result-label">損益</div>
