@@ -141,6 +141,12 @@ def fetch_race_results(ymd):
         
         sanrenpuku_result = race_result.get('sanrenpuku_result', '')
         sanrenpuku_payout = race_result.get('sanrenpuku_payout', 0)
+        payouts = race_result.get('payouts', {})
+        
+        # フォールバック: payoutsから三連複払戻を補完
+        if not sanrenpuku_payout and payouts.get('三連複'):
+            sanrenpuku_payout = payouts['三連複']
+            print(f"  💰 三連複払戻(payoutsから補完): ¥{sanrenpuku_payout:,}")
         
         hit = False
         return_amount = 0
