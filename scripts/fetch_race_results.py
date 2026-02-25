@@ -367,18 +367,34 @@ def fetch_single_race_result(race_id, ymd):
         print(f"  🎯 三連複: {sanrenpuku_result}")
         
         payout_tables = []
-        local_table = soup.select_one('table.Payout_Detail_Table')
-        if local_table:
-            payout_tables.append(local_table)
+        # NARのPayoutDetailTableは複数テーブルに分かれている場合があるのでselectで全取得
+        local_tables = soup.select('table.Payout_Detail_Table')
+        if local_tables:
+            payout_tables.extend(local_tables)
+            print(f"  📊 Payout_Detail_Table: {len(local_tables)}テーブル取得")
         
+        # JRAページ用テーブル（summary属性で識別）
         central_tables = soup.select('table[summary="払い戻し"], table[summary="ワイド"]')
         if central_tables:
             payout_tables.extend(central_tables)
         
+        # 追加フォールバック: NAR別パターン
         if not payout_tables:
-            fallback = soup.select_one('table.pay_table_01')
-            if fallback:
-                payout_tables.append(fallback)
+            # payoff_tableやpay_tableクラスも試みる
+            extra = soup.select('table.payoff_table, table.pay_table_01, table.Payout')
+            if extra:
+                payout_tables.extend(extra)
+                print(f"  📊 fallback payout table: {len(extra)}テーブル取得")
+        
+        if not payout_tables:
+            # 最終手段: thに券種名が含まれるtableを全探索
+            for tbl in soup.find_all('table'):
+                ths = tbl.select('th')
+                th_texts = [th.get_text(strip=True) for th in ths]
+                if any(t in th_texts for t in ['単勝', '複勝', '馬連', '三連複', '三連単']):
+                    payout_tables.append(tbl)
+                    print(f"  📊 th検索でpayoutテーブル発見")
+                    break
         
         payouts = {}
         sanrenpuku_payout = 0
