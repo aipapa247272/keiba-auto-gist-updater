@@ -1589,6 +1589,13 @@
                     </div>
                 `;
             } else {
+                // ① 開催時間順にソート（start_time がない場合は race_num 順）
+                races.sort((a, b) => {
+                    const ta = a.start_time || '99:99';
+                    const tb = b.start_time || '99:99';
+                    if (ta !== tb) return ta.localeCompare(tb);
+                    return String(a.race_num || '').localeCompare(String(b.race_num || ''));
+                });
                 races.forEach(result => {
                     const statusText = result.hit ? '🎯 的中' : '❌ 不的中';
                     const statusClass = result.hit ? 'hit' : 'miss';
@@ -1599,6 +1606,14 @@
                     const distance = result.distance ? `${result.track}${result.distance}m` : '-';
                     const predictedArray = Array.isArray(result.predicted) ? result.predicted : [];
                     const predicted = predictedArray.join(', ') || '-';
+                    // ② 軸馬・穴馬の文字列を構築
+                    const bettingPlan = result.betting_plan || {};
+                    const axisHorses = bettingPlan['軸'] || [];
+                    const opponentHorses = bettingPlan['相手'] || [];
+                    const evalMap = {'◎':'◎','○':'◯','▲':'△'};
+                    const axisStr = axisHorses.map(h => (evalMap[h['評価']] || '') + h['馬番']).join('');
+                    const opponentStr = opponentHorses.map(h => h['馬番']).join('-');
+                    const startTimeDisp = result.start_time || '-';
                     const actual = result.actual?.join(', ') || '-';
                     const investment = result.investment || 0;
                     const returnAmount = result.return || 0;
@@ -1612,16 +1627,22 @@
                         <div class="race-card">
                             <div class="race-header">
                                 <div class="race-title">${venue} ${raceNum}R ${raceName}</div>
-                                <div class="race-info">${distance} | 発走 -</div>
+                                <div class="race-info">${distance} | 発走 ${startTimeDisp}</div>
                             </div>
                             <div class="result-badge ${statusClass}">${statusText}</div>
                             
                             <div style="margin: 12px 0; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 8px;">
-                                <details style="font-size: 12px;">
-                                    <summary style="color: #b0c4de; cursor: pointer; user-select: none; margin-bottom: 4px;">
-                                        🎯 予想: <strong style="color: #4fc3f7;">${predictedArray.length}点買い</strong>（タップで展開）
+                                <details style="font-size: 13px;">
+                                    <summary style="color: #b0c4de; cursor: pointer; user-select: none; list-style: none; display: flex; align-items: flex-start; gap: 4px;">
+                                        <span style="font-size: 11px; color: #90a4ae; margin-top: 2px;">▶</span>
+                                        <div style="line-height: 1.9;">
+                                            <div><span style="color: #ffd54f; font-weight: 600;">📊予想:</span><span style="color: #e0e0e0;">軸</span><strong style="color: #4fc3f7; letter-spacing: 1px;">${axisStr || '-'}</strong></div>
+                                            <div style="padding-left: 3.2em;"><span style="color: #e0e0e0;">穴 </span><strong style="color: #ce93d8;">${opponentStr || '-'}</strong></div>
+                                            <div><span style="color: #a5d6a7; font-weight: 600;">🎯結果:</span><strong style="color: #fff;">${actual}</strong></div>
+                                            <div><span style="color: #ffcc80; font-weight: 600;">💰買い目:</span><strong style="color: #4fc3f7;">${predictedArray.length}点買い</strong><span style="color: #78909c; font-size: 11px;">（タップで展開）</span></div>
+                                        </div>
                                     </summary>
-                                    <div style="margin-top: 8px; word-break: break-all; line-height: 1.8;">
+                                    <div style="margin-top: 8px; word-break: break-all; line-height: 1.8; padding-left: 1.2em;">
                                         ${(() => {
                                             const actualStr = (result.actual?.[0] || '').trim();
                                             const actualSet = new Set(actualStr ? actualStr.split('-') : []);
@@ -1636,9 +1657,6 @@
                                         })()}
                                     </div>
                                 </details>
-                                <div style="font-size: 13px; color: #fff; margin-top: 8px;">
-                                    <span style="color: #b0c4de;">結果:</span> <strong>${actual}</strong>
-                                </div>
                             </div>
                             
                             <div class="result-details">
