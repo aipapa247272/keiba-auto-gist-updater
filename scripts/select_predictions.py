@@ -133,7 +133,7 @@ def generate_betting_plan(race):
     
     return betting_plan, investment
 
-def select_races(race_data, max_races=5):
+def select_races(race_data, max_races=9999):  # テスト運用: 上限撤廃
     """予想対象レースを選定"""
     races = race_data.get('races', [])
     selected = []
@@ -161,6 +161,39 @@ def select_races(race_data, max_races=5):
         betting_plan, investment = generate_betting_plan(race)
         
         if evaluation_score >= 50 and data_quality >= 10:
+            # スコア帯分類
+            if evaluation_score >= 90:
+                score_tier = "S"
+            elif evaluation_score >= 80:
+                score_tier = "A"
+            elif evaluation_score >= 70:
+                score_tier = "B"
+            else:
+                score_tier = "C"
+
+            # 仮想買い目プラン（複勝・ワイド・馬連）
+            axis_list = betting_plan.get("軸", [])
+            axis_nums = [str(h.get("馬番")) for h in axis_list if h.get("馬番") is not None]
+            virtual_bets_plan = {}
+            if len(axis_nums) >= 1:
+                virtual_bets_plan["複勝_軸1"] = {
+                    "type": "複勝", "馬番": axis_nums[0], "投資": 100
+                }
+            if len(axis_nums) >= 2:
+                virtual_bets_plan["複勝_軸2"] = {
+                    "type": "複勝", "馬番": axis_nums[1], "投資": 100
+                }
+                virtual_bets_plan["ワイド_軸1-2"] = {
+                    "type": "ワイド",
+                    "組み合わせ": f"{min(axis_nums[0],axis_nums[1],key=int)}-{max(axis_nums[0],axis_nums[1],key=int)}",
+                    "投資": 100
+                }
+                virtual_bets_plan["馬連_軸1-2"] = {
+                    "type": "馬連",
+                    "組み合わせ": f"{min(axis_nums[0],axis_nums[1],key=int)}-{max(axis_nums[0],axis_nums[1],key=int)}",
+                    "投資": 100
+                }
+
             selected.append({
                 "race_id": race.get('race_id'),
                 "race_name": race.get('レース名', '不明'),
@@ -170,25 +203,21 @@ def select_races(race_data, max_races=5):
                 "start_time": race.get('発走時刻'),
                 "turbulence": turbulence,
                 "evaluation_score": round(evaluation_score, 2),
+                "score_tier": score_tier,
                 "top_3_avg": round(sum(top_3_scores) / 3, 2),
                 "data_quality": data_quality,
                 "betting_plan": betting_plan,
-                "investment": investment
+                "investment": investment,
+                "virtual_bets_plan": virtual_bets_plan
             })
             turbulence_counts[turbulence] += 1
         else:
             skipped.append({"race_id": race.get('race_id'), "reason": f"評価不足"})
     
-    final_selected = []
-    low_races = [r for r in selected if r["turbulence"] == "低"]
-    mid_races = [r for r in selected if r["turbulence"] == "中"]
+    # テスト運用: 全波乱帯を evaluation_score 降順で全選定（上限 max_races まで）
+    final_selected = sorted(selected, key=lambda r: r["evaluation_score"], reverse=True)[:max_races]
     
-    final_selected.extend(sorted(low_races, key=lambda r: r["evaluation_score"], reverse=True)[:3])
-    remaining = max_races - len(final_selected)
-    if remaining > 0:
-        final_selected.extend(sorted(mid_races, key=lambda r: r["evaluation_score"], reverse=True)[:remaining])
-    
-    return final_selected[:max_races], skipped, turbulence_counts
+    return final_selected, skipped, turbulence_counts
 
 def main():
     """メイン処理"""
