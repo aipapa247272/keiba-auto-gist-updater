@@ -101,6 +101,13 @@ jobs:
             echo "⚠️ results_summary MD not found, skipping..."
           fi
       
+      - name: Update statistics
+        run: |
+          python scripts/generate_stats.py || echo "⚠️ failed, continuing..."
+          if [ -f statistics.json ]; then
+          git add statistics.json
+          fi
+
       - name: Commit results
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
