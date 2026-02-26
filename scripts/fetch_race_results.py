@@ -137,6 +137,7 @@ def fetch_race_results(ymd):
                 'payouts': {},
                 'horse_weights': [],
                 'all_horses_result': [],   # Phase1
+                'virtual_bets_result': {},  # テスト用仮想買い目
                 'weather': '',
                 'track_condition': ''
             })
@@ -171,6 +172,50 @@ def fetch_race_results(ymd):
             else:
                 h['役割'] = '予測外'
         all_horses_result = all_horses_raw
+        # ─────────────────────────────────────────────────────
+
+        # ─── 仮想買い目 払戻計算 ────────────────────────────
+        virtual_bets_plan = race.get('virtual_bets_plan', {})
+        virtual_bets_result = {}
+        actual_payouts = race_result.get('payouts', {})
+
+        for bet_key, bet_info in virtual_bets_plan.items():
+            bet_type = bet_info.get('type', '')
+            investment_v = bet_info.get('投資', 100)
+            payout_v = 0
+            hit_v = False
+
+            if bet_type == '複勝':
+                # 複勝: 払戻は 'payouts["複勝"]' の最小値（実装上は最初の値）
+                # top_3 に馬番が含まれるか確認
+                horse_num = str(bet_info.get('馬番', ''))
+                if horse_num in (race_result.get('sanrenpuku_result') or '').split('-'):
+                    payout_v = actual_payouts.get('複勝', 0)
+                    hit_v = payout_v > 0
+
+            elif bet_type in ('ワイド', '馬連'):
+                combo = bet_info.get('組み合わせ', '')
+                combo_nums = set(combo.split('-'))
+                top3_nums = set((race_result.get('sanrenpuku_result') or '').split('-'))
+                if bet_type == 'ワイド':
+                    # ワイド: 上位3頭中に2頭が含まれれば的中
+                    if len(combo_nums & top3_nums) >= 2:
+                        payout_v = actual_payouts.get('ワイド', 0)
+                        hit_v = payout_v > 0
+                else:
+                    # 馬連: 1着・2着の2頭が一致
+                    top2_nums = set((race_result.get('sanrenpuku_result') or '').split('-')[:2])
+                    if combo_nums == top2_nums:
+                        payout_v = actual_payouts.get('馬連', 0)
+                        hit_v = payout_v > 0
+
+            virtual_bets_result[bet_key] = {
+                'type': bet_type,
+                '投資': investment_v,
+                '払戻': payout_v,
+                '収支': payout_v - investment_v,
+                '的中': hit_v
+            }
         # ─────────────────────────────────────────────────────
 
         sanrenpuku_result = race_result.get('sanrenpuku_result', '')
@@ -226,6 +271,7 @@ def fetch_race_results(ymd):
             'payouts': race_result.get('payouts', {}),
             'horse_weights': race_result.get('horse_weights', []),
             'all_horses_result': all_horses_result,   # Phase1
+            'virtual_bets_result': virtual_bets_result,  # テスト用仮想買い目
             'weather': race_result.get('weather', ''),
             'track_condition': race_result.get('track_condition', '')
         })
