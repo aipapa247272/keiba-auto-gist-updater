@@ -176,6 +176,26 @@ def fetch_race_results(ymd):
 
         # ─── 仮想買い目 払戻計算 ────────────────────────────
         virtual_bets_plan = race.get('virtual_bets_plan', {})
+        # フォールバック: virtual_bets_planが空の場合 betting_planの軸馬から自動生成
+        if not virtual_bets_plan:
+            axis_list_vb = betting_plan.get('軸', [])
+            axis_nums_vb = [str(h.get('馬番')) for h in axis_list_vb if h.get('馬番') is not None]
+            if len(axis_nums_vb) >= 1:
+                virtual_bets_plan['複勝_軸1'] = {'type': '複勝', '馬番': axis_nums_vb[0], '投資': 100}
+            if len(axis_nums_vb) >= 2:
+                virtual_bets_plan['複勝_軸2'] = {'type': '複勝', '馬番': axis_nums_vb[1], '投資': 100}
+                n1 = min(axis_nums_vb[0], axis_nums_vb[1], key=int)
+                n2 = max(axis_nums_vb[0], axis_nums_vb[1], key=int)
+                virtual_bets_plan['ワイド_軸1-2'] = {'type': 'ワイド', '組み合わせ': f'{n1}-{n2}', '投資': 100}
+                virtual_bets_plan['馬連_軸1-2']  = {'type': '馬連',  '組み合わせ': f'{n1}-{n2}', '投資': 100}
+            if len(axis_nums_vb) >= 3:
+                virtual_bets_plan['複勝_軸3'] = {'type': '複勝', '馬番': axis_nums_vb[2], '投資': 100}
+                n1b = min(axis_nums_vb[1], axis_nums_vb[2], key=int)
+                n2b = max(axis_nums_vb[1], axis_nums_vb[2], key=int)
+                virtual_bets_plan['ワイド_軸2-3'] = {'type': 'ワイド', '組み合わせ': f'{n1b}-{n2b}', '投資': 100}
+                virtual_bets_plan['馬連_軸2-3']  = {'type': '馬連',  '組み合わせ': f'{n1b}-{n2b}', '投資': 100}
+            if virtual_bets_plan:
+                print(f"  ℹ️ virtual_bets_plan を betting_planから自動生成: {list(virtual_bets_plan.keys())}")
         virtual_bets_result = {}
         actual_payouts = race_result.get('payouts', {})
 
