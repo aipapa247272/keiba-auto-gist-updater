@@ -3,7 +3,7 @@
 """
 新予想ロジック: スコア計算スクリプト
 作成日: 2026/02/16
-更新日: 2026/02/24 Phase1重み調整適用
+更新日: 2026/02/26 Phase2バグ修正
 目的: 実データに基づいた入賞要因を数値化し、予想精度を向上させる
 
 【Phase1変更点】
@@ -13,6 +13,11 @@
   騎手厩舎:   0.15 → 0.25 (+10%) ※騎手・厩舎の影響大
   距離馬場適性:0.10 → 0.20 (+10%) ※適性は重要指標
   脚質:       0.05 → 0.10 (+5%)  ※展開影響を強化
+
+【Phase2バグ修正】
+  ① 当日人気を優先使用: horse["人気"] を前走人気より優先（fetch_shutuba.py が当日人気を格納済み）
+  ② 騎手厩舎スコア正規化修正: C_騎手厩舎の最大値は20点なので *10 → *5 に変更
+     （旧コードでは *10 していたためほぼ全馬100点になりスコア差がつかなかった）
 """
 
 import json
@@ -80,13 +85,15 @@ def calculate_experience_score(past_races_count: int) -> int:
 def calculate_jockey_stable_score(des_jockey_stable: float) -> int:
     """
     騎手厩舎スコア計算（25%の重み ← Phase1: 15%→25%）
-    旧DESスコアを正規化（0-10点 → 0-100点）
+    旧DESスコアを正規化（0-20点 → 0-100点）
+    ※ Phase2修正: C_騎手厩舎の実際の最大値は20点（騎手10点+厩舎10点）なので *5 が正しい
+       旧コードは *10 していたためほぼ全馬100点に張り付いてスコア差がつかなかった
     """
     if des_jockey_stable is None:
         return 50
     
-    # 0-10点を0-100点に変換
-    normalized = min(100, des_jockey_stable * 10)
+    # 0-20点を0-100点に変換（Phase2修正: *10 → *5）
+    normalized = min(100, des_jockey_stable * 5)
     return int(normalized)
 
 def calculate_aptitude_score(des_aptitude: float) -> int:
@@ -141,13 +148,14 @@ def calculate_new_score(horse: Dict[str, Any]) -> tuple[float, Dict[str, int]]:
             except (IndexError, ValueError):
                 pass
         
-        # 前走人気の取得
-        last_popularity = last_race.get("人気")
+        # 人気の取得（Phase2修正: 当日人気を優先、なければ前走人気を使用）
+        # fetch_shutuba.py が horse["人気"] に当日の人気を格納しているため優先使用
+        last_popularity = horse.get("人気") or last_race.get("人気")
     
     # 各要素のスコア計算
     score_components = {
         "馬体重増減": calculate_weight_change_score(weight_change),
-        "前走人気": calculate_popularity_score(last_popularity),
+        "当日人気": calculate_popularity_score(last_popularity),  # Phase2修正: 当日人気優先
         "経験値": calculate_experience_score(len(past_races)),
         "騎手厩舎": calculate_jockey_stable_score(
             horse.get("des_score", {}).get("C_騎手厩舎", 0)
@@ -167,7 +175,7 @@ def calculate_new_score(horse: Dict[str, Any]) -> tuple[float, Dict[str, int]]:
     # 経験値:      0.05 (-10%)
     # 合計:        1.00
     total_score = (
-        score_components["前走人気"]     * 0.30 +
+        score_components["当日人気"]     * 0.30 +  # Phase2修正: 当日人気優先
         score_components["騎手厩舎"]     * 0.25 +
         score_components["距離馬場適性"] * 0.20 +
         score_components["脚質"]         * 0.10 +
