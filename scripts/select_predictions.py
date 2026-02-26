@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 新予想ロジック対応: レース選定スクリプト
-修正日: 2026/02/22
+修正日: 2026/02/26
 変更点: 
 - 穴候補の計算式を修正: 予想対象総頭数 = (出馬数 ÷ 2) + 1
 - 穴候補 = 予想対象総頭数 - 軸3頭
@@ -12,7 +12,7 @@
 import json
 import sys
 import os
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from math import comb
 from itertools import combinations as iter_combinations
 
@@ -240,7 +240,7 @@ def main():
         
         output_data = {
             "ymd": ymd,
-            "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "generated_at": datetime.now(timezone(timedelta(hours=9))).strftime("%Y-%m-%d %H:%M:%S (JST)"),
             "total_races": len(race_data.get('races', [])),
             "selected_races": len(selected_races),
             "skipped_races": len(skipped_races),
