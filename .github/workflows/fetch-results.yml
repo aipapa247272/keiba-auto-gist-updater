@@ -123,10 +123,7 @@ jobs:
           else
             git commit -m "chore: add race results for ${{ steps.get_ymd.outputs.ymd }}"
 
-            # 124行目: git commit の後、git push の前に1行挿入
-            git commit -m "chore: add race results for..."
-            git pull --rebase origin main || true   ← これを追加
-            git push
+            git pull --rebase origin main || true
             
             git push
             echo "✅ Pushed results to repository"
