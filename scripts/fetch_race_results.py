@@ -136,11 +136,43 @@ def fetch_race_results(ymd):
                 'profit': -investment,
                 'payouts': {},
                 'horse_weights': [],
+                'all_horses_result': [],   # Phase1
                 'weather': '',
                 'track_condition': ''
             })
             continue
         
+        # ─── Phase1: DASスコア照合 ──────────────────────────
+        all_horses_raw = race_result.get('all_horses_data', [])
+        # 予測データ（軸+相手）からDASスコア辞書を作成
+        das_score_map = {}
+        for h in betting_plan.get('軸', []):
+            num = str(h.get('馬番', '')).strip()
+            score = h.get('スコア') or h.get('evaluation_score')
+            if num and score is not None:
+                das_score_map[num] = float(score)
+        for h in betting_plan.get('相手', []):
+            num = str(h.get('馬番', '')).strip()
+            score = h.get('スコア') or h.get('evaluation_score')
+            if num and score is not None:
+                das_score_map[num] = float(score)
+        # 全馬に DASスコアを設定（予測外馬は None のまま）
+        for h in all_horses_raw:
+            h['DASスコア'] = das_score_map.get(h['馬番'])
+        # 役割ラベルも追加（軸/相手/予測外）
+        axis_set_str = set(axis_numbers_raw)
+        opp_set_str  = set(opponent_numbers_raw)
+        for h in all_horses_raw:
+            num = h['馬番']
+            if num in axis_set_str:
+                h['役割'] = '軸'
+            elif num in opp_set_str:
+                h['役割'] = '相手'
+            else:
+                h['役割'] = '予測外'
+        all_horses_result = all_horses_raw
+        # ─────────────────────────────────────────────────────
+
         sanrenpuku_result = race_result.get('sanrenpuku_result', '')
         sanrenpuku_payout = race_result.get('sanrenpuku_payout', 0)
         payouts = race_result.get('payouts', {})
@@ -193,6 +225,7 @@ def fetch_race_results(ymd):
             'profit': profit,
             'payouts': race_result.get('payouts', {}),
             'horse_weights': race_result.get('horse_weights', []),
+            'all_horses_result': all_horses_result,   # Phase1
             'weather': race_result.get('weather', ''),
             'track_condition': race_result.get('track_condition', '')
         })
@@ -334,8 +367,53 @@ def fetch_single_race_result(race_id, ymd):
         
         top_3 = []
         horse_weights = []
+        all_horses_data = []  # Phase1: 全馬着順データ
         
-        data_rows = [r for r in rows if r.select('td')][:3]
+        all_data_rows = [r for r in rows if r.select('td')]
+        data_rows = all_data_rows[:3]
+        
+        # ─── 全馬データ取得（Phase1） ───────────────────────
+        for i, row in enumerate(all_data_rows):
+            cols = row.select('td')
+            if len(cols) < 3:
+                continue
+            
+            rank_text = cols[0].get_text(strip=True)
+            # 取消・除外などはスキップ
+            if not rank_text.isdigit():
+                continue
+            
+            horse_num = cols[2].get_text(strip=True) if len(cols) > 2 else ''
+            if not horse_num or not horse_num.isdigit():
+                umaban = row.select_one('.Umaban')
+                if umaban:
+                    horse_num = umaban.get_text(strip=True)
+            if not horse_num or not horse_num.isdigit():
+                for col in cols[1:5]:
+                    text = col.get_text(strip=True)
+                    if text.isdigit() and 1 <= int(text) <= 18:
+                        horse_num = text
+                        break
+            
+            horse_name = cols[3].get_text(strip=True) if len(cols) > 3 else ''
+            popularity = cols[9].get_text(strip=True) if len(cols) > 9 else ''
+            if not popularity.isdigit():
+                # フォールバック: 後ろから探す
+                for col in reversed(cols[:12]):
+                    t = col.get_text(strip=True)
+                    if t.isdigit() and 1 <= int(t) <= 18:
+                        popularity = t
+                        break
+            
+            if horse_num and horse_num.isdigit():
+                all_horses_data.append({
+                    '馬番': horse_num,
+                    '着順': int(rank_text),
+                    '人気': int(popularity) if popularity.isdigit() else None,
+                    '馬名': horse_name,
+                    'DASスコア': None   # メインループで照合して設定
+                })
+        # ─────────────────────────────────────────────────────
         
         for i, row in enumerate(data_rows):
             cols = row.select('td')
@@ -520,6 +598,7 @@ def fetch_single_race_result(race_id, ymd):
             'sanrenpuku_payout': sanrenpuku_payout,
             'payouts': payouts,
             'horse_weights': horse_weights,
+            'all_horses_data': all_horses_data,   # Phase1: 全馬着順データ
             'weather': weather,
             'track_condition': track_condition,
             'race_type': race_type,
