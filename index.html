@@ -1580,6 +1580,19 @@
                         </div>
                     </div>
                 </div>
+                ${(() => {
+                    let vbTotal = 0;
+                    races.forEach(r => {
+                        Object.values(r.virtual_bets_result||{}).forEach(v => { vbTotal += (v['収支']||0); });
+                    });
+                    const vc = vbTotal>=0?'#4caf50':'#ef5350';
+                    return races.some(r=>Object.keys(r.virtual_bets_result||{}).length>0)
+                        ? `<div style="margin-top:8px;padding:10px 14px;background:rgba(100,181,246,0.08);border-radius:8px;border:1px solid rgba(100,181,246,0.25);display:flex;justify-content:space-between;align-items:center;">
+                            <span style="font-size:12px;color:#64b5f6;">🧪 仮想収支合計（複勝+ワイド+馬連）</span>
+                            <span style="font-size:14px;font-weight:700;color:${vc};">${vbTotal>=0?'+':''}¥${vbTotal.toLocaleString()}</span>
+                           </div>`
+                        : '';
+                })()}
             `;
 
             if (races.length === 0) {
@@ -1604,6 +1617,11 @@
                     const venue = result.venue || '-';
                     const raceName = result.race_name || `${raceNum}R`;
                     const distance = result.distance ? `${result.track}${result.distance}m` : '-';
+                    // score_tier バッジ
+                    const tierColors = {S:'#ff4081',A:'#ff9800',B:'#4caf50',C:'#78909c'};
+                    const tierBadge = result.score_tier
+                        ? `<span style="background:${tierColors[result.score_tier]||'#78909c'};color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;margin-left:6px;">${result.score_tier}tier</span>`
+                        : '';
                     const predictedArray = Array.isArray(result.predicted) ? result.predicted : [];
                     const predicted = predictedArray.join(', ') || '-';
                     // ② 軸馬・穴馬の文字列を構築
@@ -1626,7 +1644,7 @@
                     html += `
                         <div class="race-card">
                             <div class="race-header">
-                                <div class="race-title">${venue} ${raceNum}R ${raceName}</div>
+                                <div class="race-title">${venue} ${raceNum}R ${raceName}${tierBadge}</div>
                                 <div class="race-info">${distance} | 発走 ${startTimeDisp}</div>
                             </div>
                             <div class="result-badge ${statusClass}">${statusText}</div>
@@ -1710,6 +1728,41 @@
                         `;
                     }
                     
+                    // ─── 仮想収支セクション ────────────────────────────
+                    const virtualBets = result.virtual_bets_result || {};
+                    if (Object.keys(virtualBets).length > 0) {
+                        const vbTypeLabel = {'複勝_軸1':'複勝◎','複勝_軸2':'複勝○','ワイド_軸1-2':'ワイド◎○','馬連_軸1-2':'馬連◎○'};
+                        let vbTotalProfit = 0;
+                        Object.values(virtualBets).forEach(v => { vbTotalProfit += (v['収支'] || 0); });
+                        html += `
+                            <div style="margin-top:12px;padding:12px;background:rgba(100,181,246,0.1);border-radius:8px;border:1px solid rgba(100,181,246,0.3);">
+                                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                                    <div style="font-size:12px;color:#64b5f6;font-weight:600;">🧪 仮想収支（テスト検証用）</div>
+                                    <div style="font-size:11px;font-weight:700;color:${vbTotalProfit>=0?'#4caf50':'#ef5350'};">${vbTotalProfit>=0?'+':''}¥${vbTotalProfit.toLocaleString()}</div>
+                                </div>
+                                <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+                        `;
+                        Object.entries(virtualBets).forEach(([key, v]) => {
+                            const label = vbTypeLabel[key] || key;
+                            const hitMark = v['的中'] ? '✅' : '❌';
+                            const profitColor = v['収支'] >= 0 ? '#4caf50' : '#ef5350';
+                            html += `
+                                    <div style="padding:7px;background:rgba(255,255,255,0.05);border-radius:6px;font-size:11px;">
+                                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                                            <span style="color:#b0c4de;">${hitMark} ${label}</span>
+                                            <span style="color:${profitColor};font-weight:700;">${v['収支']>=0?'+':''}¥${v['収支'].toLocaleString()}</span>
+                                        </div>
+                                        <div style="color:#78909c;font-size:10px;margin-top:2px;">払戻 ¥${(v['払戻']||0).toLocaleString()} / 投資 ¥${(v['投資']||100).toLocaleString()}</div>
+                                    </div>
+                            `;
+                        });
+                        html += `
+                                </div>
+                            </div>
+                        `;
+                    }
+                    // ─────────────────────────────────────────────────────
+
                     if (horseWeights.length > 0) {
                         html += `
                             <div style="margin-top: 12px; padding: 12px; background: rgba(156,39,176,0.1); border-radius: 8px;">
