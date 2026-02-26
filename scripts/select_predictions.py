@@ -21,9 +21,9 @@ def generate_reason(horse_data):
     reasons = []
     breakdown = horse_data.get('新スコア_内訳', {})
     
-    if breakdown.get('前走人気', 0) >= 90:
+    if breakdown.get('当日人気', breakdown.get('前走人気', 0)) >= 90:  # Phase2: キー名変更対応
         reasons.append("前走1-2位人気")
-    elif breakdown.get('前走人気', 0) >= 70:
+    elif breakdown.get('当日人気', breakdown.get('前走人気', 0)) >= 70:  # Phase2: キー名変更対応
         reasons.append("前走3-5位人気")
     
     if breakdown.get('馬体重増減', 0) >= 80:
