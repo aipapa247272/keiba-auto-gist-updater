@@ -301,7 +301,21 @@ def fetch_single_race_result(race_id, ymd):
         response = requests.get(url, headers=headers, timeout=15)
         response.raise_for_status()
         
-        soup = BeautifulSoup(response.content, 'html.parser')
+        # NARサイトはEUC-JPエンコーディング
+        html_bytes = response.content
+        html_text = None
+        for enc in ['euc-jp', 'shift_jis', 'utf-8']:
+            try:
+                decoded = html_bytes.decode(enc)
+                if '単勝' in decoded or 'ワイド' in decoded or '払戻' in decoded:
+                    html_text = decoded
+                    print(f"  📄 エンコーディング: {enc}")
+                    break
+            except Exception:
+                continue
+        if html_text is None:
+            html_text = html_bytes.decode('utf-8', errors='ignore')
+        soup = BeautifulSoup(html_text, 'html.parser')
         
         result_table = soup.select_one('table.Shutuba_Table')
         if not result_table:
@@ -408,58 +422,83 @@ def fetch_single_race_result(race_id, ymd):
         
         payouts = {}
         sanrenpuku_payout = 0
-        
-        bet_type_map = {
-            '単勝': '単勝', '複勝': '複勝', '枠連': '枠連', '馬連': '馬連',
-            '馬単': '馬単', 'ワイド': 'ワイド', '三連複': '三連複', '三連単': '三連単',
-            '3連複': '三連複', '3連単': '三連単'
+
+        import re as _re
+
+        # trクラスで券種を識別（文字化けに依存しない確実な方法）
+        TR_CLASS_MAP = {
+            'Tansho':  '単勝',
+            'Fukusho': '複勝',
+            'Wakuren': '枠連',
+            'Umaren':  '馬連',
+            'Wide':    'ワイド',
+            'Wakutan': '枠単',
+            'Umatan':  '馬単',
+            'Fuku3':   '三連複',
+            'Tan3':    '三連単',
         }
-        
+
         if payout_tables:
             for table in payout_tables:
-                payout_rows = table.select('tr')
-                
-                for row in payout_rows:
-                    th = row.select_one('th')
-                    if not th:
-                        continue
-                    
-                    raw_bet_type = th.get_text(strip=True)
-                    bet_type = bet_type_map.get(raw_bet_type, raw_bet_type)
-                    
-                    all_td = row.select('td')
-                    if len(all_td) < 2:
-                        continue
-                    
-                    payout_td = all_td[1] if len(all_td) >= 2 else all_td[-1]
+                for row in table.select('tr'):
+                    tr_classes = row.get('class', [])
+                    # trクラスで券種を特定
+                    bet_type = None
+                    for cls in tr_classes:
+                        if cls in TR_CLASS_MAP:
+                            bet_type = TR_CLASS_MAP[cls]
+                            break
+                    # クラスで判定できなければthテキストにフォールバック
+                    if not bet_type:
+                        th = row.select_one('th')
+                        if not th:
+                            continue
+                        raw = th.get_text(strip=True)
+                        fallback_map = {
+                            '単勝':'単勝','複勝':'複勝','枠連':'枠連','馬連':'馬連',
+                            '馬単':'馬単','ワイド':'ワイド','三連複':'三連複','三連単':'三連単',
+                            '3連複':'三連複','3連単':'三連単'
+                        }
+                        bet_type = fallback_map.get(raw)
+                        if not bet_type:
+                            continue
+
+                    # td.Payout から払戻金を取得
+                    payout_td = row.select_one('td.Payout')
+                    if not payout_td:
+                        all_td = row.select('td')
+                        if len(all_td) < 2:
+                            continue
+                        payout_td = all_td[1]
+
                     payout_text = payout_td.get_text(separator='\n', strip=True)
                     payout_values = []
-                    
-                    lines = payout_text.split('\n')
-                    import re
-                    for line in lines:
-                        clean_line = line.replace(',', '').replace('円', '').replace('¥', '').strip()
-                        numbers = re.findall(r'\d+', clean_line)
-                        for num_str in numbers:
+                    for seg in payout_text.split('\n'):
+                        clean = seg.replace(',', '').replace('円', '').replace('¥', '').strip()
+                        for num_str in _re.findall(r'\d+', clean):
                             try:
-                                payout_value = int(num_str)
-                                if payout_value >= 100:
-                                    payout_values.append(payout_value)
+                                v = int(num_str)
+                                if v >= 100:
+                                    payout_values.append(v)
                             except ValueError:
                                 pass
-                    
+
                     if payout_values:
                         if bet_type == '複勝':
                             final_payout = min(payout_values)
+                        elif bet_type == 'ワイド':
+                            final_payout = min(payout_values)  # 最小オッズを代表値
                         else:
                             final_payout = payout_values[0]
-                        
-                        payouts[bet_type] = final_payout
-                        
+
+                        if bet_type not in payouts:  # 重複登録防止
+                            payouts[bet_type] = final_payout
+
                         if bet_type == '三連複':
                             sanrenpuku_payout = final_payout
                             print(f"  💰 三連複払戻: ¥{final_payout:,}")
-        
+                        else:
+                            print(f"  💴 {bet_type}: ¥{final_payout:,}")
         weather = ''
         track_condition = ''
         
