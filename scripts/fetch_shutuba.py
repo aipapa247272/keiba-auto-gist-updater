@@ -223,7 +223,8 @@ def extract_horses_from_table(soup, venue_type):
             # オッズ
             elif 'Odds' in cell_class:
                 try:
-                    horse_data['オッズ'] = float(cell_text)
+                    horse_data['単勝オッズ'] = float(cell_text)  # select_predictionsで認識できるフィールド名
+                    horse_data['オッズ'] = float(cell_text)          # 互換性のため并存
                 except:
                     pass
             

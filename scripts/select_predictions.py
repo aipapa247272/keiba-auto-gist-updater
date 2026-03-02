@@ -29,7 +29,7 @@ FUND_MANAGEMENT = {
     "max_combos_trifecta": 15,      # 三連複: 最大点数
     "max_combos_wide": 2,           # ワイド: 最大点数
     "max_combos_place": 3,          # 複勝: 最大点数
-    "min_synthetic_odds": 3.0,      # 合成オッズ最低ライン (これ未満はスキップ)
+    "min_synthetic_odds": 4.0,      # 合成オッズ最低ライン (人気推定制: 4.0倍以上 = 空枫期待値有り)
     "odds_boost_threshold_4": 4.0,  # 合成オッズ4倍以上 → 賭け金1.5倍
     "odds_boost_threshold_5": 5.0,  # 合成オッズ5倍以上 → 賭け金2倍
     "min_wide_odds": 5.0,           # ワイドオッズ最低ライン
@@ -94,26 +94,107 @@ def analyze_odds_layers(horses):
                         'from_horse': sorted_horses[i-1].get('馬名', ''),
                         'to_horse': sorted_horses[i].get('馬名', '')
                     })
-    else:
-        # フォールバック: DESスコア逆順をオッズの代理指標として使用
-        sorted_horses = sorted(horses, key=lambda h: h.get('新スコア', 0), reverse=True)
-        # スコア差が大きい箇所を擬似断層として検出
+    elif pop_field:
+        # ========== 人気フィールドあり、実オッズなし ==========
+        # 人気順にソートして固定ティアで断層を定義する
+        # 統計的知見: 1-3番人気が3着以内に入る確率約93%
+        # 断層定義:
+        #   層１: 人気3番 → 4番 の間 (本命グループ vs その他)
+        #   層２: 人気5番 → 6番 の間 (対抗馬 vs 穴馬)
+        sorted_horses = sorted(
+            [h for h in horses if h.get(pop_field)],
+            key=lambda h: int(h.get(pop_field, 99))
+        )
+        # 推定オッズを一時付与
+        POP_TO_ODDS = {
+            1: 4.0, 2: 7.0, 3: 11.0, 4: 16.0, 5: 24.0,
+            6: 35.0, 7: 52.0, 8: 75.0, 9: 100.0, 10: 140.0,
+        }
+        for h in sorted_horses:
+            try:
+                pop_rank = int(h.get(pop_field, 99))
+                h['_est_odds'] = POP_TO_ODDS.get(pop_rank, min(150.0, pop_rank * 12.0))
+            except (ValueError, TypeError):
+                h['_est_odds'] = 50.0
+
+        # 固定位置に断層を定義
         layers = []
-        for i in range(1, len(sorted_horses)):
-            s_prev = sorted_horses[i-1].get('新スコア', 0)
-            s_curr = sorted_horses[i].get('新スコア', 0)
-            if s_prev > 0 and s_curr > 0:
-                # スコアが20点以上急落 → 擬似断層
-                if (s_prev - s_curr) >= 20:
+        pop_sorted_ranks = [int(h.get(pop_field, 99)) for h in sorted_horses]
+
+        # 断層１: 人気3から4の間に定義
+        if len(sorted_horses) > 3 and 3 in pop_sorted_ranks and 4 in pop_sorted_ranks:
+            idx_4 = pop_sorted_ranks.index(4)
+            if idx_4 > 0:
+                layers.append({
+                    'position': idx_4,
+                    'change_rate': round(POP_TO_ODDS.get(4, 14) / POP_TO_ODDS.get(3, 9), 2),
+                    'boundary_odds': POP_TO_ODDS.get(3, 9),
+                    'from_horse': sorted_horses[idx_4 - 1].get('馬名', ''),
+                    'to_horse': sorted_horses[idx_4].get('馬名', ''),
+                    'estimated': True,
+                    'method': 'popularity_tier'
+                })
+
+        # 断層２: 人気5から6の間に定義
+        if len(sorted_horses) > 5 and 5 in pop_sorted_ranks and 6 in pop_sorted_ranks:
+            idx_6 = pop_sorted_ranks.index(6)
+            if idx_6 > 0:
+                layers.append({
+                    'position': idx_6,
+                    'change_rate': round(POP_TO_ODDS.get(6, 30) / POP_TO_ODDS.get(5, 20), 2),
+                    'boundary_odds': POP_TO_ODDS.get(5, 20),
+                    'from_horse': sorted_horses[idx_6 - 1].get('馬名', ''),
+                    'to_horse': sorted_horses[idx_6].get('馬名', ''),
+                    'estimated': True,
+                    'method': 'popularity_tier'
+                })
+
+        # 断層が1つも検出できなかった場合: スコア差で補完
+        if not layers:
+            score_sorted = sorted(horses, key=lambda h: h.get('新スコア', 0), reverse=True)
+            scores = [h.get('新スコア', 0) for h in score_sorted]
+            score_range = max(scores) - min(scores) if scores else 0
+            relative_threshold = score_range * 0.3
+            for i in range(1, len(score_sorted)):
+                s_prev = score_sorted[i - 1].get('新スコア', 0)
+                s_curr = score_sorted[i].get('新スコア', 0)
+                if (s_prev - s_curr) >= max(relative_threshold, 10):
                     layers.append({
                         'position': i,
                         'change_rate': round(s_prev / max(s_curr, 1), 2),
                         'boundary_odds': None,
-                        'from_horse': sorted_horses[i-1].get('馬名', ''),
-                        'to_horse': sorted_horses[i].get('馬名', ''),
-                        'estimated': True
+                        'from_horse': score_sorted[i - 1].get('馬名', ''),
+                        'to_horse': score_sorted[i].get('馬名', ''),
+                        'estimated': True,
+                        'method': 'score_diff'
                     })
-    
+                    if len(layers) >= 2:
+                        break
+            if layers:
+                sorted_horses = score_sorted  # スコアソートに切り替え
+    else:
+        # ========== 人気・オッズどちらもない場合 ==========
+        sorted_horses = sorted(horses, key=lambda h: h.get('新スコア', 0), reverse=True)
+        scores = [h.get('新スコア', 0) for h in sorted_horses]
+        score_range = max(scores) - min(scores) if scores else 0
+        relative_threshold = score_range * 0.3
+        layers = []
+        for i in range(1, len(sorted_horses)):
+            s_prev = sorted_horses[i - 1].get('新スコア', 0)
+            s_curr = sorted_horses[i].get('新スコア', 0)
+            if (s_prev - s_curr) >= max(relative_threshold, 10):
+                layers.append({
+                    'position': i,
+                    'change_rate': round(s_prev / max(s_curr, 1), 2),
+                    'boundary_odds': None,
+                    'from_horse': sorted_horses[i - 1].get('馬名', ''),
+                    'to_horse': sorted_horses[i].get('馬名', ''),
+                    'estimated': True,
+                    'method': 'score_diff'
+                })
+                if len(layers) >= 2:
+                    break
+
     return layers, sorted_horses, has_odds_data
 
 
@@ -251,6 +332,13 @@ def calculate_synthetic_odds(horse_list, odds_field='単勝オッズ'):
         denominator = sum(1.0 / o for o in odds_values)
         if denominator > 0:
             return round(1.0 / denominator, 2), 'actual'
+
+    # フォールバック1: _est_odds (人気ティア推定値) を優先使用
+    est_odds_values = [h.get('_est_odds') for h in horse_list if h.get('_est_odds')]
+    if est_odds_values and len(est_odds_values) == len(horse_list):
+        denominator = sum(1.0 / o for o in est_odds_values if o > 0)
+        if denominator > 0:
+            return round(1.0 / denominator, 2), 'popularity_estimated'
     
     # フォールバック: DESスコアから推定
     # スコアが低い = オッズが高い という逆関係を利用
@@ -555,15 +643,15 @@ def generate_betting_plan(race):
         if key and key not in col2_set:
             col2_set.add(key)
             col2.append(h)
-        if len(col2) >= 3:
+        if len(col2) >= 4:  # 軸馬2頭+対抗馬2頭まで
             break
-    # 3列目: 穴馬 必ず1〜2頭 (col1, col2 と重複しない)
+    # 3列目: 穴馬 3頭 (col1, col2 と重複しない)
     used_nums = set(h.get('馬番') for h in col1 + col2)
     col3 = []
     for h in hole_candidates:
         if h.get('馬番') not in used_nums:
             col3.append(h)
-        if len(col3) >= 2:
+        if len(col3) >= 3:  # 穴馬最大3頭まで
             break
     # col3が空の場合はスコア下位から補充
     if not col3:
@@ -572,7 +660,7 @@ def generate_betting_plan(race):
         for h in score_sorted_asc:
             if h.get('馬番') not in used_nums:
                 col3.append(h)
-            if len(col3) >= 2:
+            if len(col3) >= 3:
                 break
     
     # --- フォーメーションの全組み合わせ生成 ---
