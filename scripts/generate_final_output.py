@@ -23,15 +23,15 @@ from datetime import datetime
 
 
 def load_race_data(ymd: str) -> Dict[str, Any]:
-    """race_data_{ymd}.json を読み込み"""
-    input_file = f"race_data_{ymd}.json"
+    """final_predictions_{ymd}.json を読み込み (select_predictions.py の出力)"""
+    input_file = f"final_predictions_{ymd}.json"
     try:
         with open(input_file, "r", encoding="utf-8") as f:
             data = json.load(f)
         print(f"[INFO] {input_file} を読み込みました")
         return data
     except FileNotFoundError:
-        print(f"[ERROR] {input_file} が見つかりません")
+        print(f"[ERROR] {input_file} が見つかりません。先に select_predictions.py を実行してください。")
         sys.exit(1)
 
 
@@ -274,12 +274,12 @@ def main():
     # データ読み込み
     data = load_race_data(ymd)
 
-    if "selected_races" not in data:
-        print("[ERROR] selected_races が見つかりません。先に select_predictions.py を実行してください。")
+    if "selected_predictions" not in data:
+        print("[ERROR] selected_predictions が見つかりません。先に select_predictions.py を実行してください。")
         sys.exit(1)
 
-    selected_races = data["selected_races"]
-    total_races = len(data.get("races", []))
+    selected_races = data["selected_predictions"]
+    total_races = data.get("total_races", len(selected_races))
     skipped_races = data.get("skipped_races_detail", [])
 
     print(f"[INFO] 予想データ: {len(selected_races)}レース")
