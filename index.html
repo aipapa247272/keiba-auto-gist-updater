@@ -622,6 +622,138 @@
             font-weight: 600;
         }
 
+        /* =============================================
+           v12: 断層・合成オッズ・役割バッジ CSS
+           ============================================= */
+
+        /* 断層分析パネル */
+        .layer-analysis-panel {
+            background: rgba(255,193,7,0.08);
+            border: 1px solid rgba(255,193,7,0.3);
+            border-radius: 8px;
+            padding: 10px 14px;
+            margin-bottom: 12px;
+            font-size: 12px;
+        }
+        .layer-analysis-title {
+            color: #ffd54f;
+            font-weight: 700;
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+        .layer-analysis-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+        .layer-analysis-label {
+            color: #b0c4de;
+        }
+        .layer-analysis-value {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* 合成オッズバッジ */
+        .synthetic-odds-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .synthetic-odds-badge.high   { background: rgba(76,175,80,0.2);  color: #81c784; border: 1px solid rgba(76,175,80,0.4); }
+        .synthetic-odds-badge.medium { background: rgba(255,193,7,0.15); color: #ffd54f; border: 1px solid rgba(255,193,7,0.4); }
+        .synthetic-odds-badge.low    { background: rgba(244,67,54,0.15); color: #e57373; border: 1px solid rgba(244,67,54,0.4); }
+
+        /* 役割バッジ */
+        .role-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+        .role-badge.axis   { background: rgba(33,150,243,0.3); color: #90caf9; border: 1px solid rgba(33,150,243,0.5); }
+        .role-badge.rival  { background: rgba(156,39,176,0.3); color: #ce93d8; border: 1px solid rgba(156,39,176,0.5); }
+        .role-badge.hole   { background: rgba(255,152,0,0.3);  color: #ffcc80; border: 1px solid rgba(255,152,0,0.5); }
+        .role-badge.flat   { background: rgba(120,144,156,0.3);color: #b0bec5; border: 1px solid rgba(120,144,156,0.5); }
+
+        /* 危険フラグ */
+        .danger-badge {
+            display: inline-block;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            margin-left: 6px;
+            background: rgba(244,67,54,0.2);
+            color: #e57373;
+            border: 1px solid rgba(244,67,54,0.4);
+        }
+
+        /* 旧ロジック比較 */
+        .old-logic-comparison {
+            background: rgba(120,144,156,0.08);
+            border: 1px dashed rgba(120,144,156,0.3);
+            border-radius: 6px;
+            padding: 8px 12px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #90a4ae;
+        }
+        .old-logic-comparison .reduction {
+            color: #81c784;
+            font-weight: 700;
+        }
+
+        /* ワイド・複勝候補 */
+        .sub-bet-section {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background: rgba(255,255,255,0.04);
+            border-radius: 6px;
+        }
+        .sub-bet-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: #4fc3f7;
+            margin-bottom: 6px;
+        }
+        .sub-bet-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            color: #ccc;
+            padding: 3px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .sub-bet-item:last-child { border-bottom: none; }
+
+        /* 資金管理ルール表示 */
+        .fund-rule-bar {
+            background: rgba(79,195,247,0.06);
+            border-radius: 6px;
+            padding: 8px 12px;
+            margin-top: 10px;
+            font-size: 11px;
+            color: #90caf9;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .fund-rule-chip {
+            background: rgba(79,195,247,0.12);
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-size: 10px;
+        }
+
         .result-badge {
             display: inline-block;
             padding: 7px 16px;
@@ -1385,10 +1517,6 @@
                 const topHorses = race.betting_plan?.軸 || [];
                 const darkHorses = race.betting_plan?.相手 || [];
                 
-                // 穴候補の頭数を計算（出馬数÷2+1）
-                const totalHorses = (topHorses.length + darkHorses.length) || 0;
-                const expectedDarkHorses = Math.floor(totalHorses / 2) + 1;
-                
                 html += `
                     <div class="race-card">
                         <div class="race-header">
@@ -1479,10 +1607,76 @@
                 }
 
                 const bettingType = race.betting_plan?.買い目タイプ || '三連複フォーメーション';
-                const axisNums = topHorses.map(h => h.馬番).filter(n => n);
+                const axisNums   = topHorses.map(h => h.馬番).filter(n => n);
                 const partnerNums = darkHorses.map(h => h.馬番).filter(n => n);
-                
+
+                // ===== v12: 断層・合成オッズ データ取得 =====
+                const layerAnalysis   = race.断層分析 || {};
+                const syntheticOdds   = race.合成オッズ || layerAnalysis.合成オッズ || 0;
+                const layerCount      = layerAnalysis.断層数 || 0;
+                const raceType        = layerAnalysis.レースタイプ || '';
+                const oldLogic        = race.旧ロジック || {};
+                const oldInvestment   = oldLogic.旧_投資額 || 0;
+                const oldCombos       = oldLogic.旧_組み合わせ数 || 0;
+                const newCombos       = race.betting_plan?.組み合わせ数 || 0;
+                const stakeReason     = race.betting_plan?.賭け金調整 || '';
+                const allCombos       = race.betting_plan?.全買い目 || [];
+                const rivalHorses     = race.betting_plan?.対抗 || [];
+                const holeHorses      = race.betting_plan?.穴 || [];
+                const wideCandidates  = race.betting_plan?.ワイド候補 || [];
+                const placeCandidates = race.betting_plan?.複勝候補 || [];
+                const fundRule        = race.資金管理ルール || {};
+
+                // 合成オッズバッジクラス
+                const synOddsClass = syntheticOdds >= 4.0 ? 'high'
+                                   : syntheticOdds >= 3.0 ? 'medium' : 'low';
+                const synOddsLabel = syntheticOdds > 0
+                    ? `合成オッズ ${syntheticOdds}倍`
+                    : '合成オッズ 計算中';
+
+                // レースタイプ表示
+                const raceTypeLabel = {
+                    'double_layer': '2断層 (軸・対抗・穴)',
+                    'single_layer': '1断層 (軸・穴)',
+                    'flat':         'フラット混戦',
+                }[raceType] || raceType || '-';
+
+                // 役割バッジ生成ヘルパー
+                function roleBadge(roleEn) {
+                    const map = {
+                        'axis':  ['axis',  '軸馬'],
+                        'rival': ['rival', '対抗'],
+                        'hole':  ['hole',  '穴馬'],
+                        'flat':  ['flat',  '未分類'],
+                    };
+                    const [cls, label] = map[roleEn] || ['flat', roleEn || ''];
+                    return label ? `<span class="role-badge ${cls}">${label}</span>` : '';
+                }
+
                 html += `
+                    <!-- v12: 断層分析パネル -->
+                    <div class="layer-analysis-panel">
+                        <div class="layer-analysis-title">📊 断層分析 (v12)</div>
+                        <div class="layer-analysis-row">
+                            <span class="layer-analysis-label">断層数</span>
+                            <span class="layer-analysis-value">${layerCount}箇所 [${raceTypeLabel}]</span>
+                        </div>
+                        <div class="layer-analysis-row">
+                            <span class="layer-analysis-label">合成オッズ</span>
+                            <span><span class="synthetic-odds-badge ${synOddsClass}">${synOddsLabel}</span></span>
+                        </div>
+                        <div class="layer-analysis-row">
+                            <span class="layer-analysis-label">賭け金</span>
+                            <span class="layer-analysis-value">${stakeReason || `¥${investment.toLocaleString()}`}</span>
+                        </div>
+                        ${oldInvestment > 0 ? `
+                        <div class="old-logic-comparison">
+                            旧ロジック: ${oldCombos}点 ¥${oldInvestment.toLocaleString()}
+                            → 新ロジック: ${newCombos}点 ¥${investment.toLocaleString()}
+                            ${oldInvestment > investment ? `<span class="reduction"> (${Math.round((1 - investment / oldInvestment) * 100)}%削減)</span>` : ''}
+                        </div>` : ''}
+                    </div>
+
                     <div class="betting-section">
                         <div class="betting-header">
                             <div class="betting-title">💰 買い目提案</div>
@@ -1490,46 +1684,120 @@
                         </div>
                         <div class="betting-method">📝 ${bettingType}</div>
                         <div class="betting-investment">投資額: ¥${investment.toLocaleString()}</div>
-                        
+
                         <div class="investment-breakdown" id="investment-${race.race_id}">
                             <div class="investment-item">
-                                <span class="investment-label">1点あたり</span>
-                                <span class="investment-value">¥100</span>
+                                <span class="investment-label">固定賭け金</span>
+                                <span class="investment-value">¥${investment.toLocaleString()}</span>
                             </div>
                             <div class="investment-item">
                                 <span class="investment-label">組み合わせ数</span>
-                                <span class="investment-value">${(investment / 100).toFixed(0)}通り</span>
+                                <span class="investment-value">${newCombos}点 (上限15点)</span>
                             </div>
                             <div class="investment-item">
-                                <span class="investment-label">合計</span>
-                                <span class="investment-value">¥${investment.toLocaleString()}</span>
+                                <span class="investment-label">合成オッズ</span>
+                                <span class="investment-value"><span class="synthetic-odds-badge ${synOddsClass}" style="padding:2px 8px;font-size:11px;">${syntheticOdds}倍</span></span>
                             </div>
                         </div>
                 `;
 
+                // 軸馬 (役割バッジ付き)
                 if (axisNums.length > 0) {
-                    html += `
-                        <div style="margin-bottom: 8px;">
-                            <span style="color: #4fc3f7; font-size: 12px;">軸:</span>
-                            <div class="betting-combinations">
-                    `;
-                    axisNums.forEach(num => {
-                        html += `<div class="combination">${num}番</div>`;
+                    html += `<div style="margin-bottom: 8px;">
+                        <span style="color: #90caf9; font-size: 12px;">◎ 軸馬:</span>
+                        <div class="betting-combinations">`;
+                    topHorses.slice(0, 3).forEach((h, i) => {
+                        const rBadge = roleBadge(h.断層役割_en || 'axis');
+                        const dBadge = h.危険フラグ ? '<span class="danger-badge">⚠️危険</span>' : '';
+                        html += `<div class="combination">${h.馬番}番${rBadge}${dBadge}</div>`;
                     });
                     html += `</div></div>`;
                 }
 
-                if (partnerNums.length > 0) {
-                    html += `
-                        <div>
-                            <span style="color: #4fc3f7; font-size: 12px;">相手:</span>
-                            <div class="betting-combinations">
-                    `;
+                // 対抗馬
+                if (rivalHorses.length > 0) {
+                    html += `<div style="margin-bottom: 8px;">
+                        <span style="color: #ce93d8; font-size: 12px;">▲ 対抗:</span>
+                        <div class="betting-combinations">`;
+                    rivalHorses.forEach(h => {
+                        const rBadge = roleBadge(h.断層役割_en || 'rival');
+                        html += `<div class="combination">${h.馬番}番${rBadge}</div>`;
+                    });
+                    html += `</div></div>`;
+                }
+
+                // 穴馬
+                if (holeHorses.length > 0) {
+                    html += `<div style="margin-bottom: 8px;">
+                        <span style="color: #ffcc80; font-size: 12px;">△ 穴馬:</span>
+                        <div class="betting-combinations">`;
+                    holeHorses.forEach(h => {
+                        const rBadge = roleBadge(h.断層役割_en || 'hole');
+                        html += `<div class="combination">${h.馬番}番${rBadge}</div>`;
+                    });
+                    html += `</div></div>`;
+                } else if (partnerNums.length > 0) {
+                    // フォールバック: 旧フォーマット
+                    html += `<div><span style="color: #4fc3f7; font-size: 12px;">相手:</span>
+                        <div class="betting-combinations">`;
                     partnerNums.forEach(num => {
                         html += `<div class="combination">${num}番</div>`;
                     });
                     html += `</div></div>`;
                 }
+
+                // 全買い目 (先頭8点表示)
+                if (allCombos.length > 0) {
+                    const displayCombos = allCombos.slice(0, 8);
+                    const moreCnt = allCombos.length - displayCombos.length;
+                    html += `<div style="margin-top:8px;">
+                        <span style="color: #b0c4de; font-size: 11px;">📋 全買い目:</span>
+                        <div class="betting-combinations" style="margin-top:4px;">`;
+                    displayCombos.forEach(c => {
+                        html += `<div class="combination" style="font-size:11px;padding:4px 8px;">${c}</div>`;
+                    });
+                    if (moreCnt > 0) {
+                        html += `<div class="combination" style="font-size:11px;padding:4px 8px;color:#b0c4de;">+${moreCnt}点</div>`;
+                    }
+                    html += `</div></div>`;
+                }
+
+                // ワイド候補
+                if (wideCandidates.length > 0) {
+                    html += `<div class="sub-bet-section">
+                        <div class="sub-bet-title">🎯 ワイド候補 (オッズ5倍以上推奨)</div>`;
+                    wideCandidates.forEach(w => {
+                        const woLabel = w.ワイドオッズ ? `${w.ワイドオッズ}倍` : '要確認';
+                        html += `<div class="sub-bet-item">
+                            <span>${w.買い目} [${w.軸.馬名||''} × ${w.穴.馬名||""}]</span>
+                            <span>ワイド${woLabel} ¥${w.投資}</span>
+                        </div>`;
+                    });
+                    html += `</div>`;
+                }
+
+                // 複勝候補
+                if (placeCandidates.length > 0) {
+                    html += `<div class="sub-bet-section">
+                        <div class="sub-bet-title">🏅 複勝候補 (2倍以上・幅2倍以上)</div>`;
+                    placeCandidates.forEach(p => {
+                        const h = p.horse || {};
+                        html += `<div class="sub-bet-item">
+                            <span>${h.馬番||'?'}番 ${h.馬名||''}</span>
+                            <span>${p.place_odds_min}-${p.place_odds_max}倍 ¥${p.stake}</span>
+                        </div>`;
+                    });
+                    html += `</div>`;
+                }
+
+                // 資金管理ルール
+                html += `<div class="fund-rule-bar">
+                    <span style="color:#90caf9;font-size:10px;font-weight:700;">💼 資金管理:</span>
+                    <span class="fund-rule-chip">賭け金 ¥${fundRule.賭け金||investment}</span>
+                    <span class="fund-rule-chip">最大${fundRule.最大点数||15}点</span>
+                    <span class="fund-rule-chip">日次損切 ¥${(fundRule.損切り_日次||10000).toLocaleString()}</span>
+                    <span class="fund-rule-chip">${fundRule.連敗停止||3}連敗→終了</span>
+                </div>`;
 
                 html += `
                         </div>
