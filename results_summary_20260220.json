@@ -1,0 +1,82 @@
+{
+  "ymd": "20260220",
+  "generated_at": "2026-03-02 17:10:24",
+  "logic_version": "v12",
+  "summary": {
+    "total_races": 5,
+    "hit_count": 0,
+    "miss_count": 5,
+    "hit_rate": 0.0,
+    "total_investment": 12000,
+    "total_payout": 0,
+    "net_profit": -12000,
+    "recovery_rate": 0.0
+  },
+  "details": [
+    {
+      "race_id": "202644022002",
+      "race_name": "3歳四五",
+      "venue": "大井",
+      "investment": 2400,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2400,
+      "reason": "結果データなし"
+    },
+    {
+      "race_id": "202647022008",
+      "race_name": "C5組",
+      "venue": "笠松",
+      "investment": 2400,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2400,
+      "reason": "結果データなし"
+    },
+    {
+      "race_id": "202647022001",
+      "race_name": "3歳未勝利",
+      "venue": "笠松",
+      "investment": 2400,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2400,
+      "reason": "結果データなし"
+    },
+    {
+      "race_id": "202647022004",
+      "race_name": "ささケー、あなたならできる記念(C)",
+      "venue": "笠松",
+      "investment": 2400,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2400,
+      "reason": "結果データなし"
+    },
+    {
+      "race_id": "202644022005",
+      "race_name": "3歳一二三(3歳二)",
+      "venue": "大井",
+      "investment": 2400,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2400,
+      "reason": "結果データなし"
+    }
+  ]
+}

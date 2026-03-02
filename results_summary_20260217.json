@@ -1,0 +1,82 @@
+{
+  "ymd": "20260217",
+  "generated_at": "2026-03-02 17:10:24",
+  "logic_version": "v12",
+  "summary": {
+    "total_races": 5,
+    "hit_count": 0,
+    "miss_count": 5,
+    "hit_rate": 0.0,
+    "total_investment": 12000,
+    "total_payout": 0,
+    "net_profit": -12000,
+    "recovery_rate": 0.0
+  },
+  "details": [
+    {
+      "race_id": "202644021712",
+      "race_name": "狸穴坂賞競走(B3)",
+      "venue": "大井",
+      "investment": 2400,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2400,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202644021702",
+      "race_name": "C3六七",
+      "venue": "大井",
+      "investment": 2400,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2400,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202654021702",
+      "race_name": "C3ー4",
+      "venue": "高知",
+      "investment": 2400,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2400,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202644021705",
+      "race_name": "C2121314(C213)",
+      "venue": "大井",
+      "investment": 2400,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2400,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202644021709",
+      "race_name": "C1五六",
+      "venue": "大井",
+      "investment": 2400,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2400,
+      "reason": "着順データなし"
+    }
+  ]
+}

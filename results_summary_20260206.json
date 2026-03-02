@@ -1,0 +1,82 @@
+{
+  "ymd": "20260206",
+  "generated_at": "2026-03-02 17:10:24",
+  "logic_version": "v12",
+  "summary": {
+    "total_races": 5,
+    "hit_count": 0,
+    "miss_count": 5,
+    "hit_rate": 0.0,
+    "total_investment": 12000,
+    "total_payout": 0,
+    "net_profit": -12000,
+    "recovery_rate": 0.0
+  },
+  "details": [
+    {
+      "race_id": "202645020612",
+      "race_name": "爆速賞(C1)",
+      "venue": "川崎",
+      "investment": 1600,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -1600,
+      "reason": "不的中 (実際: 1-12-2)"
+    },
+    {
+      "race_id": "202645020607",
+      "race_name": "C3一二",
+      "venue": "川崎",
+      "investment": 1600,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -1600,
+      "reason": "不的中 (実際: 2-4-6)"
+    },
+    {
+      "race_id": "202645020611",
+      "race_name": "しずおか早春特別(B1B2)",
+      "venue": "川崎",
+      "investment": 1600,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -1600,
+      "reason": "不的中 (実際: 2-3-5)"
+    },
+    {
+      "race_id": "202647020612",
+      "race_name": "西濃オープン(A)",
+      "venue": "笠松",
+      "investment": 3600,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -3600,
+      "reason": "不的中 (実際: 10-4-8)"
+    },
+    {
+      "race_id": "202645020608",
+      "race_name": "C2八",
+      "venue": "川崎",
+      "investment": 3600,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -3600,
+      "reason": "不的中 (実際: 11-5-9)"
+    }
+  ]
+}

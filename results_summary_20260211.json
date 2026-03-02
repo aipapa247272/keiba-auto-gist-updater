@@ -1,0 +1,82 @@
+{
+  "ymd": "20260211",
+  "generated_at": "2026-03-02 17:10:24",
+  "logic_version": "v12",
+  "summary": {
+    "total_races": 5,
+    "hit_count": 0,
+    "miss_count": 5,
+    "hit_rate": 0.0,
+    "total_investment": 4500,
+    "total_payout": 0,
+    "net_profit": -4500,
+    "recovery_rate": 0.0
+  },
+  "details": [
+    {
+      "race_id": "202643021110",
+      "race_name": "野島崎特別(B3)",
+      "venue": "船橋",
+      "investment": 900,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -900,
+      "reason": "結果データなし"
+    },
+    {
+      "race_id": "202643021106",
+      "race_name": "駿光ダッシュ(C1)",
+      "venue": "船橋",
+      "investment": 900,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -900,
+      "reason": "結果データなし"
+    },
+    {
+      "race_id": "202648021109",
+      "race_name": "B5組",
+      "venue": "名古屋",
+      "investment": 900,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -900,
+      "reason": "結果データなし"
+    },
+    {
+      "race_id": "202648021101",
+      "race_name": "茂樹・愛弓結婚記念日(C)",
+      "venue": "名古屋",
+      "investment": 900,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -900,
+      "reason": "結果データなし"
+    },
+    {
+      "race_id": "202651021102",
+      "race_name": "C3一",
+      "venue": "姫路",
+      "investment": 900,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -900,
+      "reason": "結果データなし"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "ymd": "20260228",
+  "generated_at": "2026-03-02 17:10:25",
+  "logic_version": "v12",
+  "summary": {
+    "total_races": 0,
+    "hit_count": 0,
+    "miss_count": 0,
+    "hit_rate": 0,
+    "total_investment": 0,
+    "total_payout": 0,
+    "net_profit": 0,
+    "recovery_rate": 0
+  },
+  "details": []
+}

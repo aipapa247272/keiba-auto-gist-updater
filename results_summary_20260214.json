@@ -1,0 +1,82 @@
+{
+  "ymd": "20260214",
+  "generated_at": "2026-03-02 17:10:24",
+  "logic_version": "v12",
+  "summary": {
+    "total_races": 5,
+    "hit_count": 0,
+    "miss_count": 5,
+    "hit_rate": 0.0,
+    "total_investment": 12000,
+    "total_payout": 0,
+    "net_profit": -12000,
+    "recovery_rate": 0.0
+  },
+  "details": [
+    {
+      "race_id": "202610010706",
+      "race_name": "4歳以上1勝クラス",
+      "venue": "小倉",
+      "investment": 1600,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -1600,
+      "reason": "不的中 (実際: 11-17-18)"
+    },
+    {
+      "race_id": "202605010508",
+      "race_name": "4歳以上2勝クラス",
+      "venue": "東京",
+      "investment": 1600,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -1600,
+      "reason": "不的中 (実際: 2-8-11)"
+    },
+    {
+      "race_id": "202610010702",
+      "race_name": "3歳未勝利",
+      "venue": "小倉",
+      "investment": 3600,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -3600,
+      "reason": "不的中 (実際: 1-18-2)"
+    },
+    {
+      "race_id": "202610010705",
+      "race_name": "3歳未勝利",
+      "venue": "小倉",
+      "investment": 3600,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -3600,
+      "reason": "不的中 (実際: 6-14-5)"
+    },
+    {
+      "race_id": "202610010710",
+      "race_name": "伊万里特別",
+      "venue": "小倉",
+      "investment": 1600,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -1600,
+      "reason": "不的中 (実際: 2-4-13)"
+    }
+  ]
+}

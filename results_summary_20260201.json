@@ -1,0 +1,82 @@
+{
+  "ymd": "20260201",
+  "generated_at": "2026-03-02 17:10:23",
+  "logic_version": "v12",
+  "summary": {
+    "total_races": 5,
+    "hit_count": 0,
+    "miss_count": 5,
+    "hit_rate": 0.0,
+    "total_investment": 0,
+    "total_payout": 0,
+    "net_profit": 0,
+    "recovery_rate": 0
+  },
+  "details": [
+    {
+      "race_id": "202605010202",
+      "race_name": "不明",
+      "venue": "不明",
+      "investment": 0,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": 0,
+      "reason": "不的中 (実際: 12-7-9)"
+    },
+    {
+      "race_id": "202605010208",
+      "race_name": "不明",
+      "venue": "不明",
+      "investment": 0,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": 0,
+      "reason": "不的中 (実際: 10-11-2)"
+    },
+    {
+      "race_id": "202605010209",
+      "race_name": "不明",
+      "venue": "不明",
+      "investment": 0,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": 0,
+      "reason": "不的中 (実際: 10-6-9)"
+    },
+    {
+      "race_id": "202608020201",
+      "race_name": "不明",
+      "venue": "不明",
+      "investment": 0,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": 0,
+      "reason": "不的中 (実際: 1-10-12)"
+    },
+    {
+      "race_id": "202608020203",
+      "race_name": "不明",
+      "venue": "不明",
+      "investment": 0,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": 0,
+      "reason": "不的中 (実際: 10-6-9)"
+    }
+  ]
+}

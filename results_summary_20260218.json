@@ -1,0 +1,82 @@
+{
+  "ymd": "20260218",
+  "generated_at": "2026-03-02 17:10:24",
+  "logic_version": "v12",
+  "summary": {
+    "total_races": 5,
+    "hit_count": 0,
+    "miss_count": 5,
+    "hit_rate": 0.0,
+    "total_investment": 11000,
+    "total_payout": 0,
+    "net_profit": -11000,
+    "recovery_rate": 0.0
+  },
+  "details": [
+    {
+      "race_id": "202654021804",
+      "race_name": "C3ー6",
+      "venue": "高知",
+      "investment": 1600,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -1600,
+      "reason": "結果データなし"
+    },
+    {
+      "race_id": "202644021807",
+      "race_name": "C1二三四(C1三)",
+      "venue": "大井",
+      "investment": 2500,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2500,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202651021808",
+      "race_name": "C2一",
+      "venue": "姫路",
+      "investment": 1900,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -1900,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202644021812",
+      "race_name": "フェブラリー賞競走(B1B2)",
+      "venue": "大井",
+      "investment": 2200,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2200,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202644021811",
+      "race_name": "雲取賞競走Jpn3",
+      "venue": "大井",
+      "investment": 2800,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2800,
+      "reason": "着順データなし"
+    }
+  ]
+}

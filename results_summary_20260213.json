@@ -1,0 +1,82 @@
+{
+  "ymd": "20260213",
+  "generated_at": "2026-03-02 17:10:24",
+  "logic_version": "v12",
+  "summary": {
+    "total_races": 5,
+    "hit_count": 0,
+    "miss_count": 5,
+    "hit_rate": 0.0,
+    "total_investment": 12000,
+    "total_payout": 0,
+    "net_profit": -12000,
+    "recovery_rate": 0.0
+  },
+  "details": [
+    {
+      "race_id": "202648021301",
+      "race_name": "えにいつもありがとう!(C)",
+      "venue": "名古屋",
+      "investment": 1200,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -1200,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202643021305",
+      "race_name": "ネコヤナギスプリント(C2)",
+      "venue": "船橋",
+      "investment": 7200,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -7200,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202648021312",
+      "race_name": "アジア・アジアパラ応援23(B)",
+      "venue": "名古屋",
+      "investment": 1200,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -1200,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202643021310",
+      "race_name": "みずがめ座スプリント(B2)",
+      "venue": "船橋",
+      "investment": 1200,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -1200,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202648021309",
+      "race_name": "カップケーキ特別(C)",
+      "venue": "名古屋",
+      "investment": 1200,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -1200,
+      "reason": "着順データなし"
+    }
+  ]
+}

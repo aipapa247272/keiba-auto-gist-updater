@@ -1,0 +1,82 @@
+{
+  "ymd": "20260223",
+  "generated_at": "2026-03-02 17:10:24",
+  "logic_version": "v12",
+  "summary": {
+    "total_races": 5,
+    "hit_count": 0,
+    "miss_count": 5,
+    "hit_rate": 0.0,
+    "total_investment": 8900,
+    "total_payout": 0,
+    "net_profit": -8900,
+    "recovery_rate": 0.0
+  },
+  "details": [
+    {
+      "race_id": "202642022303",
+      "race_name": "君とつむぐ未来賞(C3)",
+      "venue": "浦和",
+      "investment": 1900,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -1900,
+      "reason": "不的中 (実際: 10-1-5)"
+    },
+    {
+      "race_id": "202648022310",
+      "race_name": "唐衣特別(B)",
+      "venue": "名古屋",
+      "investment": 1900,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -1900,
+      "reason": "不的中 (実際: 10-3-4)"
+    },
+    {
+      "race_id": "202654022309",
+      "race_name": "桑田山特別(B)",
+      "venue": "高知",
+      "investment": 1900,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -1900,
+      "reason": "不的中 (実際: 7-1-6)"
+    },
+    {
+      "race_id": "202654022305",
+      "race_name": "ウメ特別(C3)",
+      "venue": "高知",
+      "investment": 1600,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -1600,
+      "reason": "不的中 (実際: 6-9-7)"
+    },
+    {
+      "race_id": "202654022308",
+      "race_name": "Bー2",
+      "venue": "高知",
+      "investment": 1600,
+      "combo_count": 0,
+      "synthetic_odds": 0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -1600,
+      "reason": "不的中 (実際: 1-2-4)"
+    }
+  ]
+}
