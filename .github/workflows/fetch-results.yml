@@ -93,12 +93,12 @@ jobs:
             exit 1
           fi
           
-          # results_summary MD は存在する場合のみコピー
-          if [ -f "results_summary_${{ steps.get_ymd.outputs.ymd }}.md" ]; then
-            cp results_summary_${{ steps.get_ymd.outputs.ymd }}.md latest_results.md
-            echo "✅ Copied results_summary MD"
+          # results_summary JSON は存在する場合のみコピー
+          if [ -f "results_summary_${{ steps.get_ymd.outputs.ymd }}.json" ]; then
+            cp results_summary_${{ steps.get_ymd.outputs.ymd }}.json latest_results_summary.json
+            echo "✅ Copied results_summary JSON"
           else
-            echo "⚠️ results_summary MD not found, skipping..."
+            echo "⚠️ results_summary JSON not found, skipping..."
           fi
       
       - name: Update statistics
@@ -115,7 +115,7 @@ jobs:
           
           # 存在するファイルのみ add
           git add race_results_*.json latest_results.json 2>/dev/null || true
-          git add results_summary_*.md latest_results.md 2>/dev/null || true
+          git add results_summary_*.json latest_results_summary.json 2>/dev/null || true
           
           # 変更があればコミット
           if git diff --cached --quiet; then
