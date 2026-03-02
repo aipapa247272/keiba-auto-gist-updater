@@ -213,24 +213,25 @@ def extract_horses_from_table(soup, venue_type):
             elif re.match(r'^[牡牝セ][0-9]$', cell_text):
                 horse_data['性齢'] = cell_text
             
-            # 斤量（例: 54.0, 55.5）
-            elif re.match(r'^\d{2}\.\d$', cell_text):
-                try:
-                    horse_data['斤量'] = float(cell_text)
-                except:
-                    pass
-            
-            # オッズ
-            elif 'Odds' in cell_class:
+            # オッズ（クラスベースチェックを斤量より先に実施）
+            # 旧NAR/JRA: Odds クラス, 新NAR: Popular Txt_R クラス, JRA: Txt_R Popular クラス
+            elif 'Odds' in cell_class or ('Popular' in cell_class and 'Txt_R' in cell_class):
                 try:
                     horse_data['単勝オッズ'] = float(cell_text)  # select_predictionsで認識できるフィールド名
                     horse_data['オッズ'] = float(cell_text)          # 互換性のため并存
                 except:
                     pass
             
-            # 人気
-            elif 'Popular' in cell_class and cell_text.isdigit():
+            # 人気（Popular Txt_C クラス: 整数の人気順）
+            elif 'Popular' in cell_class and 'Txt_R' not in cell_class and cell_text.isdigit():
                 horse_data['人気'] = int(cell_text)
+            
+            # 斤量（例: 54.0, 55.5 - オッズ・人気チェックの後に実施）
+            elif re.match(r'^\d{2}\.\d$', cell_text):
+                try:
+                    horse_data['斤量'] = float(cell_text)
+                except:
+                    pass
         
         # 騎手リンク
         jockey_link = row.find('a', href=re.compile(r'/jockey/'))
