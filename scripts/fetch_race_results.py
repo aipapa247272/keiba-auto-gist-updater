@@ -98,8 +98,15 @@ def fetch_race_results(ymd):
                 continue
             opponent_numbers_raw.append(str(uma_num).strip())
         
-        if len(axis_numbers_raw) >= 3:
-            # フォーメーション全組み合わせを生成（軸1頭以上含む全パターン）
+        # =====================================================
+        # v12修正: 全買い目リストを優先使用（軸2頭+相手構成対応）
+        # =====================================================
+        all_combos_direct = betting_plan.get('全買い目', [])
+        if all_combos_direct:
+            predicted_combinations = all_combos_direct
+            print(f"  🎯 予想: 全買い目{len(predicted_combinations)}通り (軸{axis_numbers_raw})")
+        elif len(axis_numbers_raw) >= 3:
+            # 旧ロジックフォールバック（軸3頭以上の場合）
             all_nums = axis_numbers_raw + opponent_numbers_raw
             axis_set = set(axis_numbers_raw)
             all_combos = [
@@ -108,9 +115,9 @@ def fetch_race_results(ymd):
                 if any(n in axis_set for n in combo)
             ]
             predicted_combinations = all_combos
-            print(f"  🎯 予想: 軸{axis_numbers_raw} 相手{opponent_numbers_raw} → {len(predicted_combinations)}通り")
+            print(f"  🎯 予想(旧): 軸{axis_numbers_raw} 相手{opponent_numbers_raw} → {len(predicted_combinations)}通り")
         else:
-            print(f"  ⚠️ 有効な軸馬が{len(axis_numbers_raw)}頭のみ（3頭必要）→ 予想なしとして記録")
+            print(f"  ⚠️ 買い目なし（全買い目リスト空、軸{len(axis_numbers_raw)}頭）→ 予想なしとして記録")
         
         investment = race.get('investment', 2400)
         
