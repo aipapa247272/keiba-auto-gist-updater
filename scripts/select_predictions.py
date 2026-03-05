@@ -100,6 +100,69 @@ def get_course_advantage(venue: str, leg_type: str) -> int:
     
     return adjustments.get(leg_type, 0)
 
+
+# =============================================
+# 斤量変化・騎手乗り替わりボーナス
+# =============================================
+def calculate_jockey_weight_bonus(horse):
+    """
+    斤量変化と騎手乗り替わりによるボーナス/ペナルティ
+
+    斤量変化:
+      -2kg以上の減量  : +10
+      -1kgの減量      : +5
+      +1kgの増量      : -5
+      +2kg以上の増量  : -10
+
+    騎手乗り替わり:
+      替わりあり (4番人気以下の穴馬候補) : +5
+      替わりあり (一般)              : +2
+
+    Returns:
+        bonus: int  (補正後スコアに加算)
+        detail: dict  (内訳)
+    """
+    bonus = 0
+    detail = {}
+    past_races = horse.get('past_races', [])
+
+    # --- 斤量変化 ---
+    current_weight = horse.get('斤量')
+    prev_weight = past_races[0].get('斤量') if past_races else None
+    if current_weight and prev_weight:
+        try:
+            diff = float(current_weight) - float(prev_weight)
+            detail['斤量差'] = diff
+            if diff <= -2:
+                bonus += 10
+                detail['斤量ボーナス'] = '+10(大幅減量)'
+            elif diff <= -1:
+                bonus += 5
+                detail['斤量ボーナス'] = '+5(減量)'
+            elif diff >= 2:
+                bonus -= 10
+                detail['斤量ボーナス'] = '-10(大幅増量)'
+            elif diff >= 1:
+                bonus -= 5
+                detail['斤量ボーナス'] = '-5(増量)'
+        except (ValueError, TypeError):
+            pass
+
+    # --- 騎手乗り替わり ---
+    current_jockey = horse.get('騎手') or horse.get('jockey')
+    prev_jockey = past_races[0].get('騎手') if past_races else None
+    if current_jockey and prev_jockey and current_jockey != prev_jockey:
+        pop = horse.get('人気') or horse.get('popularity')
+        if pop and int(pop) >= 4:  # 人汱4番以下の穴馬候補は騎手替わりが大きなプラス
+            bonus += 5
+            detail['騎手替わり'] = f'+5(穴馬騎手乗り替わり: {prev_jockey}→{current_jockey})'
+        else:
+            bonus += 2
+            detail['騎手替わり'] = f'+2(騎手乗り替わり: {prev_jockey}→{current_jockey})'
+
+    return bonus, detail
+
+
 # =============================================
 # オッズ断層分析 (Odds Layer Analysis)
 # =============================================
@@ -696,13 +759,19 @@ def generate_betting_plan(race):
     # 競馬場のコース特徴を取得
     venue = race.get('venue', race.get('競馬場', ''))
     
-    # コース特徴×脚質スコア補正を各馬に適用（axis候補の並び替え用）
+    # コース特徴×脚質スコア補正 + 斤量・騎手ボーナスを各馬に適用
     for h in horses_with_roles:
         leg_type = h.get('推定脚質', '')
         course_adj = get_course_advantage(venue, leg_type)
+        jw_bonus, jw_detail = calculate_jockey_weight_bonus(h)
         h['コース補正'] = course_adj
+        h['斤量騎手ボーナス'] = jw_bonus
+        h['斤量騎手詳細'] = jw_detail
         # 補正後スコア（ソート用、元スコアは変えない）
+        # = 新スコア + コース補正 (斤量・騎手ボーナスは穴馬専用)
         h['補正後スコア'] = h.get('新スコア', 0) + course_adj
+        # 穴馬強化スコア = 補正後スコア + 斤量騎手ボーナス (穴馬候補のソート専用)
+        h['穴馬専用スコア'] = h.get('補正後スコア', 0) + jw_bonus
     
     # 補正後スコアで再ソート
     axis_candidates = sorted(axis_candidates,
@@ -761,9 +830,9 @@ def generate_betting_plan(race):
     dark_horses = [h for h in hole_candidates
                    if h.get('人気', 999) >= min_pop
                    and h.get('馬番') not in col3_set]
-    # 展開（コース補正）に合致した穴馬を優先
+    # 穴馬は「穴馬専用スコア」(補正後スコア+斤量騎手ボーナス)で優先順位付け
     dark_horses_sorted = sorted(dark_horses,
-                                key=lambda h: h.get('補正後スコア', 0), reverse=True)
+                                key=lambda h: h.get('穴馬専用スコア', h.get('補正後スコア', 0)), reverse=True)
     
     # 6番人気以下を必ず1頭追加（なければ最低人気馬を追加）
     added_dark = False
@@ -928,7 +997,9 @@ def generate_betting_plan(race):
                 "スコア": h.get('新スコア', 0),
                 "補正後スコア": h.get('補正後スコア', h.get('新スコア', 0)),
                 "根拠": generate_reason(h),
-                "断層役割": h.get('断層役割', '未分類')
+                "断層役割": h.get('断層役割', '未分類'),
+                "斤量騎手ボーナス": h.get('斤量騎手ボーナス', 0),
+                "斤量騎手詳細": h.get('斤量騎手詳細', {})
             }
             for h in col2 if h.get('馬番') not in [x.get('馬番') for x in col1]
         ],
@@ -941,7 +1012,9 @@ def generate_betting_plan(race):
                 "スコア": h.get('新スコア', 0),
                 "補正後スコア": h.get('補正後スコア', h.get('新スコア', 0)),
                 "根拠": generate_reason(h),
-                "断層役割": h.get('断層役割', '未分類')
+                "断層役割": h.get('断層役割', '未分類'),
+                "斤量騎手ボーナス": h.get('斤量騎手ボーナス', 0),
+                "斤量騎手詳細": h.get('斤量騎手詳細', {})
             }
             for h in col3
         ],
