@@ -26,7 +26,7 @@ FUND_MANAGEMENT = {
     "base_stake_trifecta": 1000,   # 三連複: 1レース固定賭け金
     "base_stake_wide": 500,         # ワイド: 1点あたり
     "base_stake_place": 300,        # 複勝: 1点あたり
-    "max_combos_trifecta": 15,      # 三連複: 最大点数
+    "max_combos_trifecta": 10,      # 三連複: 最大点数（ガミ削除後10点以内）
     "max_combos_wide": 2,           # ワイド: 最大点数
     "max_combos_place": 3,          # 複勝: 最大点数
     "min_synthetic_odds": 4.0,      # 合成オッズ最低ライン (人気推定制: 4.0倍以上 = 空枫期待値有り)
@@ -42,6 +42,63 @@ FUND_MANAGEMENT = {
     "max_popularity_place": 5,      # 複勝対象: 最大人気順位
     "hole_horse_min_popularity": 6, # 穴馬: 6番人気以下
 }
+
+
+# =============================================
+# コース特徴テーブル (Course Feature Table)
+# NAR競馬場の小回り・直線距離・脚質有利不利
+# =============================================
+COURSE_FEATURES = {
+    # NAR 地方競馬場
+    "姫路":   {"type": "小回り", "straight": 200,  "front_advantage": True,  "note": "右回り・タイト・差し届きにくい"},
+    "笠松":   {"type": "超小回り","straight": 195, "front_advantage": True,  "note": "左回り・超タイト・逃げ先行圧倒有利"},
+    "川崎":   {"type": "小回り", "straight": 300,  "front_advantage": True,  "note": "左回り・逃げ先行有利"},
+    "大井":   {"type": "標準",   "straight": 386,  "front_advantage": False, "note": "左回り・直線長め・差し届く"},
+    "船橋":   {"type": "小回り", "straight": 308,  "front_advantage": True,  "note": "左回り・先行有利"},
+    "浦和":   {"type": "超小回り","straight": 220, "front_advantage": True,  "note": "左回り・直線短い・逃げ先行有利"},
+    "園田":   {"type": "超小回り","straight": 213, "front_advantage": True,  "note": "右回り・超タイト・逃げ圧倒有利"},
+    "名古屋": {"type": "小回り", "straight": 240,  "front_advantage": True,  "note": "左回り・先行有利"},
+    "金沢":   {"type": "小回り", "straight": 236,  "front_advantage": True,  "note": "右回り・先行有利"},
+    "高知":   {"type": "超小回り","straight": 200, "front_advantage": True,  "note": "右回り・逃げ有利"},
+    "佐賀":   {"type": "小回り", "straight": 200,  "front_advantage": True,  "note": "右回り・先行有利"},
+    "盛岡":   {"type": "標準",   "straight": 300,  "front_advantage": False, "note": "左回り・芝あり・差し届く"},
+    "水沢":   {"type": "超小回り","straight": 197, "front_advantage": True,  "note": "右回り・逃げ先行有利"},
+    "門別":   {"type": "標準",   "straight": 330,  "front_advantage": False, "note": "左回り・差し可能"},
+    # JRA (参考)
+    "東京":   {"type": "大回り", "straight": 526,  "front_advantage": False, "note": "左回り・長直線・差し追込有利"},
+    "阪神":   {"type": "標準",   "straight": 359,  "front_advantage": False, "note": "右回り・差し可能"},
+    "中山":   {"type": "小回り", "straight": 310,  "front_advantage": True,  "note": "右回り・先行有利"},
+    "京都":   {"type": "標準",   "straight": 404,  "front_advantage": False, "note": "右回り・差し届く"},
+    "小倉":   {"type": "小回り", "straight": 293,  "front_advantage": True,  "note": "右回り・先行有利"},
+    "新潟":   {"type": "大回り", "straight": 658,  "front_advantage": False, "note": "左回り・最長直線・差し追込有利"},
+    "中京":   {"type": "標準",   "straight": 410,  "front_advantage": False, "note": "左回り・差し可能"},
+    "函館":   {"type": "小回り", "straight": 262,  "front_advantage": True,  "note": "右回り・先行有利"},
+    "札幌":   {"type": "小回り", "straight": 264,  "front_advantage": True,  "note": "右回り・先行有利"},
+    "福島":   {"type": "小回り", "straight": 292,  "front_advantage": True,  "note": "右回り・先行有利"},
+}
+
+def get_course_advantage(venue: str, leg_type: str) -> int:
+    """
+    競馬場×脚質の有利不利スコア補正
+    補正値は「傾向のヒント」であり、実力差を逆転させないよう小幅に設定。
+    超小回り: 逃げ+8, 先行+4, 差し-4, 追込-8
+    小回り:   逃げ+6, 先行+3, 差し-3, 追込-6
+    大回り:   逃げ-3, 先行+0, 差し+3, 追込+5
+    標準:     補正なし (±0)
+    """
+    feature = COURSE_FEATURES.get(venue, {"type": "標準", "front_advantage": False})
+    course_type = feature["type"]
+    
+    if course_type == "超小回り":
+        adjustments = {"逃げ": 8, "先行": 4, "差し": -4, "追込": -8}
+    elif course_type == "小回り":
+        adjustments = {"逃げ": 6, "先行": 3, "差し": -3, "追込": -6}
+    elif course_type == "大回り":
+        adjustments = {"逃げ": -3, "先行": 0, "差し": 3, "追込": 5}
+    else:  # 標準
+        adjustments = {"逃げ": 0, "先行": 0, "差し": 0, "追込": 0}
+    
+    return adjustments.get(leg_type, 0)
 
 # =============================================
 # オッズ断層分析 (Odds Layer Analysis)
@@ -632,55 +689,155 @@ def generate_betting_plan(race):
     hole_candidates = sorted(hole_candidates,
                              key=lambda h: h.get('新スコア', 0), reverse=True)
     
-    # --- 三連複フォーメーション組み立て ---
-    # 1列目: 軸馬 1〜2頭
+    # ============================================================
+    # 三連複フォーメーション組み立て (2-4-7型)
+    # ブラッシュアップ修正: 2026-03 コース特徴×脚質補正・◎○▲保証・穴馬必須
+    # ============================================================
+    # 競馬場のコース特徴を取得
+    venue = race.get('venue', race.get('競馬場', ''))
+    
+    # コース特徴×脚質スコア補正を各馬に適用（axis候補の並び替え用）
+    for h in horses_with_roles:
+        leg_type = h.get('推定脚質', '')
+        course_adj = get_course_advantage(venue, leg_type)
+        h['コース補正'] = course_adj
+        # 補正後スコア（ソート用、元スコアは変えない）
+        h['補正後スコア'] = h.get('新スコア', 0) + course_adj
+    
+    # 補正後スコアで再ソート
+    axis_candidates = sorted(axis_candidates,
+                             key=lambda h: h.get('補正後スコア', 0), reverse=True)
+    rival_candidates = sorted(rival_candidates,
+                              key=lambda h: h.get('補正後スコア', 0), reverse=True)
+    hole_candidates = sorted(hole_candidates,
+                             key=lambda h: h.get('補正後スコア', 0), reverse=True)
+    
+    # --- 1列目 (col1): ◎と○ = 2頭（軸） ---
+    # 補正後スコア上位2頭。この2頭は必ず全列に含める
     col1 = axis_candidates[:2]
-    # 2列目: 対抗馬 1〜2頭 (軸馬を含む)
-    col2_set = set()
-    col2 = []
-    for h in (rival_candidates + col1):
+    col1_nums_set = set(h.get('馬番') for h in col1 if h.get('馬番'))
+    
+    # --- 2列目 (col2): 4頭 = col1(2頭) + ▲2頭 ---
+    # col1の◎○を必ず含め、対抗馬▲2頭を追加
+    col2_set = set(col1_nums_set)
+    col2 = list(col1)  # ◎○を先頭に含める（重要: 必ず含める）
+    
+    # ★93%法則対応: 人気1-3のうち最高スコア馬がまだcol1/col2に入っていない場合は対抗に強制追加
+    top3_pop_horses = sorted(
+        [h for h in horses_with_roles if h.get('人気') and int(h.get('人気', 99)) <= 3
+         and not h.get('危険フラグ')],
+        key=lambda h: h.get('補正後スコア', 0), reverse=True
+    )
+    if top3_pop_horses:
+        best_top3 = top3_pop_horses[0]
+        if best_top3.get('馬番') not in col2_set:
+            col2_set.add(best_top3.get('馬番'))
+            col2.append(best_top3)
+    
+    for h in rival_candidates:
         key = h.get('馬番')
         if key and key not in col2_set:
             col2_set.add(key)
             col2.append(h)
-        if len(col2) >= 4:  # 軸馬2頭+対抗馬2頭まで
+        if len(col2) >= 4:  # 合計4頭まで
             break
-    # 3列目: 穴馬 3頭 (col1, col2 と重複しない)
-    used_nums = set(h.get('馬番') for h in col1 + col2)
-    col3 = []
-    for h in hole_candidates:
-        if h.get('馬番') not in used_nums:
-            col3.append(h)
-        if len(col3) >= 3:  # 穴馬最大3頭まで
-            break
-    # col3が空の場合はスコア下位から補充
-    if not col3:
-        score_sorted_asc = sorted(horses_with_roles,
-                                   key=lambda h: h.get('新スコア', 0))
-        for h in score_sorted_asc:
-            if h.get('馬番') not in used_nums:
-                col3.append(h)
-            if len(col3) >= 3:
+    # 対抗馬が足りない場合はスコア上位から補充
+    if len(col2) < 3:
+        for h in sorted(horses_with_roles, key=lambda h: h.get('補正後スコア', 0), reverse=True):
+            key = h.get('馬番')
+            if key and key not in col2_set:
+                col2_set.add(key)
+                col2.append(h)
+            if len(col2) >= 4:
                 break
     
-    # --- フォーメーションの全組み合わせ生成 ---
+    # --- 3列目 (col3): 7頭 = col2(4頭) + 穴馬3頭 ---
+    # col2の全馬を含め、穴馬3頭を追加（6番人気以下を必ず1頭含む）
+    col3_set = set(col2_set)
+    col3 = list(col2)  # col2の全馬を先頭に含める（重要: 必ず含める）
+    
+    # 6番人気以下の穴馬を特定（93%法則対応）
+    min_pop = FUND_MANAGEMENT["hole_horse_min_popularity"]  # 6番人気以下
+    dark_horses = [h for h in hole_candidates
+                   if h.get('人気', 999) >= min_pop
+                   and h.get('馬番') not in col3_set]
+    # 展開（コース補正）に合致した穴馬を優先
+    dark_horses_sorted = sorted(dark_horses,
+                                key=lambda h: h.get('補正後スコア', 0), reverse=True)
+    
+    # 6番人気以下を必ず1頭追加（なければ最低人気馬を追加）
+    added_dark = False
+    for h in dark_horses_sorted:
+        key = h.get('馬番')
+        if key and key not in col3_set:
+            col3_set.add(key)
+            col3.append(h)
+            added_dark = True
+            break
+    if not added_dark:
+        # 6番人気以下がいない場合は最低スコア馬を追加
+        for h in sorted(horses_with_roles, key=lambda h: h.get('補正後スコア', 0)):
+            key = h.get('馬番')
+            if key and key not in col3_set:
+                col3_set.add(key)
+                col3.append(h)
+                break
+    
+    # 残り2頭の穴馬をスコア順で追加（合計3頭の穴馬枠）
+    remaining_holes = [h for h in hole_candidates if h.get('馬番') not in col3_set]
+    for h in remaining_holes:
+        key = h.get('馬番')
+        if key and key not in col3_set:
+            col3_set.add(key)
+            col3.append(h)
+        if len(col3) >= 7:
+            break
+    # まだ足りない場合は全体スコア下位から補充
+    if len(col3) < 5:
+        for h in sorted(horses_with_roles, key=lambda h: h.get('補正後スコア', 0)):
+            key = h.get('馬番')
+            if key and key not in col3_set:
+                col3_set.add(key)
+                col3.append(h)
+            if len(col3) >= 7:
+                break
+    
+    # --- 2-4-7型フォーメーション 全組み合わせ生成 ---
+    # ルール: n1 ∈ col1_nums, n2 ∈ col2_nums, n3 ∈ col3_nums
+    # ◎○が必ず含まれる設計 → ◎-○-▲が必ず買い目に存在する
     col1_nums = [h.get('馬番') for h in col1 if h.get('馬番')]
     col2_nums = [h.get('馬番') for h in col2 if h.get('馬番')]
     col3_nums = [h.get('馬番') for h in col3 if h.get('馬番')]
     
-    # 重複を排除した全買い目
     combos_set = set()
     all_combos = []
     for n1 in col1_nums:
         for n2 in col2_nums:
             for n3 in col3_nums:
-                nums = tuple(sorted([n1, n2, n3]))
-                # 3頭が全て異なること
+                nums = tuple(sorted([int(n1), int(n2), int(n3)]))
                 if len(set(nums)) == 3 and nums not in combos_set:
                     combos_set.add(nums)
                     all_combos.append(nums)
     
-    # 最大点数制限
+    # ガミ組み合わせ削除: 1・2・3番人気のみの3連複を排除
+    top3_pops = set()
+    for h in horses_with_roles:
+        if h.get('人気', 999) <= 3:
+            num = h.get('馬番')
+            if num:
+                top3_pops.add(int(num))
+    
+    filtered_combos = []
+    for combo in all_combos:
+        combo_set = set(combo)
+        # 上位3番人気のみで構成される組み合わせはガミ候補として排除
+        if combo_set.issubset(top3_pops) and len(top3_pops) >= 3:
+            continue  # ガミ候補を除外
+        filtered_combos.append(combo)
+    
+    all_combos = filtered_combos if filtered_combos else all_combos
+    
+    # 最大点数制限（10点以内）
     max_c = FUND_MANAGEMENT["max_combos_trifecta"]
     if len(all_combos) > max_c:
         all_combos = all_combos[:max_c]
@@ -750,8 +907,10 @@ def generate_betting_plan(race):
             {
                 "馬番": h.get('馬番'),
                 "馬名": h.get('馬名'),
+                "人気": h.get('人気'),
                 "評価": "◎" if i == 0 else "○",
                 "スコア": h.get('新スコア', 0),
+                "補正後スコア": h.get('補正後スコア', h.get('新スコア', 0)),
                 "内訳": h.get('新スコア_内訳', {}),
                 "根拠": generate_reason(h),
                 "断層役割": h.get('断層役割', '未分類'),
@@ -764,8 +923,10 @@ def generate_betting_plan(race):
             {
                 "馬番": h.get('馬番'),
                 "馬名": h.get('馬名'),
+                "人気": h.get('人気'),
                 "評価": "▲",
                 "スコア": h.get('新スコア', 0),
+                "補正後スコア": h.get('補正後スコア', h.get('新スコア', 0)),
                 "根拠": generate_reason(h),
                 "断層役割": h.get('断層役割', '未分類')
             }
@@ -775,8 +936,10 @@ def generate_betting_plan(race):
             {
                 "馬番": h.get('馬番'),
                 "馬名": h.get('馬名'),
+                "人気": h.get('人気'),
                 "評価": "△",
                 "スコア": h.get('新スコア', 0),
+                "補正後スコア": h.get('補正後スコア', h.get('新スコア', 0)),
                 "根拠": generate_reason(h),
                 "断層役割": h.get('断層役割', '未分類')
             }
