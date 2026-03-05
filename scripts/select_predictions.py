@@ -785,11 +785,12 @@ def generate_betting_plan(race):
     # --- 1列目 (col1): ◎と○ = 2頭（軸） ---
     # 補正後スコア上位2頭。この2頭は必ず全列に含める
     col1 = axis_candidates[:2]
-    col1_nums_set = set(h.get('馬番') for h in col1 if h.get('馬番'))
+    # Bug Fix ②: 馬番をstr型に統一（int/strの型混在による重複除外漏れを防ぐ）
+    col1_nums_set = {str(h.get('馬番')) for h in col1 if h.get('馬番') is not None}
     
     # --- 2列目 (col2): 4頭 = col1(2頭) + ▲2頭 ---
     # col1の◎○を必ず含め、対抗馬▲2頭を追加
-    col2_set = set(col1_nums_set)
+    col2_set = set(col1_nums_set)  # str型で統一
     col2 = list(col1)  # ◎○を先頭に含める（重要: 必ず含める）
     
     # ★93%法則v2: 人気1-3を全員col2に強制追加（統計的に93%が3着以内）
@@ -800,13 +801,15 @@ def generate_betting_plan(race):
         key=lambda h: h.get('補正後スコア', 0), reverse=True
     )
     for forced_horse in top3_pop_horses:
-        fnum = forced_horse.get('馬番')
+        # Bug Fix ②: 馬番をstr型に統一して重複チェック
+        fnum = str(forced_horse.get('馬番')) if forced_horse.get('馬番') is not None else None
         if fnum and fnum not in col2_set:
             col2_set.add(fnum)
             col2.append(forced_horse)
     
     for h in rival_candidates:
-        key = h.get('馬番')
+        # Bug Fix ②: 馬番をstr型に統一
+        key = str(h.get('馬番')) if h.get('馬番') is not None else None
         if key and key not in col2_set:
             col2_set.add(key)
             col2.append(h)
@@ -815,7 +818,7 @@ def generate_betting_plan(race):
     # 対抗馬が足りない場合はスコア上位から補充
     if len(col2) < 3:
         for h in sorted(horses_with_roles, key=lambda h: h.get('補正後スコア', 0), reverse=True):
-            key = h.get('馬番')
+            key = str(h.get('馬番')) if h.get('馬番') is not None else None
             if key and key not in col2_set:
                 col2_set.add(key)
                 col2.append(h)
@@ -824,14 +827,15 @@ def generate_betting_plan(race):
     
     # --- 3列目 (col3): 7頭 = col2(4頭) + 穴馬3頭 ---
     # col2の全馬を含め、穴馬3頭を追加（6番人気以下を必ず1頭含む）
-    col3_set = set(col2_set)
+    # Bug Fix ②: col3_setもstr型で統一
+    col3_set = {str(n) for n in col2_set}
     col3 = list(col2)  # col2の全馬を先頭に含める（重要: 必ず含める）
     
     # 6番人気以下の穴馬を特定（93%法則対応）
     min_pop = FUND_MANAGEMENT["hole_horse_min_popularity"]  # 6番人気以下
     dark_horses = [h for h in hole_candidates
                    if h.get('人気', 999) >= min_pop
-                   and h.get('馬番') not in col3_set]
+                   and str(h.get('馬番')) not in col3_set]
     # 穴馬は「穴馬専用スコア」(補正後スコア+斤量騎手ボーナス)で優先順位付け
     dark_horses_sorted = sorted(dark_horses,
                                 key=lambda h: h.get('穴馬専用スコア', h.get('補正後スコア', 0)), reverse=True)
@@ -839,7 +843,8 @@ def generate_betting_plan(race):
     # 6番人気以下を必ず1頭追加（なければ最低人気馬を追加）
     added_dark = False
     for h in dark_horses_sorted:
-        key = h.get('馬番')
+        # Bug Fix ②: 馬番をstr型に統一
+        key = str(h.get('馬番')) if h.get('馬番') is not None else None
         if key and key not in col3_set:
             col3_set.add(key)
             col3.append(h)
@@ -848,16 +853,16 @@ def generate_betting_plan(race):
     if not added_dark:
         # 6番人気以下がいない場合は最低スコア馬を追加
         for h in sorted(horses_with_roles, key=lambda h: h.get('補正後スコア', 0)):
-            key = h.get('馬番')
+            key = str(h.get('馬番')) if h.get('馬番') is not None else None
             if key and key not in col3_set:
                 col3_set.add(key)
                 col3.append(h)
                 break
     
     # 残り2頭の穴馬をスコア順で追加（合計3頭の穴馬枠）
-    remaining_holes = [h for h in hole_candidates if h.get('馬番') not in col3_set]
+    remaining_holes = [h for h in hole_candidates if str(h.get('馬番')) not in col3_set]
     for h in remaining_holes:
-        key = h.get('馬番')
+        key = str(h.get('馬番')) if h.get('馬番') is not None else None
         if key and key not in col3_set:
             col3_set.add(key)
             col3.append(h)
@@ -1018,7 +1023,8 @@ def generate_betting_plan(race):
                 "斤量騎手ボーナス": h.get('斤量騎手ボーナス', 0),
                 "斤量騎手詳細": h.get('斤量騎手詳細', {})
             }
-            for h in col3
+            # Bug Fix ②: col3からcol2に含まれる馬を除外して穴馬のみを表示
+            for h in col3 if str(h.get('馬番')) not in col2_set
         ],
         # 後方互換: 旧フォーマット用
         "相手": [
