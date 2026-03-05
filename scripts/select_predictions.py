@@ -14,6 +14,7 @@
 
 import json
 import sys
+import re
 import os
 from datetime import datetime, timezone, timedelta
 from math import comb
@@ -791,17 +792,18 @@ def generate_betting_plan(race):
     col2_set = set(col1_nums_set)
     col2 = list(col1)  # ◎○を先頭に含める（重要: 必ず含める）
     
-    # ★93%法則対応: 人気1-3のうち最高スコア馬がまだcol1/col2に入っていない場合は対抗に強制追加
+    # ★93%法則v2: 人気1-3を全員col2に強制追加（統計的に93%が3着以内）
+    # 但し、危険フラグあり馬は除外、既にcol1/col2にある馬は重複しない
     top3_pop_horses = sorted(
         [h for h in horses_with_roles if h.get('人気') and int(h.get('人気', 99)) <= 3
          and not h.get('危険フラグ')],
         key=lambda h: h.get('補正後スコア', 0), reverse=True
     )
-    if top3_pop_horses:
-        best_top3 = top3_pop_horses[0]
-        if best_top3.get('馬番') not in col2_set:
-            col2_set.add(best_top3.get('馬番'))
-            col2.append(best_top3)
+    for forced_horse in top3_pop_horses:
+        fnum = forced_horse.get('馬番')
+        if fnum and fnum not in col2_set:
+            col2_set.add(fnum)
+            col2.append(forced_horse)
     
     for h in rival_candidates:
         key = h.get('馬番')
@@ -1076,6 +1078,17 @@ def select_races(race_data, max_races=9999):
     
     for race in races:
         horses = race.get('horses', [])
+        
+        # 基本フィルター: 若馬限定戦スキップ（3歳/2歳戦は予測精度が低いため除外）
+        race_name_str = race.get('レース名', '')
+        if re.search(r'(3歳|2歳|新馬|未勝利)', race_name_str):
+            # 若馬戦はスコアと実力の乖離が大きいためスキップ
+            skipped.append({
+                "race_id": race.get('race_id'),
+                "reason": "若馬限定戦（3歳/2歳/新馬）",
+                "skip_type": "若馬戦"
+            })
+            continue
         
         # 基本フィルター: 出馬数
         if len(horses) < 8:
