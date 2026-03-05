@@ -45,12 +45,17 @@ def fetch_race_results(ymd):
             print(f"❌ エラー: {fallback_file} の読み込み失敗: {e}")
             return None
     
-    # 日付チェック: 不一致の場合は処理を中断（バグ修正1の核心）
+    # 日付チェック: 当日 or 前日データのみ許容（夜間バッチ未更新時のフォールバック対応）
+    # Bug Fix ①: 翌朝に前日の latest_predictions.json が残っている場合に0レースになる問題を修正
+    from datetime import datetime as _dt, timedelta as _td
     data_ymd = predictions_data.get('ymd')
-    if data_ymd != ymd:
-        print(f"❌ エラー: 予想データの日付 ({data_ymd}) と指定日付 ({ymd}) が一致しません")
+    prev_ymd = (_dt.strptime(ymd, "%Y%m%d") - _td(days=1)).strftime("%Y%m%d")
+    if data_ymd != ymd and data_ymd != prev_ymd:
+        print(f"❌ エラー: 予想データの日付 ({data_ymd}) は当日({ymd})・前日({prev_ymd})のいずれとも一致しません")
         print(f"   処理を中断します。正しい予想ファイルを確認してください。")
         return None
+    if data_ymd == prev_ymd:
+        print(f"⚠️ 注意: 前日({data_ymd})の予想データを使用しています（当日データ未生成の可能性）")
     
     # 選定されたレースを取得
     selected_races = predictions_data.get('selected_predictions', [])
@@ -213,12 +218,17 @@ def fetch_race_results(ymd):
             hit_v = False
 
             if bet_type == '複勝':
-                # 複勝: 払戻は 'payouts["複勝"]' の最小値（実装上は最初の値）
-                # top_3 に馬番が含まれるか確認
+                # Bug Fix ③: 複勝払戻計算修正
+                # 正しい計算式: 払戻オッズ(100円あたり) × 投資額 ÷ 100
+                # 例: オッズ210円 × 投資300円 ÷ 100 = 630円
                 horse_num = str(bet_info.get('馬番', ''))
-                if horse_num in (race_result.get('sanrenpuku_result') or '').split('-'):
-                    payout_v = actual_payouts.get('複勝', 0)
-                    hit_v = payout_v > 0
+                top3_list = (race_result.get('sanrenpuku_result') or '').split('-')
+                hit_v = horse_num in top3_list
+                if hit_v:
+                    odds_per_100 = actual_payouts.get('複勝', 0)
+                    payout_v = round(odds_per_100 * investment_v / 100)
+                else:
+                    payout_v = 0
 
             elif bet_type in ('ワイド', '馬連'):
                 combo = bet_info.get('組み合わせ', '')
@@ -227,14 +237,18 @@ def fetch_race_results(ymd):
                 if bet_type == 'ワイド':
                     # ワイド: 上位3頭中に2頭が含まれれば的中
                     if len(combo_nums & top3_nums) >= 2:
-                        payout_v = actual_payouts.get('ワイド', 0)
-                        hit_v = payout_v > 0
+                        # Bug Fix ③: ワイド払戻計算修正 (オッズ×投資額÷100)
+                        hit_v = True
+                        odds_per_100 = actual_payouts.get('ワイド', 0)
+                        payout_v = round(odds_per_100 * investment_v / 100)
                 else:
                     # 馬連: 1着・2着の2頭が一致
                     top2_nums = set((race_result.get('sanrenpuku_result') or '').split('-')[:2])
                     if combo_nums == top2_nums:
-                        payout_v = actual_payouts.get('馬連', 0)
-                        hit_v = payout_v > 0
+                        # Bug Fix ③: 馬連払戻計算修正 (オッズ×投資額÷100)
+                        hit_v = True
+                        odds_per_100 = actual_payouts.get('馬連', 0)
+                        payout_v = round(odds_per_100 * investment_v / 100)
 
             virtual_bets_result[bet_key] = {
                 'type': bet_type,
