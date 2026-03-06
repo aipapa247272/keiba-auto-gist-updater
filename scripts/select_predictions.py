@@ -42,7 +42,11 @@ FUND_MANAGEMENT = {
     "consecutive_loss_stop": 3,     # 連敗停止回数
     "odds_layer_threshold": 2.0,    # 断層判定: 変化率がこの値以上
     "max_popularity_place": 5,      # 複勝対象: 最大人気順位
-    "hole_horse_min_popularity": 5  # 穴馬人気閾値 [精度改善v3: 6→5人気 2026-03], # 穴馬: 6番人気以下
+    "hole_horse_min_popularity": 5,  # 穴馬人気閾値 [精度改善v3: 6→5人気 2026-03]
+    # --- Phase1: 2段階表示 ---
+    "reference_min_odds": 2.0,   # 参考予測の合成オッズ下限（2.0倍以上）
+    "reference_max_odds": 3.5,   # 参考予測の合成オッズ上限（推奨閾値未満）
+    "reference_stake_ratio": 0.5 # 参考予測の賭け金倍率（推奨の50%）
 }
 
 
@@ -950,16 +954,33 @@ def generate_betting_plan(race):
     # コアペア (1軸馬+1穴馬) の合成オッズ >= min_synthetic_odds (3.0倍)
     # 理由: 三連複の配当は軸×穴の組み合わせに大きく依存するため、
     #        コアペアの期待値で判断するのが実態に近い。
-    min_so = FUND_MANAGEMENT["min_synthetic_odds"]
+    min_so   = FUND_MANAGEMENT["min_synthetic_odds"]
+    ref_min  = FUND_MANAGEMENT.get("reference_min_odds", 2.0)
+    ref_max  = FUND_MANAGEMENT.get("reference_max_odds", 3.5)
+    ref_ratio= FUND_MANAGEMENT.get("reference_stake_ratio", 0.5)
+
     if core_synthetic_odds < min_so:
+        analysis["合成オッズ"] = core_synthetic_odds
+        analysis["合成オッズ_全体"] = full_synthetic_odds
+        analysis["合成オッズ_方法"] = so_method
+
+        # --- Phase1: 参考予測枠 ---
+        # 合成オッズが ref_min 以上 min_so 未満 かつ 断層あり → 参考扱い
+        if ref_min <= core_synthetic_odds < ref_max:
+            skip_msg = (
+                f"合成オッズ不足(参考枠へ)"
+                f"(コア:{core_synthetic_odds}倍 < {min_so}倍)"
+            )
+            analysis["スキップ理由"] = skip_msg
+            analysis["参考予測"] = True
+            analysis["参考_合成オッズ"] = core_synthetic_odds
+            return None, 0, skip_msg, analysis, old_logic
+        # --- 完全スキップ ---
         skip_msg = (
             f"合成オッズ不足"
             f"(コア:{core_synthetic_odds}倍 < {min_so}倍)"
             f"({'実オッズ' if so_method=='actual' else '推定'})"
         )
-        analysis["合成オッズ"] = core_synthetic_odds
-        analysis["合成オッズ_全体"] = full_synthetic_odds
-        analysis["合成オッズ_方法"] = so_method
         analysis["スキップ理由"] = skip_msg
         return None, 0, skip_msg, analysis, old_logic
     
@@ -1087,8 +1108,9 @@ def generate_betting_plan(race):
 def select_races(race_data, max_races=9999):
     """予想対象レースを選定"""
     races = race_data.get('races', [])
-    selected = []
-    skipped = []
+    selected  = []
+    skipped   = []
+    reference = []  # Phase1: 参考予測リスト（合成オッズ2.0〜3.5倍）
     turbulence_counts = {"低": 0, "中": 0, "高": 0}
     
     for race in races:
@@ -1142,13 +1164,37 @@ def select_races(race_data, max_races=9999):
         
         # 断層フラット・合成オッズ不足によるスキップ
         if skip_reason:
+            is_reference = analysis.get("参考予測", False)
             skip_type = "断層なし" if "フラット" in skip_reason else "合成オッズ不足"
-            skipped.append({
-                "race_id": race.get('race_id'),
-                "reason": skip_reason,
-                "skip_type": skip_type,
-                "analysis": analysis
-            })
+
+            if is_reference:
+                # --- Phase1: 参考予測として別リストへ ---
+                ref_stake_ratio = FUND_MANAGEMENT.get("reference_stake_ratio", 0.5)
+                ref_combos = max(1, int(analysis.get("組み合わせ数", 1)))
+                ref_inv = int(
+                    FUND_MANAGEMENT["base_stake_trifecta"] * ref_stake_ratio
+                ) * ref_combos
+                reference.append({
+                    "race_id":        race.get('race_id'),
+                    "race_name":      race.get('race_name', ''),
+                    "venue":          race.get('venue', ''),
+                    "distance":       race.get('distance', ''),
+                    "track":          race.get('track_condition', ''),
+                    "grade":          race.get('grade', ''),
+                    "ref_rank":       "⭐⭐",
+                    "ref_label":      "参考",
+                    "synthetic_odds": analysis.get("参考_合成オッズ", 0),
+                    "investment":     ref_inv,
+                    "note":           "合成オッズが推奨基準未満。自己判断でご参考ください。",
+                    "断層分析":       analysis,
+                })
+            else:
+                skipped.append({
+                    "race_id":  race.get('race_id'),
+                    "reason":   skip_reason,
+                    "skip_type": skip_type,
+                    "analysis": analysis
+                })
             continue
         
         # スコア帯分類
@@ -1218,7 +1264,7 @@ def select_races(race_data, max_races=9999):
         selected, key=lambda r: r["evaluation_score"], reverse=True
     )[:max_races]
     
-    return final_selected, skipped, turbulence_counts
+    return final_selected, skipped, reference, turbulence_counts
 
 
 # =============================================
@@ -1240,7 +1286,7 @@ def main():
         
         print(f"[INFO] {input_file} を読み込みました")
         
-        selected_races, skipped_races, turbulence_counts = select_races(race_data)
+        selected_races, skipped_races, reference_races, turbulence_counts = select_races(race_data)
         total_investment = sum(r["investment"] for r in selected_races)
         old_total_investment = sum(
             r.get("旧ロジック", {}).get("旧_投資額", 0)
@@ -1248,10 +1294,8 @@ def main():
         )
         
         # スキップ内訳
-        skip_flat = sum(1 for s in skipped_races
-                       if s.get('skip_type') == '断層なし')
-        skip_odds = sum(1 for s in skipped_races
-                       if s.get('skip_type') == '合成オッズ不足')
+        skip_flat  = sum(1 for s in skipped_races if s.get('skip_type') == '断層なし')
+        skip_odds  = sum(1 for s in skipped_races if s.get('skip_type') == '合成オッズ不足')
         skip_other = len(skipped_races) - skip_flat - skip_odds
         
         output_data = {
@@ -1272,10 +1316,13 @@ def main():
                     "断層なし(フラット)": skip_flat,
                     "合成オッズ不足": skip_odds,
                     "その他": skip_other
-                }
+                },
+                "reference_count": len(reference_races)
             },
             "fund_management": FUND_MANAGEMENT,
-            "selected_predictions": selected_races
+            "selected_predictions": selected_races,
+            "reference_predictions": reference_races,  # Phase1: 参考予測（⭐⭐）
+            "reference_count": len(reference_races)
         }
         
         with open(output_file, "w", encoding="utf-8") as f:
