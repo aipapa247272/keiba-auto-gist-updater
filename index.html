@@ -3,7 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DES_AI競馬予想</title>
+    <title>DES_AI競馬予想 | AI×断層分析で三連複を狙う無料競馬予想サイト</title>
+    <!-- SEO -->
+    <meta name="description" content="AIと断層オッズ分析で三連複フォーメーションを毎日無料公開。的中率・回収率をリアルタイム集計。JRA・NAR対応。">
+    <meta name="keywords" content="競馬予想,AI競馬,三連複,無料予想,断層分析,オッズ,的中率,回収率">
+    <meta name="author" content="DES_AI">
+    <meta name="robots" content="index, follow">
+    <!-- OGP -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="DES_AI競馬予想 | AI三連複予想">
+    <meta property="og:description" content="AIと断層オッズ分析で三連複フォーメーションを毎日無料公開。的中率・回収率をリアルタイム集計。">
+    <meta property="og:url" content="https://aipapa247272.github.io/keiba-auto-gist-updater/">
+    <meta property="og:site_name" content="DES_AI競馬予想">
+    <meta property="og:locale" content="ja_JP">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="DES_AI競馬予想 | AI三連複予想">
+    <meta name="twitter:description" content="AIと断層オッズ分析で三連複フォーメーションを毎日無料公開。">
+    <!-- Google AdSense（準備完了後にca-pub-XXXXXXXXXXXXXXXXをご自身のIDに変更） -->
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
     <style>
         * {
             margin: 0;
@@ -1271,6 +1289,20 @@
 
     <div class="content">
         <div id="predictions-tab" class="tab-content active">
+            <!-- Phase3: 広告スロット（上部バナー） -->
+            <div class="ad-slot">
+                <!-- AdSense 準備完了後にコメントを外してご使用ください
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                     data-ad-slot="XXXXXXXXXX"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                -->
+                <div class="ad-slot-banner">📢 広告スペース（準備中）</div>
+            </div>
+
             <div class="loading">
                 <div class="loading-spinner"></div>
                 <div class="loading-text">予想データを取得中...</div>
@@ -1442,6 +1474,21 @@
                 <div id="bt-error" style="color:#f44336;font-size:12px;padding:8px;display:none;"></div>
             </div>
         </div>
+
+            <!-- Phase3: 広告スロット（統計タブ下部） -->
+            <div class="ad-slot" style="margin-top:16px;">
+                <!-- AdSense 準備完了後にコメントを外してください
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                     data-ad-slot="XXXXXXXXXX"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                -->
+                <div class="ad-slot-banner">📢 広告スペース（準備中）</div>
+            </div>
+
         <div id="reports-tab" class="tab-content">
        <div class="section-title">📊 分析レポート</div>
     
@@ -3164,6 +3211,311 @@ function getMonday(date) {
 function initReports() {
     loadReport('daily');
 }
+
+// ── Phase3: レポート生成強化 ──────────────────────────────
+async function loadReport(type) {
+    const container = document.getElementById('report-container');
+    if (!container) return;
+    container.innerHTML = '<div class="loading">📊 レポートを読み込み中...</div>';
+
+    try {
+        const RAW = 'https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/';
+        const res = await fetch(RAW + 'statistics.json', { cache: 'no-cache' });
+        if (!res.ok) throw new Error('statistics.json not found');
+        const stats = await res.json();
+
+        // アクティブボタン切替
+        document.querySelectorAll('.report-type-btn').forEach(b => b.classList.remove('active'));
+        const activeBtn = document.querySelector(`.report-type-btn[onclick="loadReport('${type}')"]`);
+        if (activeBtn) activeBtn.classList.add('active');
+
+        if (type === 'daily')   renderDailyReport(stats, container);
+        else if (type === 'weekly')  renderWeeklyReport(stats, container);
+        else if (type === 'monthly') renderMonthlyReport(stats, container);
+    } catch(e) {
+        container.innerHTML = `<div style="color:#f44336;padding:20px;text-align:center;">❌ データ取得失敗: ${e.message}</div>`;
+    }
+}
+
+function renderDailyReport(stats, container) {
+    const daily = stats.daily || [];
+    const overall = stats.overall || {};
+    const recent = [...daily].reverse().slice(0, 14); // 直近14日
+
+    let tableRows = '';
+    recent.forEach(d => {
+        const hr   = d.hit_rate   ? (d.hit_rate * 100).toFixed(1)   : '0.0';
+        const rr   = d.recovery_rate ? (d.recovery_rate * 100).toFixed(1) : '0.0';
+        const prof = d.net_profit || 0;
+        const profColor = prof >= 0 ? '#4caf50' : '#f44336';
+        const profStr = (prof >= 0 ? '+' : '') + prof.toLocaleString();
+        tableRows += `
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
+                <td style="padding:7px 4px;font-size:12px;">${d.date || d.ymd}</td>
+                <td style="padding:7px 4px;text-align:center;font-size:12px;">${d.total_races || 0}R</td>
+                <td style="padding:7px 4px;text-align:center;font-size:12px;">${d.hit_count || 0}件</td>
+                <td style="padding:7px 4px;text-align:center;font-size:12px;">${hr}%</td>
+                <td style="padding:7px 4px;text-align:right;font-size:12px;">¥${(d.total_investment||0).toLocaleString()}</td>
+                <td style="padding:7px 4px;text-align:right;font-size:12px;color:${profColor};">${profStr}</td>
+                <td style="padding:7px 4px;text-align:right;font-size:12px;">${rr}%</td>
+            </tr>`;
+    });
+
+    const netProfit = overall.net_profit || 0;
+    const netColor = netProfit >= 0 ? 'positive' : 'negative';
+    const netStr = (netProfit >= 0 ? '+' : '') + netProfit.toLocaleString();
+    const hitRate = overall.hit_rate ? (overall.hit_rate * 100).toFixed(1) : '0.0';
+    const recovRate = overall.recovery_rate ? (overall.recovery_rate * 100).toFixed(1) : '0.0';
+
+    container.innerHTML = `
+        <div class="report-section">
+            <div class="report-section-title">📊 全期間サマリー</div>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-value">${overall.total_races || 0}</div>
+                    <div class="kpi-label">総レース数</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">${hitRate}%</div>
+                    <div class="kpi-label">的中率</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value ${netColor}">${netStr}</div>
+                    <div class="kpi-label">純損益（円）</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">${recovRate}%</div>
+                    <div class="kpi-label">回収率</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="report-section">
+            <div class="report-section-title">📅 日別成績（直近14日）</div>
+            <div style="overflow-x:auto;">
+                <table style="width:100%;border-collapse:collapse;">
+                    <thead>
+                        <tr style="border-bottom:1px solid rgba(255,255,255,0.15);">
+                            <th style="padding:6px 4px;text-align:left;color:#4fc3f7;font-size:11px;">日付</th>
+                            <th style="padding:6px 4px;text-align:center;color:#4fc3f7;font-size:11px;">R数</th>
+                            <th style="padding:6px 4px;text-align:center;color:#4fc3f7;font-size:11px;">的中</th>
+                            <th style="padding:6px 4px;text-align:center;color:#4fc3f7;font-size:11px;">的中率</th>
+                            <th style="padding:6px 4px;text-align:right;color:#4fc3f7;font-size:11px;">投資</th>
+                            <th style="padding:6px 4px;text-align:right;color:#4fc3f7;font-size:11px;">収支</th>
+                            <th style="padding:6px 4px;text-align:right;color:#4fc3f7;font-size:11px;">回収率</th>
+                        </tr>
+                    </thead>
+                    <tbody>${tableRows}</tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Phase3: 日次レポート内広告スロット -->
+        <div class="ad-slot">
+            <div class="ad-slot-banner">📢 広告スペース（準備中）</div>
+        </div>`;
+}
+
+function renderWeeklyReport(stats, container) {
+    const daily = stats.daily || [];
+    // 週ごとに集計
+    const weeks = {};
+    daily.forEach(d => {
+        const dt = new Date((d.date || d.ymd).replace(/\//g, '-'));
+        if (isNaN(dt)) return;
+        const mon = new Date(dt);
+        mon.setDate(dt.getDate() - dt.getDay() + (dt.getDay() === 0 ? -6 : 1));
+        const key = mon.toISOString().slice(0, 10);
+        if (!weeks[key]) weeks[key] = { races:0, hits:0, investment:0, profit:0 };
+        weeks[key].races      += d.total_races || 0;
+        weeks[key].hits       += d.hit_count   || 0;
+        weeks[key].investment += d.total_investment || 0;
+        weeks[key].profit     += d.net_profit   || 0;
+    });
+
+    const wKeys = Object.keys(weeks).sort();
+    const maxAbs = Math.max(...wKeys.map(k => Math.abs(weeks[k].profit)), 1);
+    const BAR_H = 80, CHART_H = BAR_H + 40, BAR_W = 36, GAP = 8;
+    const totalW = wKeys.length * (BAR_W + GAP) + 20;
+
+    let bars = '';
+    wKeys.forEach((k, i) => {
+        const w = weeks[k];
+        const x = 10 + i * (BAR_W + GAP);
+        const ratio = w.profit / maxAbs;
+        const barH = Math.abs(ratio) * BAR_H * 0.85;
+        const isPos = w.profit >= 0;
+        const color = isPos ? '#4caf50' : '#f44336';
+        const barY = isPos ? (BAR_H - barH) : BAR_H;
+        const hr = w.races > 0 ? (w.hits / w.races * 100).toFixed(0) : 0;
+        const label = k.slice(5).replace('-', '/');
+        const profStr = (w.profit >= 0 ? '+' : '') + Math.round(w.profit / 1000) + 'k';
+        bars += `
+            <g>
+                <rect x="${x}" y="${barY}" width="${BAR_W}" height="${barH}"
+                      fill="${color}" rx="3" opacity="0.85"/>
+                <text x="${x + BAR_W/2}" y="${CHART_H - 22}" text-anchor="middle"
+                      font-size="8" fill="#78909c">${label}</text>
+                <text x="${x + BAR_W/2}" y="${barY - 3}" text-anchor="middle"
+                      font-size="9" fill="${color}">${profStr}</text>
+                <text x="${x + BAR_W/2}" y="${CHART_H - 12}" text-anchor="middle"
+                      font-size="8" fill="#4fc3f7">${hr}%</text>
+            </g>`;
+    });
+
+    let weekRows = '';
+    wKeys.forEach(k => {
+        const w = weeks[k];
+        const hr = w.races > 0 ? (w.hits/w.races*100).toFixed(1) : '0.0';
+        const rr = w.investment > 0 ? ((w.investment + w.profit)/w.investment*100).toFixed(1) : '0.0';
+        const profColor = w.profit >= 0 ? '#4caf50' : '#f44336';
+        const profStr = (w.profit >= 0 ? '+' : '') + w.profit.toLocaleString();
+        weekRows += `
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
+                <td style="padding:7px 4px;font-size:12px;">${k.slice(5)} 週</td>
+                <td style="padding:7px 4px;text-align:center;font-size:12px;">${w.races}R</td>
+                <td style="padding:7px 4px;text-align:center;font-size:12px;">${w.hits}件</td>
+                <td style="padding:7px 4px;text-align:center;font-size:12px;">${hr}%</td>
+                <td style="padding:7px 4px;text-align:right;font-size:12px;">¥${w.investment.toLocaleString()}</td>
+                <td style="padding:7px 4px;text-align:right;font-size:12px;color:${profColor};">${profStr}</td>
+                <td style="padding:7px 4px;text-align:right;font-size:12px;">${rr}%</td>
+            </tr>`;
+    });
+
+    container.innerHTML = `
+        <div class="report-section">
+            <div class="report-section-title">📊 週次ROI推移グラフ</div>
+            <div style="overflow-x:auto;">
+                <svg width="${Math.max(totalW, 300)}" height="${CHART_H}"
+                     style="display:block;margin:0 auto;">
+                    <!-- ゼロライン -->
+                    <line x1="0" y1="${BAR_H}" x2="${Math.max(totalW, 300)}" y2="${BAR_H}"
+                          stroke="rgba(255,255,255,0.15)" stroke-width="1" stroke-dasharray="4,3"/>
+                    ${bars}
+                </svg>
+                <div style="text-align:center;font-size:10px;color:#546e7a;margin-top:4px;">
+                    棒グラフ: 週次収支 ｜ 上段: ±千円 ｜ 下段: 的中率
+                </div>
+            </div>
+        </div>
+
+        <div class="report-section">
+            <div class="report-section-title">📋 週次成績一覧</div>
+            <div style="overflow-x:auto;">
+                <table style="width:100%;border-collapse:collapse;">
+                    <thead>
+                        <tr style="border-bottom:1px solid rgba(255,255,255,0.15);">
+                            <th style="padding:6px 4px;text-align:left;color:#4fc3f7;font-size:11px;">週</th>
+                            <th style="padding:6px 4px;text-align:center;color:#4fc3f7;font-size:11px;">R数</th>
+                            <th style="padding:6px 4px;text-align:center;color:#4fc3f7;font-size:11px;">的中</th>
+                            <th style="padding:6px 4px;text-align:center;color:#4fc3f7;font-size:11px;">的中率</th>
+                            <th style="padding:6px 4px;text-align:right;color:#4fc3f7;font-size:11px;">投資</th>
+                            <th style="padding:6px 4px;text-align:right;color:#4fc3f7;font-size:11px;">収支</th>
+                            <th style="padding:6px 4px;text-align:right;color:#4fc3f7;font-size:11px;">回収率</th>
+                        </tr>
+                    </thead>
+                    <tbody>${weekRows}</tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Phase3: 週次レポート内広告スロット -->
+        <div class="ad-slot">
+            <div class="ad-slot-banner">📢 広告スペース（準備中）</div>
+        </div>`;
+}
+
+function renderMonthlyReport(stats, container) {
+    const monthly = stats.monthly || {};
+    const mKeys = Object.keys(monthly).sort();
+
+    let kpiCards = '';
+    mKeys.forEach(m => {
+        const md = monthly[m];
+        const hr = md.hit_rate ? (md.hit_rate * 100).toFixed(1) : '0.0';
+        const rr = md.recovery_rate ? (md.recovery_rate * 100).toFixed(1) : '0.0';
+        const prof = md.net_profit || 0;
+        const profColor = prof >= 0 ? 'positive' : 'negative';
+        const profStr = (prof >= 0 ? '+' : '') + prof.toLocaleString();
+        kpiCards += `
+            <div class="report-section">
+                <div class="report-section-title">🗓 ${m}</div>
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-value">${md.total_races || 0}</div>
+                        <div class="kpi-label">レース数</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-value">${hr}%</div>
+                        <div class="kpi-label">的中率</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-value ${profColor}">${profStr}</div>
+                        <div class="kpi-label">純損益（円）</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-value">${rr}%</div>
+                        <div class="kpi-label">回収率</div>
+                    </div>
+                </div>
+            </div>`;
+    });
+
+    // 競馬場別棒グラフ
+    const venues = stats.venue || {};
+    const vKeys = Object.keys(venues).sort((a,b) => (venues[b].hit_rate||0) - (venues[a].hit_rate||0)).slice(0, 10);
+    let venueBars = '';
+    vKeys.forEach(v => {
+        const vd = venues[v];
+        const hr = vd.hit_rate ? Math.round(vd.hit_rate * 100) : 0;
+        const barColor = hr >= 30 ? '#4caf50' : hr >= 20 ? '#ff9800' : '#f44336';
+        venueBars += `
+            <div class="venue-bar-item">
+                <div class="venue-bar-label">${v}</div>
+                <div class="venue-bar-track">
+                    <div class="venue-bar-fill" style="width:${hr}%;background:${barColor};"></div>
+                </div>
+                <div class="venue-bar-val">${hr}%<span style="color:#546e7a;font-size:10px;"> (${vd.total_races||0}R)</span></div>
+            </div>`;
+    });
+
+    container.innerHTML = `
+        ${kpiCards}
+
+        <div class="report-section">
+            <div class="report-section-title">🏇 競馬場別的中率ランキング（上位10）</div>
+            <div class="venue-bar-wrap">${venueBars}</div>
+            <div style="font-size:10px;color:#546e7a;margin-top:8px;">
+                🟢 ≥30%（高)  🟡 20-29%（中）  🔴 &lt;20%（低）
+            </div>
+        </div>
+
+        <!-- Phase3: 月次レポート内広告スロット -->
+        <div class="ad-slot">
+            <div class="ad-slot-banner">📢 広告スペース（準備中）</div>
+        </div>`;
+}
     </script>
+
+    <!-- Phase3: フッター -->
+    <footer class="site-footer">
+        <div class="footer-share">
+            <a class="share-btn share-btn-twitter"
+               href="https://twitter.com/intent/tweet?text=DES_AI競馬予想%20-%20AI三連複予想を毎日無料公開中！&url=https://aipapa247272.github.io/keiba-auto-gist-updater/"
+               target="_blank" rel="noopener">𝕏 シェア</a>
+            <a class="share-btn share-btn-line"
+               href="https://line.me/R/msg/text/?DES_AI競馬予想%20-%20AI三連複予想を毎日無料公開中！%0ahttps://aipapa247272.github.io/keiba-auto-gist-updater/"
+               target="_blank" rel="noopener">LINE シェア</a>
+        </div>
+        <div class="footer-disclaimer">
+            ※本サイトの予想はAIによる統計・分析に基づくものであり、
+            馬券購入を推奨・保証するものではありません。<br>
+            馬券の購入は自己責任でお願いします。競馬は20歳以上の方のみ。
+        </div>
+        <div class="footer-links">
+            &copy; 2026 DES_AI競馬予想 | データ出所: JRA / NAR公式
+        </div>
+    </footer>
+
 </body>
 </html>
