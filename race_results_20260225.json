@@ -9,10 +9,10 @@
   "no_pred_count": 0,
   "valid_races": 5,
   "total_investment": 11900,
-  "total_return": 0,
-  "total_profit": -11900,
+  "total_return": 5430,
+  "total_profit": -6470,
   "hit_rate": 60.0,
-  "recovery_rate": 0.0,
+  "recovery_rate": 45.6,
   "races": [
     {
       "race_id": "202642022506",
@@ -124,16 +124,17 @@
         "6-10-8"
       ],
       "result_sanrenpuku": "6-10-8",
-      "payout_sanrenpuku": 0,
+      "payout_sanrenpuku": 1410,
       "hit": true,
       "investment": 1900,
-      "return": 0,
-      "profit": -1900,
+      "return": 1410,
+      "profit": -490,
       "payouts": {
         "単勝": 770,
         "複勝": 100,
         "枠連": 1210,
-        "馬連": 1230
+        "馬連": 1230,
+        "三連複": 1410
       },
       "horse_weights": [
         {
@@ -154,7 +155,8 @@
       ],
       "weather": "曇",
       "track_condition": "不",
-      "predicted_pace": "ハイペース"
+      "predicted_pace": "ハイペース",
+      "payout_missing": false
     },
     {
       "race_id": "202651022507",
@@ -189,16 +191,17 @@
         "7-8-3"
       ],
       "result_sanrenpuku": "7-8-3",
-      "payout_sanrenpuku": 0,
+      "payout_sanrenpuku": 3750,
       "hit": true,
       "investment": 1900,
-      "return": 0,
-      "profit": -1900,
+      "return": 3750,
+      "profit": 1850,
       "payouts": {
         "単勝": 140,
         "複勝": 120,
         "枠連": 3030,
-        "馬連": 3180
+        "馬連": 3180,
+        "三連複": 3750
       },
       "horse_weights": [
         {
@@ -219,7 +222,8 @@
       ],
       "weather": "雨",
       "track_condition": "不",
-      "predicted_pace": "スローペース"
+      "predicted_pace": "スローペース",
+      "payout_missing": false
     },
     {
       "race_id": "202648022508",
@@ -254,16 +258,17 @@
         "6-2-1"
       ],
       "result_sanrenpuku": "6-2-1",
-      "payout_sanrenpuku": 0,
+      "payout_sanrenpuku": 270,
       "hit": true,
       "investment": 1900,
-      "return": 0,
-      "profit": -1900,
+      "return": 270,
+      "profit": -1630,
       "payouts": {
         "単勝": 190,
         "複勝": 100,
         "枠連": 220,
-        "馬連": 190
+        "馬連": 190,
+        "三連複": 270
       },
       "horse_weights": [
         {
@@ -284,7 +289,8 @@
       ],
       "weather": "曇",
       "track_condition": "不",
-      "predicted_pace": "ミドルペース"
+      "predicted_pace": "ミドルペース",
+      "payout_missing": false
     },
     {
       "race_id": "202648022511",
