@@ -1146,6 +1146,97 @@
             color: #777;
         }
         /* =============================================== */
+        /* ========== Phase2: 実績グラフ・ハイライト ========== */
+        .roi-chart-wrap {
+            background: rgba(255,255,255,0.04);
+            border-radius: 10px;
+            padding: 14px 10px 8px;
+            margin-bottom: 14px;
+        }
+        .roi-chart-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #90caf9;
+            margin-bottom: 8px;
+        }
+        .roi-chart-legend {
+            display: flex;
+            gap: 14px;
+            font-size: 11px;
+            color: #90a4ae;
+            margin-top: 6px;
+        }
+        .hit-highlight-card {
+            background: linear-gradient(135deg, rgba(76,175,80,0.15), rgba(33,150,243,0.10));
+            border: 1px solid rgba(76,175,80,0.4);
+            border-left: 4px solid #4caf50;
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+        }
+        .hit-highlight-card .hit-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #a5d6a7;
+        }
+        .hit-highlight-card .hit-detail {
+            font-size: 11px;
+            color: #90a4ae;
+            margin-top: 3px;
+        }
+        .hit-highlight-card .hit-payout {
+            font-size: 16px;
+            font-weight: bold;
+            color: #ffd54f;
+            float: right;
+        }
+        .analysis-comment-box {
+            background: rgba(255,193,7,0.08);
+            border: 1px solid rgba(255,193,7,0.3);
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin-bottom: 14px;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+        .analysis-comment-box .comment-title {
+            font-weight: bold;
+            color: #ffd54f;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+        .weekly-bar {
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+            height: 70px;
+            padding: 0 4px;
+        }
+        .weekly-bar-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+        .weekly-bar-fill {
+            width: 100%;
+            border-radius: 3px 3px 0 0;
+            transition: height 0.4s;
+            min-height: 2px;
+        }
+        .weekly-bar-label {
+            font-size: 9px;
+            color: #78909c;
+            text-align: center;
+        }
+        .weekly-bar-val {
+            font-size: 9px;
+            font-weight: bold;
+            text-align: center;
+        }
+        /* ===================================================== */
+
 </style>
 </head>
 <body>
@@ -1360,6 +1451,81 @@
     <script>
         let predictionsData = null;
         let resultsData = null;
+
+
+        // ── Phase2: 本日の分析コメント自動生成 ──
+        function generateAnalysisComment(data, container) {
+            const ymd      = data.ymd || '';
+            const selected = data.selected_predictions || [];
+            const refRaces = data.reference_predictions || [];
+            const skipBD   = data.summary?.skip_breakdown || {};
+            const total    = data.total_races || 0;
+            const flatN    = skipBD['断層なし(フラット)'] || 0;
+            const oddsN    = skipBD['合成オッズ不足']     || 0;
+            const otherN   = skipBD['その他']             || 0;
+
+            // 曜日判定
+            const d  = new Date(ymd.slice(0,4)+'-'+ymd.slice(4,6)+'-'+ymd.slice(6,8));
+            const dow= ['日','月','火','水','木','金','土'][d.getDay()];
+            const isWeekend = (d.getDay() === 0 || d.getDay() === 6);
+
+            // 開催場抽出
+            const allRaces   = [...selected, ...refRaces];
+            const venueCount = {};
+            allRaces.forEach(r => { if(r.venue) venueCount[r.venue] = (venueCount[r.venue]||0)+1; });
+            const venues = Object.keys(venueCount).join('・') || '—';
+
+            // 波乱度集計
+            const turbulence = data.summary?.turbulence || {};
+            const highN = turbulence['高'] || 0;
+            const midN  = turbulence['中'] || 0;
+            const lowN  = turbulence['低'] || 0;
+
+            // コメント生成
+            let comment = '';
+            const dateStr = `${ymd.slice(0,4)}/${ymd.slice(4,6)}/${ymd.slice(6)}（${dow}）`;
+
+            if (selected.length > 0) {
+                comment += `<b>📅 ${dateStr}</b> — 対象${total}R中、`;
+                comment += `<span style="color:#ffd54f;font-weight:bold;">推奨${selected.length}件</span>`;
+                if (refRaces.length > 0) comment += `・参考${refRaces.length}件`;
+                comment += `を選定しました。<br>`;
+
+                if (venues !== '—') comment += `🏇 本日の開催場：<b>${venues}</b><br>`;
+
+                if (highN > 0) {
+                    comment += `⚡ 高波乱レース${highN}件あり（荒れる可能性）。`;
+                } else if (midN >= selected.length * 0.5) {
+                    comment += `📊 中波乱レースが中心。`;
+                } else {
+                    comment += `📊 安定したオッズ構成のレースが中心です。`;
+                }
+                if (isWeekend) comment += `<br>💡 週末JRAは注目レース多数。資金管理を確認してください。`;
+
+            } else if (refRaces.length > 0) {
+                comment += `<b>📅 ${dateStr}</b> — 本日は推奨レースがありませんが、`;
+                comment += `<span style="color:#b0bec5;font-weight:bold;">参考${refRaces.length}件</span>`;
+                comment += `をご確認いただけます。<br>`;
+                const mainSkip = flatN > oddsN ? `混戦レースが多く断層を検出できませんでした（フラット${flatN}件）`
+                                               : `合成オッズが推奨基準に届きませんでした（${oddsN}件）`;
+                comment += `📌 推奨なしの理由：${mainSkip}<br>`;
+                comment += `⭐⭐参考レースは少額での利用をご検討ください。`;
+
+            } else {
+                comment += `<b>📅 ${dateStr}</b> — 本日は見送りを推奨します。<br>`;
+                const mainSkip = flatN > oddsN
+                    ? `混戦レースが多く断層を検出できませんでした（${flatN}件がフラット）`
+                    : `本日のオッズ水準が全体的に低く、期待値基準を満たしませんでした（${oddsN}件）`;
+                comment += `📌 理由：${mainSkip}<br>`;
+                comment += `💡 資金を守ることも重要な戦略です。次の開催に備えましょう。`;
+            }
+
+            // コメントボックスを挿入（先頭）
+            const box = document.createElement('div');
+            box.className = 'analysis-comment-box';
+            box.innerHTML = `<div class="comment-title">🔍 本日の分析コメント</div>${comment}`;
+            container.insertBefore(box, container.firstChild);
+        }
 
         async function loadTodayPredictions() {
             try {
@@ -1660,16 +1826,16 @@
             }
             // ===== 開催なし処理終わり =====
 
-            const races = data.selected_predictions || [];
-            const summary = data.summary || {};
+            const races      = data.selected_predictions  || [];
+            const refRaces   = data.reference_predictions || [];
+            const summary    = data.summary || {};
             const turbulence = summary.turbulence || {};
+            const skipBD     = summary.skip_breakdown || {};
+            const refCount   = data.reference_count || refRaces.length;
 
             // 開催時間順にソート
-            races.sort((a, b) => {
-                const timeA = a.start_time || '00:00';
-                const timeB = b.start_time || '00:00';
-                return timeA.localeCompare(timeB);
-            });
+            races.sort((a, b) => (a.start_time||'00:00').localeCompare(b.start_time||'00:00'));
+            refRaces.sort((a, b) => (a.start_time||'00:00').localeCompare(b.start_time||'00:00'));
 
             const selectedRacesCount = data.selected_races || races.length;
             const totalRacesCount = data.total_races || 0;
@@ -1687,6 +1853,9 @@
                     <div class="update-label">📅 データ取得日時</div>
                     <div class="update-time">${updateTime}</div>
                 </div>
+
+                <!-- Phase2: 分析コメントボックス -->
+                <div id="analysis-comment-${targetDate}" class="analysis-comment-box" style="display:none;"></div>
 
                 <div class="summary-grid">
                     <div class="summary-card">
@@ -2583,10 +2752,120 @@
                     });
                 }
 
+                // ── Phase2: 週次ROI棒グラフ ──
+                renderWeeklyROIChart(data.daily || []);
+
+                // ── Phase2: 的中ハイライト ──
+                renderHitHighlights();
+
             } catch (error) {
                 console.error('統計データ取得エラー:', error);
             }
         }
+
+        // ── Phase2: 週次ROI棒グラフ描画 ──
+        function renderWeeklyROIChart(dailyData) {
+            const wrap = document.getElementById('weekly-roi-chart');
+            if (!wrap) return;
+
+            // 週次に集計（月曜始まり）
+            const weekMap = {};
+            dailyData.forEach(d => {
+                if (!d.ymd || d.total_investment === 0) return;
+                const dt   = new Date(d.ymd.slice(0,4)+'-'+d.ymd.slice(4,6)+'-'+d.ymd.slice(6,8));
+                const mon  = new Date(dt);
+                mon.setDate(dt.getDate() - (dt.getDay() === 0 ? 6 : dt.getDay() - 1));
+                const wKey = mon.toISOString().slice(0,10).replace(/-/g,'').slice(2);
+                if (!weekMap[wKey]) weekMap[wKey] = {invest:0, ret:0, label: `${wKey.slice(2,4)}/${wKey.slice(4,6)}W`};
+                weekMap[wKey].invest += d.total_investment || 0;
+                weekMap[wKey].ret    += d.total_return    || 0;
+            });
+
+            const weeks = Object.keys(weekMap).sort();
+            if (weeks.length === 0) { wrap.style.display='none'; return; }
+
+            const rois  = weeks.map(w => weekMap[w].invest > 0 ? Math.round(weekMap[w].ret / weekMap[w].invest * 100) : 0);
+            const maxR  = Math.max(...rois, 100);
+
+            let barsHtml = '';
+            weeks.forEach((w, i) => {
+                const roi   = rois[i];
+                const pct   = Math.max(2, Math.round(roi / maxR * 60));
+                const color = roi >= 100 ? '#4caf50' : roi >= 50 ? '#ffc107' : '#ef5350';
+                barsHtml += `
+                    <div class="weekly-bar-col">
+                        <div class="weekly-bar-val" style="color:${color};font-size:9px;">${roi}%</div>
+                        <div class="weekly-bar-fill" style="height:${pct}px;background:${color};"></div>
+                        <div class="weekly-bar-label">${weekMap[w].label}</div>
+                    </div>`;
+            });
+
+            wrap.innerHTML = `
+                <div class="roi-chart-title">📈 週次ROI推移</div>
+                <div class="weekly-bar">${barsHtml}</div>
+                <div class="roi-chart-legend">
+                    <span style="color:#4caf50">■ ROI≥100%</span>
+                    <span style="color:#ffc107">■ 50〜99%</span>
+                    <span style="color:#ef5350">■ &lt;50%</span>
+                </div>`;
+            wrap.style.display = 'block';
+        }
+
+        // ── Phase2: 的中ハイライト（直近5件）──
+        async function renderHitHighlights() {
+            const wrap = document.getElementById('hit-highlights');
+            if (!wrap) return;
+            wrap.innerHTML = '<div style="color:#78909c;font-size:12px;">📡 直近の的中を取得中...</div>';
+
+            try {
+                const RAW = 'https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/';
+                const statsRes = await fetch(RAW + 'statistics.json?t=' + Date.now(), {cache:'no-cache'});
+                const stats = await statsRes.json();
+                const daily = (stats.daily || []).filter(d => d.hit_count > 0).reverse().slice(0, 8);
+
+                const hits = [];
+                for (const day of daily) {
+                    if (hits.length >= 5) break;
+                    try {
+                        const rr = await fetch(RAW + `race_results_${day.ymd}.json?t=` + Date.now(), {cache:'no-cache'});
+                        const rrData = await rr.json();
+                        const races  = rrData.races || (Array.isArray(rrData) ? rrData : []);
+                        races.filter(r => r.hit).forEach(r => {
+                            if (hits.length < 5) hits.push({...r, ymd: day.ymd});
+                        });
+                    } catch(e) {}
+                }
+
+                if (hits.length === 0) {
+                    wrap.innerHTML = '<div style="color:#78909c;font-size:12px;">的中データがまだありません</div>';
+                    return;
+                }
+
+                wrap.innerHTML = hits.map(h => {
+                    const dateStr = `${h.ymd.slice(0,4)}/${h.ymd.slice(4,6)}/${h.ymd.slice(6,8)}`;
+                    const axes    = (h.predicted_jiku||[]).join('-') || '—';
+                    const payout  = (h.payout_sanrenpuku||0).toLocaleString();
+                    const invest  = (h.investment||0).toLocaleString();
+                    const profit  = ((h.payout_sanrenpuku||0) - (h.investment||0));
+                    return `
+                        <div class="hit-highlight-card">
+                            <div>
+                                <span class="hit-payout">¥${payout}</span>
+                                <div class="hit-title">🏆 ${dateStr} ${h.venue||''} ${h.race_name||''}</div>
+                            </div>
+                            <div class="hit-detail" style="clear:both;">
+                                軸: <b>${axes}</b> → 的中 三連複 ¥${payout}
+                                &nbsp;|&nbsp; 投資¥${invest}
+                                &nbsp;|&nbsp; 収益<span style="color:${profit>=0?'#a5d6a7':'#ef9a9a'};">
+                                    ${profit>=0?'+':''}¥${profit.toLocaleString()}</span>
+                            </div>
+                        </div>`;
+                }).join('');
+            } catch(e) {
+                wrap.innerHTML = '<div style="color:#78909c;font-size:12px;">取得エラー: ' + e.message + '</div>';
+            }
+        }
+
         
 // レポート読み込み
 async function loadReport(reportType) {
