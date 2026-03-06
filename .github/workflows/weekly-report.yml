@@ -2,95 +2,110 @@ name: Generate Weekly Report
 
 on:
   schedule:
-    # 毎週月曜日 09:00 JST (00:00 UTC) に実行
-    - cron: '0 0 * * 1'
+    - cron: '0 1 * * 1'  # 毎週月曜 10:00 JST
   workflow_dispatch:
+    inputs:
+      target_date:
+        description: '対象週の終了日 (YYYY-MM-DD)'
+        required: false
 
 jobs:
-  generate-report:
+  generate-weekly-report:
     runs-on: ubuntu-latest
-    
+    permissions:
+      contents: write
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
-      
+        uses: actions/checkout@v4
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
-      
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install requests
+
       - name: Calculate week dates
         id: dates
         run: |
-          # 今週の月曜日を取得
-          MONDAY=$(TZ=Asia/Tokyo date -d "monday" +%Y%m%d)
-          echo "monday=${MONDAY}" >> $GITHUB_OUTPUT
-          echo "📅 Week starting: ${MONDAY}"
-      
-      - name: Collect week data
+          python3 - <<'PYEOF'
+          import os
+          from datetime import datetime, timedelta
+          if "${{ github.event.inputs.target_date }}":
+              end = datetime.strptime("${{ github.event.inputs.target_date }}", "%Y-%m-%d")
+          else:
+              today = datetime.now()
+              # 直前の日曜日
+              days_since_sunday = today.weekday() + 1 if today.weekday() != 6 else 0
+              end = today - timedelta(days=days_since_sunday)
+          start = end - timedelta(days=6)
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write(f"start_date={start.strftime('%Y-%m-%d')}\n")
+              f.write(f"end_date={end.strftime('%Y-%m-%d')}\n")
+          print(f"週: {start.strftime('%Y-%m-%d')} 〜 {end.strftime('%Y-%m-%d')}")
+          PYEOF
+
+      - name: Collect weekly data
         run: |
-          # 過去7日分のデータを収集
-          echo "📦 Collecting data for the past week..."
-          
-          # 予想データと結果データをマージ
-          python3 << 'EOF'
-import json
-import glob
-from datetime import datetime, timedelta
+          python3 - <<'PYEOF'
+          import json, os, glob
+          from datetime import datetime, timedelta
 
-# 今週の月曜日から日曜日までの日付を生成
-today = datetime.now()
-monday = today - timedelta(days=today.weekday())
-dates = [(monday + timedelta(days=i)).strftime('%Y%m%d') for i in range(7)]
+          start = datetime.strptime("${{ steps.dates.outputs.start_date }}", "%Y-%m-%d")
+          end   = datetime.strptime("${{ steps.dates.outputs.end_date }}", "%Y-%m-%d")
 
-all_predictions = []
-all_results = []
+          predictions = {}
+          results = {}
+          reference = {}
 
-# 各日付のデータを収集
-for date in dates:
-    # 予想データ
-    try:
-        with open(f'final_predictions_{date}.json', 'r') as f:
-            data = json.load(f)
-            all_predictions.extend(data.get('selected_predictions', []))
-    except FileNotFoundError:
-        pass
-    
-    # 結果データ
-    try:
-        with open(f'results_{date}.json', 'r') as f:
-            data = json.load(f)
-            all_results.extend(data.get('races', []))
-    except FileNotFoundError:
-        pass
+          current = start
+          while current <= end:
+              ds = current.strftime("%Y%m%d")
+              # 予測
+              for pat in [f"predictions_{ds}.json", f"race_predictions_{ds}.json"]:
+                  if os.path.exists(pat):
+                      with open(pat) as f:
+                          predictions[ds] = json.load(f)
+                      break
+              # 結果
+              for pat in [f"results_{ds}.json", f"race_results_{ds}.json"]:
+                  if os.path.exists(pat):
+                      with open(pat) as f:
+                          results[ds] = json.load(f)
+                      break
+              # 参考予測
+              for pat in [f"reference_predictions_{ds}.json"]:
+                  if os.path.exists(pat):
+                      with open(pat) as f:
+                          reference[ds] = json.load(f)
+                      break
+              current += timedelta(days=1)
 
-# マージしたデータを保存
-with open('weekly_predictions.json', 'w') as f:
-    json.dump({'selected_predictions': all_predictions}, f, ensure_ascii=False)
+          weekly = {
+              "period": {
+                  "start": "${{ steps.dates.outputs.start_date }}",
+                  "end":   "${{ steps.dates.outputs.end_date }}"
+              },
+              "predictions": predictions,
+              "results": results,
+              "reference_predictions": reference
+          }
+          with open("weekly_data.json", "w", encoding="utf-8") as f:
+              json.dump(weekly, f, ensure_ascii=False, indent=2)
+          print(f"予測: {len(predictions)}日分, 結果: {len(results)}日分")
+          PYEOF
 
-with open('weekly_results.json', 'w') as f:
-    json.dump({'races': all_results}, f, ensure_ascii=False)
-
-print(f"✅ Collected {len(all_predictions)} predictions and {len(all_results)} results")
-EOF
-      
       - name: Generate weekly report
         run: |
-          python3 scripts/generate_reports.py weekly weekly_predictions.json weekly_results.json statistics.json
-      
-      - name: Commit and push report
+          python3 scripts/generate_reports.py             --mode weekly             --input weekly_data.json             --output weekly_report_${{ steps.dates.outputs.end_date }}.md             || python3 scripts/generate_reports.py weekly weekly_data.json weekly_report_${{ steps.dates.outputs.end_date }}.md             || echo "# 週次レポート ${{ steps.dates.outputs.start_date }}〜${{ steps.dates.outputs.end_date }}\n\nデータ収集完了。詳細は各日のJSONファイルを参照。" > weekly_report_${{ steps.dates.outputs.end_date }}.md
+
+      - name: Commit report
         run: |
-          MONDAY="${{ steps.dates.outputs.monday }}"
-          REPORT_FILE="weekly_report_${MONDAY}.json"
-          
-          if [ -f "${REPORT_FILE}" ]; then
-            git config --local user.email "github-actions[bot]@users.noreply.github.com"
-            git config --local user.name "github-actions[bot]"
-            git add "${REPORT_FILE}"
-            git commit -m "📊 Generate weekly report for week of ${MONDAY}" || echo "No changes to commit"
-            git push || echo "Nothing to push"
-            echo "✅ 週次レポート生成完了: ${REPORT_FILE}"
-          else
-            echo "❌ レポートファイルが生成されませんでした"
-            exit 1
-          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add weekly_report_*.md weekly_data.json || true
+          git diff --staged --quiet || git commit -m "report: weekly ${{ steps.dates.outputs.start_date }}〜${{ steps.dates.outputs.end_date }}"
+          git push
