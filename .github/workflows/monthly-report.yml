@@ -2,100 +2,117 @@ name: Generate Monthly Report
 
 on:
   schedule:
-    # 毎月1日 09:00 JST (00:00 UTC) に実行
-    - cron: '0 0 1 * *'
+    - cron: '0 2 1 * *'  # 毎月1日 11:00 JST
   workflow_dispatch:
+    inputs:
+      target_month:
+        description: '対象月 (YYYY-MM)'
+        required: false
 
 jobs:
-  generate-report:
+  generate-monthly-report:
     runs-on: ubuntu-latest
-    
+    permissions:
+      contents: write
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
-      
+        uses: actions/checkout@v4
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
-      
-      - name: Calculate month
-        id: month
+          python-version: '3.11'
+
+      - name: Install dependencies
         run: |
-          YEAR_MONTH=$(TZ=Asia/Tokyo date -d "last month" +%Y%m)
-          echo "year_month=${YEAR_MONTH}" >> $GITHUB_OUTPUT
-          echo "📅 Target month: ${YEAR_MONTH}"
-      
-      - name: Collect month data
+          pip install requests
+
+      - name: Calculate month dates
+        id: dates
         run: |
-          YEAR_MONTH="${{ steps.month.outputs.year_month }}"
-          echo "📦 Collecting data for ${YEAR_MONTH}..."
-          
-          # 先月のデータを収集
-          python3 << EOF
-import json
-import glob
-from datetime import datetime, timedelta
-import calendar
+          python3 - <<'PYEOF'
+          import os
+          from datetime import datetime, timedelta
+          import calendar
 
-# 先月の年月を取得
-year_month = "${YEAR_MONTH}"
-year = int(year_month[:4])
-month = int(year_month[4:6])
+          if "${{ github.event.inputs.target_month }}":
+              ym = "${{ github.event.inputs.target_month }}"
+              year, month = map(int, ym.split("-"))
+          else:
+              today = datetime.now()
+              # 先月
+              if today.month == 1:
+                  year, month = today.year - 1, 12
+              else:
+                  year, month = today.year, today.month - 1
 
-# 先月の日数を取得
-_, num_days = calendar.monthrange(year, month)
+          start = datetime(year, month, 1)
+          last_day = calendar.monthrange(year, month)[1]
+          end = datetime(year, month, last_day)
 
-all_predictions = []
-all_results = []
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write(f"start_date={start.strftime('%Y-%m-%d')}\n")
+              f.write(f"end_date={end.strftime('%Y-%m-%d')}\n")
+              f.write(f"month_label={start.strftime('%Y%m')}\n")
+          print(f"月: {start.strftime('%Y-%m-%d')} 〜 {end.strftime('%Y-%m-%d')}")
+          PYEOF
 
-# 先月の全日付のデータを収集
-for day in range(1, num_days + 1):
-    date = f"{year}{month:02d}{day:02d}"
-    
-    # 予想データ
-    try:
-        with open(f'final_predictions_{date}.json', 'r') as f:
-            data = json.load(f)
-            all_predictions.extend(data.get('selected_predictions', []))
-    except FileNotFoundError:
-        pass
-    
-    # 結果データ
-    try:
-        with open(f'results_{date}.json', 'r') as f:
-            data = json.load(f)
-            all_results.extend(data.get('races', []))
-    except FileNotFoundError:
-        pass
+      - name: Collect monthly data
+        run: |
+          python3 - <<'PYEOF'
+          import json, os
+          from datetime import datetime, timedelta
 
-# マージしたデータを保存
-with open('monthly_predictions.json', 'w') as f:
-    json.dump({'selected_predictions': all_predictions}, f, ensure_ascii=False)
+          start = datetime.strptime("${{ steps.dates.outputs.start_date }}", "%Y-%m-%d")
+          end   = datetime.strptime("${{ steps.dates.outputs.end_date }}", "%Y-%m-%d")
 
-with open('monthly_results.json', 'w') as f:
-    json.dump({'races': all_results}, f, ensure_ascii=False)
+          predictions = {}
+          results = {}
+          reference = {}
 
-print(f"✅ Collected {len(all_predictions)} predictions and {len(all_results)} results for {year_month}")
-EOF
-      
+          current = start
+          while current <= end:
+              ds = current.strftime("%Y%m%d")
+              for pat in [f"predictions_{ds}.json", f"race_predictions_{ds}.json"]:
+                  if os.path.exists(pat):
+                      with open(pat) as f:
+                          predictions[ds] = json.load(f)
+                      break
+              for pat in [f"results_{ds}.json", f"race_results_{ds}.json"]:
+                  if os.path.exists(pat):
+                      with open(pat) as f:
+                          results[ds] = json.load(f)
+                      break
+              for pat in [f"reference_predictions_{ds}.json"]:
+                  if os.path.exists(pat):
+                      with open(pat) as f:
+                          reference[ds] = json.load(f)
+                      break
+              current += timedelta(days=1)
+
+          monthly = {
+              "period": {
+                  "start": "${{ steps.dates.outputs.start_date }}",
+                  "end":   "${{ steps.dates.outputs.end_date }}"
+              },
+              "predictions": predictions,
+              "results": results,
+              "reference_predictions": reference
+          }
+          with open("monthly_data.json", "w", encoding="utf-8") as f:
+              json.dump(monthly, f, ensure_ascii=False, indent=2)
+          print(f"予測: {len(predictions)}日分, 結果: {len(results)}日分")
+          PYEOF
+
       - name: Generate monthly report
         run: |
-          python3 scripts/generate_reports.py monthly monthly_predictions.json monthly_results.json statistics.json
-      
-      - name: Commit and push report
+          python3 scripts/generate_reports.py             --mode monthly             --input monthly_data.json             --output monthly_report_${{ steps.dates.outputs.month_label }}.md             || python3 scripts/generate_reports.py monthly monthly_data.json monthly_report_${{ steps.dates.outputs.month_label }}.md             || echo "# 月次レポート ${{ steps.dates.outputs.start_date }}〜${{ steps.dates.outputs.end_date }}\n\nデータ収集完了。" > monthly_report_${{ steps.dates.outputs.month_label }}.md
+
+      - name: Commit report
         run: |
-          YEAR_MONTH="${{ steps.month.outputs.year_month }}"
-          REPORT_FILE="monthly_report_${YEAR_MONTH}.json"
-          
-          if [ -f "${REPORT_FILE}" ]; then
-            git config --local user.email "github-actions[bot]@users.noreply.github.com"
-            git config --local user.name "github-actions[bot]"
-            git add "${REPORT_FILE}"
-            git commit -m "📊 Generate monthly report for ${YEAR_MONTH}" || echo "No changes to commit"
-            git push || echo "Nothing to push"
-            echo "✅ 月次レポート生成完了: ${REPORT_FILE}"
-          else
-            echo "❌ レポートファイルが生成されませんでした"
-            exit 1
-          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add monthly_report_*.md monthly_data.json || true
+          git diff --staged --quiet || git commit -m "report: monthly ${{ steps.dates.outputs.month_label }}"
+          git push
