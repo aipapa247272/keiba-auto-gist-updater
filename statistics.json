@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-03-06 12:27:54",
+  "generated_at": "2026-03-06 12:47:54",
   "data_range": {
     "start": "2026/01/25",
-    "end": "2026/03/05",
-    "total_days": 29,
+    "end": "2026/03/06",
+    "total_days": 30,
     "active_days": 19
   },
   "overall": {
@@ -402,6 +402,19 @@
       "net_profit": 2740,
       "recovery_rate": 178.3,
       "rescraped": false
+    },
+    {
+      "date": "2026/03/06",
+      "ymd": "20260306",
+      "total_races": 0,
+      "hit_count": 0,
+      "total_investment": 0,
+      "total_return": 0,
+      "net_profit": 0,
+      "recovery_rate": 0.0,
+      "rescraped": false,
+      "no_predictions": true,
+      "note": "合成オッズ不足22件・断層なし5件・その他9件でskip"
     }
   ],
   "venue": [
