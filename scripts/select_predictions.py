@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 新予想ロジック対応: レース選定スクリプト
-精度改善v2 [2026-03-06]: max_combos 10→15点、min_synthetic_odds 4.0→3.5倍、軸3頭拡張
+精度改善v3 [2026-03-06]: max_combos 15→20点、穴馬人気6→5人気、col2拡張
 修正日: 2026/03/02
 変更点 (v12 - 合成オッズ・断層・資金管理対応):
 - オッズ断層分析関数を追加 (analyze_odds_layers)
@@ -28,7 +28,7 @@ FUND_MANAGEMENT = {
     "base_stake_trifecta": 1000,   # 三連複: 1レース固定賭け金
     "base_stake_wide": 500,         # ワイド: 1点あたり
     "base_stake_place": 300,        # 複勝: 1点あたり
-    "max_combos_trifecta": 15,      # 三連複: 最大点数 [精度改善v2: 10→15点 2026-03]
+    "max_combos_trifecta": 20,      # 三連複: 最大点数 [精度改善v3: 15→20点 2026-03]
     "max_combos_wide": 2,           # ワイド: 最大点数
     "max_combos_place": 3,          # 複勝: 最大点数
     "min_synthetic_odds": 3.5,      # 合成オッズ最低ライン [精度改善v2: 4.0→3.5倍 2026-03]
@@ -42,7 +42,7 @@ FUND_MANAGEMENT = {
     "consecutive_loss_stop": 3,     # 連敗停止回数
     "odds_layer_threshold": 2.0,    # 断層判定: 変化率がこの値以上
     "max_popularity_place": 5,      # 複勝対象: 最大人気順位
-    "hole_horse_min_popularity": 6, # 穴馬: 6番人気以下
+    "hole_horse_min_popularity": 5  # 穴馬人気閾値 [精度改善v3: 6→5人気 2026-03], # 穴馬: 6番人気以下
 }
 
 
@@ -1047,7 +1047,7 @@ def generate_betting_plan(race):
             for h in (col2 + col3)
             if str(h.get('馬番')) not in {str(x.get('馬番')) for x in col1}
         }.values()),
-        "買い目タイプ": "三連複フォーメーション(断層役割ベース・精度改善v2)",
+        "買い目タイプ": "三連複フォーメーション(断層役割ベース・精度改善v3)",
         "組み合わせ数": combo_count,
         "合成オッズ": core_synthetic_odds,
         "合成オッズ_全体": full_synthetic_odds,
