@@ -1,10 +1,10 @@
 {
   "ymd": "20260306",
-  "logic_version": "v12_断層・合成オッズ対応",
-  "generated_at": "2026-03-05 23:48:40 (JST)",
+  "logic_version": "v13_断層・合成オッズ対応・精度改善v3",
+  "generated_at": "2026-03-06 23:11:36 (JST)",
   "total_races": 36,
   "selected_races": 0,
-  "skipped_races": 36,
+  "skipped_races": 33,
   "summary": {
     "turbulence": {
       "低": 0,
@@ -16,18 +16,19 @@
     "investment_reduction": "100.0%削減",
     "skip_breakdown": {
       "断層なし(フラット)": 5,
-      "合成オッズ不足": 22,
+      "合成オッズ不足": 19,
       "その他": 9
-    }
+    },
+    "reference_count": 3
   },
   "fund_management": {
     "base_stake_trifecta": 1000,
     "base_stake_wide": 500,
     "base_stake_place": 300,
-    "max_combos_trifecta": 10,
+    "max_combos_trifecta": 20,
     "max_combos_wide": 2,
     "max_combos_place": 3,
-    "min_synthetic_odds": 4.0,
+    "min_synthetic_odds": 3.5,
     "odds_boost_threshold_4": 4.0,
     "odds_boost_threshold_5": 5.0,
     "min_wide_odds": 5.0,
@@ -38,7 +39,133 @@
     "consecutive_loss_stop": 3,
     "odds_layer_threshold": 2.0,
     "max_popularity_place": 5,
-    "hole_horse_min_popularity": 6
+    "hole_horse_min_popularity": 5,
+    "reference_min_odds": 2.0,
+    "reference_max_odds": 3.5,
+    "reference_stake_ratio": 0.5
   },
-  "selected_predictions": []
+  "selected_predictions": [],
+  "reference_predictions": [
+    {
+      "race_id": "202647030612",
+      "race_name": "",
+      "venue": "",
+      "distance": "",
+      "track": "",
+      "grade": "",
+      "ref_rank": "⭐⭐",
+      "ref_label": "参考",
+      "synthetic_odds": 2.1,
+      "investment": 500,
+      "note": "合成オッズが推奨基準未満。自己判断でご参考ください。",
+      "断層分析": {
+        "断層数": 2,
+        "断層詳細": [
+          {
+            "position": 6,
+            "change_rate": 2.62,
+            "boundary_odds": 7.4,
+            "from_horse": "ミランミラン",
+            "to_horse": "ドスハーツ"
+          },
+          {
+            "position": 9,
+            "change_rate": 2.47,
+            "boundary_odds": 56.2,
+            "from_horse": "カヤドーブラック",
+            "to_horse": "ノーダブルディップ"
+          }
+        ],
+        "レースタイプ": "double_layer",
+        "実オッズ使用": true,
+        "合成オッズ": 2.1,
+        "合成オッズ_全体": 0.98,
+        "合成オッズ_方法": "actual",
+        "スキップ理由": "合成オッズ不足(参考枠へ)(コア:2.1倍 < 3.5倍)",
+        "参考予測": true,
+        "参考_合成オッズ": 2.1
+      }
+    },
+    {
+      "race_id": "202655030604",
+      "race_name": "",
+      "venue": "",
+      "distance": "",
+      "track": "",
+      "grade": "",
+      "ref_rank": "⭐⭐",
+      "ref_label": "参考",
+      "synthetic_odds": 3.4,
+      "investment": 500,
+      "note": "合成オッズが推奨基準未満。自己判断でご参考ください。",
+      "断層分析": {
+        "断層数": 3,
+        "断層詳細": [
+          {
+            "position": 5,
+            "change_rate": 2.01,
+            "boundary_odds": 6.8,
+            "from_horse": "ヘレンテソーロ",
+            "to_horse": "ゴルドヴァッサー"
+          },
+          {
+            "position": 9,
+            "change_rate": 2.01,
+            "boundary_odds": 24.6,
+            "from_horse": "スマートブリーズ",
+            "to_horse": "カレンデリスモンド"
+          },
+          {
+            "position": 10,
+            "change_rate": 2.04,
+            "boundary_odds": 49.5,
+            "from_horse": "カレンデリスモンド",
+            "to_horse": "コスモチャンティ"
+          }
+        ],
+        "レースタイプ": "double_layer",
+        "実オッズ使用": true,
+        "合成オッズ": 3.4,
+        "合成オッズ_全体": 1.15,
+        "合成オッズ_方法": "actual",
+        "スキップ理由": "合成オッズ不足(参考枠へ)(コア:3.4倍 < 3.5倍)",
+        "参考予測": true,
+        "参考_合成オッズ": 3.4
+      }
+    },
+    {
+      "race_id": "202655030612",
+      "race_name": "",
+      "venue": "",
+      "distance": "",
+      "track": "",
+      "grade": "",
+      "ref_rank": "⭐⭐",
+      "ref_label": "参考",
+      "synthetic_odds": 2.25,
+      "investment": 500,
+      "note": "合成オッズが推奨基準未満。自己判断でご参考ください。",
+      "断層分析": {
+        "断層数": 1,
+        "断層詳細": [
+          {
+            "position": 8,
+            "change_rate": 4.19,
+            "boundary_odds": 14.1,
+            "from_horse": "ランブータン",
+            "to_horse": "プレリオン"
+          }
+        ],
+        "レースタイプ": "single_layer",
+        "実オッズ使用": true,
+        "合成オッズ": 2.25,
+        "合成オッズ_全体": 1.13,
+        "合成オッズ_方法": "actual",
+        "スキップ理由": "合成オッズ不足(参考枠へ)(コア:2.25倍 < 3.5倍)",
+        "参考予測": true,
+        "参考_合成オッズ": 2.25
+      }
+    }
+  ],
+  "reference_count": 3
 }
