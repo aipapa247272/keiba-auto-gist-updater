@@ -1,11 +1,15 @@
 {
   "date": "2026/02/17",
   "ymd": "20260217",
-  "generated_at": "2026-02-17 00:00:00",
+  "generated_at": "2026-03-06 09:10:50",
+  "rescraped": true,
+  "rescraped_at": "2026-03-06T09:10:50.185284",
   "total_races": 5,
   "hit_count": 0,
-  "miss_count": 0,
-  "unavailable_count": 5,
+  "miss_count": 5,
+  "unavailable_count": 0,
+  "no_pred_count": 0,
+  "valid_races": 5,
   "total_investment": 12000,
   "total_return": 0,
   "total_profit": -12000,
@@ -14,108 +18,236 @@
   "races": [
     {
       "race_id": "202644021712",
-      "venue": "大井",
-      "race_num": "12",
       "race_name": "狸穴坂賞競走(B3)",
-      "distance": 1800,
-      "track": "ダ",
-      "status": "結果取得不可",
-      "predicted": [
-        "1-2-9"
-      ],
-      "actual": [],
+      "venue": "笠松",
+      "venue_type": "NAR",
+      "status": "不的中",
       "hit": false,
+      "predicted_bets": [],
+      "predicted_jiku": [
+        "9",
+        "1",
+        "2"
+      ],
+      "predicted_aite": [
+        "16",
+        "8",
+        "13",
+        "11",
+        "5",
+        "12",
+        "14"
+      ],
+      "bet_type": "三連複フォーメーション（軸3頭BOX）",
+      "actual": "2-4-13",
+      "result_sanrenpuku": "2-4-13",
+      "payout_sanrenpuku": 21050,
       "investment": 2400,
       "return": 0,
       "profit": -2400,
-      "payouts": {},
-      "horse_weights": [],
-      "weather": "",
-      "track_condition": ""
+      "payouts": {
+        "単勝": 1350,
+        "複勝": 450,
+        "枠連": 1040,
+        "馬連": 6220,
+        "ワイド": 2160,
+        "枠単": 1870,
+        "馬単": 12280,
+        "3連複": 21050,
+        "3連単": 99790
+      },
+      "payout_missing": false,
+      "top3": [
+        "2",
+        "4",
+        "13"
+      ]
     },
     {
       "race_id": "202644021702",
-      "venue": "大井",
-      "race_num": "02",
       "race_name": "C3六七",
-      "distance": 1600,
-      "track": "ダ",
-      "status": "結果取得不可",
-      "predicted": [
-        "10-11-4"
-      ],
-      "actual": [],
+      "venue": "笠松",
+      "venue_type": "NAR",
+      "status": "不的中",
       "hit": false,
+      "predicted_bets": [],
+      "predicted_jiku": [
+        "4",
+        "11",
+        "10"
+      ],
+      "predicted_aite": [
+        "7",
+        "5",
+        "6",
+        "13",
+        "1",
+        "2",
+        "3"
+      ],
+      "bet_type": "三連複フォーメーション（軸3頭BOX）",
+      "actual": "1-3-10",
+      "result_sanrenpuku": "1-3-10",
+      "payout_sanrenpuku": 392150,
       "investment": 2400,
       "return": 0,
       "profit": -2400,
-      "payouts": {},
-      "horse_weights": [],
-      "weather": "",
-      "track_condition": ""
+      "payouts": {
+        "単勝": 3770,
+        "複勝": 960,
+        "枠連": 6320,
+        "馬連": 8210,
+        "ワイド": 2600,
+        "枠単": 15930,
+        "馬単": 20910,
+        "3連複": 392150
+      },
+      "payout_missing": false,
+      "top3": [
+        "1",
+        "3",
+        "10"
+      ]
     },
     {
       "race_id": "202654021702",
-      "venue": "高知",
-      "race_num": "02",
       "race_name": "C3ー4",
-      "distance": 1400,
-      "track": "ダ",
-      "status": "結果取得不可",
-      "predicted": [
-        "2-3-4"
-      ],
-      "actual": [],
+      "venue": "高知",
+      "venue_type": "NAR",
+      "status": "不的中",
       "hit": false,
+      "predicted_bets": [],
+      "predicted_jiku": [
+        "2",
+        "3",
+        "4"
+      ],
+      "predicted_aite": [
+        "11",
+        "12",
+        "6",
+        "7",
+        "10",
+        "9",
+        "1"
+      ],
+      "bet_type": "三連複フォーメーション（軸3頭BOX）",
+      "actual": "4-6-11",
+      "result_sanrenpuku": "4-6-11",
+      "payout_sanrenpuku": 780,
       "investment": 2400,
       "return": 0,
       "profit": -2400,
-      "payouts": {},
-      "horse_weights": [],
-      "weather": "",
-      "track_condition": ""
+      "payouts": {
+        "単勝": 150,
+        "複勝": 100,
+        "枠連": 480,
+        "馬連": 570,
+        "ワイド": 250,
+        "馬単": 690,
+        "3連複": 780,
+        "3連単": 2620
+      },
+      "payout_missing": false,
+      "top3": [
+        "4",
+        "6",
+        "11"
+      ]
     },
     {
       "race_id": "202644021705",
-      "venue": "大井",
-      "race_num": "05",
       "race_name": "C2121314(C213)",
-      "distance": 1600,
-      "track": "ダ",
-      "status": "結果取得不可",
-      "predicted": [
-        "10-12-3"
-      ],
-      "actual": [],
+      "venue": "笠松",
+      "venue_type": "NAR",
+      "status": "不的中",
       "hit": false,
+      "predicted_bets": [],
+      "predicted_jiku": [
+        "12",
+        "10",
+        "3"
+      ],
+      "predicted_aite": [
+        "14",
+        "7",
+        "1",
+        "5",
+        "9",
+        "2",
+        "4"
+      ],
+      "bet_type": "三連複フォーメーション（軸3頭BOX）",
+      "actual": "1-10-14",
+      "result_sanrenpuku": "1-10-14",
+      "payout_sanrenpuku": 6010,
       "investment": 2400,
       "return": 0,
       "profit": -2400,
-      "payouts": {},
-      "horse_weights": [],
-      "weather": "",
-      "track_condition": ""
+      "payouts": {
+        "単勝": 340,
+        "複勝": 160,
+        "枠連": 970,
+        "馬連": 2630,
+        "ワイド": 830,
+        "枠単": 1060,
+        "馬単": 3990,
+        "3連複": 6010,
+        "3連単": 27110
+      },
+      "payout_missing": false,
+      "top3": [
+        "1",
+        "10",
+        "14"
+      ]
     },
     {
       "race_id": "202644021709",
-      "venue": "大井",
-      "race_num": "09",
       "race_name": "C1五六",
-      "distance": 1200,
-      "track": "ダ",
-      "status": "結果取得不可",
-      "predicted": [
-        "5-6-7"
-      ],
-      "actual": [],
+      "venue": "笠松",
+      "venue_type": "NAR",
+      "status": "不的中",
       "hit": false,
+      "predicted_bets": [],
+      "predicted_jiku": [
+        "5",
+        "6",
+        "7"
+      ],
+      "predicted_aite": [
+        "10",
+        "2",
+        "1",
+        "12",
+        "8",
+        "4",
+        "3"
+      ],
+      "bet_type": "三連複フォーメーション（軸3頭BOX）",
+      "actual": "7-8-12",
+      "result_sanrenpuku": "7-8-12",
+      "payout_sanrenpuku": 5590,
       "investment": 2400,
       "return": 0,
       "profit": -2400,
-      "payouts": {},
-      "horse_weights": [],
-      "weather": "",
-      "track_condition": ""
+      "payouts": {
+        "単勝": 130,
+        "複勝": 120,
+        "枠連": 580,
+        "馬連": 910,
+        "ワイド": 460,
+        "枠単": 840,
+        "馬単": 1130,
+        "3連複": 5590,
+        "3連単": 12930
+      },
+      "payout_missing": false,
+      "top3": [
+        "7",
+        "8",
+        "12"
+      ]
     }
   ]
 }
