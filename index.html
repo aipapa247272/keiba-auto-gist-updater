@@ -1223,6 +1223,67 @@
                     </table>
                 </div>
             </div>
+
+            <!-- ===== バックテストセクション ===== -->
+            <div class="summary-card" style="margin-top: 16px;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+                    <div class="summary-label" style="font-size: 14px; font-weight: 700;">🔬 バックテスト（過去予想×結果）</div>
+                    <button id="bt-run-btn" onclick="runBacktest()"
+                        style="background:#1565c0;color:#fff;border:none;border-radius:6px;padding:6px 14px;font-size:12px;cursor:pointer;">
+                        ▶ 実行
+                    </button>
+                </div>
+                <!-- 期間フィルター -->
+                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+                    <label style="color:#b0c4de;font-size:12px;">期間:
+                        <select id="bt-range" style="background:#1a2744;color:#fff;border:1px solid #2a3f6f;border-radius:4px;padding:3px 6px;font-size:12px;">
+                            <option value="7">直近7日</option>
+                            <option value="14">直近14日</option>
+                            <option value="30" selected>直近30日</option>
+                            <option value="0">全期間</option>
+                        </select>
+                    </label>
+                    <label style="color:#b0c4de;font-size:12px;">軸:
+                        <select id="bt-axis" style="background:#1a2744;color:#fff;border:1px solid #2a3f6f;border-radius:4px;padding:3px 6px;font-size:12px;">
+                            <option value="all">全体</option>
+                            <option value="low">波乱度:低</option>
+                            <option value="mid">波乱度:中</option>
+                        </select>
+                    </label>
+                </div>
+                <!-- KPIカード -->
+                <div id="bt-kpi" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;"></div>
+                <!-- 収支推移グラフ（SVG） -->
+                <div id="bt-chart-wrap" style="margin-bottom:12px;display:none;">
+                    <div style="color:#90a4ae;font-size:12px;margin-bottom:4px;">📈 累計収支推移</div>
+                    <svg id="bt-chart" width="100%" height="120" style="display:block;"></svg>
+                </div>
+                <!-- 日別テーブル -->
+                <div id="bt-table-wrap" style="display:none;">
+                    <div style="color:#90a4ae;font-size:12px;margin-bottom:4px;">📅 日別バックテスト結果</div>
+                    <div style="overflow-x:auto;">
+                        <table style="width:100%;border-collapse:collapse;font-size:11px;">
+                            <thead>
+                                <tr style="border-bottom:1px solid rgba(255,255,255,0.1);">
+                                    <th style="padding:5px 4px;text-align:left;color:#4fc3f7;">日付</th>
+                                    <th style="padding:5px 4px;text-align:center;color:#4fc3f7;">予想R</th>
+                                    <th style="padding:5px 4px;text-align:center;color:#4fc3f7;">結果R</th>
+                                    <th style="padding:5px 4px;text-align:center;color:#4fc3f7;">的中</th>
+                                    <th style="padding:5px 4px;text-align:center;color:#4fc3f7;">的中率</th>
+                                    <th style="padding:5px 4px;text-align:right;color:#4fc3f7;">投資額</th>
+                                    <th style="padding:5px 4px;text-align:right;color:#4fc3f7;">払戻</th>
+                                    <th style="padding:5px 4px;text-align:right;color:#4fc3f7;">収支</th>
+                                    <th style="padding:5px 4px;text-align:center;color:#4fc3f7;">回収率</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bt-tbody"></tbody>
+                            <tfoot id="bt-tfoot"></tfoot>
+                        </table>
+                    </div>
+                </div>
+                <div id="bt-loading" style="text-align:center;color:#90a4ae;font-size:13px;padding:16px;display:none;">⏳ データ取得中...</div>
+                <div id="bt-error" style="color:#f44336;font-size:12px;padding:8px;display:none;"></div>
+            </div>
         </div>
         <div id="reports-tab" class="tab-content">
        <div class="section-title">📊 分析レポート</div>
@@ -2071,6 +2132,209 @@
             }
 
             document.getElementById('results-tab').innerHTML = html;
+        }
+
+
+        // ===== バックテスト機能 (2026-03-06追加) =====
+        const BT_REPO = 'https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/';
+
+        async function runBacktest() {
+            const btn = document.getElementById('bt-run-btn');
+            const loading = document.getElementById('bt-loading');
+            const errDiv  = document.getElementById('bt-error');
+            btn.disabled = true;
+            loading.style.display = 'block';
+            errDiv.style.display  = 'none';
+            document.getElementById('bt-kpi').innerHTML = '';
+            document.getElementById('bt-chart-wrap').style.display = 'none';
+            document.getElementById('bt-table-wrap').style.display = 'none';
+
+            try {
+                const rangeDays = parseInt(document.getElementById('bt-range').value);
+                const axisFilter = document.getElementById('bt-axis').value;
+
+                // 全ファイル一覧はGitHub APIが必要なため、既知の日付リストを動的生成
+                // race_results_YYYYMMDD.json と final_predictions_YYYYMMDD.json のペアを取得
+                const today = new Date();
+                const dates = [];
+                for (let i = 1; i <= (rangeDays === 0 ? 60 : rangeDays); i++) {
+                    const d = new Date(today);
+                    d.setDate(d.getDate() - i);
+                    dates.push(d.toISOString().slice(0,10).replace(/-/g,''));
+                }
+
+                const rows = [];
+                let totalInvest = 0, totalReturn = 0, totalHits = 0, totalRaces = 0;
+                const equityCurve = [];
+
+                for (const ymd of dates) {
+                    const [predRes, resRes] = await Promise.allSettled([
+                        fetch(BT_REPO + `final_predictions_${ymd}.json`, {cache:'no-cache'}),
+                        fetch(BT_REPO + `race_results_${ymd}.json`, {cache:'no-cache'})
+                    ]);
+                    if (predRes.status !== 'fulfilled' || !predRes.value.ok) continue;
+                    if (resRes.status  !== 'fulfilled' || !resRes.value.ok)  continue;
+
+                    const pred = await predRes.value.json();
+                    const res  = await resRes.value.json();
+
+                    const predRaces   = pred.selected_predictions || [];
+                    const resRaces    = res.results || res.races || [];
+
+                    // 波乱度フィルター
+                    const filteredPred = predRaces.filter(r => {
+                        if (axisFilter === 'all') return true;
+                        const turb = r.波乱度 || r.turbulence || '';
+                        if (axisFilter === 'low') return turb === '低';
+                        if (axisFilter === 'mid') return turb === '中';
+                        return true;
+                    });
+
+                    if (filteredPred.length === 0 && resRaces.length === 0) continue;
+
+                    // 結果をrace_idでマッピング
+                    const resMap = {};
+                    for (const r of resRaces) {
+                        const rid = r.race_id || r.id || '';
+                        if (rid) resMap[rid] = r;
+                    }
+
+                    let dayInvest = 0, dayReturn = 0, dayHits = 0;
+                    let predCount = filteredPred.length;
+                    let resCount  = Object.keys(resMap).length;
+
+                    for (const p of filteredPred) {
+                        const rid = p.race_id || p.id || '';
+                        const invest = p.investment || p.total_investment || 0;
+                        dayInvest += invest;
+
+                        const r = resMap[rid];
+                        if (!r) continue;
+
+                        // 的中チェック: virtual_betsのreturnを合計
+                        const vbets = r.virtual_bets || {};
+                        let dayRaceReturn = 0;
+                        let hit = false;
+                        for (const [, vb] of Object.entries(vbets)) {
+                            const ret = vb['払戻'] || vb.payout || 0;
+                            dayRaceReturn += ret;
+                            if (ret > 0) hit = true;
+                        }
+                        // virtual_betsがない場合はreturnフィールドを使用
+                        if (dayRaceReturn === 0) {
+                            dayRaceReturn = r.return || r.total_return || 0;
+                            if (dayRaceReturn > 0) hit = true;
+                        }
+                        dayReturn += dayRaceReturn;
+                        if (hit) dayHits++;
+                    }
+
+                    totalInvest += dayInvest;
+                    totalReturn += dayReturn;
+                    totalHits   += dayHits;
+                    totalRaces  += predCount;
+
+                    const dayProfit = dayReturn - dayInvest;
+                    equityCurve.unshift({ ymd, profit: totalReturn - totalInvest });
+
+                    rows.unshift({
+                        ymd,
+                        predCount,
+                        resCount,
+                        dayHits,
+                        hitRate: predCount > 0 ? ((dayHits/predCount)*100).toFixed(1) : '-',
+                        dayInvest,
+                        dayReturn,
+                        dayProfit,
+                        recovery: dayInvest > 0 ? ((dayReturn/dayInvest)*100).toFixed(1) : '-'
+                    });
+                }
+
+                loading.style.display = 'none';
+                if (rows.length === 0) {
+                    errDiv.textContent = '対象期間のデータが見つかりませんでした。';
+                    errDiv.style.display = 'block';
+                    btn.disabled = false;
+                    return;
+                }
+
+                // KPIカード描画
+                const totalProfit  = totalReturn - totalInvest;
+                const recoveryRate = totalInvest > 0 ? ((totalReturn/totalInvest)*100).toFixed(1) : 0;
+                const hitRate      = totalRaces  > 0 ? ((totalHits/totalRaces)*100).toFixed(1) : 0;
+                const kpiData = [
+                    { label:'総レース数', value: totalRaces+'R', color:'#4fc3f7' },
+                    { label:'的中率',     value: hitRate+'%',    color: parseFloat(hitRate)>=15 ? '#4caf50':'#fff' },
+                    { label:'回収率',     value: recoveryRate+'%', color: parseFloat(recoveryRate)>=100 ? '#4caf50':parseFloat(recoveryRate)>=80?'#fff':'#f44336' },
+                    { label:'総投資額',   value: '¥'+totalInvest.toLocaleString(), color:'#fff' },
+                    { label:'総払戻',     value: '¥'+totalReturn.toLocaleString(), color:'#fff' },
+                    { label:'損益',       value: (totalProfit>=0?'+':'')+'¥'+totalProfit.toLocaleString(), color: totalProfit>=0?'#4caf50':'#f44336' }
+                ];
+                document.getElementById('bt-kpi').innerHTML = kpiData.map(k => `
+                    <div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:10px;text-align:center;">
+                        <div style="color:#90a4ae;font-size:10px;margin-bottom:4px;">${k.label}</div>
+                        <div style="color:${k.color};font-size:14px;font-weight:700;">${k.value}</div>
+                    </div>`).join('');
+
+                // 収支推移SVG
+                if (equityCurve.length > 1) {
+                    const profits = equityCurve.map(e => e.profit);
+                    const minP = Math.min(...profits, 0);
+                    const maxP = Math.max(...profits, 1);
+                    const range = maxP - minP || 1;
+                    const svgEl = document.getElementById('bt-chart');
+                    const W = svgEl.getBoundingClientRect().width || 300;
+                    const H = 100;
+                    const pad = 4;
+                    const pts = equityCurve.map((e, i) => {
+                        const x = pad + (i / (equityCurve.length-1)) * (W - pad*2);
+                        const y = pad + (1 - (e.profit - minP) / range) * (H - pad*2);
+                        return `${x},${y}`;
+                    }).join(' ');
+                    const zeroY = pad + (1 - (0 - minP) / range) * (H - pad*2);
+                    svgEl.innerHTML = `
+                        <line x1="${pad}" y1="${zeroY}" x2="${W-pad}" y2="${zeroY}" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+                        <polyline points="${pts}" fill="none" stroke="${totalProfit>=0?'#4caf50':'#f44336'}" stroke-width="2"/>
+                        <circle cx="${W-pad}" cy="${pad + (1-(profits[profits.length-1]-minP)/range)*(H-pad*2)}"
+                                r="3" fill="${totalProfit>=0?'#4caf50':'#f44336'}"/>`;
+                    document.getElementById('bt-chart-wrap').style.display = 'block';
+                }
+
+                // 日別テーブル描画
+                const tbody = document.getElementById('bt-tbody');
+                tbody.innerHTML = rows.map(r => `
+                    <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                        <td style="padding:5px 4px;">${r.ymd.slice(0,4)+'/'+r.ymd.slice(4,6)+'/'+r.ymd.slice(6,8)}</td>
+                        <td style="padding:5px 4px;text-align:center;">${r.predCount}</td>
+                        <td style="padding:5px 4px;text-align:center;">${r.resCount}</td>
+                        <td style="padding:5px 4px;text-align:center;">${r.dayHits}</td>
+                        <td style="padding:5px 4px;text-align:center;color:${parseFloat(r.hitRate)>=15?'#4caf50':'#fff'};">${r.hitRate}%</td>
+                        <td style="padding:5px 4px;text-align:right;">¥${r.dayInvest.toLocaleString()}</td>
+                        <td style="padding:5px 4px;text-align:right;">¥${r.dayReturn.toLocaleString()}</td>
+                        <td style="padding:5px 4px;text-align:right;color:${r.dayProfit>=0?'#4caf50':'#f44336'};">${r.dayProfit>=0?'+':''}¥${r.dayProfit.toLocaleString()}</td>
+                        <td style="padding:5px 4px;text-align:center;color:${parseFloat(r.recovery)>=100?'#4caf50':parseFloat(r.recovery)>=80?'#fff':'#f44336'};">${r.recovery}%</td>
+                    </tr>`).join('');
+
+                const tfoot = document.getElementById('bt-tfoot');
+                tfoot.innerHTML = `
+                    <tr style="border-top:2px solid rgba(255,255,255,0.2);font-weight:700;">
+                        <td style="padding:6px 4px;color:#ffd54f;">合計</td>
+                        <td style="padding:6px 4px;text-align:center;color:#4fc3f7;">${totalRaces}</td>
+                        <td colspan="2" style="padding:6px 4px;text-align:center;color:#4fc3f7;">${totalHits}的中</td>
+                        <td style="padding:6px 4px;text-align:center;color:${parseFloat(hitRate)>=15?'#4caf50':'#fff'};">${hitRate}%</td>
+                        <td style="padding:6px 4px;text-align:right;">¥${totalInvest.toLocaleString()}</td>
+                        <td style="padding:6px 4px;text-align:right;">¥${totalReturn.toLocaleString()}</td>
+                        <td style="padding:6px 4px;text-align:right;color:${totalProfit>=0?'#4caf50':'#f44336'};">${totalProfit>=0?'+':''}¥${totalProfit.toLocaleString()}</td>
+                        <td style="padding:6px 4px;text-align:center;color:${parseFloat(recoveryRate)>=100?'#4caf50':parseFloat(recoveryRate)>=80?'#fff':'#f44336'};">${recoveryRate}%</td>
+                    </tr>`;
+
+                document.getElementById('bt-table-wrap').style.display = 'block';
+            } catch(e) {
+                loading.style.display = 'none';
+                errDiv.textContent = 'エラー: ' + e.message;
+                errDiv.style.display = 'block';
+            }
+            btn.disabled = false;
         }
 
         async function loadStatistics() {
