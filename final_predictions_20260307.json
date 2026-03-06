@@ -1,0 +1,29 @@
+{
+  "date": "2026/03/07",
+  "ymd": "20260307",
+  "logic_version": "v13_断層・合成オッズ対応・精度改善v3",
+  "generated_at": "2026-03-06 23:12:17 (JST)",
+  "status": "pending",
+  "note": "出馬表データは当日朝(5:00-6:00 JST)にスクレイピングされます。",
+  "total_races": 0,
+  "selected_races": 0,
+  "reference_races": 0,
+  "selected_predictions": [],
+  "reference_predictions": [],
+  "summary": {
+    "turbulence": 0,
+    "total_investment": 0,
+    "old_total_investment": 0,
+    "investment_reduction": "データ待ち",
+    "skip_breakdown": {}
+  },
+  "fund_management": {
+    "min_synthetic_odds": 3.5,
+    "reference_min_odds": 2.0,
+    "reference_max_odds": 3.5,
+    "reference_stake_ratio": 0.5,
+    "max_combos_trifecta": 20,
+    "odds_layer_threshold": 2.0,
+    "hole_horse_min_popularity": 5
+  }
+}
