@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 新予想ロジック対応: レース選定スクリプト
+精度改善v2 [2026-03-06]: max_combos 10→15点、min_synthetic_odds 4.0→3.5倍、軸3頭拡張
 修正日: 2026/03/02
 変更点 (v12 - 合成オッズ・断層・資金管理対応):
 - オッズ断層分析関数を追加 (analyze_odds_layers)
@@ -27,10 +28,10 @@ FUND_MANAGEMENT = {
     "base_stake_trifecta": 1000,   # 三連複: 1レース固定賭け金
     "base_stake_wide": 500,         # ワイド: 1点あたり
     "base_stake_place": 300,        # 複勝: 1点あたり
-    "max_combos_trifecta": 10,      # 三連複: 最大点数（ガミ削除後10点以内）
+    "max_combos_trifecta": 15,      # 三連複: 最大点数 [精度改善v2: 10→15点 2026-03]
     "max_combos_wide": 2,           # ワイド: 最大点数
     "max_combos_place": 3,          # 複勝: 最大点数
-    "min_synthetic_odds": 4.0,      # 合成オッズ最低ライン (人気推定制: 4.0倍以上 = 空枫期待値有り)
+    "min_synthetic_odds": 3.5,      # 合成オッズ最低ライン [精度改善v2: 4.0→3.5倍 2026-03]
     "odds_boost_threshold_4": 4.0,  # 合成オッズ4倍以上 → 賭け金1.5倍
     "odds_boost_threshold_5": 5.0,  # 合成オッズ5倍以上 → 賭け金2倍
     "min_wide_odds": 5.0,           # ワイドオッズ最低ライン
@@ -784,7 +785,14 @@ def generate_betting_plan(race):
     
     # --- 1列目 (col1): ◎と○ = 2頭（軸） ---
     # 補正後スコア上位2頭。この2頭は必ず全列に含める
-    col1 = axis_candidates[:2]
+    # 精度改善v2 [2026-03]: 軸候補が3頭以上かつ3頭目スコアが2頭目の80%以上なら3頭採用
+    # 背景: バックテスト分析で「軸3頭中2頭一致・1頭外れ」パターンが38件 (17.8%) 発生
+    #       3頭目まで軸に含めることで惜しい外れを的中に転換できる
+    _ax2_score = axis_candidates[1].get('補正後スコア', 0) if len(axis_candidates) >= 2 else 0
+    _ax3_score = axis_candidates[2].get('補正後スコア', 0) if len(axis_candidates) >= 3 else 0
+    _take3 = (len(axis_candidates) >= 3 and _ax2_score > 0 and
+              _ax3_score >= _ax2_score * 0.80)
+    col1 = axis_candidates[:3] if _take3 else axis_candidates[:2]
     # Bug Fix ②: 馬番をstr型に統一（int/strの型混在による重複除外漏れを防ぐ）
     col1_nums_set = {str(h.get('馬番')) for h in col1 if h.get('馬番') is not None}
     
@@ -1039,7 +1047,7 @@ def generate_betting_plan(race):
             for h in (col2 + col3)
             if str(h.get('馬番')) not in {str(x.get('馬番')) for x in col1}
         }.values()),
-        "買い目タイプ": "三連複フォーメーション(断層役割ベース)",
+        "買い目タイプ": "三連複フォーメーション(断層役割ベース・精度改善v2)",
         "組み合わせ数": combo_count,
         "合成オッズ": core_synthetic_odds,
         "合成オッズ_全体": full_synthetic_odds,
