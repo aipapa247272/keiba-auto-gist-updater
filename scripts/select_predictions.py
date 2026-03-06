@@ -49,6 +49,23 @@ FUND_MANAGEMENT = {
     "reference_stake_ratio": 0.5 # 参考予測の賭け金倍率（推奨の50%）
 }
 
+# ===================================================
+# 低ROI競馬場フィルタ設定 (v13.1 2026-03-06追加)
+# ROI実績データに基づく自動除外設定
+# ===================================================
+LOW_ROI_VENUES = {
+    # JRA中央競馬場 - 実績ROIが低い場を除外
+    "東京": {"roi_pct": 0.0,  "exclude_level": "select"},  # 推奨から除外
+    "中山": {"roi_pct": 8.8,  "exclude_level": "select"},  # 推奨から除外
+    # "阪神": {"roi_pct": 45.0, "exclude_level": "none"},  # 除外しない
+    # "京都": {"roi_pct": 52.0, "exclude_level": "none"},  # 除外しない
+}
+# exclude_level:
+#   "all"    => 推奨(⭐⭐⭐)と参考(⭐⭐)両方から除外
+#   "select" => 推奨(⭐⭐⭐)のみ除外、参考(⭐⭐)は表示
+#   "none"   => 除外しない
+
+
 
 # =============================================
 # コース特徴テーブル (Course Feature Table)
@@ -764,6 +781,18 @@ def generate_betting_plan(race):
     # ============================================================
     # 競馬場のコース特徴を取得
     venue = race.get('venue', race.get('競馬場', ''))
+
+    # 低ROI競馬場フィルタ (v13.1追加)
+    venue_info = LOW_ROI_VENUES.get(venue, {})
+    exclude_level = venue_info.get("exclude_level", "none")
+    if exclude_level == "all":
+        skip_reason = f"低ROI競馬場除外({venue} ROI:{venue_info.get('roi_pct')}%)"
+        result["skip_reason"] = skip_reason
+        result["skipped"] = True
+        return result
+    # "select"の場合は選定フェーズで処理（後続で reference_predictions に振り分け）
+    result["low_roi_venue"] = (exclude_level == "select")
+
     
     # コース特徴×脚質スコア補正 + 斤量・騎手ボーナスを各馬に適用
     for h in horses_with_roles:
@@ -1300,7 +1329,7 @@ def main():
         
         output_data = {
             "ymd": ymd,
-            "logic_version": "v13_断層・合成オッズ対応・精度改善v3",
+            "logic_version": "v13.1_断層・合成オッズ対応・精度改善v3・低ROIフィルタ",
             "generated_at": datetime.now(timezone(timedelta(hours=9))).strftime(
                 "%Y-%m-%d %H:%M:%S (JST)"
             ),
