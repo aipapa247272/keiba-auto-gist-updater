@@ -1089,7 +1089,64 @@
     font-size: 12px;
     border-bottom: 1px solid rgba(255,255,255,0.05);
 }
-    </style>
+    
+        /* ========== Phase1: 2段階表示スタイル ========== */
+        .rank-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-right: 6px;
+        }
+        .rank-recommend {
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            color: #fff;
+        }
+        .rank-reference {
+            background: #b0bec5;
+            color: #fff;
+        }
+        .race-card-reference {
+            opacity: 0.75;
+            border-left: 4px solid #b0bec5 !important;
+            background: #f5f5f5 !important;
+        }
+        .reference-note {
+            font-size: 11px;
+            color: #888;
+            margin-top: 4px;
+            padding: 4px 8px;
+            background: #eeeeee;
+            border-radius: 4px;
+        }
+        .no-prediction-banner {
+            text-align: center;
+            padding: 24px;
+            background: #fff8e1;
+            border: 2px dashed #ffc107;
+            border-radius: 12px;
+            margin: 16px 0;
+        }
+        .no-prediction-banner .icon { font-size: 36px; }
+        .no-prediction-banner .title { font-size: 18px; font-weight: bold; color: #f57c00; margin: 8px 0 4px; }
+        .no-prediction-banner .reason { font-size: 13px; color: #666; }
+        .section-label {
+            font-size: 13px;
+            font-weight: bold;
+            color: #555;
+            margin: 16px 0 6px;
+            padding: 4px 10px;
+            border-left: 4px solid #2196f3;
+            background: #e3f2fd;
+        }
+        .section-label-ref {
+            border-left-color: #9e9e9e;
+            background: #f5f5f5;
+            color: #777;
+        }
+        /* =============================================== */
+</style>
 </head>
 <body>
     <div class="header">
@@ -1303,6 +1360,126 @@
     <script>
         let predictionsData = null;
         let resultsData = null;
+
+        async function loadTodayPredictions() {
+            try {
+                const ymd = getTodayYMD();
+                const url = BT_REPO + `final_predictions_${ymd}.json?t=` + Date.now();
+                const response = await fetch(url, {cache: 'no-cache'});
+                if (!response.ok) throw new Error('File not found');
+                const data = await response.json();
+
+                const container = document.getElementById('today-predictions');
+                if (!container) return;
+                container.innerHTML = '';
+
+                const selected   = data.selected_predictions  || [];
+                const references = data.reference_predictions || [];
+                const total      = data.total_races || 0;
+                const skipBD     = data.summary?.skip_breakdown || {};
+
+                /* ── ヘッダーサマリ ── */
+                const header = document.createElement('div');
+                header.style.cssText = 'margin-bottom:12px; padding:10px 14px; background:#e8f5e9; border-radius:8px; font-size:13px;';
+                header.innerHTML = `
+                    <b>📊 ${ymd.slice(0,4)}/${ymd.slice(4,6)}/${ymd.slice(6)} 予測サマリ</b><br>
+                    対象レース: <b>${total}R</b>　
+                    <span style="color:#1976d2">⭐⭐⭐推奨: <b>${selected.length}件</b></span>　
+                    <span style="color:#757575">⭐⭐参考: <b>${references.length}件</b></span>　
+                    断層なし: ${skipBD['断層なし(フラット)']||0}件　
+                    合成オッズ不足: ${skipBD['合成オッズ不足']||0}件
+                `;
+                container.appendChild(header);
+
+                /* ── 推奨0件バナー ── */
+                if (selected.length === 0 && references.length === 0) {
+                    const banner = document.createElement('div');
+                    banner.className = 'no-prediction-banner';
+                    const flatN = skipBD['断層なし(フラット)'] || 0;
+                    const oddsN = skipBD['合成オッズ不足'] || 0;
+                    const mainReason = flatN > oddsN
+                        ? `混戦レースが多く断層を検出できませんでした（${flatN}件フラット）`
+                        : `本日のオッズ水準が低く期待値基準を満たしませんでした（${oddsN}件オッズ不足）`;
+                    banner.innerHTML = `
+                        <div class="icon">🔍</div>
+                        <div class="title">本日は見送り推奨</div>
+                        <div class="reason">${mainReason}<br>
+                        <span style="color:#aaa;font-size:11px;">資金を守ることも戦略です。次回開催に期待しましょう。</span></div>
+                    `;
+                    container.appendChild(banner);
+                    return;
+                }
+
+                /* ── 推奨レース ── */
+                if (selected.length > 0) {
+                    const lbl = document.createElement('div');
+                    lbl.className = 'section-label';
+                    lbl.textContent = `⭐⭐⭐ 推奨レース（${selected.length}件）— AIが厳選した高期待値レース`;
+                    container.appendChild(lbl);
+                    selected.forEach(race => renderRaceCard(race, 'recommend', container));
+                }
+
+                /* ── 参考レース ── */
+                if (references.length > 0) {
+                    const lbl2 = document.createElement('div');
+                    lbl2.className = 'section-label section-label-ref';
+                    lbl2.textContent = `⭐⭐ 参考レース（${references.length}件）— 合成オッズ2.0〜3.5倍・少額参考`;
+                    container.appendChild(lbl2);
+                    references.forEach(race => renderRaceCard(race, 'reference', container));
+                }
+
+            } catch (e) {
+                console.error('予測データ取得エラー:', e);
+                const container = document.getElementById('today-predictions');
+                if (container) {
+                    container.innerHTML = '<div style="color:#aaa;text-align:center;padding:20px;">本日の予測データを取得できませんでした</div>';
+                }
+            }
+        }
+
+        /* ── レースカード描画ヘルパー ── */
+        function renderRaceCard(race, rankType, container) {
+            const isRef = (rankType === 'reference');
+            const card  = document.createElement('div');
+            card.style.cssText = `
+                border:1px solid ${isRef ? '#bdbdbd' : '#1976d2'};
+                border-left:4px solid ${isRef ? '#bdbdbd' : '#1976d2'};
+                border-radius:8px;
+                padding:12px 14px;
+                margin-bottom:10px;
+                background:${isRef ? '#fafafa' : '#fff'};
+                opacity:${isRef ? '0.82' : '1'};
+            `;
+
+            const badge = isRef
+                ? '<span class="rank-badge rank-reference">⭐⭐ 参考</span>'
+                : '<span class="rank-badge rank-recommend">⭐⭐⭐ 推奨</span>';
+
+            const bp    = race.betting_plan || {};
+            const axes  = (bp['軸'] || []).map(h => `${h['馬番']}番`).join('・') || '—';
+            const combos= bp['組み合わせ数'] || race.combos || '—';
+            const synOdds = (race['合成オッズ'] || race.synthetic_odds || 0);
+            const invest = (race.investment || 0).toLocaleString();
+            const turbulence = race.turbulence || '—';
+
+            card.innerHTML = `
+                <div style="display:flex;align-items:center;flex-wrap:wrap;gap:4px;margin-bottom:6px;">
+                    ${badge}
+                    <b style="font-size:14px;">${race.venue || ''} / ${race.race_name || ''}</b>
+                    <span style="color:#888;font-size:12px;">${race.distance || ''}${race.track || ''}</span>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px;font-size:12px;color:#555;margin-bottom:6px;">
+                    <span>🎯 軸馬: <b>${axes}</b></span>
+                    <span>📊 合成Ods: <b>${synOdds}倍</b></span>
+                    <span>🎰 点数: <b>${combos}点</b></span>
+                    <span>💴 投資: <b>¥${invest}</b></span>
+                    <span>🌊 波乱度: <b>${turbulence}</b></span>
+                    <span>📋 買い方: 三連複BOX</span>
+                </div>
+                ${isRef ? '<div class="reference-note">⚠️ 参考情報です。合成オッズが推奨基準（3.5倍）未満のため少額でご参考ください。投資判断はご自身で。</div>' : ''}
+            `;
+            container.appendChild(card);
+        }
 
         document.addEventListener('DOMContentLoaded', () => {
             loadPredictions();
