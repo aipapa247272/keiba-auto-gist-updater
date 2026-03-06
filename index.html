@@ -1683,7 +1683,10 @@
                             <div class="expand-icon" id="expand-icon-${race.race_id}" onclick="toggleInvestmentBreakdown('${race.race_id}')">▼</div>
                         </div>
                         <div class="betting-method">📝 ${bettingType}</div>
-                        <div class="betting-investment">投資額: ¥${investment.toLocaleString()}</div>
+                        <div class="betting-investment">
+                            投資額: ¥${investment.toLocaleString()}
+                            <span style="color:#90caf9; font-size:12px; margin-left:8px;">(1点 ¥${newCombos > 0 ? (Math.floor(investment / newCombos / 100) * 100).toLocaleString() : '-'})</span>
+                        </div>
 
                         <div class="investment-breakdown" id="investment-${race.race_id}">
                             <div class="investment-item">
@@ -1693,6 +1696,10 @@
                             <div class="investment-item">
                                 <span class="investment-label">組み合わせ数</span>
                                 <span class="investment-value">${newCombos}点 (上限15点)</span>
+                            </div>
+                            <div class="investment-item">
+                                <span class="investment-label">1点あたり</span>
+                                <span class="investment-value" style="color:#81c784;">¥${newCombos > 0 ? (Math.floor(investment / newCombos / 100) * 100).toLocaleString() : '-'}</span>
                             </div>
                             <div class="investment-item">
                                 <span class="investment-label">合成オッズ</span>
@@ -1925,7 +1932,14 @@
                                             <div><span style="color: #ffd54f; font-weight: 600;">📊予想:</span><span style="color: #e0e0e0;">軸</span><strong style="color: #4fc3f7; letter-spacing: 1px;">${axisStr || '-'}</strong></div>
                                             <div style="padding-left: 3.2em;"><span style="color: #e0e0e0;">穴 </span><strong style="color: #ce93d8;">${opponentStr || '-'}</strong></div>
                                             <div><span style="color: #a5d6a7; font-weight: 600;">🎯結果:</span><strong style="color: #fff;">${actual}</strong></div>
-                                            <div><span style="color: #ffcc80; font-weight: 600;">💰買い目:</span><strong style="color: #4fc3f7;">${predictedArray.length}点買い</strong><span style="color: #78909c; font-size: 11px;">（タップで展開）</span></div>
+                                            <div>
+        <span style="color: #ffcc80; font-weight: 600;">💰買い目:</span>
+        <strong style="color: #4fc3f7;">${predictedArray.length}点買い</strong>
+        <span style="color: #90caf9; font-size: 12px; margin-left:4px;">
+            (1点 ¥${predictedArray.length > 0 ? (Math.floor(investment / predictedArray.length / 100) * 100).toLocaleString() : '-'})
+        </span>
+        <span style="color: #78909c; font-size: 11px;">（タップで展開）</span>
+    </div>
                                         </div>
                                     </summary>
                                     <div style="margin-top: 8px; word-break: break-all; line-height: 1.8; padding-left: 1.2em;">
