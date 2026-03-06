@@ -1,11 +1,15 @@
 {
   "date": "2026/02/20",
   "ymd": "20260220",
-  "generated_at": "2026-02-20 00:00:00",
+  "generated_at": "2026-03-06 09:11:12",
+  "rescraped": true,
+  "rescraped_at": "2026-03-06T09:11:12.344865",
   "total_races": 5,
   "hit_count": 0,
-  "miss_count": 0,
-  "unavailable_count": 5,
+  "miss_count": 5,
+  "unavailable_count": 0,
+  "no_pred_count": 0,
+  "valid_races": 5,
   "total_investment": 12000,
   "total_return": 0,
   "total_profit": -12000,
@@ -13,109 +17,228 @@
   "recovery_rate": 0.0,
   "races": [
     {
-      "race_id": "202605010712",
-      "venue": "東京",
-      "race_num": "12",
-      "race_name": "4歳以上1勝クラス",
-      "distance": 1600,
-      "track": "ダ",
-      "status": "結果取得不可",
-      "predicted": [
-        "None-None-None"
-      ],
-      "actual": [],
+      "race_id": "202644022002",
+      "race_name": "3歳四五",
+      "venue": "笠松",
+      "venue_type": "NAR",
+      "status": "不的中",
       "hit": false,
+      "predicted_bets": [],
+      "predicted_jiku": [
+        "1",
+        "9",
+        "12"
+      ],
+      "predicted_aite": [
+        "2",
+        "5",
+        "11",
+        "6",
+        "8",
+        "4",
+        "7"
+      ],
+      "bet_type": "三連複フォーメーション（軸3頭BOX）",
+      "actual": "2-4-7",
+      "result_sanrenpuku": "2-4-7",
+      "payout_sanrenpuku": 3480,
       "investment": 2400,
       "return": 0,
       "profit": -2400,
-      "payouts": {},
-      "horse_weights": [],
-      "weather": "",
-      "track_condition": ""
+      "payouts": {
+        "単勝": 2130,
+        "複勝": 260,
+        "枠連": 890,
+        "馬連": 1010,
+        "ワイド": 420,
+        "枠単": 3820,
+        "馬単": 4310,
+        "3連複": 3480,
+        "3連単": 28540
+      },
+      "payout_missing": false,
+      "top3": [
+        "2",
+        "4",
+        "7"
+      ]
     },
     {
-      "race_id": "202610010903",
-      "venue": "小倉",
-      "race_num": "03",
+      "race_id": "202647022008",
+      "race_name": "C5組",
+      "venue": "佐賀",
+      "venue_type": "NAR",
+      "status": "不的中",
+      "hit": false,
+      "predicted_bets": [],
+      "predicted_jiku": [
+        "6",
+        "8",
+        "5"
+      ],
+      "predicted_aite": [
+        "2",
+        "3",
+        "7",
+        "1",
+        "4"
+      ],
+      "bet_type": "三連複フォーメーション（軸3頭BOX）",
+      "actual": "3-4-6",
+      "result_sanrenpuku": "3-4-6",
+      "payout_sanrenpuku": 1240,
+      "investment": 2400,
+      "return": 0,
+      "profit": -2400,
+      "payouts": {
+        "単勝": 240,
+        "複勝": 120,
+        "馬連": 300,
+        "ワイド": 170,
+        "馬単": 510,
+        "3連複": 1240,
+        "3連単": 3060
+      },
+      "payout_missing": false,
+      "top3": [
+        "3",
+        "4",
+        "6"
+      ]
+    },
+    {
+      "race_id": "202647022001",
       "race_name": "3歳未勝利",
-      "distance": 1000,
-      "track": "ダ",
-      "status": "結果取得不可",
-      "predicted": [
-        "None-None-None"
-      ],
-      "actual": [],
+      "venue": "佐賀",
+      "venue_type": "NAR",
+      "status": "不的中",
       "hit": false,
+      "predicted_bets": [],
+      "predicted_jiku": [
+        "4",
+        "2",
+        "9"
+      ],
+      "predicted_aite": [
+        "8",
+        "5",
+        "3",
+        "7",
+        "1"
+      ],
+      "bet_type": "三連複フォーメーション（軸3頭BOX）",
+      "actual": "4-5-8",
+      "result_sanrenpuku": "4-5-8",
+      "payout_sanrenpuku": 1470,
       "investment": 2400,
       "return": 0,
       "profit": -2400,
-      "payouts": {},
-      "horse_weights": [],
-      "weather": "",
-      "track_condition": ""
+      "payouts": {
+        "単勝": 1450,
+        "複勝": 190,
+        "枠連": 3300,
+        "馬連": 2730,
+        "ワイド": 820,
+        "馬単": 7870,
+        "3連複": 1470,
+        "3連単": 17320
+      },
+      "payout_missing": false,
+      "top3": [
+        "4",
+        "5",
+        "8"
+      ]
     },
     {
-      "race_id": "202610010909",
-      "venue": "小倉",
-      "race_num": "09",
-      "race_name": "あざみ賞",
-      "distance": 1200,
-      "track": "芝",
-      "status": "結果取得不可",
-      "predicted": [
-        "None-None-None"
-      ],
-      "actual": [],
+      "race_id": "202647022004",
+      "race_name": "ささケー、あなたならできる記念(C)",
+      "venue": "佐賀",
+      "venue_type": "NAR",
+      "status": "不的中",
       "hit": false,
+      "predicted_bets": [],
+      "predicted_jiku": [
+        "1",
+        "7",
+        "8"
+      ],
+      "predicted_aite": [
+        "3",
+        "2",
+        "5",
+        "6",
+        "4"
+      ],
+      "bet_type": "三連複フォーメーション（軸3頭BOX）",
+      "actual": "1-2-8",
+      "result_sanrenpuku": "1-2-8",
+      "payout_sanrenpuku": 320,
       "investment": 2400,
       "return": 0,
       "profit": -2400,
-      "payouts": {},
-      "horse_weights": [],
-      "weather": "",
-      "track_condition": ""
+      "payouts": {
+        "単勝": 340,
+        "複勝": 110,
+        "馬連": 980,
+        "ワイド": 180,
+        "馬単": 2160,
+        "3連複": 320,
+        "3連単": 3220
+      },
+      "payout_missing": false,
+      "top3": [
+        "1",
+        "2",
+        "8"
+      ]
     },
     {
-      "race_id": "202605010707",
-      "venue": "東京",
-      "race_num": "07",
-      "race_name": "4歳以上1勝クラス",
-      "distance": 1400,
-      "track": "ダ",
-      "status": "結果取得不可",
-      "predicted": [
-        "None-None-None"
-      ],
-      "actual": [],
+      "race_id": "202644022005",
+      "race_name": "3歳一二三(3歳二)",
+      "venue": "笠松",
+      "venue_type": "NAR",
+      "status": "不的中",
       "hit": false,
+      "predicted_bets": [],
+      "predicted_jiku": [
+        "6",
+        "1",
+        "7"
+      ],
+      "predicted_aite": [
+        "11",
+        "13",
+        "5",
+        "2",
+        "9",
+        "12",
+        "4"
+      ],
+      "bet_type": "三連複フォーメーション（軸3頭BOX）",
+      "actual": "3-6-7",
+      "result_sanrenpuku": "3-6-7",
+      "payout_sanrenpuku": 460,
       "investment": 2400,
       "return": 0,
       "profit": -2400,
-      "payouts": {},
-      "horse_weights": [],
-      "weather": "",
-      "track_condition": ""
-    },
-    {
-      "race_id": "202610010907",
-      "venue": "小倉",
-      "race_num": "07",
-      "race_name": "4歳以上1勝クラス",
-      "distance": 1700,
-      "track": "ダ",
-      "status": "結果取得不可",
-      "predicted": [
-        "None-None-None"
-      ],
-      "actual": [],
-      "hit": false,
-      "investment": 2400,
-      "return": 0,
-      "profit": -2400,
-      "payouts": {},
-      "horse_weights": [],
-      "weather": "",
-      "track_condition": ""
+      "payouts": {
+        "単勝": 170,
+        "複勝": 100,
+        "枠連": 210,
+        "馬連": 230,
+        "ワイド": 130,
+        "枠単": 370,
+        "馬単": 410,
+        "3連複": 460,
+        "3連単": 1420
+      },
+      "payout_missing": false,
+      "top3": [
+        "3",
+        "6",
+        "7"
+      ]
     }
   ]
 }
