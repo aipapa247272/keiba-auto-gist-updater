@@ -1259,6 +1259,30 @@ def select_races(race_data, max_races=9999):
                 "投資": 500
             }
         
+        # 低ROI競馬場フィルタ: 推奨 → 参考に降格 (v13.1追加)
+        race_venue = race.get('競馬場', race.get('venue', ''))
+        venue_cfg = LOW_ROI_VENUES.get(race_venue, {})
+        if venue_cfg.get("exclude_level") == "select":
+            # 推奨(⭐⭐⭐)には選定せず、参考(⭐⭐)として追加
+            ref_stake_ratio = FUND_MANAGEMENT.get("reference_stake_ratio", 0.5)
+            ref_inv = int(FUND_MANAGEMENT["base_stake_trifecta"] * ref_stake_ratio)
+            reference.append({
+                "race_id":        race.get('race_id'),
+                "race_name":      race.get('レース名', '不明'),
+                "venue":          race_venue,
+                "distance":       race.get('距離'),
+                "track":          race.get('トラック'),
+                "grade":          race.get('grade', ''),
+                "ref_rank":       "⭐⭐",
+                "ref_label":      "参考(低ROI場)",
+                "synthetic_odds": betting_plan.get("合成オッズ", 0),
+                "investment":     ref_inv,
+                "note":           f"低ROI競馬場({race_venue} ROI:{venue_cfg.get('roi_pct')}%)のため参考扱い。自己判断でご参考ください。",
+                "断層分析":       analysis,
+            })
+            turbulence_counts[turbulence] += 1
+            continue
+
         selected.append({
             "race_id": race.get('race_id'),
             "race_name": race.get('レース名', '不明'),
