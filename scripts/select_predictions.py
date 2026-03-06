@@ -1300,7 +1300,7 @@ def main():
         
         output_data = {
             "ymd": ymd,
-            "logic_version": "v12_断層・合成オッズ対応",
+            "logic_version": "v13_断層・合成オッズ対応・精度改善v3",
             "generated_at": datetime.now(timezone(timedelta(hours=9))).strftime(
                 "%Y-%m-%d %H:%M:%S (JST)"
             ),
