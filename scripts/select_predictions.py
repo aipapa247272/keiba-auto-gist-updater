@@ -1027,8 +1027,9 @@ def generate_betting_plan(race):
             for h in col3 if str(h.get('馬番')) not in col2_set
         ],
         # 後方互換: 旧フォーマット用
-        "相手": [
-            {
+        # Bug Fix ②-追加: 「相手」フィールドの重複除去
+        # col2=list(col1)+追加, col3=list(col2)+穴 のため同じ馬が複数回出現する問題を修正
+        "相手": list({str(h.get('馬番')): {
                 "馬番": h.get('馬番'),
                 "馬名": h.get('馬名'),
                 "評価": "△",
@@ -1036,8 +1037,8 @@ def generate_betting_plan(race):
                 "根拠": generate_reason(h)
             }
             for h in (col2 + col3)
-            if h.get('馬番') not in [x.get('馬番') for x in col1]
-        ],
+            if str(h.get('馬番')) not in {str(x.get('馬番')) for x in col1}
+        }.values()),
         "買い目タイプ": "三連複フォーメーション(断層役割ベース)",
         "組み合わせ数": combo_count,
         "合成オッズ": core_synthetic_odds,
