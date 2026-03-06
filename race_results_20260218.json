@@ -1,121 +1,237 @@
 {
   "date": "2026/02/18",
   "ymd": "20260218",
-  "generated_at": "2026-02-18 00:00:00",
+  "generated_at": "2026-03-06 09:11:01",
+  "rescraped": true,
+  "rescraped_at": "2026-03-06T09:11:01.331795",
   "total_races": 5,
   "hit_count": 0,
-  "miss_count": 0,
-  "unavailable_count": 5,
-  "total_investment": 12000,
+  "miss_count": 5,
+  "unavailable_count": 0,
+  "no_pred_count": 0,
+  "valid_races": 5,
+  "total_investment": 11000,
   "total_return": 0,
-  "total_profit": -12000,
+  "total_profit": -11000,
   "hit_rate": 0.0,
   "recovery_rate": 0.0,
   "races": [
     {
-      "race_id": "202644021806",
-      "venue": "大井",
-      "race_num": "06",
-      "race_name": "C2八九",
-      "distance": 1200,
-      "track": "ダ",
-      "status": "結果取得不可",
-      "predicted": [
-        "15-4-8"
-      ],
-      "actual": [],
+      "race_id": "202654021804",
+      "race_name": "C3ー6",
+      "venue": "高知",
+      "venue_type": "NAR",
+      "status": "不的中",
       "hit": false,
-      "investment": 1200,
+      "predicted_bets": [],
+      "predicted_jiku": [
+        "8",
+        "6",
+        "1"
+      ],
+      "predicted_aite": [
+        "7",
+        "3"
+      ],
+      "bet_type": "三連複フォーメーション（軸1-2頭流し）",
+      "actual": "2-6-8",
+      "result_sanrenpuku": "2-6-8",
+      "payout_sanrenpuku": 3160,
+      "investment": 1600,
       "return": 0,
-      "profit": -1200,
-      "payouts": {},
-      "horse_weights": [],
-      "weather": "",
-      "track_condition": ""
+      "profit": -1600,
+      "payouts": {
+        "単勝": 380,
+        "複勝": 160,
+        "馬連": 1890,
+        "ワイド": 660,
+        "馬単": 3440,
+        "3連複": 3160,
+        "3連単": 16910
+      },
+      "payout_missing": false,
+      "top3": [
+        "2",
+        "6",
+        "8"
+      ]
     },
     {
       "race_id": "202644021807",
-      "venue": "大井",
-      "race_num": "07",
       "race_name": "C1二三四(C1三)",
-      "distance": 1600,
-      "track": "ダ",
-      "status": "結果取得不可",
-      "predicted": [
-        "10-12-9"
-      ],
-      "actual": [],
+      "venue": "笠松",
+      "venue_type": "NAR",
+      "status": "不的中",
       "hit": false,
-      "investment": 1200,
-      "return": 0,
-      "profit": -1200,
-      "payouts": {},
-      "horse_weights": [],
-      "weather": "",
-      "track_condition": ""
-    },
-    {
-      "race_id": "202644021812",
-      "venue": "大井",
-      "race_num": "12",
-      "race_name": "フェブラリー賞競走(B1B2)",
-      "distance": 1200,
-      "track": "ダ",
-      "status": "結果取得不可",
-      "predicted": [
-        "2-4-8"
+      "predicted_bets": [],
+      "predicted_jiku": [
+        "3",
+        "4",
+        "12"
       ],
-      "actual": [],
-      "hit": false,
-      "investment": 1200,
-      "return": 0,
-      "profit": -1200,
-      "payouts": {},
-      "horse_weights": [],
-      "weather": "",
-      "track_condition": ""
-    },
-    {
-      "race_id": "202644021811",
-      "venue": "大井",
-      "race_num": "11",
-      "race_name": "雲取賞競走Jpn3",
-      "distance": 1800,
-      "track": "ダ",
-      "status": "結果取得不可",
-      "predicted": [
-        "16-5-6"
+      "predicted_aite": [
+        "14",
+        "10",
+        "11",
+        "9",
+        "5"
       ],
-      "actual": [],
-      "hit": false,
-      "investment": 7200,
+      "bet_type": "三連複フォーメーション（軸1-2頭流し）",
+      "actual": "3-8-12",
+      "result_sanrenpuku": "3-8-12",
+      "payout_sanrenpuku": 1020,
+      "investment": 2500,
       "return": 0,
-      "profit": -7200,
-      "payouts": {},
-      "horse_weights": [],
-      "weather": "",
-      "track_condition": ""
+      "profit": -2500,
+      "payouts": {
+        "単勝": 260,
+        "複勝": 150,
+        "枠連": 740,
+        "馬連": 750,
+        "ワイド": 350,
+        "枠単": 1310,
+        "馬単": 1350,
+        "3連複": 1020,
+        "3連単": 5020
+      },
+      "payout_missing": false,
+      "top3": [
+        "3",
+        "8",
+        "12"
+      ]
     },
     {
       "race_id": "202651021808",
-      "venue": "姫路",
-      "race_num": "08",
       "race_name": "C2一",
-      "distance": 1400,
-      "track": "ダ",
-      "status": "結果取得不可",
-      "predicted": [
-        "1-6-9"
-      ],
-      "actual": [],
+      "venue": "姫路",
+      "venue_type": "NAR",
+      "status": "不的中",
       "hit": false,
-      "investment": 1200,
+      "predicted_bets": [],
+      "predicted_jiku": [
+        "10",
+        "5",
+        "9"
+      ],
+      "predicted_aite": [
+        "1",
+        "6",
+        "8"
+      ],
+      "bet_type": "三連複フォーメーション（軸1-2頭流し）",
+      "actual": "4-5-8",
+      "result_sanrenpuku": "4-5-8",
+      "payout_sanrenpuku": 11710,
+      "investment": 1900,
       "return": 0,
-      "profit": -1200,
-      "payouts": {},
-      "horse_weights": [],
-      "weather": "",
-      "track_condition": ""
+      "profit": -1900,
+      "payouts": {
+        "単勝": 610,
+        "複勝": 120,
+        "枠連": 340,
+        "馬連": 260,
+        "ワイド": 230,
+        "馬単": 1390,
+        "3連複": 11710,
+        "3連単": 63630
+      },
+      "payout_missing": false,
+      "top3": [
+        "4",
+        "5",
+        "8"
+      ]
+    },
+    {
+      "race_id": "202644021812",
+      "race_name": "フェブラリー賞競走(B1B2)",
+      "venue": "笠松",
+      "venue_type": "NAR",
+      "status": "不的中",
+      "hit": false,
+      "predicted_bets": [],
+      "predicted_jiku": [
+        "4",
+        "8",
+        "2"
+      ],
+      "predicted_aite": [
+        "11",
+        "6",
+        "3",
+        "13"
+      ],
+      "bet_type": "三連複フォーメーション（軸1-2頭流し）",
+      "actual": "3-8-11",
+      "result_sanrenpuku": "3-8-11",
+      "payout_sanrenpuku": 1010,
+      "investment": 2200,
+      "return": 0,
+      "profit": -2200,
+      "payouts": {
+        "単勝": 120,
+        "複勝": 100,
+        "枠連": 400,
+        "馬連": 440,
+        "ワイド": 210,
+        "枠単": 590,
+        "馬単": 530,
+        "3連複": 1010,
+        "3連単": 2150
+      },
+      "payout_missing": false,
+      "top3": [
+        "3",
+        "8",
+        "11"
+      ]
+    },
+    {
+      "race_id": "202644021811",
+      "race_name": "雲取賞競走Jpn3",
+      "venue": "笠松",
+      "venue_type": "NAR",
+      "status": "不的中",
+      "hit": false,
+      "predicted_bets": [],
+      "predicted_jiku": [
+        "16",
+        "7",
+        "6"
+      ],
+      "predicted_aite": [
+        "11",
+        "5",
+        "9",
+        "3",
+        "10",
+        "15"
+      ],
+      "bet_type": "三連複フォーメーション（軸1-2頭流し）",
+      "actual": "6-13-16",
+      "result_sanrenpuku": "6-13-16",
+      "payout_sanrenpuku": 360,
+      "investment": 2800,
+      "return": 0,
+      "profit": -2800,
+      "payouts": {
+        "単勝": 640,
+        "複勝": 140,
+        "枠連": 410,
+        "馬連": 590,
+        "ワイド": 240,
+        "枠単": 1020,
+        "馬単": 1560,
+        "3連複": 360,
+        "3連単": 3250
+      },
+      "payout_missing": false,
+      "top3": [
+        "6",
+        "13",
+        "16"
+      ]
     }
   ]
 }
