@@ -1255,6 +1255,68 @@
         }
         /* ===================================================== */
 
+
+        /* ========== Phase3: 広告スロット ========== */
+        .ad-slot {
+            width: 100%;
+            margin: 12px 0;
+            text-align: center;
+            min-height: 60px;
+        }
+        .ad-slot-banner {
+            background: rgba(255,255,255,0.03);
+            border: 1px dashed rgba(255,255,255,0.12);
+            border-radius: 8px;
+            padding: 8px;
+            color: #546e7a;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 60px;
+        }
+        /* ========== Phase3: フッター ========== */
+        .site-footer {
+            background: #0a1929;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding: 20px 16px 30px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .footer-disclaimer {
+            font-size: 11px;
+            color: #546e7a;
+            line-height: 1.7;
+            max-width: 600px;
+            margin: 0 auto 12px;
+        }
+        .footer-share {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+        .share-btn {
+            padding: 7px 14px;
+            border-radius: 20px;
+            border: none;
+            font-size: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .share-btn-twitter { background: #1da1f2; color: #fff; }
+        .share-btn-line    { background: #06c755; color: #fff; }
+        .footer-links { font-size: 11px; color: #455a64; }
+        /* ========== Phase3: 競馬場ランキングバー ========== */
+        .venue-bar-wrap { display: flex; flex-direction: column; gap: 6px; }
+        .venue-bar-item { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+        .venue-bar-label { width: 52px; color: #90a4ae; flex-shrink:0; }
+        .venue-bar-track { flex:1; height:14px; background:rgba(255,255,255,0.06); border-radius:7px; overflow:hidden; }
+        .venue-bar-fill  { height:100%; border-radius:7px; transition: width 0.6s ease; }
+        .venue-bar-val   { width:55px; text-align:right; color:#cfd8dc; }
 </style>
 </head>
 <body>
