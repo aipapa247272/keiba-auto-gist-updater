@@ -1,11 +1,15 @@
 {
   "date": "2026/02/23",
   "ymd": "20260223",
-  "generated_at": "2026-02-23 00:00:00",
+  "generated_at": "2026-03-06 09:11:46",
+  "rescraped": true,
+  "rescraped_at": "2026-03-06T09:11:46.984025",
   "total_races": 5,
   "hit_count": 0,
   "miss_count": 5,
   "unavailable_count": 0,
+  "no_pred_count": 0,
+  "valid_races": 5,
   "total_investment": 8900,
   "total_return": 0,
   "total_profit": -8900,
@@ -14,68 +18,69 @@
   "races": [
     {
       "race_id": "202642022303",
-      "venue": "浦和",
-      "race_num": "03",
       "race_name": "君とつむぐ未来賞(C3)",
-      "distance": 1500,
-      "track": "ダ",
+      "venue": "川崎",
+      "venue_type": "NAR",
       "status": "不的中",
-      "predicted": [
-        "1-7-9"
-      ],
-      "actual": [
-        "10-1-5"
-      ],
-      "result_sanrenpuku": "10-1-5",
-      "payout_sanrenpuku": 0,
       "hit": false,
+      "predicted_bets": [],
+      "predicted_jiku": [
+        "1",
+        "7",
+        "9"
+      ],
+      "predicted_aite": [
+        "8",
+        "10",
+        "2"
+      ],
+      "bet_type": "三連複フォーメーション（軸1-2頭流し）",
+      "actual": "1-5-10",
+      "result_sanrenpuku": "1-5-10",
+      "payout_sanrenpuku": 1260,
       "investment": 1900,
       "return": 0,
       "profit": -1900,
       "payouts": {
         "単勝": 2620,
-        "複勝": 100,
+        "複勝": 260,
         "枠連": 600,
-        "馬連": 580
+        "馬連": 580,
+        "ワイド": 350,
+        "枠単": 3940,
+        "馬単": 4600,
+        "3連複": 1260,
+        "3連単": 17410
       },
-      "horse_weights": [
-        {
-          "rank": 1,
-          "horse_number": "10",
-          "weight": "469(+12)"
-        },
-        {
-          "rank": 2,
-          "horse_number": "1",
-          "weight": "450(+9)"
-        },
-        {
-          "rank": 3,
-          "horse_number": "5",
-          "weight": "430(-1)"
-        }
-      ],
-      "weather": "晴",
-      "track_condition": "良",
-      "predicted_pace": "ハイペース"
+      "payout_missing": false,
+      "top3": [
+        "1",
+        "5",
+        "10"
+      ]
     },
     {
       "race_id": "202648022310",
-      "venue": "名古屋",
-      "race_num": "10",
       "race_name": "唐衣特別(B)",
-      "distance": 920,
-      "track": "ダ",
+      "venue": "名古屋",
+      "venue_type": "NAR",
       "status": "不的中",
-      "predicted": [
-        "10-11-2"
-      ],
-      "actual": [
-        "10-3-4"
-      ],
-      "result_sanrenpuku": "10-3-4",
-      "payout_sanrenpuku": 0,
       "hit": false,
+      "predicted_bets": [],
+      "predicted_jiku": [
+        "11",
+        "10",
+        "2"
+      ],
+      "predicted_aite": [
+        "9",
+        "3",
+        "5"
+      ],
+      "bet_type": "三連複フォーメーション（軸1-2頭流し）",
+      "actual": "3-4-10",
+      "result_sanrenpuku": "3-4-10",
+      "payout_sanrenpuku": 2130,
       "investment": 1900,
       "return": 0,
       "profit": -1900,
@@ -83,93 +88,82 @@
         "単勝": 150,
         "複勝": 120,
         "枠連": 300,
-        "馬連": 370
+        "馬連": 370,
+        "ワイド": 220,
+        "馬単": 480,
+        "3連複": 2130,
+        "3連単": 5120
       },
-      "horse_weights": [
-        {
-          "rank": 1,
-          "horse_number": "10",
-          "weight": "478(+22)"
-        },
-        {
-          "rank": 2,
-          "horse_number": "3",
-          "weight": "497(0)"
-        },
-        {
-          "rank": 3,
-          "horse_number": "4",
-          "weight": "514(-1)"
-        }
-      ],
-      "weather": "晴",
-      "track_condition": "良",
-      "predicted_pace": "ハイペース"
+      "payout_missing": false,
+      "top3": [
+        "3",
+        "4",
+        "10"
+      ]
     },
     {
       "race_id": "202654022309",
-      "venue": "高知",
-      "race_num": "09",
       "race_name": "桑田山特別(B)",
-      "distance": 1300,
-      "track": "ダ",
+      "venue": "高知",
+      "venue_type": "NAR",
       "status": "不的中",
-      "predicted": [
-        "1-5-8"
-      ],
-      "actual": [
-        "7-1-6"
-      ],
-      "result_sanrenpuku": "7-1-6",
-      "payout_sanrenpuku": 0,
       "hit": false,
+      "predicted_bets": [],
+      "predicted_jiku": [
+        "8",
+        "1",
+        "5"
+      ],
+      "predicted_aite": [
+        "10",
+        "3",
+        "7"
+      ],
+      "bet_type": "三連複フォーメーション（軸1-2頭流し）",
+      "actual": "1-6-7",
+      "result_sanrenpuku": "1-6-7",
+      "payout_sanrenpuku": 2340,
       "investment": 1900,
       "return": 0,
       "profit": -1900,
       "payouts": {
         "単勝": 6910,
-        "複勝": 100,
+        "複勝": 400,
         "枠連": 930,
-        "馬連": 4560
+        "馬連": 4560,
+        "ワイド": 690,
+        "馬単": 15130,
+        "3連複": 2340,
+        "3連単": 84230
       },
-      "horse_weights": [
-        {
-          "rank": 1,
-          "horse_number": "7",
-          "weight": "526(-5)"
-        },
-        {
-          "rank": 2,
-          "horse_number": "1",
-          "weight": "511(-5)"
-        },
-        {
-          "rank": 3,
-          "horse_number": "6",
-          "weight": "507(-6)"
-        }
-      ],
-      "weather": "晴",
-      "track_condition": "良",
-      "predicted_pace": "ハイペース"
+      "payout_missing": false,
+      "top3": [
+        "1",
+        "6",
+        "7"
+      ]
     },
     {
       "race_id": "202654022305",
-      "venue": "高知",
-      "race_num": "05",
       "race_name": "ウメ特別(C3)",
-      "distance": 1300,
-      "track": "ダ",
+      "venue": "高知",
+      "venue_type": "NAR",
       "status": "不的中",
-      "predicted": [
-        "2-4-9"
-      ],
-      "actual": [
-        "6-9-7"
-      ],
-      "result_sanrenpuku": "6-9-7",
-      "payout_sanrenpuku": 0,
       "hit": false,
+      "predicted_bets": [],
+      "predicted_jiku": [
+        "9",
+        "2",
+        "4"
+      ],
+      "predicted_aite": [
+        "1",
+        "7"
+      ],
+      "bet_type": "三連複フォーメーション（軸1-2頭流し）",
+      "actual": "6-7-9",
+      "result_sanrenpuku": "6-7-9",
+      "payout_sanrenpuku": 5320,
       "investment": 1600,
       "return": 0,
       "profit": -1600,
@@ -177,75 +171,59 @@
         "単勝": 150,
         "複勝": 100,
         "枠連": 270,
-        "馬連": 200
+        "馬連": 200,
+        "ワイド": 150,
+        "馬単": 290,
+        "3連複": 5320,
+        "3連単": 9620
       },
-      "horse_weights": [
-        {
-          "rank": 1,
-          "horse_number": "6",
-          "weight": "497(-11)"
-        },
-        {
-          "rank": 2,
-          "horse_number": "9",
-          "weight": "479(-3)"
-        },
-        {
-          "rank": 3,
-          "horse_number": "7",
-          "weight": "425(-3)"
-        }
-      ],
-      "weather": "晴",
-      "track_condition": "良",
-      "predicted_pace": "ハイペース"
+      "payout_missing": false,
+      "top3": [
+        "6",
+        "7",
+        "9"
+      ]
     },
     {
       "race_id": "202654022308",
-      "venue": "高知",
-      "race_num": "08",
       "race_name": "Bー2",
-      "distance": 1300,
-      "track": "ダ",
+      "venue": "高知",
+      "venue_type": "NAR",
       "status": "不的中",
-      "predicted": [
-        "2-6-8"
-      ],
-      "actual": [
-        "1-2-4"
-      ],
-      "result_sanrenpuku": "1-2-4",
-      "payout_sanrenpuku": 0,
       "hit": false,
+      "predicted_bets": [],
+      "predicted_jiku": [
+        "2",
+        "6",
+        "8"
+      ],
+      "predicted_aite": [
+        "9",
+        "1"
+      ],
+      "bet_type": "三連複フォーメーション（軸1-2頭流し）",
+      "actual": "1-2-4",
+      "result_sanrenpuku": "1-2-4",
+      "payout_sanrenpuku": 5590,
       "investment": 1600,
       "return": 0,
       "profit": -1600,
       "payouts": {
         "単勝": 4720,
-        "複勝": 130,
+        "複勝": 350,
         "枠連": 6160,
-        "馬連": 5980
+        "馬連": 5980,
+        "ワイド": 930,
+        "馬単": 15910,
+        "3連複": 5590,
+        "3連単": 71610
       },
-      "horse_weights": [
-        {
-          "rank": 1,
-          "horse_number": "1",
-          "weight": "457(-1)"
-        },
-        {
-          "rank": 2,
-          "horse_number": "2",
-          "weight": "484(+2)"
-        },
-        {
-          "rank": 3,
-          "horse_number": "4",
-          "weight": "493(-5)"
-        }
-      ],
-      "weather": "晴",
-      "track_condition": "良",
-      "predicted_pace": "ハイペース"
+      "payout_missing": false,
+      "top3": [
+        "1",
+        "2",
+        "4"
+      ]
     }
   ]
 }
