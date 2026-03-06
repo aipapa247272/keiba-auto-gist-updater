@@ -1,11 +1,15 @@
 {
   "date": "2026/02/14",
   "ymd": "20260214",
-  "generated_at": "2026-02-14 00:00:00",
+  "generated_at": "2026-03-06 09:10:27",
+  "rescraped": true,
+  "rescraped_at": "2026-03-06T09:10:27.705389",
   "total_races": 5,
   "hit_count": 0,
   "miss_count": 5,
   "unavailable_count": 0,
+  "no_pred_count": 0,
+  "valid_races": 5,
   "total_investment": 12000,
   "total_return": 0,
   "total_profit": -12000,
@@ -14,21 +18,30 @@
   "races": [
     {
       "race_id": "202610010706",
-      "venue": "小倉",
-      "race_num": "06",
       "race_name": "4歳以上1勝クラス",
-      "distance": 1200,
-      "track": "芝",
+      "venue": "小倉",
+      "venue_type": "JRA",
       "status": "不的中",
-      "predicted": [
-        "1-12-3"
+      "hit": false,
+      "predicted_bets": [],
+      "predicted_jiku": [
+        "1",
+        "12",
+        "3"
       ],
-      "actual": [
-        "11-17-18"
+      "predicted_aite": [
+        "18",
+        "2",
+        "8",
+        "14",
+        "7",
+        "6",
+        "5"
       ],
+      "bet_type": "三連複フォーメーション（軸3頭BOX）",
+      "actual": "11-17-18",
       "result_sanrenpuku": "11-17-18",
       "payout_sanrenpuku": 139470,
-      "hit": false,
       "investment": 1600,
       "return": 0,
       "profit": -1600,
@@ -39,96 +52,88 @@
         "馬連": 21240,
         "ワイド": 3620,
         "馬単": 33030,
-        "三連複": 139470,
-        "三連単": 897910
+        "3連複": 139470,
+        "3連単": 897910
       },
-      "horse_weights": [
-        {
-          "rank": 1,
-          "horse_number": "11",
-          "weight": "448(-2)"
-        },
-        {
-          "rank": 2,
-          "horse_number": "17",
-          "weight": "452(-9)"
-        },
-        {
-          "rank": 3,
-          "horse_number": "18",
-          "weight": "458(+2)"
-        }
-      ],
-      "weather": "曇",
-      "track_condition": "良"
+      "payout_missing": false,
+      "top3": [
+        "11",
+        "17",
+        "18"
+      ]
     },
     {
       "race_id": "202605010508",
-      "venue": "東京",
-      "race_num": "08",
       "race_name": "4歳以上2勝クラス",
-      "distance": 1600,
-      "track": "ダ",
+      "venue": "東京",
+      "venue_type": "JRA",
       "status": "不的中",
-      "predicted": [
-        "2-5-6"
+      "hit": false,
+      "predicted_bets": [],
+      "predicted_jiku": [
+        "2",
+        "6",
+        "5"
       ],
-      "actual": [
-        "2-8-11"
+      "predicted_aite": [
+        "16",
+        "13",
+        "7",
+        "8",
+        "11",
+        "3",
+        "12"
       ],
+      "bet_type": "三連複フォーメーション（軸3頭BOX）",
+      "actual": "2-8-11",
       "result_sanrenpuku": "2-8-11",
       "payout_sanrenpuku": 10560,
-      "hit": false,
       "investment": 1600,
       "return": 0,
       "profit": -1600,
       "payouts": {
         "単勝": 2300,
-        "複勝": 120,
+        "複勝": 470,
         "枠連": 14570,
         "馬連": 21760,
         "ワイド": 4850,
         "馬単": 49630,
-        "三連複": 10560,
-        "三連単": 158250
+        "3連複": 10560,
+        "3連単": 158250
       },
-      "horse_weights": [
-        {
-          "rank": 1,
-          "horse_number": "2",
-          "weight": "516(+8)"
-        },
-        {
-          "rank": 2,
-          "horse_number": "8",
-          "weight": "486(+2)"
-        },
-        {
-          "rank": 3,
-          "horse_number": "11",
-          "weight": "482(+2)"
-        }
-      ],
-      "weather": "晴",
-      "track_condition": "良"
+      "payout_missing": false,
+      "top3": [
+        "2",
+        "8",
+        "11"
+      ]
     },
     {
       "race_id": "202610010702",
-      "venue": "小倉",
-      "race_num": "02",
       "race_name": "3歳未勝利",
-      "distance": 1200,
-      "track": "芝",
+      "venue": "小倉",
+      "venue_type": "JRA",
       "status": "不的中",
-      "predicted": [
-        "12-8-9"
-      ],
-      "actual": [
-        "1-18-2"
-      ],
-      "result_sanrenpuku": "1-18-2",
-      "payout_sanrenpuku": 5480,
       "hit": false,
+      "predicted_bets": [],
+      "predicted_jiku": [
+        "8",
+        "12",
+        "9"
+      ],
+      "predicted_aite": [
+        "14",
+        "1",
+        "18",
+        "2",
+        "15",
+        "13",
+        "5"
+      ],
+      "bet_type": "三連複フォーメーション（軸3頭BOX）",
+      "actual": "1-2-18",
+      "result_sanrenpuku": "1-2-18",
+      "payout_sanrenpuku": 5480,
       "investment": 3600,
       "return": 0,
       "profit": -3600,
@@ -139,46 +144,42 @@
         "馬連": 1200,
         "ワイド": 550,
         "馬単": 1660,
-        "三連複": 5480,
-        "三連単": 14380
+        "3連複": 5480,
+        "3連単": 14380
       },
-      "horse_weights": [
-        {
-          "rank": 1,
-          "horse_number": "1",
-          "weight": "536(+6)"
-        },
-        {
-          "rank": 2,
-          "horse_number": "18",
-          "weight": "470(+6)"
-        },
-        {
-          "rank": 3,
-          "horse_number": "2",
-          "weight": "468(-2)"
-        }
-      ],
-      "weather": "晴",
-      "track_condition": "良"
+      "payout_missing": false,
+      "top3": [
+        "1",
+        "2",
+        "18"
+      ]
     },
     {
       "race_id": "202610010705",
-      "venue": "小倉",
-      "race_num": "05",
       "race_name": "3歳未勝利",
-      "distance": 2000,
-      "track": "芝",
+      "venue": "小倉",
+      "venue_type": "JRA",
       "status": "不的中",
-      "predicted": [
-        "1-5-7"
-      ],
-      "actual": [
-        "6-14-5"
-      ],
-      "result_sanrenpuku": "6-14-5",
-      "payout_sanrenpuku": 9130,
       "hit": false,
+      "predicted_bets": [],
+      "predicted_jiku": [
+        "7",
+        "1",
+        "5"
+      ],
+      "predicted_aite": [
+        "13",
+        "15",
+        "9",
+        "14",
+        "2",
+        "6",
+        "12"
+      ],
+      "bet_type": "三連複フォーメーション（軸3頭BOX）",
+      "actual": "5-6-14",
+      "result_sanrenpuku": "5-6-14",
+      "payout_sanrenpuku": 9130,
       "investment": 3600,
       "return": 0,
       "profit": -3600,
@@ -189,78 +190,61 @@
         "馬連": 4790,
         "ワイド": 1450,
         "馬単": 8420,
-        "三連複": 9130,
-        "三連単": 54590
+        "3連複": 9130,
+        "3連単": 54590
       },
-      "horse_weights": [
-        {
-          "rank": 1,
-          "horse_number": "6",
-          "weight": "436(-4)"
-        },
-        {
-          "rank": 2,
-          "horse_number": "14",
-          "weight": "462(0)"
-        },
-        {
-          "rank": 3,
-          "horse_number": "5",
-          "weight": "476(-4)"
-        }
-      ],
-      "weather": "曇",
-      "track_condition": "良"
+      "payout_missing": false,
+      "top3": [
+        "5",
+        "6",
+        "14"
+      ]
     },
     {
       "race_id": "202610010710",
-      "venue": "小倉",
-      "race_num": "10",
       "race_name": "伊万里特別",
-      "distance": 1000,
-      "track": "ダ",
+      "venue": "小倉",
+      "venue_type": "JRA",
       "status": "不的中",
-      "predicted": [
-        "1-12-9"
+      "hit": false,
+      "predicted_bets": [],
+      "predicted_jiku": [
+        "12",
+        "1",
+        "9"
       ],
-      "actual": [
-        "2-4-13"
+      "predicted_aite": [
+        "2",
+        "10",
+        "13",
+        "5",
+        "4",
+        "6",
+        "7"
       ],
+      "bet_type": "三連複フォーメーション（軸3頭BOX）",
+      "actual": "2-4-13",
       "result_sanrenpuku": "2-4-13",
       "payout_sanrenpuku": 9750,
-      "hit": false,
       "investment": 1600,
       "return": 0,
       "profit": -1600,
       "payouts": {
         "単勝": 760,
-        "複勝": 230,
+        "複勝": 300,
         "枠連": 2520,
         "馬連": 3420,
         "ワイド": 1180,
         "馬単": 6710,
-        "三連複": 9750,
-        "三連単": 53660
+        "3連複": 9750,
+        "3連単": 53660
       },
-      "horse_weights": [
-        {
-          "rank": 1,
-          "horse_number": "2",
-          "weight": "514(+2)"
-        },
-        {
-          "rank": 2,
-          "horse_number": "4",
-          "weight": "540(0)"
-        },
-        {
-          "rank": 3,
-          "horse_number": "13",
-          "weight": "444(-8)"
-        }
-      ],
-      "weather": "曇",
-      "track_condition": "良"
+      "payout_missing": false,
+      "top3": [
+        "2",
+        "4",
+        "13"
+      ]
     }
   ]
 }
