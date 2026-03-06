@@ -263,10 +263,28 @@ def fetch_race_results(ymd):
         sanrenpuku_payout = race_result.get('sanrenpuku_payout', 0)
         payouts = race_result.get('payouts', {})
         
-        # フォールバック: payoutsから三連複払戻を補完
-        if not sanrenpuku_payout and payouts.get('三連複'):
-            sanrenpuku_payout = payouts['三連複']
-            print(f"  💰 三連複払戻(payoutsから補完): ¥{sanrenpuku_payout:,}")
+        # ── Bug Fix ④: 三連複払戻 多段フォールバック ──────────────────
+        # payoutsから三連複を補完（キー名バリエーション対応）
+        if not sanrenpuku_payout:
+            for key in ('三連複', '3連複', 'Fuku3'):
+                v = payouts.get(key, 0)
+                if v:
+                    sanrenpuku_payout = v
+                    print(f"  💰 三連複払戻({key}から補完): ¥{v:,}")
+                    break
+        # それでも0 → NARサイトへ再スクレイピング（ワンショット）
+        if not sanrenpuku_payout and race_result:
+            _retry = fetch_single_race_result(race_id, ymd)
+            if _retry and _retry.get('sanrenpuku_payout', 0):
+                sanrenpuku_payout = _retry['sanrenpuku_payout']
+                print(f"  🔄 三連複払戻(再取得成功): ¥{sanrenpuku_payout:,}")
+            elif _retry:
+                for key in ('三連複', '3連複'):
+                    v = _retry.get('payouts', {}).get(key, 0)
+                    if v:
+                        sanrenpuku_payout = v
+                        print(f"  🔄 三連複払戻(再取得payouts補完): ¥{v:,}")
+                        break
         
         hit = False
         return_amount = 0
@@ -283,6 +301,13 @@ def fetch_race_results(ymd):
                     print(f"  ✅ 的中！ 払戻: ¥{sanrenpuku_payout:,}")
                     break
         
+        payout_missing = False
+        if hit and return_amount == 0:
+            # Bug Fix ④: 的中だが払戻額が取得できなかった
+            payout_missing = True
+            print(f"  ⚠️ 【払戻バグ検出】hit=True だが三連複払戻=0 → payout_missing=True")
+            print(f"     race_id={race_id}  result={sanrenpuku_result}  payouts={payouts}")
+
         if not hit:
             if not predicted_combinations:
                 print(f"  ⚠️ 予想なし（馬番データ不足のためスキップ）")
@@ -306,6 +331,7 @@ def fetch_race_results(ymd):
             'result_sanrenpuku': sanrenpuku_result,
             'payout_sanrenpuku': sanrenpuku_payout,
             'hit': hit,
+            'payout_missing': payout_missing,
             'investment': investment,
             'return': return_amount,
             'profit': profit,
@@ -719,3 +745,4 @@ if __name__ == '__main__':
     else:
         print(f"\n❌ 処理失敗")
         sys.exit(1)
+
