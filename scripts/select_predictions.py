@@ -787,11 +787,9 @@ def generate_betting_plan(race):
     exclude_level = venue_info.get("exclude_level", "none")
     if exclude_level == "all":
         skip_reason = f"低ROI競馬場除外({venue} ROI:{venue_info.get('roi_pct')}%)"
-        result["skip_reason"] = skip_reason
-        result["skipped"] = True
-        return result
-    # "select"の場合は選定フェーズで処理（後続で reference_predictions に振り分け）
-    result["low_roi_venue"] = (exclude_level == "select")
+        return None, 0, skip_reason, {"スキップ理由": skip_reason}, old_logic
+    # "select"の場合は low_roi_venue フラグを立てる（後続でresult定義後に付与）
+    _low_roi_venue_flag = (exclude_level == "select")
 
     
     # コース特徴×脚質スコア補正 + 斤量・騎手ボーナスを各馬に適用
