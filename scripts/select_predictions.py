@@ -986,6 +986,20 @@ def generate_betting_plan(race):
     ref_max  = FUND_MANAGEMENT.get("reference_max_odds", 3.5)
     ref_ratio= FUND_MANAGEMENT.get("reference_stake_ratio", 0.5)
 
+    # ── オッズデータなし時（前日取得・推定値）の閾値緩和 ──
+    # オッズ・人気が全馬不明の場合はスコアから推定した合成オッズを使う。
+    # 推定値は過小評価される傾向があるため、選定閾値を 3.5倍→2.0倍 に緩和する。
+    # ※ 実際のオッズが取得できている場合は従来の3.5倍閾値を維持。
+    has_odds_data = any(
+        h.get('単勝オッズ') or h.get('オッズ') or h.get('win_odds') or h.get('人気')
+        for h in horses_with_roles
+    )
+    if not has_odds_data:
+        # 推定オッズのため閾値を緩和: 3.5倍 → 2.0倍
+        # 参考予測枠は 1.0〜2.0倍 に設定（ほぼ無効化）
+        min_so = ref_min   # 2.0倍以上で本選定OK
+        ref_min = 1.0      # 参考予測枠の下限を引き下げ
+
     if core_synthetic_odds < min_so:
         analysis["合成オッズ"] = core_synthetic_odds
         analysis["合成オッズ_全体"] = full_synthetic_odds
