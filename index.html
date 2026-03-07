@@ -2214,12 +2214,12 @@
 
                         <div class="investment-breakdown" id="investment-${race.race_id}">
                             <div class="investment-item">
-                                <span class="investment-label">固定賭け金</span>
+                                <span class="investment-label">投資合計</span>
                                 <span class="investment-value">¥${investment.toLocaleString()}</span>
                             </div>
                             <div class="investment-item">
                                 <span class="investment-label">組み合わせ数</span>
-                                <span class="investment-value">${newCombos}点 (上限15点)</span>
+                                <span class="investment-value">${newCombos}点 (上限${fundRule.最大点数 || 20}点)</span>
                             </div>
                             <div class="investment-item">
                                 <span class="investment-label">1点あたり</span>
