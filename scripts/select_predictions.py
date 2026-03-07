@@ -25,7 +25,7 @@ from itertools import combinations as iter_combinations
 # 資金管理定数 (Fund Management Constants)
 # =============================================
 FUND_MANAGEMENT = {
-    "base_stake_trifecta": 1000,   # 三連複: 1レース固定賭け金
+    "base_stake_trifecta": 100,    # 三連複: 1点あたり賭け金(100円×点数)
     "base_stake_wide": 500,         # ワイド: 1点あたり
     "base_stake_place": 300,        # 複勝: 1点あたり
     "max_combos_trifecta": 20,      # 三連複: 最大点数 [精度改善v3: 15→20点 2026-03]
@@ -702,6 +702,34 @@ def generate_old_betting_plan(horses):
 # =============================================
 # 新ロジックの買い目生成 (メイン)
 # =============================================
+
+# ============================================================
+# 推定三連複オッズ計算 (スコアランクベース)
+# ============================================================
+# スコア順位から単勝推定オッズへの変換テーブル
+_SCORE_RANK_TO_ODDS = [1.8, 3.2, 5.0, 7.5, 11.0, 16.0, 23.0, 32.0, 45.0, 65.0, 90.0]
+
+def _estimate_single_odds(score_rank: int) -> float:
+    """スコア順位(1始まり)から推定単勝オッズを返す"""
+    idx = max(0, min(score_rank - 1, len(_SCORE_RANK_TO_ODDS) - 1))
+    return _SCORE_RANK_TO_ODDS[idx]
+
+def _estimate_trifecta_expected_return(ranks: list, min_return: float = 1.5) -> bool:
+    """3頭のスコア順位から推定三連複期待配当倍率を計算し閾値以上かどうか返す
+    min_return: 最低限の配当倍率 (1点100円投資で100×min_return円以上の期待配当)
+    """
+    if len(ranks) != 3:
+        return True
+    o1, o2, o3 = [_estimate_single_odds(r) for r in ranks]
+    # 各馬が3着以内に来る確率の近似
+    p1, p2, p3 = 1.0/o1, 1.0/o2, 1.0/o3
+    hit_prob = p1 * p2 * p3 * 6  # 順不問なので×6
+    if hit_prob <= 0:
+        return True
+    # JRA三連複払戻率75%で推定配当倍率を計算
+    estimated_return = 0.75 / hit_prob
+    return estimated_return >= min_return
+
 def generate_betting_plan(race):
     """
     新ロジック: オッズ断層ベースの三連複フォーメーション
@@ -814,15 +842,17 @@ def generate_betting_plan(race):
     hole_candidates = sorted(hole_candidates,
                              key=lambda h: h.get('補正後スコア', 0), reverse=True)
     
-    # --- 1列目 (col1): ◎と○ = 2頭（軸） ---
-    # 補正後スコア上位2頭。この2頭は必ず全列に含める
-    # 精度改善v2 [2026-03]: 軸候補が3頭以上かつ3頭目スコアが2頭目の80%以上なら3頭採用
-    # 背景: バックテスト分析で「軸3頭中2頭一致・1頭外れ」パターンが38件 (17.8%) 発生
-    #       3頭目まで軸に含めることで惜しい外れを的中に転換できる
+    # --- 1列目 (col1): 軸馬 ---
+    # 基本: ◎1頭+○1頭 (2頭)
+    # スコア差がAXIS_SCORE_GAP(8点)以内のときのみ3頭に拡張
+    # ※3頭以上になると◎-◎-◎のガミリスクが発生するため抑制
+    _ax1_score = axis_candidates[0].get('補正後スコア', 0) if len(axis_candidates) >= 1 else 0
     _ax2_score = axis_candidates[1].get('補正後スコア', 0) if len(axis_candidates) >= 2 else 0
     _ax3_score = axis_candidates[2].get('補正後スコア', 0) if len(axis_candidates) >= 3 else 0
-    _take3 = (len(axis_candidates) >= 3 and _ax2_score > 0 and
-              _ax3_score >= _ax2_score * 0.80)
+    _AXIS_SCORE_GAP = 8  # 1位との差がこれ以下なら軸に追加
+    _take3 = (len(axis_candidates) >= 3
+              and _ax1_score > 0
+              and (_ax1_score - _ax3_score) <= _AXIS_SCORE_GAP)
     col1 = axis_candidates[:3] if _take3 else axis_candidates[:2]
     # Bug Fix ②: 馬番をstr型に統一（int/strの型混在による重複除外漏れを防ぐ）
     col1_nums_set = {str(h.get('馬番')) for h in col1 if h.get('馬番') is not None}
@@ -952,6 +982,25 @@ def generate_betting_plan(race):
     
     all_combos = filtered_combos if filtered_combos else all_combos
     
+    # --- マイナス期待値買い目フィルター ---
+    # 各組み合わせの推定三連複期待配当倍率を計算し、MIN_COMBO_RETURN未満を排除
+    # スコア順位マップ: 補正後スコア降順に1位付け
+    score_sorted_nums = [h.get('馬番') for h in sorted(
+        horses_with_roles, key=lambda h: h.get('補正後スコア', 0), reverse=True
+    ) if h.get('馬番')]
+    score_rank_map = {int(num): rank+1 for rank, num in enumerate(score_sorted_nums)}
+    _MIN_COMBO_RETURN = 1.5  # 1点100円投資で150円以上の期待配当が見込める組み合わせのみ残す
+    profitable_combos = [
+        combo for combo in all_combos
+        if _estimate_trifecta_expected_return(
+            [score_rank_map.get(int(n), 9) for n in combo],
+            min_return=_MIN_COMBO_RETURN
+        )
+    ]
+    # フィルター後に1点も残らない場合は元のリストを使用
+    if profitable_combos:
+        all_combos = profitable_combos
+    
     # 最大点数制限（10点以内）
     max_c = FUND_MANAGEMENT["max_combos_trifecta"]
     if len(all_combos) > max_c:
@@ -1025,20 +1074,20 @@ def generate_betting_plan(race):
         analysis["スキップ理由"] = skip_msg
         return None, 0, skip_msg, analysis, old_logic
     
-    # --- 賭け金計算 (コア合成オッズに応じて倍率調整) ---
-    base_stake = FUND_MANAGEMENT["base_stake_trifecta"]
+    # --- 賭け金計算: 1点100円 × 点数 (案A) ---
+    # オッズ水準に応じて1点あたりの金額を調整
+    per_combo_stake = FUND_MANAGEMENT["base_stake_trifecta"]  # 基本100円/点
     if core_synthetic_odds >= FUND_MANAGEMENT["odds_boost_threshold_5"]:
-        adjusted_stake = int(base_stake * 2)
-        stake_reason = f"コア合成オッズ{core_synthetic_odds}倍(5倍超→2倍増額)"
+        per_combo_stake = int(per_combo_stake * 2)   # 5倍超→200円/点
+        stake_reason = f"コア合成オッズ{core_synthetic_odds}倍(5倍超→200円/点)"
     elif core_synthetic_odds >= FUND_MANAGEMENT["odds_boost_threshold_4"]:
-        adjusted_stake = int(base_stake * 1.5)
-        stake_reason = f"コア合成オッズ{core_synthetic_odds}倍(4倍超→1.5倍増額)"
+        per_combo_stake = int(per_combo_stake * 1.5) # 4倍超→150円/点
+        stake_reason = f"コア合成オッズ{core_synthetic_odds}倍(4倍超→150円/点)"
     else:
-        adjusted_stake = base_stake
-        stake_reason = f"コア合成オッズ{core_synthetic_odds}倍(基本賭け金)"
+        stake_reason = f"コア合成オッズ{core_synthetic_odds}倍(基本100円/点)"
     
-    # 投資額 = 固定賭け金（点数に関わらず）
-    investment = adjusted_stake
+    # 投資額 = 1点あたり賭け金 × 点数（JRA最低100円/点に対応）
+    investment = per_combo_stake * combo_count
     
     # --- ワイド候補 ---
     wide_candidates = check_wide_candidates(horses_with_roles)
