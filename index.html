@@ -2277,20 +2277,51 @@
                     html += `</div></div>`;
                 }
 
-                // 全買い目 (先頭8点表示)
+                // 全買い目 (先頭8点表示 + 「全て表示」ボタン)
                 if (allCombos.length > 0) {
-                    const displayCombos = allCombos.slice(0, 8);
-                    const moreCnt = allCombos.length - displayCombos.length;
+                    const INIT_SHOW   = 8;
+                    const comboBlockId = `combos-${race.race_id}`;
+                    const btnId        = `combo-btn-${race.race_id}`;
+                    const displayCombos = allCombos.slice(0, INIT_SHOW);
+                    const hiddenCombos  = allCombos.slice(INIT_SHOW);
+                    const moreCnt       = hiddenCombos.length;
                     html += `<div style="margin-top:8px;">
-                        <span style="color: #b0c4de; font-size: 11px;">📋 全買い目:</span>
-                        <div class="betting-combinations" style="margin-top:4px;">`;
+                        <span style="color: #b0c4de; font-size: 11px;">📋 全買い目: ${allCombos.length}点</span>
+                        <div class="betting-combinations" style="margin-top:4px;" id="${comboBlockId}-init">`;
                     displayCombos.forEach(c => {
                         html += `<div class="combination" style="font-size:11px;padding:4px 8px;">${c}</div>`;
                     });
+                    html += `</div>`;
                     if (moreCnt > 0) {
-                        html += `<div class="combination" style="font-size:11px;padding:4px 8px;color:#b0c4de;">+${moreCnt}点</div>`;
+                        // 折りたたまれた追加買い目ブロック
+                        html += `<div id="${comboBlockId}-rest" style="display:none;">
+                            <div class="betting-combinations" style="margin-top:2px;">`;
+                        hiddenCombos.forEach(c => {
+                            html += `<div class="combination" style="font-size:11px;padding:4px 8px;">${c}</div>`;
+                        });
+                        html += `</div></div>`;
+                        // 「全て表示 / 閉じる」トグルボタン
+                        html += `<button id="${btnId}"
+                            onclick="(function(){
+                                var rest = document.getElementById('${comboBlockId}-rest');
+                                var btn  = document.getElementById('${btnId}');
+                                if(rest.style.display==='none'){
+                                    rest.style.display='block';
+                                    btn.textContent='▲ 閉じる';
+                                    btn.style.color='#90caf9';
+                                } else {
+                                    rest.style.display='none';
+                                    btn.textContent='▼ 全て表示 (+${moreCnt}点)';
+                                    btn.style.color='#b0c4de';
+                                }
+                            })()"
+                            style="margin-top:6px;background:transparent;border:1px solid #4a5568;
+                                   border-radius:6px;padding:4px 12px;font-size:11px;
+                                   color:#b0c4de;cursor:pointer;width:100%;">
+                            ▼ 全て表示 (+${moreCnt}点)
+                        </button>`;
                     }
-                    html += `</div></div>`;
+                    html += `</div>`;
                 }
 
                 // ワイド候補
