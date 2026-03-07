@@ -780,7 +780,7 @@ def generate_betting_plan(race):
     # ブラッシュアップ修正: 2026-03 コース特徴×脚質補正・◎○▲保証・穴馬必須
     # ============================================================
     # 競馬場のコース特徴を取得
-    venue = race.get('venue', race.get('競馬場', ''))
+    venue = race.get('競馬場', race.get('venue', ''))
 
     # 低ROI競馬場フィルタ (v13.1追加)
     venue_info = LOW_ROI_VENUES.get(venue, {})
@@ -1149,6 +1149,8 @@ def select_races(race_data, max_races=9999):
             # 若馬戦はスコアと実力の乖離が大きいためスキップ
             skipped.append({
                 "race_id": race.get('race_id'),
+                "race_name": race.get('レース名', race.get('race_name', '')),
+                "venue": race.get('競馬場', race.get('venue', '')),
                 "reason": "若馬限定戦（3歳/2歳/新馬）",
                 "skip_type": "若馬戦"
             })
@@ -1158,7 +1160,10 @@ def select_races(race_data, max_races=9999):
         if len(horses) < 8:
             skipped.append({
                 "race_id": race.get('race_id'),
-                "reason": f"出馬数不足({len(horses)}頭)"
+                "race_name": race.get('レース名', race.get('race_name', '')),
+                "venue": race.get('競馬場', race.get('venue', '')),
+                "reason": f"出馬数不足({len(horses)}頭)",
+                "skip_type": "出馬数不足"
             })
             continue
         
@@ -1167,7 +1172,10 @@ def select_races(race_data, max_races=9999):
         if len(horses_with_score) < len(horses) * 0.8:
             skipped.append({
                 "race_id": race.get('race_id'),
-                "reason": "新スコアデータ不足"
+                "race_name": race.get('レース名', race.get('race_name', '')),
+                "venue": race.get('競馬場', race.get('venue', '')),
+                "reason": "新スコアデータ不足",
+                "skip_type": "データ不足"
             })
             continue
         
@@ -1180,7 +1188,10 @@ def select_races(race_data, max_races=9999):
         if evaluation_score < 50 or data_quality < 10:
             skipped.append({
                 "race_id": race.get('race_id'),
-                "reason": "評価不足"
+                "race_name": race.get('レース名', race.get('race_name', '')),
+                "venue": race.get('競馬場', race.get('venue', '')),
+                "reason": f"評価不足(score:{round(evaluation_score,1)}/quality:{data_quality})",
+                "skip_type": "評価不足"
             })
             continue
         
@@ -1203,10 +1214,11 @@ def select_races(race_data, max_races=9999):
                 ) * ref_combos
                 reference.append({
                     "race_id":        race.get('race_id'),
-                    "race_name":      race.get('race_name', ''),
-                    "venue":          race.get('venue', ''),
-                    "distance":       race.get('distance', ''),
-                    "track":          race.get('track_condition', ''),
+                    "race_name":      race.get('レース名', race.get('race_name', '不明')),
+                    "venue":          race.get('競馬場', race.get('venue', '不明')),
+                    "distance":       race.get('距離', race.get('distance', '')),
+                    "track":          race.get('トラック', race.get('track_condition', '')),
+                    "start_time":     race.get('発走時刻', ''),
                     "grade":          race.get('grade', ''),
                     "ref_rank":       "⭐⭐",
                     "ref_label":      "参考",
@@ -1214,6 +1226,7 @@ def select_races(race_data, max_races=9999):
                     "investment":     ref_inv,
                     "note":           "合成オッズが推奨基準未満。自己判断でご参考ください。",
                     "断層分析":       analysis,
+                    "betting_plan":   betting_plan,
                 })
             else:
                 skipped.append({
