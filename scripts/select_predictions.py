@@ -1185,12 +1185,15 @@ def select_races(race_data, max_races=9999):
         evaluation_score = sum(top_3_scores) / 3 if len(top_3_scores) >= 3 else 0
         data_quality = int((len(horses_with_score) / len(horses)) * 20)
         
-        if evaluation_score < 50 or data_quality < 10:
+        # オッズ・人気データがない場合は閾値を緩和（前日データのため）
+        has_odds = any(h.get('単勝オッズ') or h.get('オッズ') or h.get('人気') for h in horses)
+        eval_threshold = 50 if has_odds else 30
+        if evaluation_score < eval_threshold or data_quality < 10:
             skipped.append({
                 "race_id": race.get('race_id'),
                 "race_name": race.get('レース名', race.get('race_name', '')),
                 "venue": race.get('競馬場', race.get('venue', '')),
-                "reason": f"評価不足(score:{round(evaluation_score,1)}/quality:{data_quality})",
+                "reason": f"評価不足(score:{round(evaluation_score,1)}/quality:{data_quality}/threshold:{eval_threshold})",
                 "skip_type": "評価不足"
             })
             continue
