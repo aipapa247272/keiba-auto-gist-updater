@@ -1,7 +1,7 @@
 {
   "ymd": "20260308",
   "logic_version": "v13.1_断層・合成オッズ対応・精度改善v3・低ROIフィルタ",
-  "generated_at": "2026-03-07 01:35:43 (JST)",
+  "generated_at": "2026-03-07 14:55:10 (JST)",
   "total_races": 23,
   "selected_races": 0,
   "skipped_races": 20,
@@ -48,10 +48,11 @@
   "reference_predictions": [
     {
       "race_id": "202606020409",
-      "race_name": "",
-      "venue": "",
-      "distance": "",
-      "track": "",
+      "race_name": "湾岸S",
+      "venue": "中山",
+      "distance": 2500,
+      "track": "芝",
+      "start_time": "14:30",
       "grade": "",
       "ref_rank": "⭐⭐",
       "ref_label": "参考",
@@ -79,14 +80,16 @@
         "スキップ理由": "合成オッズ不足(参考枠へ)(コア:2.1倍 < 3.5倍)",
         "参考予測": true,
         "参考_合成オッズ": 2.1
-      }
+      },
+      "betting_plan": null
     },
     {
       "race_id": "202609010607",
-      "race_name": "",
-      "venue": "",
-      "distance": "",
-      "track": "",
+      "race_name": "4歳以上1勝クラス",
+      "venue": "阪神",
+      "distance": 2000,
+      "track": "芝",
+      "start_time": "13:10",
       "grade": "",
       "ref_rank": "⭐⭐",
       "ref_label": "参考",
@@ -109,19 +112,21 @@
         "レースタイプ": "single_layer",
         "実オッズ使用": false,
         "合成オッズ": 2.17,
-        "合成オッズ_全体": 1.0,
+        "合成オッズ_全体": 0.81,
         "合成オッズ_方法": "estimated",
         "スキップ理由": "合成オッズ不足(参考枠へ)(コア:2.17倍 < 3.5倍)",
         "参考予測": true,
         "参考_合成オッズ": 2.17
-      }
+      },
+      "betting_plan": null
     },
     {
       "race_id": "202609010608",
-      "race_name": "",
-      "venue": "",
-      "distance": "",
-      "track": "",
+      "race_name": "4歳以上2勝クラス",
+      "venue": "阪神",
+      "distance": 1800,
+      "track": "ダ",
+      "start_time": "13:40",
       "grade": "",
       "ref_rank": "⭐⭐",
       "ref_label": "参考",
@@ -144,12 +149,13 @@
         "レースタイプ": "single_layer",
         "実オッズ使用": false,
         "合成オッズ": 2.04,
-        "合成オッズ_全体": 1.0,
+        "合成オッズ_全体": 0.85,
         "合成オッズ_方法": "estimated",
         "スキップ理由": "合成オッズ不足(参考枠へ)(コア:2.04倍 < 3.5倍)",
         "参考予測": true,
         "参考_合成オッズ": 2.04
-      }
+      },
+      "betting_plan": null
     }
   ],
   "reference_count": 3
