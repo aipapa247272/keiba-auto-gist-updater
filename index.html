@@ -2209,7 +2209,7 @@
                         <div class="betting-method">📝 ${bettingType}</div>
                         <div class="betting-investment">
                             投資額: ¥${investment.toLocaleString()}
-                            <span style="color:#90caf9; font-size:12px; margin-left:8px;">(1点 ¥${newCombos > 0 ? (Math.floor(investment / newCombos / 100) * 100).toLocaleString() : '-'})</span>
+                            <span style="color:#90caf9; font-size:12px; margin-left:8px;">(1点 ¥${newCombos > 0 ? Math.round(investment / newCombos).toLocaleString() : '-'})</span>
                         </div>
 
                         <div class="investment-breakdown" id="investment-${race.race_id}">
@@ -2223,7 +2223,7 @@
                             </div>
                             <div class="investment-item">
                                 <span class="investment-label">1点あたり</span>
-                                <span class="investment-value" style="color:#81c784;">¥${newCombos > 0 ? (Math.floor(investment / newCombos / 100) * 100).toLocaleString() : '-'}</span>
+                                <span class="investment-value" style="color:#81c784;">¥${newCombos > 0 ? Math.round(investment / newCombos).toLocaleString() : '-'}</span>
                             </div>
                             <div class="investment-item">
                                 <span class="investment-label">合成オッズ</span>
@@ -2460,7 +2460,7 @@
         <span style="color: #ffcc80; font-weight: 600;">💰買い目:</span>
         <strong style="color: #4fc3f7;">${predictedArray.length}点買い</strong>
         <span style="color: #90caf9; font-size: 12px; margin-left:4px;">
-            (1点 ¥${predictedArray.length > 0 ? (Math.floor(investment / predictedArray.length / 100) * 100).toLocaleString() : '-'})
+            (1点 ¥${predictedArray.length > 0 ? Math.round(investment / predictedArray.length).toLocaleString() : '-'})
         </span>
         <span style="color: #78909c; font-size: 11px;">（タップで展開）</span>
     </div>
