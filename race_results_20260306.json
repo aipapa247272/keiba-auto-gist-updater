@@ -1,82 +1,21 @@
 {
   "date": "2026/03/06",
   "ymd": "20260306",
-  "generated_at": "2026-03-06 12:47:37",
+  "generated_at": "2026-03-08 11:02:02",
   "rescraped": false,
   "no_predictions": true,
-  "reason": "合成オッズ不足22件・断層なし5件・その他9件でskip",
-  "fund_management_v": "v12_断層・合成オッズ対応",
+  "reason": "選定レース0件（合成オッズ不足・断層なし等でスキップ）",
+  "fund_management_v": "v13.1",
   "total_races": 0,
   "hit_count": 0,
   "miss_count": 0,
   "unavailable_count": 0,
-  "no_pred_count": 36,
+  "no_pred_count": 0,
   "valid_races": 0,
   "total_investment": 0,
   "total_return": 0,
   "total_profit": 0,
   "hit_rate": 0.0,
   "recovery_rate": 0.0,
-  "races": [
-    {
-      "race_id": "202645030601",
-      "race_name": "",
-      "venue": "",
-      "venue_type": "NAR",
-      "status": "予測なし",
-      "hit": false,
-      "no_prediction": true,
-      "investment": 0,
-      "return": 0,
-      "profit": 0
-    },
-    {
-      "race_id": "202645030602",
-      "race_name": "",
-      "venue": "",
-      "venue_type": "NAR",
-      "status": "予測なし",
-      "hit": false,
-      "no_prediction": true,
-      "investment": 0,
-      "return": 0,
-      "profit": 0
-    },
-    {
-      "race_id": "202645030603",
-      "race_name": "",
-      "venue": "",
-      "venue_type": "NAR",
-      "status": "予測なし",
-      "hit": false,
-      "no_prediction": true,
-      "investment": 0,
-      "return": 0,
-      "profit": 0
-    },
-    {
-      "race_id": "202645030604",
-      "race_name": "",
-      "venue": "",
-      "venue_type": "NAR",
-      "status": "予測なし",
-      "hit": false,
-      "no_prediction": true,
-      "investment": 0,
-      "return": 0,
-      "profit": 0
-    },
-    {
-      "race_id": "202645030605",
-      "race_name": "",
-      "venue": "",
-      "venue_type": "NAR",
-      "status": "予測なし",
-      "hit": false,
-      "no_prediction": true,
-      "investment": 0,
-      "return": 0,
-      "profit": 0
-    }
-  ]
+  "races": []
 }
