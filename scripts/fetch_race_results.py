@@ -61,8 +61,36 @@ def fetch_race_results(ymd):
     selected_races = predictions_data.get('selected_predictions', [])
     
     if not selected_races:
-        print(f"❌ エラー: 選定レースが見つかりません")
-        return None
+        print(f"⚠️ 選定レース0件（全レース基準未達でスキップ）: {ymd}")
+        # 予想なし日も正常終了として結果ファイルを生成する
+        from datetime import datetime as _dt2
+        no_pred_result = {
+            "date": f"{ymd[:4]}/{ymd[4:6]}/{ymd[6:]}",
+            "ymd": ymd,
+            "generated_at": _dt2.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "rescraped": False,
+            "no_predictions": True,
+            "reason": "選定レース0件（合成オッズ不足・断層なし等でスキップ）",
+            "fund_management_v": "v13.1",
+            "total_races": 0,
+            "hit_count": 0,
+            "miss_count": 0,
+            "unavailable_count": 0,
+            "no_pred_count": 0,
+            "valid_races": 0,
+            "total_investment": 0,
+            "total_return": 0,
+            "total_profit": 0,
+            "hit_rate": 0.0,
+            "recovery_rate": 0.0,
+            "races": []
+        }
+        output_filename = f'race_results_{ymd}.json'
+        with open(output_filename, 'w', encoding='utf-8') as f:
+            import json as _json
+            _json.dump(no_pred_result, f, ensure_ascii=False, indent=2)
+        print(f"✅ {output_filename} を生成（予想なし）")
+        return no_pred_result
     
     print(f"📊 {len(selected_races)} レースの結果を取得します...")
     
