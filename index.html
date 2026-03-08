@@ -2370,7 +2370,7 @@
                                 <tr>
                                     <td style="color:#b0c4de;padding:2px 6px;vertical-align:top;">相手</td>
                                     <td style="padding:2px 6px;">
-                                        ${partnerArr.map(n=>`<span style="background:#1a2a1a;border:1px solid #81c784;border-radius:4px;padding:2px 6px;color:#81c784;margin:1px;">${n}番</span>`).join('')}
+                                        <div style="display:grid;grid-template-columns:repeat(3,auto);gap:3px;justify-content:start;">${partnerArr.map(n=>`<span style="background:#1a2a1a;border:1px solid #81c784;border-radius:4px;padding:2px 6px;color:#81c784;">${n}番</span>`).join('')}</div>
                                     </td>
                                 </tr>
                             </table>
@@ -2388,19 +2388,19 @@
                                 <tr>
                                     <td style="color:#b0c4de;padding:2px 6px;width:60px;vertical-align:top;">1着</td>
                                     <td style="padding:2px 6px;">
-                                        ${form2Leg1.map(n=>`<span style="background:#1e3a5f;border:1px solid #90caf9;border-radius:4px;padding:2px 6px;color:#90caf9;margin:1px;">${n}番</span>`).join('')}
+                                        <div style="display:grid;grid-template-columns:repeat(3,auto);gap:3px;justify-content:start;">${form2Leg1.map(n=>`<span style="background:#1e3a5f;border:1px solid #90caf9;border-radius:4px;padding:2px 6px;color:#90caf9;">${n}番</span>`).join('')}</div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="color:#b0c4de;padding:2px 6px;vertical-align:top;">2着</td>
                                     <td style="padding:2px 6px;">
-                                        ${form2Leg2.map(n=>`<span style="background:#2a1a2a;border:1px solid #ce93d8;border-radius:4px;padding:2px 6px;color:#ce93d8;margin:1px;">${n}番</span>`).join('')}
+                                        <div style="display:grid;grid-template-columns:repeat(3,auto);gap:3px;justify-content:start;">${form2Leg2.map(n=>`<span style="background:#2a1a2a;border:1px solid #ce93d8;border-radius:4px;padding:2px 6px;color:#ce93d8;">${n}番</span>`).join('')}</div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="color:#b0c4de;padding:2px 6px;vertical-align:top;">3着</td>
                                     <td style="padding:2px 6px;">
-                                        ${form2Leg3.map(n=>`<span style="background:#1a1a2a;border:1px solid #b0c4de;border-radius:4px;padding:2px 6px;color:#b0c4de;margin:1px;">${n}番</span>`).join('')}
+                                        <div style="display:grid;grid-template-columns:repeat(3,auto);gap:3px;justify-content:start;">${form2Leg3.map(n=>`<span style="background:#1a1a2a;border:1px solid #b0c4de;border-radius:4px;padding:2px 6px;color:#b0c4de;">${n}番</span>`).join('')}</div>
                                     </td>
                                 </tr>
                             </table>
