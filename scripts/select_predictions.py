@@ -32,8 +32,7 @@ FUND_MANAGEMENT = {
     "max_combos_wide": 2,           # ワイド: 最大点数
     "max_combos_place": 3,          # 複勝: 最大点数
     "min_synthetic_odds": 3.5,      # 合成オッズ最低ライン [精度改善v2: 4.0→3.5倍 2026-03]
-    "odds_boost_threshold_4": 4.0,  # 合成オッズ4倍以上 → 賭け金1.5倍
-    "odds_boost_threshold_5": 5.0,  # 合成オッズ5倍以上 → 賭け金2倍
+    "odds_boost_threshold_5": 5.0,  # 合成オッズ5倍以上 → 賭け金2倍(100円→200円) [案B: 100/200の2段階]
     "min_wide_odds": 5.0,           # ワイドオッズ最低ライン
     "min_place_odds": 2.0,          # 複勝オッズ最低ライン
     "place_odds_spread_min": 2.0,   # 複勝オッズ幅の最低値
@@ -1076,13 +1075,11 @@ def generate_betting_plan(race):
     
     # --- 賭け金計算: 1点100円 × 点数 (案A) ---
     # オッズ水準に応じて1点あたりの金額を調整
+    # 案B: 100円 or 200円の2段階（150円廃止・JRA100円単位に統一）
     per_combo_stake = FUND_MANAGEMENT["base_stake_trifecta"]  # 基本100円/点
     if core_synthetic_odds >= FUND_MANAGEMENT["odds_boost_threshold_5"]:
-        per_combo_stake = int(per_combo_stake * 2)   # 5倍超→200円/点
-        stake_reason = f"コア合成オッズ{core_synthetic_odds}倍(5倍超→200円/点)"
-    elif core_synthetic_odds >= FUND_MANAGEMENT["odds_boost_threshold_4"]:
-        per_combo_stake = int(per_combo_stake * 1.5) # 4倍超→150円/点
-        stake_reason = f"コア合成オッズ{core_synthetic_odds}倍(4倍超→150円/点)"
+        per_combo_stake = int(per_combo_stake * 2)   # 5倍以上→200円/点
+        stake_reason = f"コア合成オッズ{core_synthetic_odds}倍(5倍以上→200円/点)"
     else:
         stake_reason = f"コア合成オッズ{core_synthetic_odds}倍(基本100円/点)"
     
