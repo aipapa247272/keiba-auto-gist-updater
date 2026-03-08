@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-08 11:02:05",
+  "generated_at": "2026-03-08 13:32:48",
   "overall": {
     "total_races": 237,
     "total_hits": 50,
@@ -509,16 +509,6 @@
       "recovery_rate": 0.0
     },
     {
-      "venue": "",
-      "races": 5,
-      "hits": 0,
-      "hit_rate": 0.0,
-      "investment": 0,
-      "return": 0,
-      "profit": 0,
-      "recovery_rate": 0
-    },
-    {
       "venue": "京都",
       "races": 3,
       "hits": 0,
@@ -562,7 +552,7 @@
     },
     {
       "track": "不明",
-      "races": 55,
+      "races": 50,
       "hits": 0,
       "hit_rate": 0.0,
       "investment": 110100,
@@ -584,9 +574,9 @@
   "by_score_tier": [
     {
       "tier": "?",
-      "races": 242,
+      "races": 237,
       "hits": 50,
-      "hit_rate": 20.7,
+      "hit_rate": 21.1,
       "investment": 701000,
       "return": 220240,
       "profit": -480760,
