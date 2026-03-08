@@ -2324,6 +2324,119 @@
                     html += `</div>`;
                 }
 
+                // ===== 三連複フォーメーション購入ガイド =====
+                if (allCombos.length > 0) {
+                    const guideId  = `form-guide-${race.race_id}`;
+                    const guideBtnId = `form-guide-btn-${race.race_id}`;
+
+                    // 軸馬・対抗・穴馬の馬番リスト
+                    const axisArr    = topHorses.map(h => h.馬番).filter(n => n);
+                    const rivalArr   = rivalHorses.map(h => h.馬番).filter(n => n);
+                    const holeArr    = holeHorses.map(h => h.馬番).filter(n => n);
+                    const partnerArr = [...new Set([...rivalArr, ...holeArr])];
+
+                    // 案A: ①2頭軸ながし ②フォーメーション
+                    // ① 2頭軸ながし（軸2頭の場合のみ）
+                    const hasTwo = axisArr.length >= 2;
+                    const axis1  = axisArr[0];
+                    const axis2  = axisArr[1];
+                    // ② フォーメーション：1着=軸全頭、2着=対抗、3着=対抗+穴
+                    const form2Leg1 = axisArr;
+                    const form2Leg2 = rivalArr.length > 0 ? rivalArr : partnerArr;
+                    const form2Leg3 = partnerArr;
+
+                    let guideHTML = '';
+                    if (hasTwo) {
+                        // ①点数：相手の頭数
+                        const step1Pts = partnerArr.length;
+                        guideHTML += `
+                        <div style="margin-bottom:10px;">
+                            <div style="color:#90caf9;font-size:12px;font-weight:bold;margin-bottom:4px;">
+                                🎯 STEP① ２頭軸ながし（${step1Pts}点）
+                            </div>
+                            <table style="width:100%;font-size:11px;border-collapse:collapse;">
+                                <tr>
+                                    <td style="color:#b0c4de;padding:2px 6px;width:60px;">1頭目</td>
+                                    <td style="padding:2px 6px;">
+                                        <span style="background:#1e3a5f;border:1px solid #90caf9;border-radius:4px;padding:2px 6px;color:#90caf9;">${axis1}番</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="color:#b0c4de;padding:2px 6px;">2頭目</td>
+                                    <td style="padding:2px 6px;">
+                                        <span style="background:#1e3a5f;border:1px solid #90caf9;border-radius:4px;padding:2px 6px;color:#90caf9;">${axis2}番</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="color:#b0c4de;padding:2px 6px;vertical-align:top;">相手</td>
+                                    <td style="padding:2px 6px;">
+                                        ${partnerArr.map(n=>`<span style="background:#1a2a1a;border:1px solid #81c784;border-radius:4px;padding:2px 6px;color:#81c784;margin:1px;">${n}番</span>`).join('')}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>`;
+                    }
+
+                    // ② フォーメーション
+                    if (form2Leg2.length > 0 && form2Leg3.length > 0) {
+                        guideHTML += `
+                        <div>
+                            <div style="color:#ce93d8;font-size:12px;font-weight:bold;margin-bottom:4px;">
+                                🎯 STEP② フォーメーション（JRAで点数確認）
+                            </div>
+                            <table style="width:100%;font-size:11px;border-collapse:collapse;">
+                                <tr>
+                                    <td style="color:#b0c4de;padding:2px 6px;width:60px;vertical-align:top;">1着</td>
+                                    <td style="padding:2px 6px;">
+                                        ${form2Leg1.map(n=>`<span style="background:#1e3a5f;border:1px solid #90caf9;border-radius:4px;padding:2px 6px;color:#90caf9;margin:1px;">${n}番</span>`).join('')}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="color:#b0c4de;padding:2px 6px;vertical-align:top;">2着</td>
+                                    <td style="padding:2px 6px;">
+                                        ${form2Leg2.map(n=>`<span style="background:#2a1a2a;border:1px solid #ce93d8;border-radius:4px;padding:2px 6px;color:#ce93d8;margin:1px;">${n}番</span>`).join('')}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="color:#b0c4de;padding:2px 6px;vertical-align:top;">3着</td>
+                                    <td style="padding:2px 6px;">
+                                        ${form2Leg3.map(n=>`<span style="background:#1a1a2a;border:1px solid #b0c4de;border-radius:4px;padding:2px 6px;color:#b0c4de;margin:1px;">${n}番</span>`).join('')}
+                                    </td>
+                                </tr>
+                            </table>
+                            <div style="color:#888;font-size:10px;margin-top:4px;">
+                                ※①と同時に購入。合計点数はJRA「フォーメーション組合せ数計算」で確認
+                            </div>
+                        </div>`;
+                    }
+
+                    html += `
+                    <div style="margin-top:8px;">
+                        <button id="${guideBtnId}"
+                            onclick="(function(){
+                                var panel=document.getElementById('${guideId}');
+                                var btn=document.getElementById('${guideBtnId}');
+                                if(panel.style.display==='none'){
+                                    panel.style.display='block';
+                                    btn.textContent='▲ 購入ガイドを閉じる';
+                                    btn.style.color='#90caf9';
+                                } else {
+                                    panel.style.display='none';
+                                    btn.textContent='📖 三連複フォーメーション 購入ガイド';
+                                    btn.style.color='#b0c4de';
+                                }
+                            })()"
+                            style="background:transparent;border:1px solid #4a5568;border-radius:6px;
+                                   padding:6px 12px;font-size:11px;color:#b0c4de;cursor:pointer;width:100%;">
+                            📖 三連複フォーメーション 購入ガイド
+                        </button>
+                        <div id="${guideId}" style="display:none;margin-top:8px;padding:10px;
+                             background:#1a1f2e;border:1px solid #4a5568;border-radius:8px;">
+                            ${guideHTML}
+                        </div>
+                    </div>`;
+                }
+
                 // ワイド候補
                 if (wideCandidates.length > 0) {
                     html += `<div class="sub-bet-section">
