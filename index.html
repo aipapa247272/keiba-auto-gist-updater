@@ -1380,7 +1380,22 @@
         <div id="stats-tab" class="tab-content">
             <div class="section-header">
                 <div class="section-title">📈 統計</div>
-                <button class="refresh-btn" onclick="loadStatistics()" style="margin-left: auto;">🔄 更新</button>
+                <div style="display:flex;align-items:center;gap:8px;margin-left:auto;">
+                    <label style="color:#b0c4de;font-size:12px;white-space:nowrap;">表示:
+                        <select id="logic-version-select"
+                            style="background:#1a2744;color:#fff;border:1px solid #2a3f6f;border-radius:4px;padding:3px 8px;font-size:12px;cursor:pointer;"
+                            onchange="switchLogicVersion(this.value)">
+                            <option value="latest">最新ロジック</option>
+                            <option value="all">全期間</option>
+                        </select>
+                    </label>
+                    <button class="refresh-btn" onclick="loadStatistics()">🔄 更新</button>
+                </div>
+            </div>
+            <!-- ロジックバージョン情報バー -->
+            <div id="logic-version-bar" style="background:rgba(79,195,247,0.08);border:1px solid rgba(79,195,247,0.2);border-radius:8px;padding:8px 12px;margin-bottom:10px;display:none;">
+                <span style="color:#4fc3f7;font-size:12px;font-weight:700;" id="logic-version-label">-</span>
+                <span style="color:#78909c;font-size:11px;margin-left:8px;" id="logic-version-period">-</span>
             </div>
        
             <div class="stats-kpi-grid">
@@ -2944,83 +2959,181 @@
             btn.disabled = false;
         }
 
+        // ── 統計データ グローバルキャッシュ ──
+        let _statsData = null;
+
         async function loadStatistics() {
             try {
                 const response = await fetch('https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/statistics.json?t=' + Date.now(), {cache: 'no-cache'});
-                const data = await response.json();
+                _statsData = await response.json();
 
-                // overall — キー名を statistics.json の実構造に合わせて修正
-                document.getElementById('stat-total-races').textContent = data.overall.total_races;
-                document.getElementById('stat-total-hits').textContent = data.overall.hit_count;          // hit_count
-                document.getElementById('stat-hit-rate').textContent = data.overall.hit_rate + '%';
-                document.getElementById('stat-recovery-rate').textContent = data.overall.recovery_rate + '%';
-                document.getElementById('stat-investment').textContent = '¥' + data.overall.total_investment.toLocaleString();
+                // ── ロジックバージョンセレクター を動的に構築 ──
+                buildLogicVersionSelector(_statsData);
 
-                const profitColor = data.overall.net_profit >= 0 ? '#4caf50' : '#f44336';
-                document.getElementById('stat-profit').innerHTML = `<span style="color: ${profitColor}">¥${data.overall.net_profit.toLocaleString()}</span>`;  // net_profit
-
-                // daily テーブル（daily 配列を使用、racesはtotal_races、hitsはhit_count、profitはnet_profit）
-                const dailyTbody = document.getElementById('daily-tbody');
-                if (dailyTbody && data.daily) {
-                    dailyTbody.innerHTML = '';
-                    data.daily.forEach(day => {
-                        const profit = day.net_profit || 0;
-                        const hitRate = day.total_races > 0
-                            ? ((day.hit_count / day.total_races) * 100).toFixed(1)
-                            : '0.0';
-                        const rescrapedMark = day.rescraped ? ' 🔄' : '';
-                        const row = dailyTbody.insertRow();
-                        row.innerHTML = `
-                            <td style="padding: 8px;">${day.date}${rescrapedMark}</td>
-                            <td style="padding: 8px; text-align: center;">${day.total_races}</td>
-                            <td style="padding: 8px; text-align: center;">${day.hit_count}</td>
-                            <td style="padding: 8px; text-align: center;">${hitRate}%</td>
-                            <td style="padding: 8px; text-align: right;">¥${day.total_investment.toLocaleString()}</td>
-                            <td style="padding: 8px; text-align: right; color: ${profit >= 0 ? '#4caf50' : '#f44336'};">¥${profit.toLocaleString()}</td>
-                        `;
-                    });
-                }
-
-                // venue テーブル（by_venue → venue）
-                const venueTbody = document.getElementById('venue-tbody');
-                if (venueTbody && data.venue) {
-                    venueTbody.innerHTML = '';
-                    data.venue.forEach(venue => {
-                        const row = venueTbody.insertRow();
-                        row.innerHTML = `
-                            <td style="padding: 8px;">${venue.venue}</td>
-                            <td style="padding: 8px; text-align: center;">${venue.races}</td>
-                            <td style="padding: 8px; text-align: center;">${venue.hits}</td>
-                            <td style="padding: 8px; text-align: center;">${venue.hit_rate}%</td>
-                            <td style="padding: 8px; text-align: center;">${venue.recovery_rate}%</td>
-                        `;
-                    });
-                }
-
-                // by_track は statistics.json に存在しないため月別に置換
-                const trackTbody = document.getElementById('track-tbody');
-                if (trackTbody && data.monthly) {
-                    trackTbody.innerHTML = '';
-                    data.monthly.forEach(m => {
-                        const row = trackTbody.insertRow();
-                        row.innerHTML = `
-                            <td style="padding: 8px;">${m.month}</td>
-                            <td style="padding: 8px; text-align: center;">${m.total_races}</td>
-                            <td style="padding: 8px; text-align: center;">${m.hit_count}</td>
-                            <td style="padding: 8px; text-align: center;">${m.hit_rate}%</td>
-                            <td style="padding: 8px; text-align: center;">${m.recovery_rate}%</td>
-                        `;
-                    });
-                }
+                // ── デフォルト: 最新ロジックを表示 ──
+                switchLogicVersion('latest');
 
                 // ── Phase2: 週次ROI棒グラフ ──
-                renderWeeklyROIChart(data.daily || []);
+                renderWeeklyROIChart(_statsData.daily || []);
 
                 // ── Phase2: 的中ハイライト ──
                 renderHitHighlights();
 
             } catch (error) {
                 console.error('統計データ取得エラー:', error);
+            }
+        }
+
+        function buildLogicVersionSelector(data) {
+            const sel = document.getElementById('logic-version-select');
+            if (!sel) return;
+            // 既存のオプションをクリアして再構築
+            sel.innerHTML = '<option value="latest">最新ロジック</option>';
+            if (data.by_logic_version && data.by_logic_version.length > 0) {
+                data.by_logic_version.forEach(lv => {
+                    const opt = document.createElement('option');
+                    opt.value = lv.logic_version;
+                    opt.textContent = `${lv.logic_version}（${lv.races}R）`;
+                    sel.appendChild(opt);
+                });
+            }
+            const allOpt = document.createElement('option');
+            allOpt.value = 'all';
+            allOpt.textContent = '全期間';
+            sel.appendChild(allOpt);
+        }
+
+        function switchLogicVersion(ver) {
+            if (!_statsData) return;
+            const data = _statsData;
+            let kpiData, label, period, filteredDaily;
+
+            if (ver === 'all') {
+                // 全期間
+                kpiData = {
+                    total_races:      data.overall.total_races,
+                    total_hits:       data.overall.total_hits,
+                    hit_rate:         data.overall.hit_rate,
+                    recovery_rate:    data.overall.recovery_rate,
+                    total_investment: data.overall.total_investment,
+                    total_profit:     data.overall.total_profit
+                };
+                label = '全期間';
+                period = '';
+                filteredDaily = data.daily || [];
+            } else if (ver === 'latest') {
+                // 最新ロジック (latest_logic_overall)
+                const lv = data.latest_logic_overall || data.overall;
+                kpiData = {
+                    total_races:      lv.races      || lv.total_races      || 0,
+                    total_hits:       lv.hits       || lv.total_hits       || 0,
+                    hit_rate:         lv.hit_rate   || 0,
+                    recovery_rate:    lv.recovery_rate || 0,
+                    total_investment: lv.investment || lv.total_investment || 0,
+                    total_profit:     lv.profit     || lv.total_profit     || 0
+                };
+                label = '最新ロジック：' + (lv.logic_version || 'v13.1');
+                period = lv.period || '';
+                // 最新バージョンの日別データのみフィルタ
+                const latestVer = (data.by_logic_version && data.by_logic_version[0]) ? data.by_logic_version[0].logic_version : null;
+                filteredDaily = latestVer
+                    ? (data.daily || []).filter(d => d.logic_version === latestVer)
+                    : (data.daily || []);
+            } else {
+                // 特定バージョン
+                const lvData = (data.by_logic_version || []).find(lv => lv.logic_version === ver);
+                if (!lvData) return;
+                kpiData = {
+                    total_races:      lvData.races,
+                    total_hits:       lvData.hits,
+                    hit_rate:         lvData.hit_rate,
+                    recovery_rate:    lvData.recovery_rate,
+                    total_investment: lvData.investment,
+                    total_profit:     lvData.profit
+                };
+                label = 'ロジック：' + ver;
+                period = lvData.period || '';
+                filteredDaily = (data.daily || []).filter(d => d.logic_version === ver);
+            }
+
+            // ── KPIカード更新 ──
+            document.getElementById('stat-total-races').textContent = kpiData.total_races;
+            document.getElementById('stat-total-hits').textContent = kpiData.total_hits;
+            document.getElementById('stat-hit-rate').textContent = kpiData.hit_rate + '%';
+            document.getElementById('stat-recovery-rate').textContent = kpiData.recovery_rate + '%';
+            document.getElementById('stat-investment').textContent = '¥' + (kpiData.total_investment || 0).toLocaleString();
+
+            const profitColor = kpiData.total_profit >= 0 ? '#4caf50' : '#f44336';
+            document.getElementById('stat-profit').innerHTML = `<span style="color: ${profitColor}">¥${(kpiData.total_profit || 0).toLocaleString()}</span>`;
+
+            // ── バージョン情報バー ──
+            const bar = document.getElementById('logic-version-bar');
+            const lblEl = document.getElementById('logic-version-label');
+            const perEl = document.getElementById('logic-version-period');
+            if (bar) {
+                bar.style.display = 'block';
+                if (lblEl) lblEl.textContent = label;
+                if (perEl) perEl.textContent = period;
+            }
+
+            // ── 日別テーブル（フィルタ済み） ──
+            const dailyTbody = document.getElementById('daily-tbody');
+            if (dailyTbody) {
+                dailyTbody.innerHTML = '';
+                filteredDaily.forEach(day => {
+                    const profit = (day.profit !== undefined ? day.profit : (day.net_profit || 0));
+                    const races  = day.races  || day.total_races  || 0;
+                    const hits   = day.hits   || day.hit_count    || 0;
+                    const inv    = day.investment || day.total_investment || 0;
+                    const hitRate = day.hit_rate !== undefined ? day.hit_rate
+                                  : (races > 0 ? ((hits / races) * 100).toFixed(1) : '0.0');
+                    const row = dailyTbody.insertRow();
+                    row.innerHTML = `
+                        <td style="padding: 8px;">${day.date || day.ymd}</td>
+                        <td style="padding: 8px; text-align: center;">${races}</td>
+                        <td style="padding: 8px; text-align: center;">${hits}</td>
+                        <td style="padding: 8px; text-align: center;">${hitRate}%</td>
+                        <td style="padding: 8px; text-align: right;">¥${inv.toLocaleString()}</td>
+                        <td style="padding: 8px; text-align: right; color: ${profit >= 0 ? '#4caf50' : '#f44336'};">¥${profit.toLocaleString()}</td>
+                    `;
+                });
+            }
+
+            // ── 競馬場別テーブル（by_venue） ──
+            const venueTbody = document.getElementById('venue-tbody');
+            if (venueTbody) {
+                venueTbody.innerHTML = '';
+                let venueList = data.by_venue || data.venue || [];
+                if (ver !== 'all' && ver !== 'latest') {
+                    // バージョン別フィルタは日別データのみ対応（venue集計は全体で表示）
+                }
+                venueList.forEach(v => {
+                    const row = venueTbody.insertRow();
+                    row.innerHTML = `
+                        <td style="padding: 8px;">${v.venue || '不明'}</td>
+                        <td style="padding: 8px; text-align: center;">${v.races}</td>
+                        <td style="padding: 8px; text-align: center;">${v.hits}</td>
+                        <td style="padding: 8px; text-align: center;">${v.hit_rate}%</td>
+                        <td style="padding: 8px; text-align: center;">${v.recovery_rate}%</td>
+                    `;
+                });
+            }
+
+            // ── トラック別テーブル（by_track） ──
+            const trackTbody = document.getElementById('track-tbody');
+            if (trackTbody) {
+                trackTbody.innerHTML = '';
+                const trackList = data.by_track || [];
+                trackList.forEach(t => {
+                    const row = trackTbody.insertRow();
+                    row.innerHTML = `
+                        <td style="padding: 8px;">${t.track || '不明'}</td>
+                        <td style="padding: 8px; text-align: center;">${t.races}</td>
+                        <td style="padding: 8px; text-align: center;">${t.hits}</td>
+                        <td style="padding: 8px; text-align: center;">${t.hit_rate}%</td>
+                        <td style="padding: 8px; text-align: center;">${t.recovery_rate}%</td>
+                    `;
+                });
             }
         }
 
@@ -3032,14 +3145,16 @@
             // 週次に集計（月曜始まり）
             const weekMap = {};
             dailyData.forEach(d => {
-                if (!d.ymd || d.total_investment === 0) return;
+                const _inv = d.investment || d.total_investment || 0;
+                const _ret = d['return'] || d.total_return || 0;
+                if (!d.ymd || _inv === 0) return;
                 const dt   = new Date(d.ymd.slice(0,4)+'-'+d.ymd.slice(4,6)+'-'+d.ymd.slice(6,8));
                 const mon  = new Date(dt);
                 mon.setDate(dt.getDate() - (dt.getDay() === 0 ? 6 : dt.getDay() - 1));
                 const wKey = mon.toISOString().slice(0,10).replace(/-/g,'').slice(2);
                 if (!weekMap[wKey]) weekMap[wKey] = {invest:0, ret:0, label: `${wKey.slice(2,4)}/${wKey.slice(4,6)}W`};
-                weekMap[wKey].invest += d.total_investment || 0;
-                weekMap[wKey].ret    += d.total_return    || 0;
+                weekMap[wKey].invest += _inv;
+                weekMap[wKey].ret    += _ret;
             });
 
             const weeks = Object.keys(weekMap).sort();
@@ -3082,7 +3197,7 @@
                 const RAW = 'https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/';
                 const statsRes = await fetch(RAW + 'statistics.json?t=' + Date.now(), {cache:'no-cache'});
                 const stats = await statsRes.json();
-                const daily = (stats.daily || []).filter(d => d.hit_count > 0).reverse().slice(0, 8);
+                const daily = (stats.daily || []).filter(d => (d.hits || d.hit_count || 0) > 0).reverse().slice(0, 8);
 
                 const hits = [];
                 for (const day of daily) {
@@ -3449,18 +3564,18 @@ function renderDailyReport(stats, container) {
 
     let tableRows = '';
     recent.forEach(d => {
-        const hr   = d.hit_rate   ? (d.hit_rate * 100).toFixed(1)   : '0.0';
-        const rr   = d.recovery_rate ? (d.recovery_rate * 100).toFixed(1) : '0.0';
-        const prof = d.net_profit || 0;
+        const hr   = d.hit_rate   !== undefined ? (d.hit_rate > 1 ? d.hit_rate.toFixed(1) : (d.hit_rate * 100).toFixed(1))   : '0.0';
+        const rr   = d.recovery_rate !== undefined ? (d.recovery_rate > 1 ? d.recovery_rate.toFixed(1) : (d.recovery_rate * 100).toFixed(1)) : '0.0';
+        const prof = d.profit !== undefined ? d.profit : (d.net_profit || 0);
         const profColor = prof >= 0 ? '#4caf50' : '#f44336';
         const profStr = (prof >= 0 ? '+' : '') + prof.toLocaleString();
         tableRows += `
             <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
                 <td style="padding:7px 4px;font-size:12px;">${d.date || d.ymd}</td>
-                <td style="padding:7px 4px;text-align:center;font-size:12px;">${d.total_races || 0}R</td>
-                <td style="padding:7px 4px;text-align:center;font-size:12px;">${d.hit_count || 0}件</td>
+                <td style="padding:7px 4px;text-align:center;font-size:12px;">${(d.races||d.total_races||0)}R</td>
+                <td style="padding:7px 4px;text-align:center;font-size:12px;">${(d.hits||d.hit_count||0)}件</td>
                 <td style="padding:7px 4px;text-align:center;font-size:12px;">${hr}%</td>
-                <td style="padding:7px 4px;text-align:right;font-size:12px;">¥${(d.total_investment||0).toLocaleString()}</td>
+                <td style="padding:7px 4px;text-align:right;font-size:12px;">¥${(d.investment||d.total_investment||0).toLocaleString()}</td>
                 <td style="padding:7px 4px;text-align:right;font-size:12px;color:${profColor};">${profStr}</td>
                 <td style="padding:7px 4px;text-align:right;font-size:12px;">${rr}%</td>
             </tr>`;
@@ -3532,10 +3647,10 @@ function renderWeeklyReport(stats, container) {
         mon.setDate(dt.getDate() - dt.getDay() + (dt.getDay() === 0 ? -6 : 1));
         const key = mon.toISOString().slice(0, 10);
         if (!weeks[key]) weeks[key] = { races:0, hits:0, investment:0, profit:0 };
-        weeks[key].races      += d.total_races || 0;
-        weeks[key].hits       += d.hit_count   || 0;
-        weeks[key].investment += d.total_investment || 0;
-        weeks[key].profit     += d.net_profit   || 0;
+        weeks[key].races      += d.races || d.total_races || 0;
+        weeks[key].hits       += d.hits || d.hit_count || 0;
+        weeks[key].investment += d.investment || d.total_investment || 0;
+        weeks[key].profit     += (d.profit !== undefined ? d.profit : (d.net_profit || 0));
     });
 
     const wKeys = Object.keys(weeks).sort();
