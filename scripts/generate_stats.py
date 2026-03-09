@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 """
-generate_stats.py 完全刷新版
+generate_stats.py 完全刷新版 v2
 - 全 race_results_*.json を自動検出して集計
 - score_tier 別・仮想収支集計を追加
 - 日付範囲を自動取得
+- ロジックバージョン別集計を追加（by_logic_version）
+- final_predictions_YYYYMMDD.json から logic_version を読み取り
+- venue / track の空文字バグ修正
 """
 import json
 import requests
@@ -13,22 +16,77 @@ import os
 
 BASE_URL = "https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/"
 
+# ロジックバージョンの日付マッピング（日付→バージョン）
+# final_predictions から読み取れない場合のフォールバック
+LOGIC_VERSION_DATES = {
+    "v13.1": "20260306",   # 2026-03-06以降
+    "v13.0": "20260227",   # 2026-02-27〜03-05
+    "v12以前": "20260101", # 〜2026-02-26
+}
+
+def get_logic_version_by_date(ymd):
+    """日付からロジックバージョンを推定（フォールバック用）"""
+    if ymd >= "20260306":
+        return "v13.1"
+    elif ymd >= "20260227":
+        return "v13.0"
+    else:
+        return "v12以前"
+
+
+def fetch_logic_versions():
+    """GitHubから全final_predictions_*.jsonのlogic_versionを取得"""
+    api_url = "https://api.github.com/repos/aipapa247272/keiba-auto-gist-updater/contents/"
+    version_map = {}  # ymd -> logic_version
+
+    try:
+        resp = requests.get(api_url, timeout=15)
+        files = resp.json()
+        pred_files = sorted([
+            f['name'] for f in files
+            if isinstance(f, dict)
+            and f.get('name','').startswith('final_predictions_202')
+            and f.get('name','').endswith('.json')
+        ])
+        print(f"📋 予想ファイル検出: {len(pred_files)} 件")
+    except Exception as e:
+        print(f"⚠️ 予想ファイル一覧取得失敗: {e}")
+        return version_map
+
+    for fname in pred_files:
+        ymd = fname.replace('final_predictions_', '').replace('.json', '')
+        url = f"{BASE_URL}{fname}"
+        try:
+            response = requests.get(url, timeout=10)
+            if response.status_code == 200:
+                data = response.json()
+                lv = data.get('logic_version', '')
+                if lv:
+                    # バージョン文字列を短縮（例: "v13.1_断層・合成オッズ対応..." → "v13.1"）
+                    short_lv = lv.split('_')[0] if '_' in lv else lv
+                    version_map[ymd] = short_lv
+                else:
+                    version_map[ymd] = get_logic_version_by_date(ymd)
+        except Exception:
+            version_map[ymd] = get_logic_version_by_date(ymd)
+
+    return version_map
+
+
 def fetch_all_results():
     """GitHubから全結果JSONを自動検出して取得"""
-    # まず index.json 相当の API でファイル一覧を取得
     api_url = "https://api.github.com/repos/aipapa247272/keiba-auto-gist-updater/contents/"
     all_data = []
 
     try:
         resp = requests.get(api_url, timeout=15)
         files = resp.json()
-        # race_results_YYYYMMDD.json をすべて抽出
         result_files = sorted([
             f['name'] for f in files
             if isinstance(f, dict)
             and f.get('name','').startswith('race_results_202')
             and f.get('name','').endswith('.json')
-            and not f.get('name','').startswith('race_results_00')  # 誤ファイル除外
+            and not f.get('name','').startswith('race_results_00')
         ])
         print(f"📂 検出: {len(result_files)} 件の結果ファイル")
     except Exception as e:
@@ -42,7 +100,6 @@ def fetch_all_results():
             response = requests.get(url, timeout=10)
             if response.status_code == 200:
                 data = response.json()
-                # ymd が未設定の場合は補完
                 if not data.get('ymd'):
                     data['ymd'] = ymd
                 if not data.get('date'):
@@ -59,8 +116,8 @@ def fetch_all_results():
     return all_data
 
 
-def calculate_statistics(all_data):
-    """統計情報を計算（score_tier・仮想収支対応版）"""
+def calculate_statistics(all_data, version_map):
+    """統計情報を計算（ロジックバージョン別・venue/trackバグ修正版）"""
 
     total_races = 0
     total_hits  = 0
@@ -71,8 +128,12 @@ def calculate_statistics(all_data):
     venue_stats   = defaultdict(lambda: {"races":0,"hits":0,"investment":0,"return":0})
     track_stats   = defaultdict(lambda: {"races":0,"hits":0,"investment":0,"return":0})
     tier_stats    = defaultdict(lambda: {"races":0,"hits":0,"investment":0,"return":0})
+    # ロジックバージョン別集計
+    logic_stats   = defaultdict(lambda: {
+        "races":0,"hits":0,"investment":0,"return":0,
+        "dates": []  # 対象日付リスト
+    })
 
-    # 仮想収支集計（複勝/ワイド/馬連）
     vb_stats = defaultdict(lambda: {"count":0,"hits":0,"investment":0,"return":0})
 
     for day_data in sorted(all_data, key=lambda d: d.get('ymd','99999999')):
@@ -90,9 +151,13 @@ def calculate_statistics(all_data):
         total_investment += day_investment
         total_return     += day_return
 
+        # ロジックバージョンを特定
+        logic_ver = version_map.get(ymd, get_logic_version_by_date(ymd))
+
         daily_stats.append({
             'date':          date,
             'ymd':           ymd,
+            'logic_version': logic_ver,
             'races':         day_races,
             'hits':          day_hits,
             'investment':    day_investment,
@@ -102,10 +167,19 @@ def calculate_statistics(all_data):
             'recovery_rate': round((day_return/day_investment*100) if day_investment>0 else 0, 1)
         })
 
+        # ロジックバージョン別集計
+        logic_stats[logic_ver]['races']      += day_races
+        logic_stats[logic_ver]['hits']       += day_hits
+        logic_stats[logic_ver]['investment'] += day_investment
+        logic_stats[logic_ver]['return']     += day_return
+        if ymd and ymd not in logic_stats[logic_ver]['dates']:
+            logic_stats[logic_ver]['dates'].append(ymd)
+
         for race in day_data.get('races', []):
-            venue  = race.get('venue', '不明')
-            track  = race.get('track', '不明')
-            tier   = race.get('score_tier', '?')
+            # venue/track: 空文字・Noneの場合は'不明'に補完（バグ修正）
+            venue  = race.get('venue', '') or '不明'
+            track  = race.get('track', '') or '不明'
+            tier   = race.get('score_tier', '?') or '?'
             hit    = 1 if race.get('hit', False) else 0
             inv    = race.get('investment', 0)
             ret    = race.get('return', 0)
@@ -125,7 +199,6 @@ def calculate_statistics(all_data):
             tier_stats[tier]['investment']   += inv
             tier_stats[tier]['return']       += ret
 
-            # 仮想収支
             for key, vb in race.get('virtual_bets_result', {}).items():
                 vb_stats[key]['count']      += 1
                 vb_stats[key]['hits']       += 1 if vb.get('的中') else 0
@@ -148,6 +221,33 @@ def calculate_statistics(all_data):
             })
         out.sort(key=lambda x: x['races'], reverse=True)
         return out
+
+    # ロジックバージョン別リスト（最新版が先頭）
+    logic_list = []
+    # バージョン番号で降順ソート
+    version_order = {"v13.1": 0, "v13.0": 1, "v12以前": 2}
+    for k, s in sorted(logic_stats.items(),
+                        key=lambda x: version_order.get(x[0], 99)):
+        dates_sorted = sorted(s['dates'])
+        period_start = dates_sorted[0] if dates_sorted else ''
+        period_end   = dates_sorted[-1] if dates_sorted else ''
+        period_str   = f"{period_start[:4]}/{period_start[4:6]}/{period_start[6:]} 〜 {period_end[:4]}/{period_end[4:6]}/{period_end[6:]}" \
+                       if period_start else ''
+        logic_list.append({
+            'logic_version': k,
+            'period':        period_str,
+            'active_days':   len(s['dates']),
+            'races':         s['races'],
+            'hits':          s['hits'],
+            'hit_rate':      round((s['hits']/s['races']*100) if s['races']>0 else 0, 1),
+            'investment':    s['investment'],
+            'return':        s['return'],
+            'profit':        s['return'] - s['investment'],
+            'recovery_rate': round((s['return']/s['investment']*100) if s['investment']>0 else 0, 1)
+        })
+
+    # 最新ロジック（先頭）の統計を latest_logic_overall として別出し
+    latest_logic_overall = logic_list[0] if logic_list else {}
 
     # 仮想収支リスト
     vb_list = []
@@ -178,23 +278,30 @@ def calculate_statistics(all_data):
             'hit_rate':         overall_hit_rate,
             'recovery_rate':    overall_recovery
         },
-        'daily':            daily_stats,
-        'by_venue':         make_list(venue_stats, 'venue'),
-        'by_track':         make_list(track_stats, 'track'),
-        'by_score_tier':    make_list(tier_stats, 'tier'),
-        'virtual_bets':     vb_list
+        'latest_logic_overall': latest_logic_overall,   # 最新ロジック単独統計
+        'daily':                daily_stats,
+        'by_logic_version':     logic_list,              # ★ロジックバージョン別
+        'by_venue':             make_list(venue_stats, 'venue'),
+        'by_track':             make_list(track_stats, 'track'),
+        'by_score_tier':        make_list(tier_stats, 'tier'),
+        'virtual_bets':         vb_list
     }
 
 
 if __name__ == '__main__':
     print("📊 統計データ生成開始...")
+
+    print("\n📋 ロジックバージョン情報を取得中...")
+    version_map = fetch_logic_versions()
+    print(f"  → {len(version_map)} 件のバージョン情報を取得")
+
     all_data = fetch_all_results()
 
     if not all_data:
         print("❌ データが取得できませんでした")
         exit(1)
 
-    stats = calculate_statistics(all_data)
+    stats = calculate_statistics(all_data, version_map)
 
     with open('statistics.json', 'w', encoding='utf-8') as f:
         json.dump(stats, f, ensure_ascii=False, indent=2)
@@ -210,8 +317,16 @@ if __name__ == '__main__':
     print(f"収支:       ¥{o['total_profit']:,}")
     print(f"回収率:     {o['recovery_rate']}%")
     print(f"{'='*50}")
+
+    if stats.get('by_logic_version'):
+        print("\n📈 ロジックバージョン別統計:")
+        for lv in stats['by_logic_version']:
+            print(f"  [{lv['logic_version']}] {lv['period']}")
+            print(f"    {lv['races']}R / 的中{lv['hits']}R ({lv['hit_rate']}%) / 回収率{lv['recovery_rate']}% / 収支¥{lv['profit']:,}")
+
     if stats.get('virtual_bets'):
         print("\n🧪 仮想収支集計:")
         for v in stats['virtual_bets']:
             print(f"  {v['bet_type']:15}: {v['hits']}/{v['count']} ({v['hit_rate']}%) 回収率{v['recovery_rate']}%  収支¥{v['profit']:,}")
+
     print("\n✅ statistics.json に保存しました")
