@@ -1,18 +1,31 @@
 {
-  "generated_at": "2026-03-09 13:57:17",
+  "generated_at": "2026-03-09 15:20:30",
   "overall": {
-    "total_races": 237,
+    "total_races": 240,
     "total_hits": 50,
-    "total_investment": 701000,
+    "total_investment": 706000,
     "total_return": 220240,
-    "total_profit": -480760,
-    "hit_rate": 21.1,
-    "recovery_rate": 31.4
+    "total_profit": -485760,
+    "hit_rate": 20.8,
+    "recovery_rate": 31.2
+  },
+  "latest_logic_overall": {
+    "logic_version": "v13.1",
+    "period": "2026/03/08 〜 2026/03/09",
+    "active_days": 2,
+    "races": 7,
+    "hits": 1,
+    "hit_rate": 14.3,
+    "investment": 9000,
+    "return": 6530,
+    "profit": -2470,
+    "recovery_rate": 72.6
   },
   "daily": [
     {
       "date": "20260125",
       "ymd": "20260125",
+      "logic_version": "v12以前",
       "races": 0,
       "hits": 0,
       "investment": 0,
@@ -24,6 +37,7 @@
     {
       "date": "20260126",
       "ymd": "20260126",
+      "logic_version": "v12以前",
       "races": 0,
       "hits": 0,
       "investment": 0,
@@ -35,6 +49,7 @@
     {
       "date": "20260129",
       "ymd": "20260129",
+      "logic_version": "v12以前",
       "races": 0,
       "hits": 0,
       "investment": 0,
@@ -46,6 +61,7 @@
     {
       "date": "20260131",
       "ymd": "20260130",
+      "logic_version": "v12以前",
       "races": 0,
       "hits": 0,
       "investment": 0,
@@ -57,6 +73,7 @@
     {
       "date": "20260131",
       "ymd": "20260131",
+      "logic_version": "v12以前",
       "races": 0,
       "hits": 0,
       "investment": 0,
@@ -68,6 +85,7 @@
     {
       "date": "20260201",
       "ymd": "20260201",
+      "logic_version": "v12以前",
       "races": 0,
       "hits": 0,
       "investment": 0,
@@ -79,6 +97,7 @@
     {
       "date": "20260203",
       "ymd": "20260202",
+      "logic_version": "v12以前",
       "races": 0,
       "hits": 0,
       "investment": 0,
@@ -90,6 +109,7 @@
     {
       "date": "2026/02/06",
       "ymd": "20260206",
+      "logic_version": "v12以前",
       "races": 0,
       "hits": 0,
       "investment": 0,
@@ -101,6 +121,7 @@
     {
       "date": "2026/02/07",
       "ymd": "20260207",
+      "logic_version": "v12以前",
       "races": 0,
       "hits": 0,
       "investment": 0,
@@ -112,6 +133,7 @@
     {
       "date": "2026/02/08",
       "ymd": "20260208",
+      "logic_version": "v12以前",
       "races": 0,
       "hits": 0,
       "investment": 0,
@@ -123,6 +145,7 @@
     {
       "date": "2026/02/09",
       "ymd": "20260209",
+      "logic_version": "v12以前",
       "races": 5,
       "hits": 0,
       "investment": 12000,
@@ -134,6 +157,7 @@
     {
       "date": "2026/02/10",
       "ymd": "20260210",
+      "logic_version": "v12以前",
       "races": 0,
       "hits": 0,
       "investment": 0,
@@ -145,6 +169,7 @@
     {
       "date": "2026/02/11",
       "ymd": "20260211",
+      "logic_version": "v12以前",
       "races": 5,
       "hits": 0,
       "investment": 4500,
@@ -156,6 +181,7 @@
     {
       "date": "2026/02/12",
       "ymd": "20260212",
+      "logic_version": "v12以前",
       "races": 5,
       "hits": 0,
       "investment": 12000,
@@ -167,6 +193,7 @@
     {
       "date": "2026/02/13",
       "ymd": "20260213",
+      "logic_version": "v12以前",
       "races": 5,
       "hits": 0,
       "investment": 12000,
@@ -178,6 +205,7 @@
     {
       "date": "2026/02/14",
       "ymd": "20260214",
+      "logic_version": "v12以前",
       "races": 5,
       "hits": 0,
       "investment": 12000,
@@ -189,6 +217,7 @@
     {
       "date": "2026/02/15",
       "ymd": "20260215",
+      "logic_version": "v12以前",
       "races": 5,
       "hits": 0,
       "investment": 12000,
@@ -200,6 +229,7 @@
     {
       "date": "2026/02/17",
       "ymd": "20260217",
+      "logic_version": "v12以前",
       "races": 5,
       "hits": 0,
       "investment": 12000,
@@ -211,6 +241,7 @@
     {
       "date": "2026/02/18",
       "ymd": "20260218",
+      "logic_version": "v12以前",
       "races": 5,
       "hits": 0,
       "investment": 11000,
@@ -222,6 +253,7 @@
     {
       "date": "2026/02/19",
       "ymd": "20260219",
+      "logic_version": "v12以前",
       "races": 5,
       "hits": 0,
       "investment": 12000,
@@ -233,6 +265,7 @@
     {
       "date": "2026/02/20",
       "ymd": "20260220",
+      "logic_version": "v12以前",
       "races": 5,
       "hits": 0,
       "investment": 12000,
@@ -244,6 +277,7 @@
     {
       "date": "2026/02/21",
       "ymd": "20260221",
+      "logic_version": "v12以前",
       "races": 5,
       "hits": 0,
       "investment": 12000,
@@ -255,6 +289,7 @@
     {
       "date": "2026/02/22",
       "ymd": "20260222",
+      "logic_version": "v12以前",
       "races": 5,
       "hits": 0,
       "investment": 13700,
@@ -266,6 +301,7 @@
     {
       "date": "2026/02/23",
       "ymd": "20260223",
+      "logic_version": "v12以前",
       "races": 5,
       "hits": 0,
       "investment": 8900,
@@ -277,6 +313,7 @@
     {
       "date": "2026/02/25",
       "ymd": "20260225",
+      "logic_version": "v12",
       "races": 5,
       "hits": 3,
       "investment": 11900,
@@ -288,6 +325,7 @@
     {
       "date": "2026/02/26",
       "ymd": "20260226",
+      "logic_version": "v12",
       "races": 5,
       "hits": 1,
       "investment": 11900,
@@ -299,6 +337,7 @@
     {
       "date": "2026/02/27",
       "ymd": "20260227",
+      "logic_version": "v12",
       "races": 36,
       "hits": 16,
       "investment": 86100,
@@ -310,6 +349,7 @@
     {
       "date": "2026/02/28",
       "ymd": "20260228",
+      "logic_version": "v12",
       "races": 32,
       "hits": 5,
       "investment": 162500,
@@ -321,6 +361,7 @@
     {
       "date": "2026/03/01",
       "ymd": "20260301",
+      "logic_version": "v12",
       "races": 34,
       "hits": 10,
       "investment": 174100,
@@ -332,6 +373,7 @@
     {
       "date": "2026/03/02",
       "ymd": "20260302",
+      "logic_version": "v12",
       "races": 31,
       "hits": 13,
       "investment": 55900,
@@ -343,6 +385,7 @@
     {
       "date": "2026/03/03",
       "ymd": "20260303",
+      "logic_version": "v12",
       "races": 18,
       "hits": 0,
       "investment": 36000,
@@ -354,6 +397,7 @@
     {
       "date": "2026/03/04",
       "ymd": "20260304",
+      "logic_version": "v12",
       "races": 5,
       "hits": 0,
       "investment": 9000,
@@ -365,6 +409,7 @@
     {
       "date": "2026/03/05",
       "ymd": "20260305",
+      "logic_version": "v12",
       "races": 2,
       "hits": 1,
       "investment": 3500,
@@ -376,6 +421,7 @@
     {
       "date": "2026/03/06",
       "ymd": "20260306",
+      "logic_version": "v13",
       "races": 0,
       "hits": 0,
       "investment": 0,
@@ -387,6 +433,7 @@
     {
       "date": "2026/03/07",
       "ymd": "20260307",
+      "logic_version": "v13",
       "races": 0,
       "hits": 0,
       "investment": 0,
@@ -398,6 +445,7 @@
     {
       "date": "2026/03/08",
       "ymd": "20260308",
+      "logic_version": "v13.1",
       "races": 4,
       "hits": 1,
       "investment": 4000,
@@ -405,9 +453,81 @@
       "profit": 2530,
       "hit_rate": 25.0,
       "recovery_rate": 163.2
+    },
+    {
+      "date": "2026/03/09",
+      "ymd": "20260309",
+      "logic_version": "v13.1",
+      "races": 3,
+      "hits": 0,
+      "investment": 5000,
+      "return": 0,
+      "profit": -5000,
+      "hit_rate": 0.0,
+      "recovery_rate": 0.0
+    }
+  ],
+  "by_logic_version": [
+    {
+      "logic_version": "v13.1",
+      "period": "2026/03/08 〜 2026/03/09",
+      "active_days": 2,
+      "races": 7,
+      "hits": 1,
+      "hit_rate": 14.3,
+      "investment": 9000,
+      "return": 6530,
+      "profit": -2470,
+      "recovery_rate": 72.6
+    },
+    {
+      "logic_version": "v12以前",
+      "period": "2026/01/25 〜 2026/02/23",
+      "active_days": 24,
+      "races": 65,
+      "hits": 0,
+      "hit_rate": 0.0,
+      "investment": 146100,
+      "return": 0,
+      "profit": -146100,
+      "recovery_rate": 0.0
+    },
+    {
+      "logic_version": "v12",
+      "period": "2026/02/25 〜 2026/03/05",
+      "active_days": 9,
+      "races": 168,
+      "hits": 49,
+      "hit_rate": 29.2,
+      "investment": 550900,
+      "return": 213710,
+      "profit": -337190,
+      "recovery_rate": 38.8
+    },
+    {
+      "logic_version": "v13",
+      "period": "2026/03/06 〜 2026/03/07",
+      "active_days": 2,
+      "races": 0,
+      "hits": 0,
+      "hit_rate": 0,
+      "investment": 0,
+      "return": 0,
+      "profit": 0,
+      "recovery_rate": 0
     }
   ],
   "by_venue": [
+    {
+      "venue": "名古屋",
+      "races": 41,
+      "hits": 13,
+      "hit_rate": 31.7,
+      "investment": 85700,
+      "return": 34320,
+      "profit": -51380,
+      "recovery_rate": 40.0
+    },
     {
       "venue": "小倉",
       "races": 40,
@@ -417,16 +537,6 @@
       "return": 56880,
       "profit": -130820,
       "recovery_rate": 30.3
-    },
-    {
-      "venue": "名古屋",
-      "races": 40,
-      "hits": 13,
-      "hit_rate": 32.5,
-      "investment": 84100,
-      "return": 34320,
-      "profit": -49780,
-      "recovery_rate": 40.8
     },
     {
       "venue": "阪神",
@@ -509,6 +619,16 @@
       "recovery_rate": 0.0
     },
     {
+      "venue": "大井",
+      "races": 4,
+      "hits": 0,
+      "hit_rate": 0.0,
+      "investment": 9000,
+      "return": 0,
+      "profit": -9000,
+      "recovery_rate": 0.0
+    },
+    {
       "venue": "京都",
       "races": 3,
       "hits": 0,
@@ -516,16 +636,6 @@
       "investment": 3600,
       "return": 0,
       "profit": -3600,
-      "recovery_rate": 0.0
-    },
-    {
-      "venue": "大井",
-      "races": 3,
-      "hits": 0,
-      "hit_rate": 0.0,
-      "investment": 7200,
-      "return": 0,
-      "profit": -7200,
       "recovery_rate": 0.0
     },
     {
@@ -537,18 +647,28 @@
       "return": 0,
       "profit": -7200,
       "recovery_rate": 0.0
+    },
+    {
+      "venue": "水沢",
+      "races": 1,
+      "hits": 0,
+      "hit_rate": 0.0,
+      "investment": 1600,
+      "return": 0,
+      "profit": -1600,
+      "recovery_rate": 0.0
     }
   ],
   "by_track": [
     {
       "track": "ダ",
-      "races": 150,
+      "races": 153,
       "hits": 45,
-      "hit_rate": 30.0,
-      "investment": 421400,
+      "hit_rate": 29.4,
+      "investment": 426400,
       "return": 184750,
-      "profit": -236650,
-      "recovery_rate": 43.8
+      "profit": -241650,
+      "recovery_rate": 43.3
     },
     {
       "track": "不明",
@@ -574,55 +694,55 @@
   "by_score_tier": [
     {
       "tier": "?",
-      "races": 237,
+      "races": 240,
       "hits": 50,
-      "hit_rate": 21.1,
-      "investment": 701000,
+      "hit_rate": 20.8,
+      "investment": 706000,
       "return": 220240,
-      "profit": -480760,
-      "recovery_rate": 31.4
+      "profit": -485760,
+      "recovery_rate": 31.2
     }
   ],
   "virtual_bets": [
     {
       "bet_type": "複勝_軸2",
-      "count": 160,
+      "count": 163,
       "hits": 71,
-      "hit_rate": 44.4,
-      "investment": 21400,
+      "hit_rate": 43.6,
+      "investment": 22300,
       "return": 9590,
-      "profit": -11810,
-      "recovery_rate": 44.8
+      "profit": -12710,
+      "recovery_rate": 43.0
     },
     {
       "bet_type": "複勝_軸1",
-      "count": 162,
-      "hits": 60,
+      "count": 165,
+      "hits": 61,
       "hit_rate": 37.0,
-      "investment": 22000,
-      "return": 7730,
-      "profit": -14270,
-      "recovery_rate": 35.1
+      "investment": 22900,
+      "return": 8090,
+      "profit": -14810,
+      "recovery_rate": 35.3
     },
     {
       "bet_type": "馬連_軸1-2",
-      "count": 160,
+      "count": 163,
       "hits": 13,
-      "hit_rate": 8.1,
-      "investment": 26800,
+      "hit_rate": 8.0,
+      "investment": 28300,
       "return": 8320,
-      "profit": -18480,
-      "recovery_rate": 31.0
+      "profit": -19980,
+      "recovery_rate": 29.4
     },
     {
       "bet_type": "ワイド_軸1-2",
-      "count": 160,
+      "count": 163,
       "hits": 23,
-      "hit_rate": 14.4,
-      "investment": 26800,
+      "hit_rate": 14.1,
+      "investment": 28300,
       "return": 6890,
-      "profit": -19910,
-      "recovery_rate": 25.7
+      "profit": -21410,
+      "recovery_rate": 24.3
     }
   ]
 }
