@@ -1852,11 +1852,36 @@
                     </div>
                 `;
                 
-                const url = `https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/latest_results.json?t=${Date.now()}`;
-                const response = await fetch(url, { cache: 'no-cache' });
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                resultsData = await response.json();
-                console.log('Results data:', resultsData);
+                // JST で「昨日」の ymd を計算
+                const jstNow = new Date(Date.now() + 9 * 60 * 60 * 1000);
+                const jstYesterday = new Date(jstNow.getTime() - 24 * 60 * 60 * 1000);
+                const ymd = jstYesterday.toISOString().slice(0, 10).replace(/-/g, '');
+                const BASE_RAW = 'https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/';
+                
+                let loadedData = null;
+                
+                // まず「昨日」の race_results_YYYYMMDD.json を試みる
+                try {
+                    const urlYesterday = `${BASE_RAW}race_results_${ymd}.json?t=${Date.now()}`;
+                    const res = await fetch(urlYesterday, { cache: 'no-cache' });
+                    if (res.ok) {
+                        loadedData = await res.json();
+                        console.log('Loaded yesterday results:', ymd, loadedData);
+                    }
+                } catch (e) {
+                    console.warn('Yesterday results not found, trying latest_results.json', e);
+                }
+                
+                // フォールバック: latest_results.json
+                if (!loadedData) {
+                    const urlLatest = `${BASE_RAW}latest_results.json?t=${Date.now()}`;
+                    const res2 = await fetch(urlLatest, { cache: 'no-cache' });
+                    if (!res2.ok) throw new Error(`HTTP ${res2.status}`);
+                    loadedData = await res2.json();
+                    console.log('Loaded latest results (fallback):', loadedData);
+                }
+                
+                resultsData = loadedData;
                 renderResults(resultsData);
             } catch (error) {
                 console.error('結果データ取得エラー:', error);
@@ -2224,7 +2249,7 @@
                         <div class="betting-method">📝 ${bettingType}</div>
                         <div class="betting-investment">
                             投資額: ¥${investment.toLocaleString()}
-                            <span style="color:#90caf9; font-size:12px; margin-left:8px;">(1点 ¥${newCombos > 0 ? Math.round(investment / newCombos).toLocaleString() : '-'})</span>
+                            <span style="color:#90caf9; font-size:12px; margin-left:8px;">(1点 ¥${newCombos > 0 ? (investment / newCombos).toLocaleString() : '-'})</span>
                         </div>
 
                         <div class="investment-breakdown" id="investment-${race.race_id}">
@@ -2238,7 +2263,7 @@
                             </div>
                             <div class="investment-item">
                                 <span class="investment-label">1点あたり</span>
-                                <span class="investment-value" style="color:#81c784;">¥${newCombos > 0 ? Math.round(investment / newCombos).toLocaleString() : '-'}</span>
+                                <span class="investment-value" style="color:#81c784;">¥${newCombos > 0 ? (investment / newCombos).toLocaleString() : '-'}</span>
                             </div>
                             <div class="investment-item">
                                 <span class="investment-label">合成オッズ</span>
@@ -2619,7 +2644,7 @@
         <span style="color: #ffcc80; font-weight: 600;">💰買い目:</span>
         <strong style="color: #4fc3f7;">${predictedArray.length}点買い</strong>
         <span style="color: #90caf9; font-size: 12px; margin-left:4px;">
-            (1点 ¥${predictedArray.length > 0 ? Math.round(investment / predictedArray.length).toLocaleString() : '-'})
+            (1点 ¥${predictedArray.length > 0 ? (investment / predictedArray.length).toLocaleString() : '-'})
         </span>
         <span style="color: #78909c; font-size: 11px;">（タップで展開）</span>
     </div>
