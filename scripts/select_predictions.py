@@ -668,6 +668,62 @@ def calculate_turbulence(race):
         return "高"
 
 
+
+
+# =============================================
+# 波乱度スコア計算（アプローチA: 穴ボックス発動判定用）
+# =============================================
+def _calculate_upset_score(race, axis_candidates, hole_candidates):
+    """
+    波乱度スコア(0〜100+)を算出し、穴馬ボックス発動の判定に使用する。
+    スコア >= 60 で穴ボックス自動追加が発動。
+
+    採点基準:
+      +30: calculate_turbulence が "高"
+      +10: calculate_turbulence が "中"
+      +20: ダートかつ距離 >= 2000m
+      +25: 軸馬の最高補正後スコア < 55
+      +25: 穴馬の最高補正後スコア > 軸馬の最高補正後スコア
+    """
+    score = 0
+    reasons = []
+
+    # 1. 既存の波乱度
+    turb = calculate_turbulence(race)
+    if turb == "高":
+        score += 30
+        reasons.append("波乱度:高(+30)")
+    elif turb == "中":
+        score += 10
+        reasons.append("波乱度:中(+10)")
+
+    # 2. ダート長距離（2000m以上）
+    race_distance = race.get('距離', 0)
+    track_str = str(race.get('トラック', race.get('track', race.get('track_condition', ''))))
+    try:
+        dist_int = int(str(race_distance).replace('m', '').strip())
+    except (ValueError, TypeError):
+        dist_int = 0
+    if dist_int >= 2000 and 'ダート' in track_str:
+        score += 20
+        reasons.append(f"ダート長距離{dist_int}m(+20)")
+
+    # 3. 軸馬の補正後スコアが低い（55未満）
+    axis_scores = [h.get('補正後スコア', h.get('新スコア', 0)) for h in axis_candidates]
+    axis_max = max(axis_scores) if axis_scores else 0
+    if axis_max < 55:
+        score += 25
+        reasons.append(f"軸スコア低({axis_max:.1f}<55, +25)")
+
+    # 4. 穴馬がスコアで軸を上回る
+    hole_scores = [h.get('補正後スコア', h.get('新スコア', 0)) for h in hole_candidates]
+    hole_max = max(hole_scores) if hole_scores else 0
+    if hole_max > axis_max:
+        score += 25
+        reasons.append(f"穴馬スコア>軸({hole_max:.1f}>{axis_max:.1f}, +25)")
+
+    return score, reasons
+
 # =============================================
 # 旧ロジックの買い目生成 (比較用)
 # =============================================
@@ -1085,7 +1141,49 @@ def generate_betting_plan(race):
     
     # 投資額 = 1点あたり賭け金 × 点数（JRA最低100円/点に対応）
     investment = per_combo_stake * combo_count
-    
+
+    # =============================================
+    # アプローチA: 波乱度高時 穴馬ボックス自動追加
+    # =============================================
+    _UPSET_BOX_THRESHOLD = 60   # 発動閾値 (0〜100+)
+    _UPSET_BOX_MAX_HORSES = 4   # ボックス対象最大頭数 → C(4,3)=4点まで
+
+    upset_score, upset_reasons = _calculate_upset_score(race, axis_candidates, hole_candidates)
+    hole_box_combos = []  # 穴ボックス専用組み合わせリスト
+
+    if upset_score >= _UPSET_BOX_THRESHOLD:
+        # 穴馬候補（断層下のhole_candidates）上位4頭を選定
+        # dark_horses_sorted が利用可能なのでそちらを優先
+        _box_pool = []
+        _seen_box = set()
+        for _h in dark_horses_sorted:
+            _num = _h.get('馬番')
+            if _num and str(_num) not in _seen_box and len(_box_pool) < _UPSET_BOX_MAX_HORSES:
+                _box_pool.append(_h)
+                _seen_box.add(str(_num))
+        # 足りない場合は hole_candidates から補充
+        for _h in hole_candidates:
+            _num = _h.get('馬番')
+            if _num and str(_num) not in _seen_box and len(_box_pool) < _UPSET_BOX_MAX_HORSES:
+                _box_pool.append(_h)
+                _seen_box.add(str(_num))
+
+        if len(_box_pool) >= 3:
+            _box_nums = [_h.get('馬番') for _h in _box_pool if _h.get('馬番')]
+            for _combo in iter_combinations(_box_nums, 3):
+                _nums = tuple(sorted([int(_n) for _n in _combo]))
+                if _nums not in combos_set:      # 既存フォーメーションと重複しない
+                    hole_box_combos.append(_nums)
+                    combos_set.add(_nums)
+
+        # 投資額に穴ボックス分を追加（同一単価）
+        if hole_box_combos:
+            investment += per_combo_stake * len(hole_box_combos)
+            print(f"[穴ボックス] 発動! upset_score={upset_score} / "
+                  f"追加{len(hole_box_combos)}点 / 理由:{upset_reasons}")
+    else:
+        print(f"[穴ボックス] 非発動 upset_score={upset_score} (<{_UPSET_BOX_THRESHOLD})")
+
     # --- ワイド候補 ---
     wide_candidates = check_wide_candidates(horses_with_roles)
     
@@ -1156,15 +1254,22 @@ def generate_betting_plan(race):
             if str(h.get('馬番')) not in {str(x.get('馬番')) for x in col1}
         }.values()),
         "買い目タイプ": "三連複フォーメーション(断層役割ベース・精度改善v3)",
-        "組み合わせ数": combo_count,
+        "組み合わせ数": combo_count + len(hole_box_combos),
         "合成オッズ": core_synthetic_odds,
         "合成オッズ_全体": full_synthetic_odds,
         "合成オッズ_方法": so_method,
         "賭け金調整": stake_reason,
         "全買い目": [
             '-'.join(str(n) for n in combo)
-            for combo in all_combos
+            for combo in (all_combos + hole_box_combos)
         ],
+        "穴ボックス発動": len(hole_box_combos) > 0,
+        "穴ボックス_upset_score": upset_score,
+        "穴ボックス_upset_理由": upset_reasons,
+        "穴ボックス_買い目": [
+            '-'.join(str(n) for n in c) for c in hole_box_combos
+        ],
+        "穴ボックス_追加点数": len(hole_box_combos),
         "ワイド候補": wide_candidates,
         "複勝候補": place_candidates,
         # 旧ロジック比較
@@ -1180,7 +1285,9 @@ def generate_betting_plan(race):
     analysis["軸馬数"] = len(col1)
     analysis["対抗馬数"] = len(col2) - len(col1)
     analysis["穴馬数"] = len(col3)
-    analysis["組み合わせ数_新"] = combo_count
+    analysis["組み合わせ数_新"] = combo_count + len(hole_box_combos)
+    analysis["穴ボックス発動"] = len(hole_box_combos) > 0
+    analysis["穴ボックス_upset_score"] = upset_score
     analysis["組み合わせ数_旧"] = old_logic["旧_組み合わせ数"]
     analysis["投資額削減率"] = round(
         (1 - investment / max(old_logic["旧_投資額"], 1)) * 100, 1
