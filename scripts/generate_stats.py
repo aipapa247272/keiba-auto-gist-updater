@@ -267,6 +267,90 @@ def calculate_statistics(all_data, version_map):
     overall_hit_rate = round((total_hits/total_races*100) if total_races>0 else 0, 1)
     overall_recovery = round((total_return/total_investment*100) if total_investment>0 else 0, 1)
 
+    # ============================================================
+    # A: verification_stats（自動ロジック検証サマリー累積統計）
+    # ============================================================
+    axis_in_top3_total    = 0
+    axis_in_top3_count    = 0
+    score_top1_in_top3_total = 0
+    score_top1_count      = 0
+    rule93_total          = 0.0
+    rule93_count          = 0
+    miss_pattern_dist     = {}
+    upset_count           = 0
+    upset_total           = 0
+    odds_ratio_sum        = 0.0
+    odds_ratio_count      = 0
+    predicted_in_top3_sum = 0
+    total_verify_races    = 0
+
+    for day_data in all_data:
+        for race in day_data.get('races', []):
+            rv = race.get('race_verification', {})
+            if not rv:
+                continue
+            total_verify_races += 1
+
+            # 1. 軸馬3着以内率
+            axis_in_top3_total += 1
+            if rv.get('axis_in_top3', False):
+                axis_in_top3_count += 1
+
+            # 2. 93法則実績
+            rate = rv.get('93rule_pop_in_top3_rate')
+            if rate is not None:
+                rule93_total += float(rate)
+                rule93_count += 1
+
+            # 3. スコアTop1 3着以内率
+            if rv.get('score_top1_rank') is not None:
+                score_top1_count += 1
+                if rv.get('score_top1_in_top3', False):
+                    score_top1_in_top3_total += 1
+
+            # 4. 外れパターン分布
+            mp = rv.get('miss_pattern', '不明')
+            miss_pattern_dist[mp] = miss_pattern_dist.get(mp, 0) + 1
+
+            # 5. 荒れ度
+            upset_total += 1
+            if rv.get('is_upset', False):
+                upset_count += 1
+
+            # 6. 合成オッズ精度
+            ratio = rv.get('odds_ratio')
+            if ratio is not None:
+                odds_ratio_sum  += ratio
+                odds_ratio_count += 1
+
+            # 7. 上位3着内の予測馬数（平均）
+            predicted_in_top3_sum += rv.get('predicted_in_top3_count', 0)
+
+    verification_stats = {
+        'total_verify_races': total_verify_races,
+        'axis_in_top3_rate': round(
+            axis_in_top3_count / axis_in_top3_total * 100, 1
+        ) if axis_in_top3_total > 0 else 0.0,
+        'score_top1_in_top3_rate': round(
+            score_top1_in_top3_total / score_top1_count * 100, 1
+        ) if score_top1_count > 0 else 0.0,
+        '93rule_avg_rate': round(
+            rule93_total / rule93_count, 1
+        ) if rule93_count > 0 else 0.0,
+        'miss_pattern_distribution': miss_pattern_dist,
+        'upset_rate': round(
+            upset_count / upset_total * 100, 1
+        ) if upset_total > 0 else 0.0,
+        'avg_odds_ratio': round(
+            odds_ratio_sum / odds_ratio_count, 3
+        ) if odds_ratio_count > 0 else None,
+        'avg_predicted_in_top3': round(
+            predicted_in_top3_sum / total_verify_races, 2
+        ) if total_verify_races > 0 else 0.0,
+        # 参考値: ideal は axis_in_top3 > 50%, score_top1 > 40%, 93rule > 70%
+        'note': 'axis_in_top3 > 50%, score_top1_in_top3 > 40%, 93rule_avg > 70% が精度改善の目安'
+    }
+
     return {
         'generated_at': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
         'overall': {
@@ -284,7 +368,8 @@ def calculate_statistics(all_data, version_map):
         'by_venue':             make_list(venue_stats, 'venue'),
         'by_track':             make_list(track_stats, 'track'),
         'by_score_tier':        make_list(tier_stats, 'tier'),
-        'virtual_bets':         vb_list
+        'virtual_bets':         vb_list,
+        'verification_stats':   verification_stats  # A: 自動ロジック検証サマリー累積統計
     }
 
 
