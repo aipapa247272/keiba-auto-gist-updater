@@ -7,6 +7,85 @@ from datetime import datetime
 import time
 from itertools import combinations as iter_combinations
 
+
+# ============================================================
+# A: 自動ロジック検証サマリー（race_verification）計算関数
+# ============================================================
+def calculate_race_verification(all_horses_result, betting_plan, synthetic_odds, payout_sanrenpuku, hit):
+    """
+    レース単位の検証データを計算。
+    予測精度向上のための7指標を算出し race_verification として race_results に追加する。
+    """
+    verification = {}
+
+    # 1. 軸馬の着順 (axis_best_rank / axis_in_top3)
+    axis_horses = betting_plan.get('軸', [])
+    axis_numbers = [str(h.get('馬番', '')).strip() for h in axis_horses]
+    axis_ranks = [h['着順'] for h in all_horses_result if str(h.get('馬番', '')).strip() in axis_numbers]
+    verification['axis_best_rank'] = min(axis_ranks) if axis_ranks else None
+    verification['axis_in_top3'] = any(r <= 3 for r in axis_ranks)
+
+    # 2. 93法則実績 (1〜3人気が3着以内に何頭入ったか)
+    top3_pop_horses = [h for h in all_horses_result
+                       if h.get('人気') is not None and int(h['人気']) <= 3]
+    top3_pop_in_3   = [h for h in top3_pop_horses if h['着順'] <= 3]
+    verification['93rule_pop_in_top3_count'] = len(top3_pop_in_3)
+    verification['93rule_pop_in_top3_rate']  = round(
+        len(top3_pop_in_3) / len(top3_pop_horses) * 100, 1
+    ) if top3_pop_horses else 0.0
+
+    # 3. スコアTop1/Top2の着順
+    scored_horses  = [h for h in all_horses_result if h.get('DASスコア') is not None]
+    scored_sorted  = sorted(scored_horses, key=lambda h: h['DASスコア'], reverse=True)
+    verification['score_top1_rank'] = scored_sorted[0]['着順'] if len(scored_sorted) >= 1 else None
+    verification['score_top2_rank'] = scored_sorted[1]['着順'] if len(scored_sorted) >= 2 else None
+    verification['score_top1_in_top3'] = (
+        verification['score_top1_rank'] is not None and verification['score_top1_rank'] <= 3
+    )
+
+    # 4. 外れパターン分類
+    top3_horses = [h for h in all_horses_result if h.get('着順', 99) <= 3]
+    top3_roles  = [h.get('役割', '予測外') for h in top3_horses]
+    predicted_in_top3   = sum(1 for r in top3_roles if r in ('軸', '相手'))
+    unpredicted_in_top3 = sum(1 for r in top3_roles if r == '予測外')
+    verification['predicted_in_top3_count']   = predicted_in_top3
+    verification['unpredicted_in_top3_count'] = unpredicted_in_top3
+
+    if hit:
+        miss_pattern = '的中'
+    elif not verification['axis_in_top3']:
+        miss_pattern = '軸外れ'
+    elif unpredicted_in_top3 >= 1:
+        miss_pattern = '穴台頭'
+    else:
+        miss_pattern = '相手外れ'
+    verification['miss_pattern'] = miss_pattern
+
+    # 5. 1着馬の人気 / 荒れ度
+    first_horse = next((h for h in all_horses_result if h.get('着順') == 1), None)
+    winner_pop  = first_horse.get('人気') if first_horse else None
+    verification['winner_popularity'] = winner_pop
+    verification['is_upset'] = bool(winner_pop and int(winner_pop) >= 5)
+
+    # 6. 合成オッズ精度 (予測オッズ vs 実際配当の比率)
+    verification['predicted_synthetic_odds'] = synthetic_odds
+    verification['actual_payout']  = payout_sanrenpuku
+    if synthetic_odds and payout_sanrenpuku:
+        actual_odds = payout_sanrenpuku / 100.0
+        verification['odds_ratio'] = round(actual_odds / synthetic_odds, 3)
+        # >1.0: 予測より高配当（アンダードッグ的中） <1.0: 予測より低配当（オーバーバリュー）
+    else:
+        verification['odds_ratio'] = None
+
+    # 7. 相手馬スコア帯別の入着確認
+    opponent_horses = betting_plan.get('相手', [])
+    opp_numbers = [str(h.get('馬番', '')).strip() for h in opponent_horses]
+    opp_in_top3 = [h for h in all_horses_result
+                   if str(h.get('馬番', '')).strip() in opp_numbers and h['着順'] <= 3]
+    verification['opponent_in_top3_count'] = len(opp_in_top3)
+
+    return verification
+
 def fetch_race_results(ymd):
     """
     指定日付のレース結果を取得
@@ -177,6 +256,7 @@ def fetch_race_results(ymd):
                 'payouts': {},
                 'horse_weights': [],
                 'all_horses_result': [],   # Phase1
+                'race_verification': {},    # A: 自動ロジック検証サマリー（取得失敗時は空）
                 'virtual_bets_result': {},  # テスト用仮想買い目
                 'weather': '',
                 'track_condition': ''
@@ -343,6 +423,16 @@ def fetch_race_results(ymd):
                 print(f"  ❌ 不的中")
         
         profit = return_amount - investment
+
+        # A: 自動ロジック検証サマリーを計算
+        race_synthetic_odds = betting_plan.get('合成オッズ', 0) or 0
+        race_verification = calculate_race_verification(
+            all_horses_result=all_horses_result,
+            betting_plan=betting_plan,
+            synthetic_odds=race_synthetic_odds,
+            payout_sanrenpuku=sanrenpuku_payout,
+            hit=hit
+        )
         
         results.append({
             'race_id': race_id,
@@ -366,6 +456,7 @@ def fetch_race_results(ymd):
             'payouts': race_result.get('payouts', {}),
             'horse_weights': race_result.get('horse_weights', []),
             'all_horses_result': all_horses_result,   # Phase1
+            'race_verification': race_verification,       # A: 自動ロジック検証サマリー
             'virtual_bets_result': virtual_bets_result,  # テスト用仮想買い目
             'weather': race_result.get('weather', ''),
             'track_condition': race_result.get('track_condition', '')
@@ -546,12 +637,21 @@ def fetch_single_race_result(race_id, ymd):
                         popularity = t
                         break
             
+            # Phase1: 馬体重を全馬ループ内で取得
+            horse_weight_text = ''
+            for col in cols[-5:]:
+                wt = col.get_text(strip=True)
+                if '(' in wt and ')' in wt and any(c.isdigit() for c in wt):
+                    horse_weight_text = wt
+                    break
+
             if horse_num and horse_num.isdigit():
                 all_horses_data.append({
                     '馬番': horse_num,
                     '着順': int(rank_text),
                     '人気': int(popularity) if popularity.isdigit() else None,
                     '馬名': horse_name,
+                    '馬体重': horse_weight_text,  # Phase1: 全馬体重蓄積
                     'DASスコア': None   # メインループで照合して設定
                 })
         # ─────────────────────────────────────────────────────
