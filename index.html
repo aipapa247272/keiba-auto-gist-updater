@@ -672,6 +672,41 @@
             font-weight: 600;
         }
 
+        /* 穴ボックスバナー (アプローチA) */
+        .upset-box-banner {
+            background: linear-gradient(135deg, #1a0a2e 0%, #2d1b4e 100%);
+            border: 1px solid #9c27b0;
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin: 8px 0;
+            font-size: 12px;
+        }
+        .upset-box-banner .banner-title {
+            color: #ce93d8;
+            font-weight: bold;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+        .upset-box-banner .upset-combo {
+            display: inline-block;
+            background: rgba(156,39,176,0.25);
+            border: 1px solid #9c27b0;
+            border-radius: 4px;
+            padding: 2px 8px;
+            margin: 2px;
+            color: #e1bee7;
+            font-size: 11px;
+            font-family: monospace;
+        }
+        .upset-box-banner .upset-score-badge {
+            display: inline-block;
+            background: #9c27b0;
+            color: #fff;
+            border-radius: 10px;
+            padding: 1px 8px;
+            font-size: 10px;
+            margin-left: 6px;
+        }
         /* 合成オッズバッジ */
         .synthetic-odds-badge {
             display: inline-block;
@@ -2255,6 +2290,11 @@
                 const newCombos       = race.betting_plan?.組み合わせ数 || 0;
                 const stakeReason     = race.betting_plan?.賭け金調整 || '';
                 const allCombos       = race.betting_plan?.全買い目 || [];
+                // アプローチA: 穴ボックスデータ
+                const upsetBoxActive  = race.betting_plan?.穴ボックス発動 || false;
+                const upsetBoxCombos  = race.betting_plan?.穴ボックス_買い目 || [];
+                const upsetBoxScore   = race.betting_plan?.穴ボックス_upset_score || 0;
+                const upsetBoxReasons = race.betting_plan?.穴ボックス_upset_理由 || [];
                 const rivalHorses     = race.betting_plan?.対抗 || [];
                 const holeHorses      = race.betting_plan?.穴 || [];
                 const wideCandidates  = race.betting_plan?.ワイド候補 || [];
@@ -2385,6 +2425,27 @@
                         html += `<div class="combination">${num}番</div>`;
                     });
                     html += `</div></div>`;
+                }
+
+                // ===== アプローチA: 穴ボックスバナー =====
+                if (upsetBoxActive && upsetBoxCombos.length > 0) {
+                    const reasonStr = upsetBoxReasons.join(' / ') || '';
+                    html += `<div class="upset-box-banner">
+                        <div class="banner-title">
+                            🎯 穴ボックス発動
+                            <span class="upset-score-badge">波乱スコア: ${upsetBoxScore}</span>
+                        </div>
+                        <div style="color:#b0bec5;font-size:11px;margin-bottom:6px;">${reasonStr}</div>
+                        <div style="color:#ce93d8;font-size:11px;margin-bottom:4px;">⚠️ 軸不要の穴馬ボックス買い目 (${upsetBoxCombos.length}点)</div>
+                        <div>`;
+                    upsetBoxCombos.forEach(c => {
+                        html += `<span class="upset-combo">${c}</span>`;
+                    });
+                    html += `</div>
+                        <div style="color:#7b8da6;font-size:10px;margin-top:6px;">
+                            ※ 通常フォーメーションに加えて上記ボックスを購入済
+                        </div>
+                    </div>`;
                 }
 
                 // 全買い目 (先頭8点表示 + 「全て表示」ボタン)
