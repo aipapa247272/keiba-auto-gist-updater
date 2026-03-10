@@ -1107,6 +1107,34 @@
     border-bottom: 1px solid rgba(255,255,255,0.05);
 }
     
+
+        /* ========== verification_stats ダッシュボード ========== */
+        .vstat-dashboard { background: rgba(26,39,68,0.95); border-radius: 12px; padding: 14px; margin-bottom: 12px; border: 1px solid rgba(79,195,247,0.15); }
+        .vstat-title { font-size: 14px; font-weight: 700; color: #4fc3f7; margin-bottom: 12px; }
+        /* アラートバナー */
+        .vstat-alert { display:flex; align-items:flex-start; gap:8px; background: rgba(255,152,0,0.12); border:1px solid rgba(255,152,0,0.35); border-radius:8px; padding:10px 12px; margin-bottom:10px; font-size:12px; }
+        .vstat-alert-icon { font-size:16px; flex-shrink:0; }
+        .vstat-alert-text { color:#ffcc80; line-height:1.5; }
+        .vstat-alert-action { color:#ffa726; font-weight:700; }
+        /* ゲージ行 */
+        .vstat-gauge-row { display:flex; align-items:center; gap:8px; margin-bottom:9px; }
+        .vstat-gauge-label { font-size:11px; color:#b0c4de; width:130px; flex-shrink:0; }
+        .vstat-gauge-track { flex:1; height:10px; background:rgba(255,255,255,0.07); border-radius:5px; overflow:hidden; position:relative; }
+        .vstat-gauge-fill  { height:100%; border-radius:5px; transition:width 0.6s ease; }
+        .vstat-gauge-value { font-size:11px; font-weight:700; width:44px; text-align:right; flex-shrink:0; }
+        .vstat-gauge-target{ font-size:9px; color:#546e7a; width:48px; flex-shrink:0; }
+        /* ドーナツ */
+        .vstat-donut-wrap { display:flex; align-items:center; gap:16px; }
+        .vstat-donut-legend { display:flex; flex-direction:column; gap:6px; }
+        .vstat-donut-legend-item { display:flex; align-items:center; gap:6px; font-size:11px; color:#b0c4de; }
+        .vstat-donut-legend-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+        /* オッズ精度バー */
+        .vstat-odds-row { display:flex; align-items:center; gap:8px; margin-bottom:7px; }
+        .vstat-odds-label { font-size:11px; color:#b0c4de; width:70px; flex-shrink:0; }
+        .vstat-odds-bar-wrap { flex:1; height:9px; background:rgba(255,255,255,0.07); border-radius:4px; overflow:hidden; }
+        .vstat-odds-bar { height:100%; border-radius:4px; }
+        .vstat-odds-count { font-size:10px; color:#78909c; width:30px; text-align:right; }
+
         /* ========== Phase1: 2段階表示スタイル ========== */
         .rank-badge {
             display: inline-block;
@@ -1425,7 +1453,49 @@
                 </div>
             </div>
 
+
+            <!-- ===== verification_stats ダッシュボード ===== -->
+            <!-- 提案①アラート + ②ゲージ + ③ドーナツ + ④オッズ精度 -->
+            <div id="vstat-section" style="display:none;">
+
+                <!-- 提案④: 精度改善アラートバナー（閾値割れ時に自動表示） -->
+                <div id="vstat-alerts"></div>
+
+                <!-- 提案①②: ロジック健全性ゲージ -->
+                <div class="vstat-dashboard">
+                    <div class="vstat-title">🎯 ロジック健全性スコア</div>
+                    <div id="vstat-gauges"></div>
+                    <div style="font-size:10px;color:#546e7a;margin-top:8px;">
+                        ※ データ蓄積が進むほど精度が向上します（現在 <span id="vstat-race-count">0</span> レース分）
+                    </div>
+                </div>
+
+                <!-- 提案③: 外れパターン分布（ドーナツグラフ） -->
+                <div class="vstat-dashboard">
+                    <div class="vstat-title">📉 外れパターン分布</div>
+                    <div class="vstat-donut-wrap">
+                        <svg id="vstat-donut" width="110" height="110" viewBox="0 0 110 110" style="flex-shrink:0;"></svg>
+                        <div id="vstat-donut-legend" class="vstat-donut-legend"></div>
+                    </div>
+                    <div style="font-size:10px;color:#546e7a;margin-top:10px;">
+                        「軸外れ」が多い場合 → 軸選定ロジック見直し推奨
+                    </div>
+                </div>
+
+                <!-- 提案③: 合成オッズ精度分布（横棒グラフ） -->
+                <div class="vstat-dashboard">
+                    <div class="vstat-title">📊 合成オッズ精度（予測vs実際の配当比率）</div>
+                    <div id="vstat-odds-bars"></div>
+                    <div style="font-size:10px;color:#546e7a;margin-top:6px;">
+                        odds_ratio: 実際配当÷予測合成オッズ。1.0=予測通り　＞1.0=予測より高配当　＜1.0=予測より低配当
+                    </div>
+                </div>
+
+            </div>
+            <!-- ===== /verification_stats ===== -->
+
             <!-- Phase2: 週次ROI棒グラフ -->
+
             <div id="weekly-roi-chart" class="roi-chart-wrap" style="display:none; margin-bottom:12px;"></div>
 
             <!-- Phase2: 的中ハイライト -->
@@ -2986,6 +3056,9 @@
                 // ── Phase2: 的中ハイライト ──
                 renderHitHighlights();
 
+                // ── verification_stats ダッシュボード ──
+                renderVerificationStats(_statsData);
+
             } catch (error) {
                 console.error('統計データ取得エラー:', error);
             }
@@ -3141,6 +3214,201 @@
                         <td style="padding: 8px; text-align: center;">${t.recovery_rate}%</td>
                     `;
                 });
+            }
+        }
+
+
+        // ============================================================
+        // verification_stats ダッシュボード描画
+        // ============================================================
+        function renderVerificationStats(data) {
+            const vs = data.verification_stats;
+            if (!vs || vs.total_verify_races === 0) {
+                // データ未蓄積時はセクション非表示
+                const sec = document.getElementById('vstat-section');
+                if (sec) sec.style.display = 'none';
+                return;
+            }
+
+            const sec = document.getElementById('vstat-section');
+            if (sec) sec.style.display = 'block';
+
+            // レース数更新
+            const rcEl = document.getElementById('vstat-race-count');
+            if (rcEl) rcEl.textContent = vs.total_verify_races;
+
+            // ──────────────────────────────────────────────
+            // 提案④: 精度改善アラートバナー
+            // ──────────────────────────────────────────────
+            const alerts = [];
+            const THRESHOLDS = {
+                axis_in_top3_rate:      { min: 50,  label: '軸馬3着以内率',      action: '軸選定条件の見直しを推奨します' },
+                score_top1_in_top3_rate:{ min: 40,  label: 'スコアTop1 3着以内率', action: 'DASスコアの重み付け見直しを推奨します' },
+                '93rule_avg_rate':      { min: 70,  label: '93法則実測率',        action: '人気馬フィルターの条件確認を推奨します' }
+            };
+            Object.entries(THRESHOLDS).forEach(([key, cfg]) => {
+                const val = vs[key];
+                if (val !== undefined && val < cfg.min) {
+                    alerts.push({ label: cfg.label, val, min: cfg.min, action: cfg.action });
+                }
+            });
+
+            const alertsEl = document.getElementById('vstat-alerts');
+            if (alertsEl) {
+                if (alerts.length === 0) {
+                    alertsEl.innerHTML = `
+                        <div class="vstat-alert" style="background:rgba(76,175,80,0.1);border-color:rgba(76,175,80,0.35);margin-bottom:10px;">
+                            <span class="vstat-alert-icon">✅</span>
+                            <div class="vstat-alert-text" style="color:#a5d6a7;">全指標が目安値をクリアしています。ロジックは正常に機能しています。</div>
+                        </div>`;
+                } else {
+                    alertsEl.innerHTML = alerts.map(a => `
+                        <div class="vstat-alert">
+                            <span class="vstat-alert-icon">⚠️</span>
+                            <div class="vstat-alert-text">
+                                <span style="font-weight:700;">${a.label}</span> が ${a.val}% です（目安: ${a.min}%以上）<br>
+                                <span class="vstat-alert-action">→ ${a.action}</span>
+                            </div>
+                        </div>`).join('');
+                }
+            }
+
+            // ──────────────────────────────────────────────
+            // 提案①②: ロジック健全性ゲージ
+            // ──────────────────────────────────────────────
+            const gauges = [
+                { label: '軸馬 3着以内率',        key: 'axis_in_top3_rate',       target: 50,  unit: '%' },
+                { label: 'スコアTop1 3着以内',    key: 'score_top1_in_top3_rate', target: 40,  unit: '%' },
+                { label: '93法則 実測率',          key: '93rule_avg_rate',         target: 70,  unit: '%' },
+                { label: '荒れ発生率',             key: 'upset_rate',              target: null, unit: '%' },
+                { label: '予測馬 平均上位入着',    key: 'avg_predicted_in_top3',   target: 1.5, unit: '頭' }
+            ];
+
+            const gaugesEl = document.getElementById('vstat-gauges');
+            if (gaugesEl) {
+                gaugesEl.innerHTML = gauges.map(g => {
+                    const val = vs[g.key];
+                    if (val === undefined || val === null) return '';
+                    const displayVal = g.unit === '頭' ? val.toFixed(1) : val;
+                    const maxBar = g.unit === '頭' ? 3 : 100;
+                    const pct = Math.min(100, Math.round((val / maxBar) * 100));
+
+                    let color, statusIcon;
+                    if (g.target === null) {
+                        color = '#78909c'; statusIcon = '';
+                    } else if (val >= g.target) {
+                        color = '#4caf50'; statusIcon = ' 🟢';
+                    } else if (val >= g.target * 0.75) {
+                        color = '#ffc107'; statusIcon = ' 🟡';
+                    } else {
+                        color = '#f44336'; statusIcon = ' 🔴';
+                    }
+                    const targetStr = g.target ? `目安>${g.target}${g.unit}` : '参考値';
+
+                    return `
+                        <div class="vstat-gauge-row">
+                            <div class="vstat-gauge-label">${g.label}${statusIcon}</div>
+                            <div class="vstat-gauge-track">
+                                <div class="vstat-gauge-fill" style="width:${pct}%;background:${color};"></div>
+                            </div>
+                            <div class="vstat-gauge-value" style="color:${color};">${displayVal}${g.unit}</div>
+                            <div class="vstat-gauge-target">${targetStr}</div>
+                        </div>`;
+                }).join('');
+            }
+
+            // ──────────────────────────────────────────────
+            // 提案③: 外れパターン ドーナツグラフ (SVG)
+            // ──────────────────────────────────────────────
+            const MISS_COLORS = {
+                '的中':   '#4caf50',
+                '軸外れ': '#f44336',
+                '穴台頭': '#ff9800',
+                '相手外れ':'#2196f3',
+                '不明':   '#546e7a'
+            };
+            const dist = vs.miss_pattern_distribution || {};
+            const distEntries = Object.entries(dist).sort((a,b) => b[1]-a[1]);
+            const total = distEntries.reduce((s,[,v]) => s+v, 0);
+
+            const donutSvg = document.getElementById('vstat-donut');
+            const donutLegend = document.getElementById('vstat-donut-legend');
+            if (donutSvg && donutLegend && total > 0) {
+                const cx = 55, cy = 55, R = 42, r = 26;
+                let paths = '', startAngle = -Math.PI / 2;
+
+                distEntries.forEach(([label, count]) => {
+                    const angle = (count / total) * 2 * Math.PI;
+                    const endAngle = startAngle + angle;
+                    const x1 = cx + R * Math.cos(startAngle);
+                    const y1 = cy + R * Math.sin(startAngle);
+                    const x2 = cx + R * Math.cos(endAngle);
+                    const y2 = cy + R * Math.sin(endAngle);
+                    const ix1 = cx + r * Math.cos(startAngle);
+                    const iy1 = cy + r * Math.sin(startAngle);
+                    const ix2 = cx + r * Math.cos(endAngle);
+                    const iy2 = cy + r * Math.sin(endAngle);
+                    const largeArc = angle > Math.PI ? 1 : 0;
+                    const color = MISS_COLORS[label] || '#78909c';
+                    paths += `<path d="M${x1.toFixed(1)},${y1.toFixed(1)} A${R},${R} 0 ${largeArc},1 ${x2.toFixed(1)},${y2.toFixed(1)} L${ix2.toFixed(1)},${iy2.toFixed(1)} A${r},${r} 0 ${largeArc},0 ${ix1.toFixed(1)},${iy1.toFixed(1)} Z" fill="${color}" opacity="0.85"/>`;
+                    startAngle = endAngle;
+                });
+
+                donutSvg.innerHTML = paths + `<circle cx="${cx}" cy="${cy}" r="${r-2}" fill="rgba(15,22,41,0.95)"/>`;
+
+                donutLegend.innerHTML = distEntries.map(([label, count]) => {
+                    const pct = Math.round(count / total * 100);
+                    const color = MISS_COLORS[label] || '#78909c';
+                    return `<div class="vstat-donut-legend-item">
+                        <div class="vstat-donut-legend-dot" style="background:${color};"></div>
+                        <span>${label}　${pct}%（${count}件）</span>
+                    </div>`;
+                }).join('');
+            } else if (donutLegend) {
+                donutLegend.innerHTML = '<div style="color:#546e7a;font-size:11px;">データ蓄積中...</div>';
+            }
+
+            // ──────────────────────────────────────────────
+            // 提案③: 合成オッズ精度 横棒グラフ
+            // ──────────────────────────────────────────────
+            const avgRatio = vs.avg_odds_ratio;
+            const oddsBarsEl = document.getElementById('vstat-odds-bars');
+            if (oddsBarsEl) {
+                if (avgRatio === null || avgRatio === undefined) {
+                    oddsBarsEl.innerHTML = '<div style="color:#546e7a;font-size:11px;">データ蓄積中（的中レースが必要）...</div>';
+                } else {
+                    // 帯域別の表現
+                    const bands = [
+                        { label: '＜0.5 (低配当)', min: 0,   max: 0.5,  color: '#f44336' },
+                        { label: '0.5〜1.0',        min: 0.5, max: 1.0,  color: '#ff9800' },
+                        { label: '1.0〜2.0 (適正)',  min: 1.0, max: 2.0,  color: '#4caf50' },
+                        { label: '＞2.0 (高配当)',  min: 2.0, max: 99,   color: '#2196f3' }
+                    ];
+                    // avgRatioがどの帯に入るか強調
+                    let barsHtml = `
+                        <div style="margin-bottom:10px;padding:10px;background:rgba(255,255,255,0.04);border-radius:8px;text-align:center;">
+                            <div style="font-size:11px;color:#90a4ae;margin-bottom:4px;">平均 odds_ratio</div>
+                            <div style="font-size:22px;font-weight:700;color:${avgRatio >= 1.0 ? '#4caf50' : avgRatio >= 0.5 ? '#ffc107' : '#f44336'};">
+                                ${avgRatio.toFixed(2)}
+                            </div>
+                            <div style="font-size:10px;color:#546e7a;margin-top:4px;">
+                                ${avgRatio >= 1.0 ? '✅ 合成オッズは概ね適正です' : avgRatio >= 0.5 ? '🟡 やや楽観的な設定です' : '🔴 合成オッズ設定が楽観的すぎます'}
+                            </div>
+                        </div>`;
+
+                    bands.forEach(b => {
+                        const inBand = avgRatio >= b.min && avgRatio < b.max;
+                        barsHtml += `
+                            <div class="vstat-odds-row">
+                                <div class="vstat-odds-label" style="color:${inBand ? b.color : '#78909c'};font-weight:${inBand?'700':'400'};">${b.label}</div>
+                                <div class="vstat-odds-bar-wrap">
+                                    <div class="vstat-odds-bar" style="width:${inBand ? '100' : '0'}%;background:${b.color};"></div>
+                                </div>
+                                <div class="vstat-odds-count" style="color:${inBand ? b.color : '#546e7a'}">${inBand ? '◀ 現在' : ''}</div>
+                            </div>`;
+                    });
+                    oddsBarsEl.innerHTML = barsHtml;
+                }
             }
         }
 
