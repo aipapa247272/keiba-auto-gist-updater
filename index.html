@@ -707,6 +707,41 @@
             font-size: 10px;
             margin-left: 6px;
         }
+        /* 相手ボックスバナー (v14.0) */
+        .rival-box-banner {
+            background: linear-gradient(135deg, #0a1f0e 0%, #1b3a20 100%);
+            border: 1px solid #2e7d32;
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin: 8px 0;
+            font-size: 12px;
+        }
+        .rival-box-banner .banner-title {
+            color: #81c784;
+            font-weight: bold;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+        .rival-box-banner .rival-combo {
+            display: inline-block;
+            background: rgba(46,125,50,0.25);
+            border: 1px solid #2e7d32;
+            border-radius: 4px;
+            padding: 2px 8px;
+            margin: 2px;
+            color: #c8e6c9;
+            font-size: 11px;
+            font-family: monospace;
+        }
+        .rival-box-banner .rival-count-badge {
+            display: inline-block;
+            background: #2e7d32;
+            color: #fff;
+            border-radius: 10px;
+            padding: 1px 8px;
+            font-size: 10px;
+            margin-left: 6px;
+        }
         /* 合成オッズバッジ */
         .synthetic-odds-badge {
             display: inline-block;
@@ -2292,6 +2327,10 @@
                 const allCombos       = race.betting_plan?.全買い目 || [];
                 // アプローチA: 穴ボックスデータ
                 const upsetBoxActive  = race.betting_plan?.穴ボックス発動 || false;
+                // v14.0: 相手ボックスデータ
+                const rivalBoxCombos  = race.betting_plan?.相手ボックス_買い目 || [];
+                const rivalBoxCount   = race.betting_plan?.相手ボックス_追加点数 || 0;
+
                 const upsetBoxCombos  = race.betting_plan?.穴ボックス_買い目 || [];
                 const upsetBoxScore   = race.betting_plan?.穴ボックス_upset_score || 0;
                 const upsetBoxReasons = race.betting_plan?.穴ボックス_upset_理由 || [];
@@ -2425,6 +2464,25 @@
                         html += `<div class="combination">${num}番</div>`;
                     });
                     html += `</div></div>`;
+                }
+
+                // ===== v14.0: 相手ボックスバナー =====
+                if (rivalBoxCombos.length > 0) {
+                    html += `<div class="rival-box-banner">
+                        <div class="banner-title">
+                            🟢 相手ボックス
+                            <span class="rival-count-badge">${rivalBoxCombos.length}点追加</span>
+                        </div>
+                        <div style="color:#a5d6a7;font-size:11px;margin-bottom:4px;">軸が外れても相手3頭が来れば的中（v14.0 常時追加）</div>
+                        <div>`;
+                    rivalBoxCombos.forEach(c => {
+                        html += `<span class="rival-combo">${c}</span>`;
+                    });
+                    html += `</div>
+                        <div style="color:#7b8da6;font-size:10px;margin-top:6px;">
+                            ※ フォーメーション買い目に加えて上記ボックスを購入
+                        </div>
+                    </div>`;
                 }
 
                 // ===== アプローチA: 穴ボックスバナー =====
