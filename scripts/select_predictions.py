@@ -918,6 +918,18 @@ def generate_betting_plan(race):
     # 軸が1頭しかいない場合、rival/93法則候補からスコア最高の馬を軸に昇格
     # 理由: 軸1頭は的中率が著しく低い（1点でも外れると全滅）
     # =============================================
+    # ★93%法則v2: 人気1-3を全員col2に強制追加（統計的に93%が3着以内）
+    # 但し、危険フラグあり馬は除外、既にcol1/col2にある馬は重複しない
+    # Bug Fix (v14.0): top3_pop_horsesをcol1強制2頭化より前に定義（UnboundLocalError修正）
+    top3_pop_horses = sorted(
+        [h for h in horses_with_roles if h.get('人気') and int(h.get('人気', 99)) <= 3
+         and not h.get('危険フラグ')],
+        key=lambda h: h.get('補正後スコア', 0), reverse=True
+    )
+
+    # =============================================
+    # 改善①(v14.0): 軸1頭時の強制2頭化
+    # =============================================
     if len(col1) < 2:
         # rival_candidates + 人気1-3からスコア最高の馬を軸に昇格
         _upgrade_pool = sorted(
@@ -925,7 +937,6 @@ def generate_betting_plan(race):
              if str(h.get('馬番')) not in col1_nums_set and h.get('馬番')],
             key=lambda h: h.get('補正後スコア', 0), reverse=True
         )
-        # top3_pop_horsesはまだ定義されていないので rival_candidates から補充
         if not _upgrade_pool:
             _upgrade_pool = sorted(
                 [h for h in horses_with_roles
@@ -940,17 +951,10 @@ def generate_betting_plan(race):
                   f"(スコア:{_promoted.get('補正後スコア',0):.1f})")
     
     # --- 2列目 (col2): 4頭 = col1(2頭) + ▲2頭 ---
-    # col1の◎○を必ず含め、対抗馬▲2頭を追加
     col2_set = set(col1_nums_set)  # str型で統一
-    col2 = list(col1)  # ◎○を先頭に含める（重要: 必ず含める）
-    
-    # ★93%法則v2: 人気1-3を全員col2に強制追加（統計的に93%が3着以内）
-    # 但し、危険フラグあり馬は除外、既にcol1/col2にある馬は重複しない
-    top3_pop_horses = sorted(
-        [h for h in horses_with_roles if h.get('人気') and int(h.get('人気', 99)) <= 3
-         and not h.get('危険フラグ')],
-        key=lambda h: h.get('補正後スコア', 0), reverse=True
-    )
+    col2 = list(col1)  # ◎○を先頭に含める
+
+    # col2 に 93%法則: top3_pop_horses を強制追加
     for forced_horse in top3_pop_horses:
         # Bug Fix ②: 馬番をstr型に統一して重複チェック
         fnum = str(forced_horse.get('馬番')) if forced_horse.get('馬番') is not None else None
