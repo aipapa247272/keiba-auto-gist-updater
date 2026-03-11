@@ -1604,7 +1604,7 @@ def main():
         
         output_data = {
             "ymd": ymd,
-            "logic_version": "v13.1_断層・合成オッズ対応・精度改善v3・低ROIフィルタ",
+            "logic_version": "v14.0_軸2頭化・相手ボックス・穴ボックス・断層・合成オッズ",
             "generated_at": datetime.now(timezone(timedelta(hours=9))).strftime(
                 "%Y-%m-%d %H:%M:%S (JST)"
             ),
