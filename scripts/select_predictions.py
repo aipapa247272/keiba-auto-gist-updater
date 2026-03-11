@@ -1,3 +1,4 @@
+# ロジックバージョン: v14.0 (2026-03-11: 軸2頭化+相手ボックス追加)
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
@@ -911,6 +912,32 @@ def generate_betting_plan(race):
     col1 = axis_candidates[:3] if _take3 else axis_candidates[:2]
     # Bug Fix ②: 馬番をstr型に統一（int/strの型混在による重複除外漏れを防ぐ）
     col1_nums_set = {str(h.get('馬番')) for h in col1 if h.get('馬番') is not None}
+
+    # =============================================
+    # 改善①(v14.0): 軸1頭時の強制2頭化
+    # 軸が1頭しかいない場合、rival/93法則候補からスコア最高の馬を軸に昇格
+    # 理由: 軸1頭は的中率が著しく低い（1点でも外れると全滅）
+    # =============================================
+    if len(col1) < 2:
+        # rival_candidates + 人気1-3からスコア最高の馬を軸に昇格
+        _upgrade_pool = sorted(
+            [h for h in rival_candidates + top3_pop_horses
+             if str(h.get('馬番')) not in col1_nums_set and h.get('馬番')],
+            key=lambda h: h.get('補正後スコア', 0), reverse=True
+        )
+        # top3_pop_horsesはまだ定義されていないので rival_candidates から補充
+        if not _upgrade_pool:
+            _upgrade_pool = sorted(
+                [h for h in horses_with_roles
+                 if str(h.get('馬番')) not in col1_nums_set and h.get('馬番')],
+                key=lambda h: h.get('補正後スコア', 0), reverse=True
+            )
+        if _upgrade_pool:
+            _promoted = _upgrade_pool[0]
+            col1.append(_promoted)
+            col1_nums_set.add(str(_promoted.get('馬番')))
+            print(f"[v14改善①] 軸1頭→2頭化: {_promoted.get('馬番')}番昇格"
+                  f"(スコア:{_promoted.get('補正後スコア',0):.1f})")
     
     # --- 2列目 (col2): 4頭 = col1(2頭) + ▲2頭 ---
     # col1の◎○を必ず含め、対抗馬▲2頭を追加
@@ -1184,6 +1211,43 @@ def generate_betting_plan(race):
     else:
         print(f"[穴ボックス] 非発動 upset_score={upset_score} (<{_UPSET_BOX_THRESHOLD})")
 
+    # =============================================
+    # 改善②(v14.0): 相手スコア上位3頭ボックス（常時追加・最大3点）
+    # 軸が外れても相手3頭が来れば的中できる救済買い目
+    # 「全買い目に軸が必須」という構造の弱点を補完
+    # =============================================
+    # col2+col3から軸を除いた馬をスコア降順で取得
+    _rival_pool = sorted(
+        [h for h in col2 + col3
+         if str(h.get('馬番')) not in col1_nums_set and h.get('馬番')],
+        key=lambda h: h.get('補正後スコア', 0), reverse=True
+    )
+    # 重複除去（馬番で一意化）
+    _seen_rival = set()
+    _rival_unique = []
+    for _h in _rival_pool:
+        _n = str(_h.get('馬番'))
+        if _n not in _seen_rival:
+            _seen_rival.add(_n)
+            _rival_unique.append(_h)
+
+    rival_box_combos = []
+    if len(_rival_unique) >= 3:
+        _rbox_nums = [_h.get('馬番') for _h in _rival_unique[:4] if _h.get('馬番')]
+        for _combo in iter_combinations(_rbox_nums, 3):
+            _nums = tuple(sorted([int(_n) for _n in _combo]))
+            if _nums not in combos_set:
+                rival_box_combos.append(_nums)
+                combos_set.add(_nums)
+                if len(rival_box_combos) >= 3:   # 最大3点まで
+                    break
+        if rival_box_combos:
+            investment += per_combo_stake * len(rival_box_combos)
+            _rbox_str = ['-'.join(str(n) for n in c) for c in rival_box_combos]
+            print(f"[相手ボックス] {len(rival_box_combos)}点追加: {_rbox_str}")
+    else:
+        rival_box_combos = []
+
     # --- ワイド候補 ---
     wide_candidates = check_wide_candidates(horses_with_roles)
     
@@ -1254,14 +1318,14 @@ def generate_betting_plan(race):
             if str(h.get('馬番')) not in {str(x.get('馬番')) for x in col1}
         }.values()),
         "買い目タイプ": "三連複フォーメーション(断層役割ベース・精度改善v3)",
-        "組み合わせ数": combo_count + len(hole_box_combos),
+        "組み合わせ数": combo_count + len(hole_box_combos) + len(rival_box_combos),
         "合成オッズ": core_synthetic_odds,
         "合成オッズ_全体": full_synthetic_odds,
         "合成オッズ_方法": so_method,
         "賭け金調整": stake_reason,
         "全買い目": [
             '-'.join(str(n) for n in combo)
-            for combo in (all_combos + hole_box_combos)
+            for combo in (all_combos + hole_box_combos + rival_box_combos)
         ],
         "穴ボックス発動": len(hole_box_combos) > 0,
         "穴ボックス_upset_score": upset_score,
@@ -1270,6 +1334,10 @@ def generate_betting_plan(race):
             '-'.join(str(n) for n in c) for c in hole_box_combos
         ],
         "穴ボックス_追加点数": len(hole_box_combos),
+        "相手ボックス_買い目": [
+            '-'.join(str(n) for n in c) for c in rival_box_combos
+        ],
+        "相手ボックス_追加点数": len(rival_box_combos),
         "ワイド候補": wide_candidates,
         "複勝候補": place_candidates,
         # 旧ロジック比較
@@ -1288,6 +1356,8 @@ def generate_betting_plan(race):
     analysis["組み合わせ数_新"] = combo_count + len(hole_box_combos)
     analysis["穴ボックス発動"] = len(hole_box_combos) > 0
     analysis["穴ボックス_upset_score"] = upset_score
+    analysis["相手ボックス_追加点数"] = len(rival_box_combos)
+    analysis["組み合わせ数_新"] = combo_count + len(hole_box_combos) + len(rival_box_combos)
     analysis["組み合わせ数_旧"] = old_logic["旧_組み合わせ数"]
     analysis["投資額削減率"] = round(
         (1 - investment / max(old_logic["旧_投資額"], 1)) * 100, 1
