@@ -1367,6 +1367,27 @@ def generate_betting_plan(race):
         (1 - investment / max(old_logic["旧_投資額"], 1)) * 100, 1
     )
     
+    # [v14.1] 全馬断層役割サマリー追加（デバッグ・分析用）
+    # 各馬の断層役割・スコア・col1/col2選定状況を一覧化
+    analysis["全馬断層役割サマリー"] = [
+        {
+            "馬番": h.get('馬番'),
+            "馬名": h.get('馬名'),
+            "人気": h.get('人気'),
+            "断層役割": h.get('断層役割', '未分類'),
+            "断層役割_en": h.get('断層役割_en', 'flat'),
+            "新スコア": h.get('新スコア', 0),
+            "補正後スコア": h.get('補正後スコア', 0),
+            "軸選定": str(h.get('馬番')) in col1_nums_set,
+            "相手選定": str(h.get('馬番')) in col2_set,
+        }
+        for h in sorted(horses_with_roles, key=lambda x: x.get('人気', 99))
+    ]
+    print(f"[v14.1 断層役割サマリー] " + ", ".join(
+        f"{h['馬番']}番({h['人気']!r}人気)={h['断層役割'][:2]}/{'軸' if h['軸選定'] else ('相手' if h['相手選定'] else '-')}"
+        for h in analysis['全馬断層役割サマリー']
+    ))
+    
     return betting_plan, investment, None, analysis, old_logic
 
 
@@ -1596,6 +1617,30 @@ def main():
         
         selected_races, skipped_races, reference_races, turbulence_counts = select_races(race_data)
         total_investment = sum(r["investment"] for r in selected_races)
+        
+        # [v14.1] 日次投資上限チェック: 上限超過時は低合成オッズのレースを除外
+        daily_limit = FUND_MANAGEMENT.get("daily_loss_limit", 10000)
+        if total_investment > daily_limit:
+            print(f"[⚠️ 日次上限] ¥{total_investment:,} > 上限¥{daily_limit:,} → 低オッズレースを除外します")
+            # 合成オッズ降順（高オッズ=高期待値を優先して残す）
+            selected_races = sorted(
+                selected_races,
+                key=lambda r: r.get("analysis", {}).get("合成オッズ", 0),
+                reverse=True
+            )
+            trimmed, running_total = [], 0
+            for r in selected_races:
+                if running_total + r["investment"] <= daily_limit:
+                    trimmed.append(r)
+                    running_total += r["investment"]
+                else:
+                    venue = r.get("venue", r.get("競馬場", "?"))
+                    rname = r.get("race_name", r.get("レース名", "?"))
+                    print(f"  [除外] {venue} {rname} ¥{r['investment']:,} (合成オッズ:{r.get('analysis',{}).get('合成オッズ',0):.1f}倍)")
+            selected_races = trimmed
+            total_investment = running_total
+            print(f"  [調整後] 選定レース数:{len(selected_races)} 総投資額:¥{total_investment:,}")
+        
         old_total_investment = sum(
             r.get("旧ロジック", {}).get("旧_投資額", 0)
             for r in selected_races
@@ -1608,7 +1653,7 @@ def main():
         
         output_data = {
             "ymd": ymd,
-            "logic_version": "v14.0_軸2頭化・相手ボックス・穴ボックス・断層・合成オッズ",
+            "logic_version": "v14.1_断層役割サマリー・日次上限チェック・軸2頭化・相手ボックス・穴ボックス・断層・合成オッズ",
             "generated_at": datetime.now(timezone(timedelta(hours=9))).strftime(
                 "%Y-%m-%d %H:%M:%S (JST)"
             ),
