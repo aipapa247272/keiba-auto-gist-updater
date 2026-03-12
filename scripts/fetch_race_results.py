@@ -405,8 +405,12 @@ def fetch_race_results(ymd):
                 predicted_numbers = set(combo.split('-'))
                 if actual_numbers == predicted_numbers:
                     hit = True
-                    return_amount = sanrenpuku_payout
-                    print(f"  ✅ 的中！ 払戻: ¥{sanrenpuku_payout:,}")
+                    # Bug Fix ⑤: 1点単価を考慮した払戻計算
+                    # sanrenpuku_payoutは100円あたりの払戻金額のため、実際の1点単価で補正
+                    combo_count = len(predicted_combinations)
+                    per_bet = round(investment / combo_count) if combo_count > 0 else 100
+                    return_amount = round(sanrenpuku_payout * per_bet / 100)
+                    print(f"  ✅ 的中！ 1点¥{per_bet} × 払戻倍率({sanrenpuku_payout}÷100) = ¥{return_amount:,}")
                     break
         
         payout_missing = False
