@@ -993,7 +993,7 @@
 
 .summary-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 10px;
     margin-bottom: 16px;
 }
@@ -1842,22 +1842,29 @@
                     return;
                 }
 
-                /* ── 推奨レース ── */
+                /* ── 推奨レース（v14.3: 常時表示） ── */
                 if (selected.length > 0) {
                     const lbl = document.createElement('div');
                     lbl.className = 'section-label';
-                    lbl.textContent = `⭐⭐⭐ 推奨レース（${selected.length}件）— AIが厳選した高期待値レース`;
+                    lbl.innerHTML = `<span style="color:#ffd54f;">⭐⭐⭐ 推奨レース（${selected.length}件）</span><span style="color:#90a4ae;font-size:11px;margin-left:8px;">合成オッズ3.5倍以上・高期待値</span>`;
                     container.appendChild(lbl);
                     selected.forEach(race => renderRaceCard(race, 'recommend', container));
+                } else {
+                    const lbl = document.createElement('div');
+                    lbl.className = 'section-label';
+                    lbl.innerHTML = `<span style="color:#78909c;">⭐⭐⭐ 推奨レース（0件）</span><span style="color:#607d8b;font-size:11px;margin-left:8px;">本日は合成オッズ3.5倍超のレースなし</span>`;
+                    container.appendChild(lbl);
                 }
 
-                /* ── 参考レース ── */
+                /* ── 参考レース（v14.3: 常時表示） ── */
                 if (references.length > 0) {
                     const lbl2 = document.createElement('div');
                     lbl2.className = 'section-label section-label-ref';
-                    lbl2.textContent = `⭐⭐ 参考レース（${references.length}件）— 合成オッズ2.0〜3.5倍・少額参考`;
+                    lbl2.innerHTML = `<span style="color:#b0bec5;">⭐⭐ 参考レース（${references.length}件）</span><span style="color:#78909c;font-size:11px;margin-left:8px;">合成オッズ2.0〜3.5倍・少額参考推奨</span>`;
                     container.appendChild(lbl2);
                     references.forEach(race => renderRaceCard(race, 'reference', container));
+                } else if (selected.length === 0) {
+                    // 推奨も参考も0件の場合のみ見送りメッセージ（既存の0件バナーが上に表示済み）
                 }
 
             } catch (e) {
@@ -2131,6 +2138,9 @@
             const selectedRacesCount = data.selected_races || races.length;
             const totalRacesCount = data.total_races || 0;
             const totalInvestment = summary.total_investment || 0;
+            // v14.3: 推奨・参考それぞれの投資額を計算
+            const recInvestment = races.reduce((s, r) => s + (r.betting_plan?.投資額 || r.investment || 0), 0);
+            const refInvestment = refRaces.reduce((s, r) => s + (r.betting_plan?.投資額 || r.investment || 0), 0);
             const updateTime = data.generated_at || new Date().toLocaleString('ja-JP');
             const targetDate = data.ymd || '';
 
@@ -2154,16 +2164,24 @@
                         <div class="summary-value">${formatDate(targetDate)}</div>
                     </div>
                     <div class="summary-card">
-                        <div class="summary-label">AI選定レース</div>
-                        <div class="summary-value">${selectedRacesCount}R</div>
-                    </div>
-                    <div class="summary-card">
                         <div class="summary-label">全レース数</div>
                         <div class="summary-value">${totalRacesCount}R</div>
                     </div>
-                    <div class="summary-card">
-                        <div class="summary-label">投資額</div>
-                        <div class="summary-value">¥${totalInvestment.toLocaleString()}</div>
+                    <div class="summary-card" style="border-left:3px solid #ffd54f;">
+                        <div class="summary-label">⭐⭐⭐推奨レース</div>
+                        <div class="summary-value" style="color:#ffd54f;">${races.length}R</div>
+                    </div>
+                    <div class="summary-card" style="border-left:3px solid #ffd54f;">
+                        <div class="summary-label">推奨 投資額</div>
+                        <div class="summary-value" style="color:#ffd54f;">¥${recInvestment.toLocaleString()}</div>
+                    </div>
+                    <div class="summary-card" style="border-left:3px solid #90a4ae;">
+                        <div class="summary-label">⭐⭐参考レース</div>
+                        <div class="summary-value" style="color:#90a4ae;">${refRaces.length}R</div>
+                    </div>
+                    <div class="summary-card" style="border-left:3px solid #90a4ae;">
+                        <div class="summary-label">参考 投資額</div>
+                        <div class="summary-value" style="color:#90a4ae;">¥${refInvestment.toLocaleString()}</div>
                     </div>
                 </div>
 
