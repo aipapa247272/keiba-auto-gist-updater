@@ -1121,19 +1121,18 @@ def generate_betting_plan(race):
     ref_max  = FUND_MANAGEMENT.get("reference_max_odds", 3.5)
     ref_ratio= FUND_MANAGEMENT.get("reference_stake_ratio", 0.5)
 
-    # ── オッズデータなし時（前日取得・推定値）の閾値緩和 ──
-    # オッズ・人気が全馬不明の場合はスコアから推定した合成オッズを使う。
-    # 推定値は過小評価される傾向があるため、選定閾値を 3.5倍→2.0倍 に緩和する。
-    # ※ 実際のオッズが取得できている場合は従来の3.5倍閾値を維持。
+    # ── オッズデータ有無の確認（参考用ログのみ・閾値は変更しない） ──
+    # v14.3修正: 推定オッズでも3.5倍基準を維持し、2.0〜3.5倍は参考枠へ正しく分類する。
+    # 旧v14.2では閾値を2.0倍に緩和していたが、推奨/参考の分類が崩れるため廃止。
     has_odds_data = any(
         h.get('単勝オッズ') or h.get('オッズ') or h.get('win_odds') or h.get('人気')
         for h in horses_with_roles
     )
     if not has_odds_data:
-        # 推定オッズのため閾値を緩和: 3.5倍 → 2.0倍
-        # 参考予測枠は 1.0〜2.0倍 に設定（ほぼ無効化）
-        min_so = ref_min   # 2.0倍以上で本選定OK
-        ref_min = 1.0      # 参考予測枠の下限を引き下げ
+        # [v14.3] 閾値緩和を廃止: 推定値でも min_so=3.5, ref_min=2.0 をそのまま使用
+        # 推定合成オッズ 2.0〜3.5倍 → 参考予測(⭐⭐) として表示
+        # 推定合成オッズ ≥ 3.5倍   → 推奨予測(⭐⭐⭐) として表示
+        print(f"[v14.3] 推定オッズ使用（閾値維持: min_so={min_so}, ref_min={ref_min}）")
 
     if core_synthetic_odds < min_so:
         analysis["合成オッズ"] = core_synthetic_odds
@@ -1653,7 +1652,7 @@ def main():
         
         output_data = {
             "ymd": ymd,
-            "logic_version": "v14.1_断層役割サマリー・日次上限チェック・軸2頭化・相手ボックス・穴ボックス・断層・合成オッズ",
+            "logic_version": "v14.3_推奨参考分類修正・常時両方表示・has_odds_data閾値緩和廃止",
             "generated_at": datetime.now(timezone(timedelta(hours=9))).strftime(
                 "%Y-%m-%d %H:%M:%S (JST)"
             ),
