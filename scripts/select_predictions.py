@@ -46,7 +46,7 @@ FUND_MANAGEMENT = {
     # --- Phase1: 2段階表示 ---
     "reference_min_odds": 2.0,   # 参考予測の合成オッズ下限（2.0倍以上）
     "reference_max_odds": 3.5,   # 参考予測の合成オッズ上限（推奨閾値未満）
-    "reference_stake_ratio": 0.5 # 参考予測の賭け金倍率（推奨の50%）
+    "reference_stake_ratio": 1.0 # 参考予測の賭け金倍率（100円単位統一 v14.4）
 }
 
 # ===================================================
