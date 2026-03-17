@@ -2721,61 +2721,48 @@
                 `;
             });
 
-            // ===== 参考レース描画（v14.4追加）=====
+            // ===== 参考レース描画（v14.4）=====
             if (refRaces.length > 0) {
-                html += `
-                    <div class="section-label section-label-ref" style="margin-top:16px;">
-                        <span style="color:#b0bec5;">⭐⭐ 参考レース（${refRaces.length}件）</span>
-                        <span style="color:#78909c;font-size:11px;margin-left:8px;">合成オッズ2.0〜3.5倍・少額参考推奨（100円/点）</span>
-                    </div>
-                `;
-                refRaces.forEach((race, idx) => {
-                    const raceNum   = extractRaceNumber(race.race_id);
-                    const venue     = race.venue || '-';
-                    const raceName  = race.race_name || `${raceNum}R`;
-                    const distance  = race.distance || '-';
-                    const track     = race.track || '-';
-                    const startTime = race.start_time || '-';
-                    const synOdds   = race.synthetic_odds || 0;
-                    const invest    = race.investment || 0;
-                    const note      = race.note || '合成オッズが推奨基準未満。自己判断でご参考ください。';
-                    const da        = race.断層分析 || {};
-                    const axisCands = da['軸候補'] || [];
-                    const synOddsClass = synOdds >= 3.0 ? 'medium' : 'low';
+                html += '<div class="section-label section-label-ref" style="margin-top:16px;">'
+                      + '<span style="color:#b0bec5;">⭐⭐ 参考レース（' + refRaces.length + '件）</span>'
+                      + '<span style="color:#78909c;font-size:11px;margin-left:8px;">合成オッズ2.0〜3.5倍・少額参考推奨（100円/点）</span>'
+                      + '</div>';
+                refRaces.forEach(function(race) {
+                    var raceNum   = extractRaceNumber(race.race_id);
+                    var venue     = race.venue || '-';
+                    var raceName  = race.race_name || (raceNum + 'R');
+                    var distance  = race.distance || '-';
+                    var track     = race.track || '-';
+                    var startTime = race.start_time || '-';
+                    var synOdds   = race.synthetic_odds || 0;
+                    var invest    = race.investment || 0;
+                    var note      = race.note || '合成オッズが推奨基準未満。自己判断でご参考ください。';
+                    var da        = race['断層分析'] || {};
+                    var axisCands = da['軸候補'] || [];
 
-                    let axisHtml = '';
+                    var axisHtml = '';
                     if (axisCands.length > 0) {
-                        const axisStr = axisCands.slice(0,3).map(h => `${h['馬番'] || h}番`).join('・');
-                        axisHtml = `<div style="margin:4px 0;font-size:12px;color:#b0bec5;">🎯 軸候補: <b>${axisStr}</b></div>`;
+                        var axisStr = axisCands.slice(0,3).map(function(h){ return (h['馬番'] || h) + '番'; }).join('・');
+                        axisHtml = '<div style="margin:4px 0;font-size:12px;color:#b0bec5;">🎯 軸候補: <b>' + axisStr + '</b></div>';
                     }
 
-                    html += \`
-                        <div style="
-                            border:1px solid #455a64;
-                            border-left:4px solid #90a4ae;
-                            border-radius:8px;
-                            padding:12px 14px;
-                            margin-bottom:10px;
-                            background:#1e2a33;
-                            opacity:0.90;
-                        ">
-                            <div style="display:flex;align-items:center;flex-wrap:wrap;gap:4px;margin-bottom:6px;">
-                                <span class="rank-badge rank-reference">⭐⭐ 参考</span>
-                                <b style="font-size:14px;color:#cfd8dc;">\${venue} / \${raceName}</b>
-                                <span style="color:#78909c;font-size:12px;">\${distance}\${track} 🕐\${startTime}</span>
-                            </div>
-                            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px;font-size:12px;color:#90a4ae;margin-bottom:6px;">
-                                <span>📊 合成Ods: <b>\${synOdds}倍</b></span>
-                                <span>💴 投資: <b>¥\${invest.toLocaleString()}</b></span>
-                                <span>📋 三連複BOX</span>
-                            </div>
-                            \${axisHtml}
-                            <div class="reference-note" style="font-size:11px;color:#78909c;margin-top:4px;">⚠️ \${note}</div>
-                        </div>
-                    \`;
+                    html += '<div style="border:1px solid #455a64;border-left:4px solid #90a4ae;border-radius:8px;padding:12px 14px;margin-bottom:10px;background:#1e2a33;opacity:0.90;">'
+                          + '<div style="display:flex;align-items:center;flex-wrap:wrap;gap:4px;margin-bottom:6px;">'
+                          + '<span class="rank-badge rank-reference">⭐⭐ 参考</span>'
+                          + '<b style="font-size:14px;color:#cfd8dc;">' + venue + ' / ' + raceName + '</b>'
+                          + '<span style="color:#78909c;font-size:12px;">' + distance + track + ' 🕐' + startTime + '</span>'
+                          + '</div>'
+                          + '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px;font-size:12px;color:#90a4ae;margin-bottom:6px;">'
+                          + '<span>📊 合成Ods: <b>' + synOdds + '倍</b></span>'
+                          + '<span>💴 投資: <b>¥' + invest.toLocaleString() + '</b></span>'
+                          + '<span>📋 三連複BOX</span>'
+                          + '</div>'
+                          + axisHtml
+                          + '<div class="reference-note" style="font-size:11px;color:#78909c;margin-top:4px;">⚠️ ' + note + '</div>'
+                          + '</div>';
                 });
             } else {
-                html += \`<div style="color:#607d8b;font-size:12px;text-align:center;padding:8px;">参考レースなし</div>\`;
+                html += '<div style="color:#607d8b;font-size:12px;text-align:center;padding:8px;">参考レースなし</div>';
             }
 
             document.getElementById('predictions-tab').innerHTML = html;
