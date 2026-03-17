@@ -1149,6 +1149,20 @@ def generate_betting_plan(race):
             analysis["スキップ理由"] = skip_msg
             analysis["参考予測"] = True
             analysis["参考_合成オッズ"] = core_synthetic_odds
+            # v14.3.1: 参考枠でも軸馬・相手馬・穴馬情報をanalysisに保存（フロントエンド表示用）
+            analysis["軸馬候補"] = [
+                {"馬番": h.get("馬番"), "馬名": h.get("馬名"), "人気": h.get("人気"),
+                 "補正後スコア": h.get("補正後スコア", 0)}
+                for h in col1
+            ]
+            analysis["相手馬候補"] = [
+                {"馬番": h.get("馬番"), "馬名": h.get("馬名"), "人気": h.get("人気")}
+                for h in col2
+            ]
+            analysis["穴馬候補"] = [
+                {"馬番": h.get("馬番"), "馬名": h.get("馬名"), "人気": h.get("人気")}
+                for h in col3
+            ]
             return None, 0, skip_msg, analysis, old_logic
         # --- 完全スキップ ---
         skip_msg = (
@@ -1473,9 +1487,20 @@ def select_races(race_data, max_races=9999):
                 # --- Phase1: 参考予測として別リストへ ---
                 ref_stake_ratio = FUND_MANAGEMENT.get("reference_stake_ratio", 0.5)
                 ref_combos = max(1, int(analysis.get("組み合わせ数", 1)))
-                ref_inv = int(
-                    FUND_MANAGEMENT["base_stake_trifecta"] * ref_stake_ratio
-                ) * ref_combos
+                # v14.3.1修正①: 100円単位に統一（50円→100円）
+                ref_per_combo = max(100, int(FUND_MANAGEMENT["base_stake_trifecta"] * ref_stake_ratio))
+                ref_per_combo = (ref_per_combo // 100) * 100  # 100円単位切り捨て
+                ref_inv = ref_per_combo * ref_combos
+                # v14.3.1修正②: 簡易betting_plan構築（軸馬・相手馬情報を表示可能に）
+                ref_betting_plan = {
+                    "軸":         analysis.get("軸馬候補", []),
+                    "相手":       analysis.get("相手馬候補", []),
+                    "穴":         analysis.get("穴馬候補", []),
+                    "合成オッズ": analysis.get("参考_合成オッズ", 0),
+                    "組み合わせ数": 0,
+                    "全買い目":   [],
+                    "投資額":     ref_inv,
+                }
                 reference.append({
                     "race_id":        race.get('race_id'),
                     "race_name":      race.get('レース名', race.get('race_name', '不明')),
@@ -1490,7 +1515,7 @@ def select_races(race_data, max_races=9999):
                     "investment":     ref_inv,
                     "note":           "合成オッズが推奨基準未満。自己判断でご参考ください。",
                     "断層分析":       analysis,
-                    "betting_plan":   betting_plan,
+                    "betting_plan":   ref_betting_plan,
                 })
             else:
                 skipped.append({
@@ -1652,7 +1677,7 @@ def main():
         
         output_data = {
             "ymd": ymd,
-            "logic_version": "v14.3_推奨参考分類修正・常時両方表示・has_odds_data閾値緩和廃止",
+            "logic_version": "v14.3.1_参考レース投資額100円統一・軸馬情報表示修正",
             "generated_at": datetime.now(timezone(timedelta(hours=9))).strftime(
                 "%Y-%m-%d %H:%M:%S (JST)"
             ),
