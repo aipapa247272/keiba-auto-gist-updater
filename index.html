@@ -1925,6 +1925,21 @@
             loadResults();
         });
 
+
+        // v14.4: 参考レース買い目折りたたみ
+        function toggleRefCombos(btn) {
+            var targetId = btn.getAttribute('data-target');
+            var restLen  = btn.getAttribute('data-rest');
+            var el = document.getElementById(targetId);
+            if (!el) return;
+            if (el.style.display === 'none' || el.style.display === '') {
+                el.style.display = 'flex';
+                btn.textContent = '▲ 閉じる';
+            } else {
+                el.style.display = 'none';
+                btn.textContent = '▼ 残り' + restLen + '点';
+            }
+        }
         function switchTab(tabName) {
             console.log('Switching to tab:', tabName);
             
@@ -2748,6 +2763,31 @@
                         axisHtml = '<div style="margin:4px 0;font-size:12px;color:#b0bec5;">🎯 軸馬: <b>' + axisStr + '</b></div>';
                     }
 
+                    // v14.4: 買い目表示（全買い目あれば表示、最大8点 + 折りたたみ）
+                    var combos     = bp['全買い目'] || [];
+                    var comboCount = bp['組み合わせ数'] || combos.length;
+                    var comboHtml  = '';
+                    if (combos.length > 0) {
+                        var shown = combos.slice(0, 8);
+                        var rest  = combos.slice(8);
+                        var uid   = 'ref_' + (race.race_id || Math.random()).toString().replace(/[^a-z0-9]/gi,'');
+                        comboHtml += '<div style="margin-top:6px;">';
+                        comboHtml += '<div style="font-size:11px;color:#78909c;margin-bottom:4px;">🎫 買い目（三連複BOX ' + comboCount + '点）</div>';
+                        comboHtml += '<div style="display:flex;flex-wrap:wrap;gap:4px;">';
+                        shown.forEach(function(c) {
+                            comboHtml += '<span style="background:#263238;border:1px solid #455a64;border-radius:4px;padding:2px 6px;font-size:11px;color:#b0bec5;">' + c[0] + '-' + c[1] + '-' + c[2] + '</span>';
+                        });
+                        comboHtml += '</div>';
+                        if (rest.length > 0) {
+                            comboHtml += '<div id="' + uid + '" style="display:none;flex-wrap:wrap;gap:4px;margin-top:4px;">';
+                            rest.forEach(function(c) {
+                                comboHtml += '<span style="background:#263238;border:1px solid #455a64;border-radius:4px;padding:2px 6px;font-size:11px;color:#b0bec5;">' + c[0] + '-' + c[1] + '-' + c[2] + '</span>';
+                            });
+                            comboHtml += '</div>';
+                            comboHtml += '<button data-target="' + uid + '" data-rest="' + rest.length + '" onclick="toggleRefCombos(this)" style="margin-top:4px;background:none;border:1px solid #546e7a;color:#90a4ae;font-size:10px;padding:2px 8px;border-radius:4px;cursor:pointer;">▼ 残り' + rest.length + '点</button>';
+                        }
+                        comboHtml += '</div>';
+                    }
                     html += '<div style="border:1px solid #455a64;border-left:4px solid #90a4ae;border-radius:8px;padding:12px 14px;margin-bottom:10px;background:#1e2a33;opacity:0.90;">'
                           + '<div style="display:flex;align-items:center;flex-wrap:wrap;gap:4px;margin-bottom:6px;">'
                           + '<span class="rank-badge rank-reference">⭐⭐ 参考</span>'
@@ -2757,9 +2797,10 @@
                           + '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px;font-size:12px;color:#90a4ae;margin-bottom:6px;">'
                           + '<span>📊 合成Ods: <b>' + synOdds + '倍</b></span>'
                           + '<span>💴 投資: <b>¥' + invest.toLocaleString() + '</b></span>'
-                          + '<span>📋 三連複BOX</span>'
+                          + '<span>📋 ' + (comboCount > 0 ? comboCount + '点' : '三連複BOX') + '</span>'
                           + '</div>'
                           + axisHtml
+                          + comboHtml
                           + '<div class="reference-note" style="font-size:11px;color:#78909c;margin-top:4px;">⚠️ ' + note + '</div>'
                           + '</div>';
                 });
