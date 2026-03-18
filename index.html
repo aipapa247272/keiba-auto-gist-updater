@@ -2737,13 +2737,15 @@
                     var synOdds   = race.synthetic_odds || 0;
                     var invest    = race.investment || 0;
                     var note      = race.note || '合成オッズが推奨基準未満。自己判断でご参考ください。';
-                    var da        = race['断層分析'] || {};
-                    var axisCands = da['軸候補'] || [];
+                    var bp        = race.betting_plan || {};
+                    var axisCands = bp['軸'] || [];
 
                     var axisHtml = '';
                     if (axisCands.length > 0) {
-                        var axisStr = axisCands.slice(0,3).map(function(h){ return (h['馬番'] || h) + '番'; }).join('・');
-                        axisHtml = '<div style="margin:4px 0;font-size:12px;color:#b0bec5;">🎯 軸候補: <b>' + axisStr + '</b></div>';
+                        var axisStr = axisCands.slice(0,2).map(function(h){
+                            return (h['馬番'] || '?') + '番 ' + (h['馬名'] || '');
+                        }).join(' / ');
+                        axisHtml = '<div style="margin:4px 0;font-size:12px;color:#b0bec5;">🎯 軸馬: <b>' + axisStr + '</b></div>';
                     }
 
                     html += '<div style="border:1px solid #455a64;border-left:4px solid #90a4ae;border-radius:8px;padding:12px 14px;margin-bottom:10px;background:#1e2a33;opacity:0.90;">'
