@@ -1486,19 +1486,27 @@ def select_races(race_data, max_races=9999):
             if is_reference:
                 # --- Phase1: 参考予測として別リストへ ---
                 ref_stake_ratio = FUND_MANAGEMENT.get("reference_stake_ratio", 0.5)
-                ref_combos = max(1, int(analysis.get("組み合わせ数", 1)))
-                # v14.3.1修正①: 100円単位に統一（50円→100円）
+                # v14.4: 三連複BOX買い目を生成（軸馬+相手馬でBOX）
+                _axis_cands = analysis.get("軸馬候補", [])
+                _aite_cands = analysis.get("相手馬候補", [])
+                _axis_nums = [h["馬番"] for h in _axis_cands if isinstance(h, dict) and "馬番" in h]
+                _aite_nums = [h["馬番"] if isinstance(h, dict) else h for h in _aite_cands]
+                # 軸+相手を合わせてBOX（重複除去、最大6頭）
+                _box_nums = list(dict.fromkeys(_axis_nums + _aite_nums))[:6]
+                _ref_combos_list = list(iter_combinations(_box_nums, 3)) if len(_box_nums) >= 3 else []
+                ref_combos_count = len(_ref_combos_list)
+                # 100円単位に統一
                 ref_per_combo = max(100, int(FUND_MANAGEMENT["base_stake_trifecta"] * ref_stake_ratio))
-                ref_per_combo = (ref_per_combo // 100) * 100  # 100円単位切り捨て
-                ref_inv = ref_per_combo * ref_combos
-                # v14.3.1修正②: 簡易betting_plan構築（軸馬・相手馬情報を表示可能に）
+                ref_per_combo = (ref_per_combo // 100) * 100
+                ref_inv = ref_per_combo * max(1, ref_combos_count)
+                # v14.4: 買い目あり betting_plan
                 ref_betting_plan = {
-                    "軸":         analysis.get("軸馬候補", []),
-                    "相手":       analysis.get("相手馬候補", []),
+                    "軸":         _axis_cands,
+                    "相手":       _aite_cands,
                     "穴":         analysis.get("穴馬候補", []),
                     "合成オッズ": analysis.get("参考_合成オッズ", 0),
-                    "組み合わせ数": 0,
-                    "全買い目":   [],
+                    "組み合わせ数": ref_combos_count,
+                    "全買い目":   [list(c) for c in _ref_combos_list],
                     "投資額":     ref_inv,
                 }
                 reference.append({
