@@ -136,11 +136,29 @@ def fetch_race_results(ymd):
     if data_ymd == prev_ymd:
         print(f"⚠️ 注意: 前日({data_ymd})の予想データを使用しています（当日データ未生成の可能性）")
     
-    # 選定されたレースを取得
+    def _normalize_combo_entry(combo):
+        if isinstance(combo, (list, tuple)):
+            return '-'.join(str(x).strip() for x in combo if str(x).strip())
+        return str(combo).strip()
+
+    # 選定レース + 参考レースを取得
     selected_races = predictions_data.get('selected_predictions', [])
-    
-    if not selected_races:
-        print(f"⚠️ 選定レース0件（全レース基準未達でスキップ）: {ymd}")
+    reference_races = predictions_data.get('reference_predictions', [])
+
+    target_races = []
+    for race in selected_races:
+        race_copy = dict(race)
+        race_copy['_prediction_type'] = 'recommend'
+        race_copy['_prediction_label'] = '推奨'
+        target_races.append(race_copy)
+    for race in reference_races:
+        race_copy = dict(race)
+        race_copy['_prediction_type'] = 'reference'
+        race_copy['_prediction_label'] = race.get('ref_label') or '参考'
+        target_races.append(race_copy)
+
+    if not target_races:
+        print(f"⚠️ 推奨・参考ともに0件: {ymd}")
         # 予想なし日も正常終了として結果ファイルを生成する
         from datetime import datetime as _dt2
         no_pred_result = {
@@ -149,7 +167,7 @@ def fetch_race_results(ymd):
             "generated_at": _dt2.now().strftime("%Y-%m-%d %H:%M:%S"),
             "rescraped": False,
             "no_predictions": True,
-            "reason": "選定レース0件（合成オッズ不足・断層なし等でスキップ）",
+            "reason": "推奨・参考ともに対象レース0件",
             "fund_management_v": "v13.1",
             "total_races": 0,
             "hit_count": 0,
@@ -162,6 +180,16 @@ def fetch_race_results(ymd):
             "total_profit": 0,
             "hit_rate": 0.0,
             "recovery_rate": 0.0,
+            "summary_by_type": {
+                "recommend": {
+                    "label": "推奨", "total_races": 0, "hit_count": 0, "valid_races": 0,
+                    "total_investment": 0, "total_return": 0, "total_profit": 0, "hit_rate": 0.0, "recovery_rate": 0.0
+                },
+                "reference": {
+                    "label": "参考", "total_races": 0, "hit_count": 0, "valid_races": 0,
+                    "total_investment": 0, "total_return": 0, "total_profit": 0, "hit_rate": 0.0, "recovery_rate": 0.0
+                }
+            },
             "races": []
         }
         output_filename = f'race_results_{ymd}.json'
@@ -170,12 +198,14 @@ def fetch_race_results(ymd):
             _json.dump(no_pred_result, f, ensure_ascii=False, indent=2)
         print(f"✅ {output_filename} を生成（予想なし）")
         return no_pred_result
-    
-    print(f"📊 {len(selected_races)} レースの結果を取得します...")
-    
+
+    print(f"📊 結果取得対象: 推奨{len(selected_races)}件 / 参考{len(reference_races)}件 / 合計{len(target_races)}件")
+
     results = []
-    
-    for idx, race in enumerate(selected_races, 1):
+
+    for idx, race in enumerate(target_races, 1):
+        prediction_type = race.get('_prediction_type', 'recommend')
+        prediction_label = race.get('_prediction_label', '推奨')
         race_id = race.get('race_id')
         venue = race.get('venue') or race.get('競馬場') or 'Unknown'
         race_name = race.get('race_name') or race.get('レース名') or 'Unknown'
@@ -183,7 +213,7 @@ def fetch_race_results(ymd):
         distance = race.get('距離', race.get('distance', ''))
         track = race.get('track', '')
         
-        print(f"\n[{idx}/{len(selected_races)}] {venue} R{race_num} {race_name} (ID: {race_id})")
+        print(f"\n[{idx}/{len(target_races)}] [{prediction_label}] {venue} R{race_num} {race_name} (ID: {race_id})")
         
         betting_plan = race.get('betting_plan', {})
         axis_horses = betting_plan.get('軸', [])
@@ -213,23 +243,26 @@ def fetch_race_results(ymd):
         # =====================================================
         # v12修正: 全買い目リストを優先使用（軸2頭+相手構成対応）
         # =====================================================
-        all_combos_direct = betting_plan.get('全買い目', [])
+        all_combos_direct_raw = betting_plan.get('全買い目', [])
+        all_combos_direct = []
+        for combo in all_combos_direct_raw:
+            combo_str = _normalize_combo_entry(combo)
+            if combo_str:
+                all_combos_direct.append(combo_str)
         if all_combos_direct:
-            predicted_combinations = all_combos_direct
+            predicted_combinations = list(dict.fromkeys(all_combos_direct))
             print(f"  🎯 予想: 全買い目{len(predicted_combinations)}通り (軸{axis_numbers_raw})")
-        elif len(axis_numbers_raw) >= 3:
-            # 旧ロジックフォールバック（軸3頭以上の場合）
-            all_nums = axis_numbers_raw + opponent_numbers_raw
-            axis_set = set(axis_numbers_raw)
-            all_combos = [
-                '-'.join(sorted(combo))
-                for combo in iter_combinations(all_nums, 3)
-                if any(n in axis_set for n in combo)
-            ]
-            predicted_combinations = all_combos
-            print(f"  🎯 予想(旧): 軸{axis_numbers_raw} 相手{opponent_numbers_raw} → {len(predicted_combinations)}通り")
         else:
-            print(f"  ⚠️ 買い目なし（全買い目リスト空、軸{len(axis_numbers_raw)}頭）→ 予想なしとして記録")
+            unique_nums = list(dict.fromkeys(axis_numbers_raw + opponent_numbers_raw))
+            if len(unique_nums) >= 3:
+                all_combos = [
+                    '-'.join(sorted([str(x) for x in combo], key=int))
+                    for combo in iter_combinations(unique_nums, 3)
+                ]
+                predicted_combinations = list(dict.fromkeys(all_combos))
+                print(f"  🎯 予想(フォールバックBOX): 軸{axis_numbers_raw} 相手{opponent_numbers_raw} → {len(predicted_combinations)}通り")
+            else:
+                print(f"  ⚠️ 買い目なし（全買い目リスト空、軸{len(axis_numbers_raw)}頭）→ 予想なしとして記録")
         
         investment = race.get('investment', 2400)
         
@@ -242,6 +275,12 @@ def fetch_race_results(ymd):
                 'venue': venue,
                 'race_num': race_num,
                 'race_name': race_name,
+                'prediction_type': prediction_type,
+                'prediction_label': prediction_label,
+                'ref_rank': race.get('ref_rank', ''),
+                'note': race.get('note', ''),
+                'synthetic_odds': race.get('synthetic_odds', betting_plan.get('合成オッズ', 0)),
+                'score_tier': race.get('score_tier', ''),
                 'distance': distance,
                 'track': track,
                 'start_time': race.get('start_time', ''),
@@ -443,6 +482,12 @@ def fetch_race_results(ymd):
             'venue': venue,
             'race_num': race_num,
             'race_name': race_name,
+            'prediction_type': prediction_type,
+            'prediction_label': prediction_label,
+            'ref_rank': race.get('ref_rank', ''),
+            'note': race.get('note', ''),
+            'synthetic_odds': race.get('synthetic_odds', betting_plan.get('合成オッズ', 0)),
+            'score_tier': race.get('score_tier', ''),
             'distance': distance,
             'track': track,
             'start_time': race.get('start_time', ''),
@@ -499,6 +544,28 @@ def fetch_race_results(ymd):
     date_obj = datetime.strptime(ymd, '%Y%m%d')
     date_str = date_obj.strftime('%Y/%m/%d')
     
+    summary_by_type = {}
+    for ptype, label in [('recommend', '推奨'), ('reference', '参考')]:
+        subset = [r for r in results if r.get('prediction_type', 'recommend') == ptype]
+        subset_hit = sum(1 for r in subset if r.get('status') == '的中')
+        subset_valid = sum(1 for r in subset if r.get('status') in ('的中', '不的中'))
+        subset_investment = sum(r.get('investment', 0) for r in subset)
+        subset_return = sum(r.get('return', 0) for r in subset)
+        subset_profit = subset_return - subset_investment
+        subset_hit_rate = (subset_hit / subset_valid * 100) if subset_valid > 0 else 0
+        subset_recovery = (subset_return / subset_investment * 100) if subset_investment > 0 else 0
+        summary_by_type[ptype] = {
+            'label': label,
+            'total_races': len(subset),
+            'hit_count': subset_hit,
+            'valid_races': subset_valid,
+            'total_investment': subset_investment,
+            'total_return': subset_return,
+            'total_profit': subset_profit,
+            'hit_rate': round(subset_hit_rate, 1),
+            'recovery_rate': round(subset_recovery, 1)
+        }
+
     output_data = {
         'date': date_str,
         'ymd': ymd,
@@ -514,6 +581,7 @@ def fetch_race_results(ymd):
         'total_profit': total_profit,
         'hit_rate': round(hit_rate, 1),
         'recovery_rate': round(recovery_rate, 1),
+        'summary_by_type': summary_by_type,
         'races': results
     }
     

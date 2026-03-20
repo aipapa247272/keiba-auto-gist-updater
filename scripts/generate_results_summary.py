@@ -64,14 +64,23 @@ def check_hit(prediction, result_race):
     # v12: 全買い目ベース判定
     bp = prediction.get('betting_plan', {})
     all_combos = bp.get('全買い目', [])
+    if not all_combos:
+        axis_nums = [str(h.get('馬番')).strip() for h in bp.get('軸', []) if h.get('馬番') is not None]
+        opp_nums = [str(h.get('馬番')).strip() for h in bp.get('相手', []) if h.get('馬番') is not None]
+        unique_nums = list(dict.fromkeys(axis_nums + opp_nums))
+        if len(unique_nums) >= 3:
+            import itertools
+            all_combos = [list(combo) for combo in itertools.combinations(unique_nums, 3)]
     
     if all_combos:
         for combo in all_combos:
             try:
-                combo_parts = [int(x) for x in combo.split('-')]
+                combo_str = '-'.join(str(x) for x in combo) if isinstance(combo, (list, tuple)) else str(combo)
+                combo_parts = [int(x) for x in combo_str.split('-')]
                 sorted_combo = '-'.join(map(str, sorted(combo_parts)))
                 if sorted_combo == actual_sorted:
-                    payout = (result_race.get('payout_sanrenpuku') 
+                    payout = (result_race.get('return', 0)
+                              or result_race.get('payout_sanrenpuku') 
                               or result_race.get('payouts', {}).get('三連複', 0) 
                               or 0)
                     return {
@@ -113,7 +122,15 @@ def generate_summary(results_data, predictions_data):
     ymd = results_data.get('ymd', '')
     # v12: 'races' キー（旧: 'results'）
     result_races = results_data.get('races', results_data.get('results', []))
-    predictions = predictions_data.get('selected_predictions', [])
+    predictions = []
+    for p in predictions_data.get('selected_predictions', []):
+        p2 = dict(p)
+        p2['_prediction_type'] = 'recommend'
+        predictions.append(p2)
+    for p in predictions_data.get('reference_predictions', []):
+        p2 = dict(p)
+        p2['_prediction_type'] = 'reference'
+        predictions.append(p2)
     
     summary_items = []
     total_investment = 0
@@ -122,7 +139,8 @@ def generate_summary(results_data, predictions_data):
     
     for prediction in predictions:
         race_id = prediction.get('race_id')
-        investment = prediction.get('investment', 0)
+        investment = prediction.get('investment', prediction.get('betting_plan', {}).get('投資額', 0))
+        prediction_type = prediction.get('_prediction_type', 'recommend')
         
         result_race = next(
             (r for r in result_races if r.get('race_id') == race_id),
@@ -140,12 +158,20 @@ def generate_summary(results_data, predictions_data):
         # 予想の追加情報
         bp = prediction.get('betting_plan', {})
         combo_count = len(bp.get('全買い目', []))
+        if combo_count == 0:
+            axis_nums = [str(h.get('馬番')).strip() for h in bp.get('軸', []) if h.get('馬番') is not None]
+            opp_nums = [str(h.get('馬番')).strip() for h in bp.get('相手', []) if h.get('馬番') is not None]
+            unique_nums = list(dict.fromkeys(axis_nums + opp_nums))
+            if len(unique_nums) >= 3:
+                import itertools
+                combo_count = len(list(itertools.combinations(unique_nums, 3)))
         synthetic_odds = prediction.get('合成オッズ', bp.get('合成オッズ', 0))
         
         summary_items.append({
             "race_id": race_id,
             "race_name": prediction.get('race_name', '不明'),
             "venue": prediction.get('venue', '不明'),
+            "prediction_type": prediction_type,
             "investment": investment,
             "combo_count": combo_count,
             "synthetic_odds": synthetic_odds,

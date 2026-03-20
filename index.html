@@ -2074,6 +2074,12 @@
             return '🏇'; // 長距離
         }
 
+        function normalizeComboValue(combo) {
+            if (Array.isArray(combo)) return combo.join('-');
+            if (combo === null || combo === undefined) return '';
+            return String(combo);
+        }
+
         function toggleScoreBreakdown(raceId, horseNum) {
             const element = document.getElementById(`breakdown-${raceId}-${horseNum}`);
             if (element) {
@@ -2309,6 +2315,11 @@
                         html += `</div>`;
                     }
                     
+                    if (isReference) {
+                        html += `
+                            <div class="reference-note" style="margin-top:10px;">⚠️ ${referenceNote}</div>
+                        `;
+                    }
                     html += `</div>`;
                 });
 
@@ -2736,13 +2747,13 @@
                 `;
             });
 
-            // ===== 参考レース描画（v14.4）=====
+            // ===== 参考レース描画（viewer-first v14.5）=====
             if (refRaces.length > 0) {
                 html += '<div class="section-label section-label-ref" style="margin-top:16px;">'
                       + '<span style="color:#b0bec5;">⭐⭐ 参考レース（' + refRaces.length + '件）</span>'
                       + '<span style="color:#78909c;font-size:11px;margin-left:8px;">合成オッズ2.0〜3.5倍・少額参考推奨（100円/点）</span>'
                       + '</div>';
-                refRaces.forEach(function(race) {
+                refRaces.forEach(function(race, refIndex) {
                     var raceNum   = extractRaceNumber(race.race_id);
                     var venue     = race.venue || '-';
                     var raceName  = race.race_name || (raceNum + 'R');
@@ -2753,56 +2764,193 @@
                     var invest    = race.investment || 0;
                     var note      = race.note || '合成オッズが推奨基準未満。自己判断でご参考ください。';
                     var bp        = race.betting_plan || {};
+                    var layer     = race['断層分析'] || {};
                     var axisCands = bp['軸'] || [];
+                    var oppCands  = bp['相手'] || [];
+                    var holeCands = bp['穴'] || [];
+                    var layerCount = layer['断層数'] || 0;
+                    var raceType   = layer['レースタイプ'] || '';
+                    var skipReason = layer['スキップ理由'] || '推奨基準未満のため参考枠として掲載';
+                    var synClass   = synOdds >= 3.5 ? 'high' : (synOdds >= 3.0 ? 'medium' : 'low');
+                    var raceTypeLabel = {
+                        'double_layer': '2断層',
+                        'single_layer': '1断層',
+                        'flat': 'フラット混戦'
+                    }[raceType] || (raceType || '参考判定');
 
-                    var axisHtml = '';
-                    if (axisCands.length > 0) {
-                        var axisStr = axisCands.slice(0,2).map(function(h){
-                            return (h['馬番'] || '?') + '番 ' + (h['馬名'] || '');
-                        }).join(' / ');
-                        axisHtml = '<div style="margin:4px 0;font-size:12px;color:#b0bec5;">🎯 軸馬: <b>' + axisStr + '</b></div>';
-                    }
-
-                    // v14.4: 買い目表示（全買い目あれば表示、最大8点 + 折りたたみ）
-                    var combos     = bp['全買い目'] || [];
+                    var combos = (bp['全買い目'] || []).map(function(c) {
+                        return normalizeComboValue(c);
+                    }).filter(function(c) { return c; });
                     var comboCount = bp['組み合わせ数'] || combos.length;
-                    var comboHtml  = '';
-                    if (combos.length > 0) {
-                        var shown = combos.slice(0, 8);
-                        var rest  = combos.slice(8);
-                        var uid   = 'ref_' + (race.race_id || Math.random()).toString().replace(/[^a-z0-9]/gi,'');
-                        comboHtml += '<div style="margin-top:6px;">';
-                        comboHtml += '<div style="font-size:11px;color:#78909c;margin-bottom:4px;">🎫 買い目（三連複BOX ' + comboCount + '点）</div>';
-                        comboHtml += '<div style="display:flex;flex-wrap:wrap;gap:4px;">';
-                        shown.forEach(function(c) {
-                            comboHtml += '<span style="background:#263238;border:1px solid #455a64;border-radius:4px;padding:2px 6px;font-size:11px;color:#b0bec5;">' + c[0] + '-' + c[1] + '-' + c[2] + '</span>';
-                        });
-                        comboHtml += '</div>';
-                        if (rest.length > 0) {
-                            comboHtml += '<div id="' + uid + '" style="display:none;flex-wrap:wrap;gap:4px;margin-top:4px;">';
-                            rest.forEach(function(c) {
-                                comboHtml += '<span style="background:#263238;border:1px solid #455a64;border-radius:4px;padding:2px 6px;font-size:11px;color:#b0bec5;">' + c[0] + '-' + c[1] + '-' + c[2] + '</span>';
-                            });
-                            comboHtml += '</div>';
-                            comboHtml += '<button data-target="' + uid + '" data-rest="' + rest.length + '" onclick="toggleRefCombos(this)" style="margin-top:4px;background:none;border:1px solid #546e7a;color:#90a4ae;font-size:10px;padding:2px 8px;border-radius:4px;cursor:pointer;">▼ 残り' + rest.length + '点</button>';
-                        }
-                        comboHtml += '</div>';
+                    var perBet = comboCount > 0 ? Math.round(invest / comboCount) : 100;
+                    var shown = combos.slice(0, 8);
+                    var rest  = combos.slice(8);
+                    var uid   = 'ref_' + (race.race_id || Math.random()).toString().replace(/[^a-z0-9]/gi,'');
+
+                    html += `
+                        <div class="race-card race-card-reference" style="opacity:0.96;">
+                            <div class="race-header">
+                                <div class="race-number">参考AIレース${refIndex + 1}</div>
+                                <div class="race-title">${venue} ${raceNum}R ${raceName}</div>
+                                <div class="race-info">
+                                    <span class="track-badge ${track}">${track}</span>
+                                    <span>${getDistanceIcon(distance)} ${distance}m</span>
+                                    <span class="start-time">🕐 ${startTime}</span>
+                                </div>
+                                <div class="turbulence-badge 中" style="background:#546e7a;">参考</div>
+                            </div>
+                    `;
+
+                    axisCands.slice(0, 2).forEach(function(horse, axisIdx) {
+                        var label = axisIdx === 0 ? '◎' : '○';
+                        var score = Math.round(((horse['補正後スコア'] || horse['スコア'] || 0) * 10)) / 10;
+                        var horseNum = horse['馬番'] || '-';
+                        var horseName = horse['馬名'] || '-';
+                        var pop = horse['人気'] ? ' / ' + horse['人気'] + '番人気' : '';
+                        var reason = '参考軸候補' + pop + (score ? ' / 補正後スコア ' + score : '');
+                        html += `
+                            <div class="horse-card">
+                                <div class="horse-main-info">
+                                    <div class="rank-badge">${label}</div>
+                                    <div class="horse-info">
+                                        <div class="horse-name">${horseNum}番:${horseName}</div>
+                                        <div class="horse-score">${score || '-'} /100</div>
+                                    </div>
+                                </div>
+                                <div class="horse-reason">💡 ${reason}</div>
+                            </div>
+                        `;
+                    });
+
+                    if (oppCands.length > 0) {
+                        html += `
+                            <div class="dark-horses-section">
+                                <div class="dark-horses-title">🔹 相手候補 (${oppCands.length}頭)</div>
+                                <div class="dark-horses-list">
+                                    ${oppCands.slice(0, 6).map(function(h) {
+                                        return `<div class="dark-horse-item"><span>${h['馬番'] || '-'}番:${h['馬名'] || ''}</span></div>`;
+                                    }).join('')}
+                                </div>
+                            </div>
+                        `;
                     }
-                    html += '<div style="border:1px solid #455a64;border-left:4px solid #90a4ae;border-radius:8px;padding:12px 14px;margin-bottom:10px;background:#1e2a33;opacity:0.90;">'
-                          + '<div style="display:flex;align-items:center;flex-wrap:wrap;gap:4px;margin-bottom:6px;">'
-                          + '<span class="rank-badge rank-reference">⭐⭐ 参考</span>'
-                          + '<b style="font-size:14px;color:#cfd8dc;">' + venue + ' / ' + raceName + '</b>'
-                          + '<span style="color:#78909c;font-size:12px;">' + distance + track + ' 🕐' + startTime + '</span>'
-                          + '</div>'
-                          + '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px;font-size:12px;color:#90a4ae;margin-bottom:6px;">'
-                          + '<span>📊 合成Ods: <b>' + synOdds + '倍</b></span>'
-                          + '<span>💴 投資: <b>¥' + invest.toLocaleString() + '</b></span>'
-                          + '<span>📋 ' + (comboCount > 0 ? comboCount + '点' : '三連複BOX') + '</span>'
-                          + '</div>'
-                          + axisHtml
-                          + comboHtml
-                          + '<div class="reference-note" style="font-size:11px;color:#78909c;margin-top:4px;">⚠️ ' + note + '</div>'
-                          + '</div>';
+
+                    if (holeCands.length > 0) {
+                        html += `
+                            <div class="dark-horses-section">
+                                <div class="dark-horses-title">🔸 穴候補 (${holeCands.length}頭)</div>
+                                <div class="dark-horses-list">
+                                    ${holeCands.slice(0, 6).map(function(h) {
+                                        return `<div class="dark-horse-item"><span>${h['馬番'] || '-'}番:${h['馬名'] || ''}</span></div>`;
+                                    }).join('')}
+                                </div>
+                            </div>
+                        `;
+                    }
+
+                    html += `
+                        <div class="layer-analysis-panel">
+                            <div class="layer-analysis-title">📊 参考判定の見どころ</div>
+                            <div class="layer-analysis-row">
+                                <span class="layer-analysis-label">断層分析</span>
+                                <span class="layer-analysis-value">${layerCount}箇所 [${raceTypeLabel}]</span>
+                            </div>
+                            <div class="layer-analysis-row">
+                                <span class="layer-analysis-label">合成オッズ</span>
+                                <span><span class="synthetic-odds-badge ${synClass}">${synOdds}倍</span></span>
+                            </div>
+                            <div class="layer-analysis-row">
+                                <span class="layer-analysis-label">参考理由</span>
+                                <span class="layer-analysis-value">${skipReason}</span>
+                            </div>
+                        </div>
+
+                        <div class="betting-section">
+                            <div class="betting-header">
+                                <div class="betting-title">💰 参考買い目</div>
+                            </div>
+                            <div class="betting-method">📝 三連複BOX（参考枠）</div>
+                            <div class="betting-investment">
+                                投資額: ¥${invest.toLocaleString()}
+                                <span style="color:#90caf9; font-size:12px; margin-left:8px;">(1点 ¥${comboCount > 0 ? perBet.toLocaleString() : '100'})</span>
+                            </div>
+
+                            <div class="investment-breakdown expanded" style="max-height:none;padding-top:6px;">
+                                <div class="investment-item">
+                                    <span class="investment-label">投資合計</span>
+                                    <span class="investment-value">¥${invest.toLocaleString()}</span>
+                                </div>
+                                <div class="investment-item">
+                                    <span class="investment-label">組み合わせ数</span>
+                                    <span class="investment-value">${comboCount}点</span>
+                                </div>
+                                <div class="investment-item">
+                                    <span class="investment-label">1点あたり</span>
+                                    <span class="investment-value" style="color:#81c784;">¥${comboCount > 0 ? perBet.toLocaleString() : '100'}</span>
+                                </div>
+                                <div class="investment-item">
+                                    <span class="investment-label">合成オッズ</span>
+                                    <span class="investment-value"><span class="synthetic-odds-badge ${synClass}" style="padding:2px 8px;font-size:11px;">${synOdds}倍</span></span>
+                                </div>
+                            </div>
+                    `;
+
+                    if (axisCands.length > 0) {
+                        html += `<div style="margin-bottom: 8px;">
+                            <span style="color: #90caf9; font-size: 12px;">◎ 軸馬:</span>
+                            <div class="betting-combinations">
+                                ${axisCands.slice(0, 2).map(function(h) {
+                                    return `<div class="combination">${h['馬番']}番</div>`;
+                                }).join('')}
+                            </div>
+                        </div>`;
+                    }
+
+                    if (oppCands.length > 0) {
+                        html += `<div style="margin-bottom: 8px;">
+                            <span style="color: #ce93d8; font-size: 12px;">▲ 相手:</span>
+                            <div class="betting-combinations">
+                                ${oppCands.slice(0, 6).map(function(h) {
+                                    return `<div class="combination">${h['馬番']}番</div>`;
+                                }).join('')}
+                            </div>
+                        </div>`;
+                    }
+
+                    if (holeCands.length > 0) {
+                        html += `<div style="margin-bottom: 8px;">
+                            <span style="color: #ffcc80; font-size: 12px;">△ 穴馬:</span>
+                            <div class="betting-combinations">
+                                ${holeCands.slice(0, 6).map(function(h) {
+                                    return `<div class="combination">${h['馬番']}番</div>`;
+                                }).join('')}
+                            </div>
+                        </div>`;
+                    }
+
+                    if (shown.length > 0) {
+                        html += `<div style="margin-top:6px;">
+                            <div style="font-size:11px;color:#b0c4de;margin-bottom:6px;">🎫 買い目（三連複BOX ${comboCount}点）</div>
+                            <div class="betting-combinations">
+                                ${shown.map(function(c) { return `<div class="combination">${c}</div>`; }).join('')}
+                            </div>
+                        `;
+                        if (rest.length > 0) {
+                            html += `<div id="${uid}" style="display:none;">
+                                <div class="betting-combinations" style="margin-top:6px;">
+                                    ${rest.map(function(c) { return `<div class="combination">${c}</div>`; }).join('')}
+                                </div>
+                            </div>
+                            <button data-target="${uid}" data-rest="${rest.length}" onclick="toggleRefCombos(this)" style="margin-top:6px;background:none;border:1px solid #546e7a;color:#90a4ae;font-size:10px;padding:2px 8px;border-radius:4px;cursor:pointer;">▼ 残り${rest.length}点</button>`;
+                        }
+                        html += `</div>`;
+                    }
+
+                    html += `
+                            <div class="reference-note" style="margin-top:10px;">⚠️ ${note}</div>
+                        </div>
+                    </div>
+                    `;
                 });
             } else {
                 html += '<div style="color:#607d8b;font-size:12px;text-align:center;padding:8px;">参考レースなし</div>';
@@ -2819,6 +2967,11 @@
             const totalInvestment = data.total_investment || 0;
             const totalProfit = data.total_profit || 0;
             const hitRate = data.hit_rate || 0;
+            const byType = data.summary_by_type || {};
+            const recommendSummary = byType.recommend || {};
+            const referenceSummary = byType.reference || {};
+            const recommendCount = recommendSummary.total_races ?? races.filter(r => (r.prediction_type || 'recommend') !== 'reference').length;
+            const referenceCount = referenceSummary.total_races ?? races.filter(r => (r.prediction_type || 'recommend') === 'reference').length;
 
             let html = `
                 <div class="section-header">
@@ -2850,6 +3003,14 @@
                             ${totalProfit >= 0 ? '+' : ''}¥${totalProfit.toLocaleString()}
                         </div>
                     </div>
+                    <div class="summary-card" style="border-left:3px solid #ffd54f;">
+                        <div class="summary-label">推奨結果</div>
+                        <div class="summary-value" style="color:#ffd54f;">${recommendCount}R</div>
+                    </div>
+                    <div class="summary-card" style="border-left:3px solid #90a4ae;">
+                        <div class="summary-label">参考結果</div>
+                        <div class="summary-value" style="color:#b0bec5;">${referenceCount}R</div>
+                    </div>
                 </div>
                 ${(() => {
                     let vbTotal = 0;
@@ -2867,9 +3028,12 @@
             `;
 
             if (races.length === 0) {
+                const emptyText = data.no_predictions
+                    ? (data.reason || '推奨・参考ともに対象レースがありませんでした')
+                    : '昨日の結果データがありません';
                 html += `
                     <div class="error-message" style="background: rgba(158,158,158,0.15); border-color: rgba(158,158,158,0.3); color: #bdbdbd;">
-                        📭 昨日の結果データがありません
+                        📭 ${emptyText}
                     </div>
                 `;
             } else {
@@ -2883,6 +3047,12 @@
                 races.forEach(result => {
                     const statusText = result.hit ? '🎯 的中' : '❌ 不的中';
                     const statusClass = result.hit ? 'hit' : 'miss';
+                    const predictionType = result.prediction_type || 'recommend';
+                    const isReference = predictionType === 'reference';
+                    const predictionBadge = isReference
+                        ? '<span class="rank-badge rank-reference" style="margin-right:6px;vertical-align:middle;">⭐⭐ 参考</span>'
+                        : '<span class="rank-badge rank-recommend" style="margin-right:6px;vertical-align:middle;">⭐⭐⭐ 推奨</span>';
+                    const referenceNote = result.note || '参考レースとしての結果です。推奨基準未満レースの振り返り用データです。';
                     
                     const raceNum = result.race_num || extractRaceNumber(result.race_id);
                     const venue = result.venue || '-';
@@ -2890,10 +3060,10 @@
                     const distance = result.distance ? `${result.track}${result.distance}m` : '-';
                     // score_tier バッジ
                     const tierColors = {S:'#ff4081',A:'#ff9800',B:'#4caf50',C:'#78909c'};
-                    const tierBadge = result.score_tier
+                    const tierBadge = (!isReference && result.score_tier)
                         ? `<span style="background:${tierColors[result.score_tier]||'#78909c'};color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;margin-left:6px;">${result.score_tier}tier</span>`
                         : '';
-                    const predictedArray = Array.isArray(result.predicted) ? result.predicted : [];
+                    const predictedArray = Array.isArray(result.predicted) ? result.predicted.map(normalizeComboValue).filter(Boolean) : [];
                     const predicted = predictedArray.join(', ') || '-';
                     // ② 軸馬・穴馬の文字列を構築
                     const bettingPlan = result.betting_plan || {};
@@ -2913,9 +3083,9 @@
                     const horseWeights = result.horse_weights || [];
                     
                     html += `
-                        <div class="race-card">
+                        <div class="race-card${isReference ? ' race-card-reference' : ''}" ${isReference ? 'style="opacity:0.96;"' : ''}>
                             <div class="race-header">
-                                <div class="race-title">${venue} ${raceNum}R ${raceName}${tierBadge}</div>
+                                <div class="race-title">${predictionBadge}${venue} ${raceNum}R ${raceName}${tierBadge}</div>
                                 <div class="race-info">${distance} | 発走 ${startTimeDisp}</div>
                             </div>
                             <div class="result-badge ${statusClass}">${statusText}</div>

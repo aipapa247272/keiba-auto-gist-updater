@@ -1,16 +1,87 @@
 {
   "ymd": "20260318",
-  "generated_at": "2026-03-18 14:12:48",
+  "generated_at": "2026-03-20 09:12:05",
   "logic_version": "v12",
   "summary": {
-    "total_races": 0,
-    "hit_count": 0,
-    "miss_count": 0,
-    "hit_rate": 0,
-    "total_investment": 0,
-    "total_payout": 0,
-    "net_profit": 0,
-    "recovery_rate": 0
+    "total_races": 5,
+    "hit_count": 1,
+    "miss_count": 4,
+    "hit_rate": 20.0,
+    "total_investment": 500,
+    "total_payout": 1022,
+    "net_profit": 522,
+    "recovery_rate": 204.4
   },
-  "details": []
+  "details": [
+    {
+      "race_id": "202642031804",
+      "race_name": "C3三四",
+      "venue": "浦和",
+      "prediction_type": "reference",
+      "investment": 100,
+      "combo_count": 4,
+      "synthetic_odds": 2.35,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -100,
+      "reason": "不的中 (実際: 3-10-5, 4点中)"
+    },
+    {
+      "race_id": "202642031809",
+      "race_name": "さいたまブロンコス特別(B2B3)",
+      "venue": "浦和",
+      "prediction_type": "reference",
+      "investment": 100,
+      "combo_count": 4,
+      "synthetic_odds": 2.55,
+      "hit": true,
+      "hit_type": "三連複",
+      "payout": 1022,
+      "profit": 922,
+      "reason": "的中 2-6-8"
+    },
+    {
+      "race_id": "202642031812",
+      "race_name": "浦和ジョッキーズファイナルラウンド第2戦(C2)",
+      "venue": "浦和",
+      "prediction_type": "reference",
+      "investment": 100,
+      "combo_count": 4,
+      "synthetic_odds": 2.4,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -100,
+      "reason": "不的中 (実際: 4-1-8, 4点中)"
+    },
+    {
+      "race_id": "202647031802",
+      "race_name": "わたるくん24歳誕生日記念(B)",
+      "venue": "笠松",
+      "prediction_type": "reference",
+      "investment": 100,
+      "combo_count": 4,
+      "synthetic_odds": 2.9,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -100,
+      "reason": "不的中 (実際: 5-7-6, 4点中)"
+    },
+    {
+      "race_id": "202654031808",
+      "race_name": "ファイナルレース(C1)",
+      "venue": "高知",
+      "prediction_type": "reference",
+      "investment": 100,
+      "combo_count": 4,
+      "synthetic_odds": 2.0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -100,
+      "reason": "不的中 (実際: 3-2-7, 4点中)"
+    }
+  ]
 }
