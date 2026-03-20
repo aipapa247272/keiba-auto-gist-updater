@@ -16,6 +16,7 @@ import json
 import sys
 from pathlib import Path
 from datetime import datetime
+import re
 
 
 # ====================================================================
@@ -115,6 +116,42 @@ def check_hit(prediction, result_race):
     }
 
 
+
+def resolve_summary_investment(prediction):
+    bp = prediction.get('betting_plan', {}) or {}
+    all_combos = bp.get('全買い目', []) or []
+    combo_count = len(all_combos)
+    if combo_count == 0:
+        axis_nums = [str(h.get('馬番')).strip() for h in bp.get('軸', []) if h.get('馬番') is not None]
+        opp_nums = [str(h.get('馬番')).strip() for h in bp.get('相手', []) if h.get('馬番') is not None]
+        unique_nums = list(dict.fromkeys(axis_nums + opp_nums))
+        if len(unique_nums) >= 3:
+            import itertools
+            combo_count = len(list(itertools.combinations(unique_nums, 3)))
+
+    declared = max(int(prediction.get('investment') or 0), int(bp.get('投資額') or 0))
+    prediction_type = prediction.get('_prediction_type', 'recommend')
+    stake_reason = str(bp.get('賭け金調整') or '')
+    m = re.search(r'(\d+)円/点', stake_reason)
+    if combo_count <= 0:
+        per_bet = 0
+        investment = declared
+    else:
+        if m:
+            per_bet = int(m.group(1))
+        elif declared and declared % combo_count == 0 and (declared // combo_count) >= 100 and (declared // combo_count) % 100 == 0:
+            per_bet = declared // combo_count
+        elif prediction_type == 'reference':
+            per_bet = 100
+        else:
+            raw = declared / combo_count if declared else 0
+            normalized = int(round(raw / 100.0)) * 100 if raw else 0
+            per_bet = max(100, normalized)
+        per_bet = max(100, int(per_bet // 100) * 100)
+        investment = per_bet * combo_count
+
+    return investment, combo_count, per_bet
+
 # ====================================================================
 # サマリー生成
 # ====================================================================
@@ -139,8 +176,8 @@ def generate_summary(results_data, predictions_data):
     
     for prediction in predictions:
         race_id = prediction.get('race_id')
-        investment = prediction.get('investment', prediction.get('betting_plan', {}).get('投資額', 0))
         prediction_type = prediction.get('_prediction_type', 'recommend')
+        investment, combo_count, per_bet_investment = resolve_summary_investment(prediction)
         
         result_race = next(
             (r for r in result_races if r.get('race_id') == race_id),
@@ -157,14 +194,6 @@ def generate_summary(results_data, predictions_data):
         
         # 予想の追加情報
         bp = prediction.get('betting_plan', {})
-        combo_count = len(bp.get('全買い目', []))
-        if combo_count == 0:
-            axis_nums = [str(h.get('馬番')).strip() for h in bp.get('軸', []) if h.get('馬番') is not None]
-            opp_nums = [str(h.get('馬番')).strip() for h in bp.get('相手', []) if h.get('馬番') is not None]
-            unique_nums = list(dict.fromkeys(axis_nums + opp_nums))
-            if len(unique_nums) >= 3:
-                import itertools
-                combo_count = len(list(itertools.combinations(unique_nums, 3)))
         synthetic_odds = prediction.get('合成オッズ', bp.get('合成オッズ', 0))
         
         summary_items.append({
@@ -174,6 +203,7 @@ def generate_summary(results_data, predictions_data):
             "prediction_type": prediction_type,
             "investment": investment,
             "combo_count": combo_count,
+            "per_bet_investment": per_bet_investment,
             "synthetic_odds": synthetic_odds,
             "hit": hit_result['hit'],
             "hit_type": hit_result['hit_type'],

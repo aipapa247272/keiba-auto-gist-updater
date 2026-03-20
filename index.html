@@ -3113,6 +3113,8 @@
                     const startTimeDisp = result.start_time || '-';
                     const actual = result.actual?.join(', ') || '-';
                     const investment = result.investment || 0;
+                    const comboCount = predictedArray.length;
+                    const perBetInvestment = result.per_bet_investment || (comboCount > 0 ? Math.max(100, Math.round((investment / comboCount) / 100) * 100) : 0);
                     const returnAmount = result.return || 0;
                     const profit = result.profit || 0;
                     const weather = result.weather || '-';
@@ -3140,7 +3142,7 @@
         <span style="color: #ffcc80; font-weight: 600;">💰買い目:</span>
         <strong style="color: #4fc3f7;">${predictedArray.length}点買い</strong>
         <span style="color: #90caf9; font-size: 12px; margin-left:4px;">
-            (1点 ¥${predictedArray.length > 0 ? (investment / predictedArray.length).toLocaleString() : '-'})
+            (1点 ¥${comboCount > 0 ? perBetInvestment.toLocaleString() : '-'})
         </span>
         <span style="color: #78909c; font-size: 11px;">（タップで展開）</span>
     </div>

@@ -5,6 +5,7 @@ import sys
 import os
 from datetime import datetime
 import time
+import re
 from itertools import combinations as iter_combinations
 
 
@@ -85,6 +86,45 @@ def calculate_race_verification(all_horses_result, betting_plan, synthetic_odds,
     verification['opponent_in_top3_count'] = len(opp_in_top3)
 
     return verification
+
+
+def resolve_effective_investment(race, betting_plan, predicted_combinations, prediction_type='recommend'):
+    """
+    賭け金ルールを100円単位で正規化し、結果計算に使う実効投資額を返す。
+    - 1点あたり最低100円
+    - 1点あたりは100円単位のみ
+    - 参考レースで旧データの投資額が壊れている場合は100円/点へ補正
+    """
+    combo_count = len(predicted_combinations or [])
+    declared_investment = int(race.get('investment') or 0)
+    bp_investment = int((betting_plan or {}).get('投資額') or 0)
+    declared_best = max(declared_investment, bp_investment)
+
+    if combo_count <= 0:
+        return declared_best, 0
+
+    stake_reason = str((betting_plan or {}).get('賭け金調整') or '')
+    m = re.search(r'(\d+)円/点', stake_reason)
+    if m:
+        per_bet = int(m.group(1))
+    else:
+        per_bet = 0
+        if declared_best and declared_best % combo_count == 0:
+            candidate = declared_best // combo_count
+            if candidate >= 100 and candidate % 100 == 0:
+                per_bet = candidate
+
+        if per_bet <= 0:
+            if prediction_type == 'reference':
+                per_bet = 100
+            else:
+                raw = declared_best / combo_count if declared_best else 0
+                normalized = int(round(raw / 100.0)) * 100 if raw else 0
+                per_bet = max(100, normalized)
+
+    per_bet = max(100, int(per_bet // 100) * 100)
+    investment = per_bet * combo_count
+    return investment, per_bet
 
 def fetch_race_results(ymd):
     """
@@ -264,7 +304,11 @@ def fetch_race_results(ymd):
             else:
                 print(f"  ⚠️ 買い目なし（全買い目リスト空、軸{len(axis_numbers_raw)}頭）→ 予想なしとして記録")
         
-        investment = race.get('investment', 2400)
+        investment, per_bet_investment = resolve_effective_investment(
+            race, betting_plan, predicted_combinations, prediction_type
+        )
+        if predicted_combinations:
+            print(f"  💴 実効投資額補正: {len(predicted_combinations)}点 × ¥{per_bet_investment:,} = ¥{investment:,}")
         
         race_result = fetch_single_race_result(race_id, ymd)
         
@@ -290,6 +334,7 @@ def fetch_race_results(ymd):
                 'actual': [],
                 'hit': False,
                 'investment': investment,
+                'per_bet_investment': per_bet_investment,
                 'return': 0,
                 'profit': -investment,
                 'payouts': {},
@@ -447,7 +492,7 @@ def fetch_race_results(ymd):
                     # Bug Fix ⑤: 1点単価を考慮した払戻計算
                     # sanrenpuku_payoutは100円あたりの払戻金額のため、実際の1点単価で補正
                     combo_count = len(predicted_combinations)
-                    per_bet = round(investment / combo_count) if combo_count > 0 else 100
+                    per_bet = per_bet_investment if combo_count > 0 else 100
                     return_amount = round(sanrenpuku_payout * per_bet / 100)
                     print(f"  ✅ 的中！ 1点¥{per_bet} × 払戻倍率({sanrenpuku_payout}÷100) = ¥{return_amount:,}")
                     break
@@ -500,6 +545,7 @@ def fetch_race_results(ymd):
             'hit': hit,
             'payout_missing': payout_missing,
             'investment': investment,
+            'per_bet_investment': per_bet_investment,
             'return': return_amount,
             'profit': profit,
             'payouts': race_result.get('payouts', {}),
