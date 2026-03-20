@@ -2777,6 +2777,35 @@
                     var axisCands = bp['軸'] || [];
                     var oppCands  = bp['相手'] || [];
                     var holeCands = bp['穴'] || [];
+                    var sanitizeRefCandidates = function(axisList, oppList, holeList) {
+                        function uniq(list, excludeSet) {
+                            var out = [];
+                            var seen = {};
+                            (list || []).forEach(function(h) {
+                                if (!h) return;
+                                var num = h['馬番'];
+                                if (num === undefined || num === null || num === '') return;
+                                var key = String(num);
+                                if ((excludeSet && excludeSet[key]) || seen[key]) return;
+                                seen[key] = true;
+                                out.push(h);
+                            });
+                            return out;
+                        }
+                        var axis = uniq(axisList, {});
+                        var axisSet = {};
+                        axis.forEach(function(h) { axisSet[String(h['馬番'])] = true; });
+                        var opp = uniq(oppList, axisSet);
+                        var oppSet = {};
+                        opp.forEach(function(h) { oppSet[String(h['馬番'])] = true; });
+                        var excludeForHole = Object.assign({}, axisSet, oppSet);
+                        var hole = uniq(holeList, excludeForHole);
+                        return { axis: axis, opp: opp, hole: hole };
+                    };
+                    var sanitizedRef = sanitizeRefCandidates(axisCands, oppCands, holeCands);
+                    axisCands = sanitizedRef.axis;
+                    oppCands = sanitizedRef.opp;
+                    holeCands = sanitizedRef.hole;
                     var layerCount = layer['断層数'] || 0;
                     var raceType   = layer['レースタイプ'] || '';
                     var skipReason = layer['スキップ理由'] || '推奨基準未満のため参考枠として掲載';

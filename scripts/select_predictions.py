@@ -1150,19 +1150,30 @@ def generate_betting_plan(race):
             analysis["参考予測"] = True
             analysis["参考_合成オッズ"] = core_synthetic_odds
             # v14.3.1: 参考枠でも軸馬・相手馬・穴馬情報をanalysisに保存（フロントエンド表示用）
-            analysis["軸馬候補"] = [
-                {"馬番": h.get("馬番"), "馬名": h.get("馬名"), "人気": h.get("人気"),
-                 "補正後スコア": h.get("補正後スコア", 0)}
-                for h in col1
-            ]
-            analysis["相手馬候補"] = [
-                {"馬番": h.get("馬番"), "馬名": h.get("馬名"), "人気": h.get("人気")}
-                for h in col2
-            ]
-            analysis["穴馬候補"] = [
-                {"馬番": h.get("馬番"), "馬名": h.get("馬名"), "人気": h.get("人気")}
-                for h in col3
-            ]
+            # col2/col3 は累積列のため、表示用には重複を除外して役割を排他的にする
+            def _to_simple_candidate_list(src, include_score=False, exclude=None):
+                exclude = exclude or set()
+                out = []
+                seen = set()
+                for h in src:
+                    num = h.get("馬番")
+                    if num is None:
+                        continue
+                    key = str(num)
+                    if key in exclude or key in seen:
+                        continue
+                    seen.add(key)
+                    row = {"馬番": num, "馬名": h.get("馬名"), "人気": h.get("人気")}
+                    if include_score:
+                        row["補正後スコア"] = h.get("補正後スコア", 0)
+                    out.append(row)
+                return out
+
+            _axis_nums_ref = {str(h.get("馬番")) for h in col1 if h.get("馬番") is not None}
+            _opp_nums_ref = {str(h.get("馬番")) for h in col2 if h.get("馬番") is not None}
+            analysis["軸馬候補"] = _to_simple_candidate_list(col1, include_score=True)
+            analysis["相手馬候補"] = _to_simple_candidate_list(col2, exclude=_axis_nums_ref)
+            analysis["穴馬候補"] = _to_simple_candidate_list(col3, exclude=(_axis_nums_ref | _opp_nums_ref))
             return None, 0, skip_msg, analysis, old_logic
         # --- 完全スキップ ---
         skip_msg = (
@@ -1487,8 +1498,36 @@ def select_races(race_data, max_races=9999):
                 # --- Phase1: 参考予測として別リストへ ---
                 ref_stake_ratio = FUND_MANAGEMENT.get("reference_stake_ratio", 0.5)
                 # v14.4: 三連複BOX買い目を生成（軸馬+相手馬でBOX）
-                _axis_cands = analysis.get("軸馬候補", [])
-                _aite_cands = analysis.get("相手馬候補", [])
+                def _sanitize_ref_candidates(axis_raw, opp_raw, hole_raw):
+                    def _uniq(items, exclude=None):
+                        exclude = exclude or set()
+                        out = []
+                        seen = set()
+                        for h in items:
+                            if not isinstance(h, dict):
+                                continue
+                            num = h.get("馬番")
+                            if num is None:
+                                continue
+                            key = str(num)
+                            if key in exclude or key in seen:
+                                continue
+                            seen.add(key)
+                            out.append(h)
+                        return out
+
+                    axis = _uniq(axis_raw)
+                    axis_nums = {str(h.get("馬番")) for h in axis if h.get("馬番") is not None}
+                    opp = _uniq(opp_raw, axis_nums)
+                    opp_nums = {str(h.get("馬番")) for h in opp if h.get("馬番") is not None}
+                    hole = _uniq(hole_raw, axis_nums | opp_nums)
+                    return axis, opp, hole
+
+                _axis_cands, _aite_cands, _hole_cands = _sanitize_ref_candidates(
+                    analysis.get("軸馬候補", []),
+                    analysis.get("相手馬候補", []),
+                    analysis.get("穴馬候補", []),
+                )
                 _axis_nums = [h["馬番"] for h in _axis_cands if isinstance(h, dict) and "馬番" in h]
                 _aite_nums = [h["馬番"] if isinstance(h, dict) else h for h in _aite_cands]
                 # 軸+相手を合わせてBOX（重複除去、最大6頭）
@@ -1503,7 +1542,7 @@ def select_races(race_data, max_races=9999):
                 ref_betting_plan = {
                     "軸":         _axis_cands,
                     "相手":       _aite_cands,
-                    "穴":         analysis.get("穴馬候補", []),
+                    "穴":         _hole_cands,
                     "合成オッズ": analysis.get("参考_合成オッズ", 0),
                     "組み合わせ数": ref_combos_count,
                     "全買い目":   [list(c) for c in _ref_combos_list],
