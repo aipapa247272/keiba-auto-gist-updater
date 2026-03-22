@@ -20,6 +20,28 @@
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="DES_AI競馬予想 | AI三連複予想">
     <meta name="twitter:description" content="AIと断層オッズ分析で三連複フォーメーションを毎日無料公開。">
+    <link rel="icon" href="./assets/des_logo.jpg" type="image/jpeg">
+    <link rel="canonical" href="https://aipapa247272.github.io/keiba-auto-gist-updater/">
+    <meta property="og:image" content="https://aipapa247272.github.io/keiba-auto-gist-updater/assets/des_hero.jpg">
+    <meta name="twitter:image" content="https://aipapa247272.github.io/keiba-auto-gist-updater/assets/des_hero.jpg">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "DES_AI競馬予想",
+      "url": "https://aipapa247272.github.io/keiba-auto-gist-updater/",
+      "description": "AIと断層オッズ分析で三連複フォーメーションを毎日無料公開し、結果検証まで確認できる競馬予想サイト。",
+      "publisher": {
+        "@type": "Organization",
+        "name": "DES_AI競馬予想",
+        "url": "https://aipapa247272.github.io/keiba-auto-gist-updater/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://aipapa247272.github.io/keiba-auto-gist-updater/assets/des_logo.jpg"
+        }
+      }
+    }
+    </script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5125047658543748" crossorigin="anonymous"></script>
     <style>
         * {
@@ -1427,17 +1449,367 @@
         .venue-bar-track { flex:1; height:14px; background:rgba(255,255,255,0.06); border-radius:7px; overflow:hidden; }
         .venue-bar-fill  { height:100%; border-radius:7px; transition: width 0.6s ease; }
         .venue-bar-val   { width:55px; text-align:right; color:#cfd8dc; }
+
+        /* === 2026-03 viewer/adSense refresh === */
+        .header-brand {
+            width: 88px;
+            height: 88px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid rgba(79,195,247,0.35);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.28);
+            margin: 0 auto 16px;
+            display: block;
+            background: #08131f;
+        }
+        .header-note {
+            max-width: 640px;
+            margin: 12px auto 0;
+            font-size: 13px;
+            line-height: 1.7;
+            color: #c9d8e6;
+        }
+        .top-shell {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 18px 20px 0;
+        }
+        .hero-panel {
+            background: linear-gradient(145deg, rgba(12,31,50,0.96) 0%, rgba(20,59,96,0.9) 100%);
+            border: 1px solid rgba(79,195,247,0.22);
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 18px 36px rgba(0,0,0,0.24);
+            margin-bottom: 14px;
+        }
+        .hero-media {
+            position: relative;
+        }
+        .hero-media img {
+            width: 100%;
+            display: block;
+            aspect-ratio: 16 / 6;
+            object-fit: cover;
+        }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, rgba(7,18,29,0.84) 0%, rgba(7,18,29,0.55) 40%, rgba(7,18,29,0.16) 100%);
+        }
+        .hero-copy {
+            position: absolute;
+            inset: 0;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 8px;
+            z-index: 1;
+        }
+        .hero-eyebrow {
+            display: inline-flex;
+            width: fit-content;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 10px;
+            border-radius: 999px;
+            background: rgba(79,195,247,0.16);
+            border: 1px solid rgba(79,195,247,0.24);
+            color: #8ee7ff;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+        }
+        .hero-heading {
+            font-size: 24px;
+            line-height: 1.25;
+            color: #fff;
+            font-weight: 800;
+            text-shadow: 0 6px 20px rgba(0,0,0,0.28);
+            max-width: 260px;
+        }
+        .hero-text {
+            font-size: 13px;
+            color: #d6e5f2;
+            line-height: 1.7;
+            max-width: 280px;
+        }
+        .quick-links-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .quick-link-card,
+        .content-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(79,195,247,0.14);
+            border-radius: 14px;
+            padding: 14px;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.14);
+        }
+        .quick-link-card {
+            text-decoration: none;
+            display: block;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+        .quick-link-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(79,195,247,0.32);
+        }
+        .quick-link-label {
+            color: #4fc3f7;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .quick-link-title {
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .quick-link-desc,
+        .content-card p,
+        .content-card li {
+            color: #b9c9d8;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+        .top-info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .content-card h2,
+        .tab-lead-title,
+        .section-banner-copy h2 {
+            color: #ffffff;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+        .content-list {
+            padding-left: 18px;
+            margin-top: 8px;
+        }
+        .tab-lead {
+            margin-bottom: 14px;
+        }
+        .guide-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .guide-card {
+            background: rgba(9,22,34,0.55);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 12px;
+        }
+        .guide-card-title {
+            color: #80deea;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .loading-shell {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(79,195,247,0.14);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 14px;
+        }
+        .loading-shell-title {
+            color: #4fc3f7;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .loading-shell-text {
+            color: #b0c4de;
+            font-size: 12px;
+            margin-bottom: 12px;
+        }
+        .skeleton-line {
+            height: 11px;
+            border-radius: 999px;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.06) 0%, rgba(79,195,247,0.26) 50%, rgba(255,255,255,0.06) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 1.4s infinite linear;
+        }
+        .skeleton-line.short { width: 40%; }
+        .skeleton-line.mid { width: 68%; }
+        .skeleton-line.long { width: 92%; }
+        @keyframes shimmer {
+            from { background-position: 200% 0; }
+            to { background-position: -200% 0; }
+        }
+        .status-panel {
+            margin-bottom: 14px;
+            padding: 14px;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.04);
+        }
+        .status-panel.error {
+            border-color: rgba(239,83,80,0.28);
+            background: rgba(239,83,80,0.08);
+        }
+        .status-panel h3 {
+            font-size: 15px;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+        .status-panel p {
+            color: #cdd9e3;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+        .section-banner {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            margin: 16px 0 12px;
+            border: 1px solid rgba(255,255,255,0.08);
+            min-height: 122px;
+            box-shadow: 0 14px 28px rgba(0,0,0,0.18);
+        }
+        .section-banner img {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            inset: 0;
+            object-fit: cover;
+        }
+        .section-banner::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, rgba(6,15,24,0.86) 0%, rgba(6,15,24,0.46) 55%, rgba(6,15,24,0.18) 100%);
+        }
+        .section-banner.reference::after {
+            background: linear-gradient(90deg, rgba(14,20,30,0.86) 0%, rgba(14,20,30,0.54) 55%, rgba(14,20,30,0.18) 100%);
+        }
+        .section-banner-copy {
+            position: relative;
+            z-index: 1;
+            padding: 16px;
+            max-width: 70%;
+        }
+        .section-banner-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 6px;
+            color: #7be7ff;
+            font-size: 11px;
+            font-weight: 700;
+            background: rgba(79,195,247,0.14);
+            border: 1px solid rgba(79,195,247,0.22);
+            border-radius: 999px;
+            padding: 4px 9px;
+        }
+        .section-banner-copy p {
+            color: #d7e7f3;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+        .inline-link-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .inline-link-list a {
+            color: #4fc3f7;
+            font-size: 12px;
+            text-decoration: none;
+            padding: 6px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(79,195,247,0.22);
+            background: rgba(79,195,247,0.08);
+        }
+        .inline-link-list a:hover {
+            background: rgba(79,195,247,0.16);
+        }
+        .site-footer .footer-links a {
+            text-decoration: none;
+        }
+        @media (max-width: 520px) {
+            .hero-heading { font-size: 20px; max-width: 220px; }
+            .hero-text { max-width: 220px; font-size: 12px; }
+            .guide-grid, .quick-links-grid { grid-template-columns: 1fr; }
+            .section-banner-copy { max-width: 82%; }
+            .header-brand { width: 74px; height: 74px; }
+        }
 </style>
 </head>
 <body>
     <div class="header">
+        <img src="./assets/des_logo.jpg" alt="DES_AI競馬予想ロゴ" class="header-brand">
         <div class="title">DES_AI競馬予想</div>
         <div class="subtitle">デュアル・エッジ・システム</div>
         <div class="subtitle">週単位プラス収支を目指す</div>
         <div class="subtitle">AI戦略予想</div>
-        <a href="https://x.com/AIkeibayosouDES" target="_blank" class="x-link">
+        <div class="header-note">推奨レースと参考レースを分けて毎日公開し、結果検証・統計・レポートまで一画面で確認できる無料の競馬予想サイトです。買い目はすべて100円単位で表示し、後から振り返りやすい構成にしています。</div>
+        <a href="https://x.com/AIkeibayosouDES" target="_blank" rel="noopener" class="x-link">
             公式X: @AIkeibayosouDES
         </a>
+    </div>
+
+    <div class="top-shell">
+        <section class="hero-panel">
+            <div class="hero-media">
+                <img src="./assets/des_hero.jpg" alt="DES_AI競馬予想 メインビジュアル">
+                <div class="hero-overlay"></div>
+                <div class="hero-copy">
+                    <div class="hero-eyebrow">AI×断層オッズ分析</div>
+                    <div class="hero-heading">無料で毎日更新する三連複予想と結果検証</div>
+                    <div class="hero-text">「今日はどこを見ればいいか」が3秒で分かるよう、推奨・参考・結果・統計を整理して掲載しています。</div>
+                </div>
+            </div>
+        </section>
+
+        <div class="quick-links-grid">
+            <a class="quick-link-card" href="./about.html">
+                <div class="quick-link-label">ABOUT</div>
+                <div class="quick-link-title">このサイトについて</div>
+                <div class="quick-link-desc">無料公開の方針、更新対象、見てほしいポイントをまとめています。</div>
+            </a>
+            <a class="quick-link-card" href="./methodology.html">
+                <div class="quick-link-label">METHOD</div>
+                <div class="quick-link-title">予想ロジックの見方</div>
+                <div class="quick-link-desc">推奨レースと参考レースの違い、100円単位の資金配分ルールを確認できます。</div>
+            </a>
+            <a class="quick-link-card" href="./privacy.html">
+                <div class="quick-link-label">POLICY</div>
+                <div class="quick-link-title">プライバシーポリシー</div>
+                <div class="quick-link-desc">広告・Cookie・アクセス解析の取り扱いを掲載しています。</div>
+            </a>
+            <a class="quick-link-card" href="./contact.html">
+                <div class="quick-link-label">CONTACT</div>
+                <div class="quick-link-title">運営者情報・連絡先</div>
+                <div class="quick-link-desc">問い合わせ導線、修正依頼の窓口、外部リンクをまとめています。</div>
+            </a>
+        </div>
+
+        <div class="top-info-grid">
+            <div class="content-card">
+                <h2>このサイトで分かること</h2>
+                <p>推奨レースでは優先して確認したい三連複BOX候補を、参考レースでは基準未満でも見どころのある候補を整理して表示します。結果ページでは投資額・払戻・損益を100円単位で振り返れます。</p>
+            </div>
+            <div class="content-card">
+                <h2>ご利用前のポイント</h2>
+                <ul class="content-list">
+                    <li>予想はAIによる統計・断層分析を基にした参考情報です。</li>
+                    <li>推奨と参考は期待値基準が異なります。まずは推奨から確認してください。</li>
+                    <li>馬券購入は自己責任です。競馬は20歳以上の方のみ参加できます。</li>
+                </ul>
+            </div>
+        </div>
     </div>
 
     <div class="tab-nav">
@@ -1461,27 +1833,50 @@
 
     <div class="content">
         <div id="predictions-tab" class="tab-content active">
-            <!-- Phase3: 広告スロット（上部バナー） -->
-            <div class="ad-slot">
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="ca-pub-5125047658543748"
-                     data-ad-slot="4641261891"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
-                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            <div class="content-card tab-lead">
+                <div class="tab-lead-title">📘 予想ページの見方</div>
+                <p>推奨レースは期待値基準を満たした本線候補、参考レースは条件が一歩届かなかった振り返り用の候補です。まずは推奨レースから確認し、気になるレースだけ参考レースを見る使い方を想定しています。</p>
+                <div class="guide-grid">
+                    <div class="guide-card">
+                        <div class="guide-card-title">今日の推奨レース予想</div>
+                        <p>合成オッズ3.5倍以上を目安に選定。投資額・買い目・軸馬の根拠を優先表示します。</p>
+                    </div>
+                    <div class="guide-card">
+                        <div class="guide-card-title">今日の参考レース予想</div>
+                        <p>基準未満でも見どころがあるレースを掲載。少額・研究用として分けて確認できます。</p>
+                    </div>
+                </div>
             </div>
-
-            <div class="loading">
-                <div class="loading-spinner"></div>
-                <div class="loading-text">予想データを取得中...</div>
+            <div class="loading-shell">
+                <div class="loading-shell-title">🔄 予想データを取得中</div>
+                <div class="loading-shell-text">データ読み込み中でもページの見方は確認できます。表示更新まで少々お待ちください。</div>
+                <div class="skeleton-line short"></div>
+                <div class="skeleton-line long"></div>
+                <div class="skeleton-line mid"></div>
             </div>
         </div>
 
         <div id="results-tab" class="tab-content">
-            <div class="loading">
-                <div class="loading-spinner"></div>
-                <div class="loading-text">結果データを取得中...</div>
+            <div class="content-card tab-lead">
+                <div class="tab-lead-title">📗 結果ページの見方</div>
+                <p>昨日の結果は、推奨・参考を分けたまま投資額・払戻・損益を100円単位で表示します。的中だけでなく、どの買い目が近かったかまで振り返りやすい設計にしています。</p>
+                <div class="guide-grid">
+                    <div class="guide-card">
+                        <div class="guide-card-title">まず見る指標</div>
+                        <p>対象レース数、的中数、的中率、収支を最上段で確認し、その後に各レース詳細へ進めます。</p>
+                    </div>
+                    <div class="guide-card">
+                        <div class="guide-card-title">レースごとの振り返り</div>
+                        <p>予想・結果・買い目・払戻を1カードに集約。推奨と参考の違いもバッジで判別できます。</p>
+                    </div>
+                </div>
+            </div>
+            <div class="loading-shell">
+                <div class="loading-shell-title">🔄 結果データを取得中</div>
+                <div class="loading-shell-text">結果の反映状況を確認しています。データ取得後に昨日の損益と各レース詳細を表示します。</div>
+                <div class="skeleton-line short"></div>
+                <div class="skeleton-line long"></div>
+                <div class="skeleton-line mid"></div>
             </div>
         </div>
 
@@ -1933,6 +2328,67 @@
             container.appendChild(card);
         }
 
+
+        function getPredictionIntroHTML() {
+            return `
+                <div class="content-card tab-lead">
+                    <div class="tab-lead-title">📘 予想ページの見方</div>
+                    <p>推奨レースは期待値基準を満たした本線候補、参考レースは条件が一歩届かなかった振り返り用の候補です。まずは推奨レースから確認し、気になるレースだけ参考レースを見る構成です。</p>
+                    <div class="guide-grid">
+                        <div class="guide-card">
+                            <div class="guide-card-title">今日の推奨レース予想</div>
+                            <p>期待値が高い本線候補を優先表示。投資額・買い目・軸馬の根拠を先に見られます。</p>
+                        </div>
+                        <div class="guide-card">
+                            <div class="guide-card-title">今日の参考レース予想</div>
+                            <p>基準未満でも見どころがあるレースを掲載。少額・研究用として切り分けて確認できます。</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getResultsIntroHTML() {
+            return `
+                <div class="content-card tab-lead">
+                    <div class="tab-lead-title">📗 結果ページの見方</div>
+                    <p>結果ページでは、投資額・払戻・損益を100円単位で振り返れます。推奨と参考の違いも残したまま表示するため、翌日以降の見直しにも使えます。</p>
+                    <div class="guide-grid">
+                        <div class="guide-card">
+                            <div class="guide-card-title">最初に確認する項目</div>
+                            <p>対象レース数、的中数、的中率、収支を最上段に集約し、昨日の結論がすぐ分かります。</p>
+                        </div>
+                        <div class="guide-card">
+                            <div class="guide-card-title">レースごとの振り返り</div>
+                            <p>予想・結果・買い目・払戻を1カードに整理し、どこが噛み合ったかを見返せます。</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function buildLoadingShell(message) {
+            return `
+                <div class="loading-shell">
+                    <div class="loading-shell-title">🔄 データを更新しています</div>
+                    <div class="loading-shell-text">${message}</div>
+                    <div class="skeleton-line short"></div>
+                    <div class="skeleton-line long"></div>
+                    <div class="skeleton-line mid"></div>
+                </div>
+            `;
+        }
+
+        function buildErrorPanel(title, message, retryAction) {
+            return `
+                <div class="status-panel error">
+                    <h3>${title}</h3>
+                    <p>${message}</p>
+                    <button class="refresh-btn" onclick="${retryAction}()" style="margin-top: 12px;">🔄 再試行</button>
+                </div>
+            `;
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             loadPredictions();
             loadResults();
@@ -1982,14 +2438,8 @@
         async function loadPredictions() {
             try {
                 console.log('Loading predictions...');
-                
-                document.getElementById('predictions-tab').innerHTML = `
-                    <div class="loading">
-                        <div class="loading-spinner"></div>
-                        <div class="loading-text">予想データを更新中...</div>
-                    </div>
-                `;
-                
+                document.getElementById('predictions-tab').innerHTML = getPredictionIntroHTML() + buildLoadingShell('予想データを更新中です。推奨・参考レースの反映まで少々お待ちください。');
+
                 const url = `https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/latest_predictions.json?t=${Date.now()}`;
                 const response = await fetch(url, { cache: 'no-cache' });
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -1998,38 +2448,22 @@
                 renderPredictions(predictionsData);
             } catch (error) {
                 console.error('予想データ取得エラー:', error);
-                document.getElementById('predictions-tab').innerHTML = `
-                    <div class="error-message">
-                        ❌ 予想データの取得に失敗しました<br>
-                        エラー: ${error.message}
-                        <button class="refresh-btn" onclick="loadPredictions()" style="margin-top: 15px; display: block; margin-left: auto; margin-right: auto;">
-                            🔄 再試行
-                        </button>
-                    </div>
-                `;
+                document.getElementById('predictions-tab').innerHTML = getPredictionIntroHTML() + buildErrorPanel('❌ 予想データの取得に失敗しました', `通信またはJSON取得に失敗しました。時間を置いて再試行してください。詳細: ${error.message}`, 'loadPredictions');
             }
         }
 
         async function loadResults() {
             try {
                 console.log('Loading results...');
-                
-                document.getElementById('results-tab').innerHTML = `
-                    <div class="loading">
-                        <div class="loading-spinner"></div>
-                        <div class="loading-text">結果データを更新中...</div>
-                    </div>
-                `;
-                
-                // JST で「昨日」の ymd を計算
+                document.getElementById('results-tab').innerHTML = getResultsIntroHTML() + buildLoadingShell('結果データを更新中です。昨日の損益と各レースの払戻を確認しています。');
+
                 const jstNow = new Date(Date.now() + 9 * 60 * 60 * 1000);
                 const jstYesterday = new Date(jstNow.getTime() - 24 * 60 * 60 * 1000);
                 const ymd = jstYesterday.toISOString().slice(0, 10).replace(/-/g, '');
                 const BASE_RAW = 'https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/';
-                
+
                 let loadedData = null;
-                
-                // まず「昨日」の race_results_YYYYMMDD.json を試みる
+
                 try {
                     const urlYesterday = `${BASE_RAW}race_results_${ymd}.json?t=${Date.now()}`;
                     const res = await fetch(urlYesterday, { cache: 'no-cache' });
@@ -2040,8 +2474,7 @@
                 } catch (e) {
                     console.warn('Yesterday results not found, trying latest_results.json', e);
                 }
-                
-                // フォールバック: latest_results.json
+
                 if (!loadedData) {
                     const urlLatest = `${BASE_RAW}latest_results.json?t=${Date.now()}`;
                     const res2 = await fetch(urlLatest, { cache: 'no-cache' });
@@ -2049,20 +2482,12 @@
                     loadedData = await res2.json();
                     console.log('Loaded latest results (fallback):', loadedData);
                 }
-                
+
                 resultsData = loadedData;
                 renderResults(resultsData);
             } catch (error) {
                 console.error('結果データ取得エラー:', error);
-                document.getElementById('results-tab').innerHTML = `
-                    <div class="error-message">
-                        ❌ 結果データの取得に失敗しました<br>
-                        エラー: ${error.message}
-                        <button class="refresh-btn" onclick="loadResults()" style="margin-top: 15px; display: block; margin-left: auto; margin-right: auto;">
-                            🔄 再試行
-                        </button>
-                    </div>
-                `;
+                document.getElementById('results-tab').innerHTML = getResultsIntroHTML() + buildErrorPanel('❌ 結果データの取得に失敗しました', `通信またはJSON取得に失敗しました。時間を置いて再試行してください。詳細: ${error.message}`, 'loadResults');
             }
         }
 
@@ -2189,6 +2614,15 @@
                     <div class="update-time">${updateTime}</div>
                 </div>
 
+                <div class="content-card tab-lead">
+                    <div class="tab-lead-title">💡 予想ページの使い方</div>
+                    <p>推奨レースはまず確認したい本線候補、参考レースは基準未満でも見どころがある補助候補です。投資額はすべて100円単位で表示し、どのレースにどれだけ配分しているかをひと目で確認できます。</p>
+                    <div class="inline-link-list">
+                        <a href="./methodology.html">予想ロジックを見る</a>
+                        <a href="./about.html">サイトの見方を見る</a>
+                    </div>
+                </div>
+
                 <!-- Phase2: 分析コメントボックス -->
                 <div id="analysis-comment-${targetDate}" class="analysis-comment-box" style="display:none;"></div>
 
@@ -2249,6 +2683,15 @@
                             <span class="legend-icon">🔴</span>
                             <span class="legend-text">高: 大混戦（それ以外）</span>
                         </div>
+                    </div>
+                </div>
+
+                <div class="section-banner recommend">
+                    <img src="./assets/recommend_banner.jpg" alt="今日の推奨レース予想バナー">
+                    <div class="section-banner-copy">
+                        <div class="section-banner-kicker">MAIN PICKS</div>
+                        <h2>今日の推奨レース予想</h2>
+                        <p>まずはここから確認。期待値基準を満たした本線候補を、投資額・軸馬・買い目付きで表示します。</p>
                     </div>
                 </div>
             `;
@@ -2758,6 +3201,14 @@
 
             // ===== 参考レース描画（viewer-first v14.5）=====
             if (refRaces.length > 0) {
+                html += `<div class="section-banner reference">
+                            <img src="./assets/des_hero.jpg" alt="今日の参考レース予想バナー">
+                            <div class="section-banner-copy">
+                                <div class="section-banner-kicker">REFERENCE PICKS</div>
+                                <h2>今日の参考レース予想</h2>
+                                <p>基準には一歩届かないものの、比較材料として残しておきたいレースを研究用として掲載しています。</p>
+                            </div>
+                         </div>`;
                 html += '<div class="section-label section-label-ref" style="margin-top:16px;">'
                       + '<span style="color:#b0bec5;">⭐⭐ 参考レース（' + refRaces.length + '件）</span>'
                       + '<span style="color:#78909c;font-size:11px;margin-left:8px;">合成オッズ2.0〜3.5倍・少額参考推奨（100円/点）</span>'
@@ -3020,6 +3471,15 @@
                 <div class="update-info">
                     <div class="update-label">📅 対象日</div>
                     <div class="update-time">${formatDate(targetDate)}</div>
+                </div>
+
+                <div class="content-card tab-lead">
+                    <div class="tab-lead-title">🧾 結果ページのポイント</div>
+                    <p>推奨・参考の区別を残したまま、投資額・払戻・損益を1カードに整理しています。昨日の結論を上で確認し、気になるレースだけ下へ進めば振り返りやすい構成です。</p>
+                    <div class="inline-link-list">
+                        <a href="./methodology.html">判定基準を見る</a>
+                        <a href="./terms.html">免責事項を見る</a>
+                    </div>
                 </div>
 
                 <div class="summary-grid">
@@ -4536,9 +4996,12 @@ function renderMonthlyReport(stats, container) {
             馬券の購入は自己責任でお願いします。競馬は20歳以上の方のみ。
         </div>
         <div class="footer-links">
-            <div style="margin-bottom:6px;">
+            <div style="margin-bottom:6px; line-height: 1.9;">
+                <a href="./about.html" style="color:#4fc3f7;font-size:12px;margin:0 8px;">このサイトについて</a>
+                <a href="./methodology.html" style="color:#4fc3f7;font-size:12px;margin:0 8px;">予想ロジック</a>
                 <a href="./privacy.html" style="color:#4fc3f7;font-size:12px;margin:0 8px;">プライバシーポリシー</a>
                 <a href="./terms.html" style="color:#4fc3f7;font-size:12px;margin:0 8px;">利用規約</a>
+                <a href="./contact.html" style="color:#4fc3f7;font-size:12px;margin:0 8px;">お問い合わせ</a>
                 <a href="./privacy.html#adsense" style="color:#78909c;font-size:11px;margin:0 8px;">広告について</a>
             </div>
             &copy; 2026 DES_AI競馬予想 | データ出所: JRA / NAR公式

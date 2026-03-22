@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>予想ロジック | DES_AI競馬予想</title>
+    <meta name="description" content="推奨レース・参考レースの違いや100円単位の資金配分ルールを説明しています。">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://aipapa247272.github.io/keiba-auto-gist-updater/methodology.html">
+    <link rel="icon" href="./assets/des_logo.jpg" type="image/jpeg">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Segoe UI', -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', sans-serif; background:linear-gradient(180deg,#0a1929 0%,#1a2332 100%); min-height:100vh; color:#cfd8dc; line-height:1.85; }
+        .header { background:linear-gradient(135deg,#0d3251 0%,#1a2332 100%); padding:22px 16px; text-align:center; box-shadow:0 4px 20px rgba(0,0,0,0.3); }
+        .header img { width:72px; height:72px; border-radius:50%; object-fit:cover; border:3px solid rgba(79,195,247,0.28); margin-bottom:10px; }
+        .header a { color:#4fc3f7; text-decoration:none; font-size:13px; }
+        .site-title { font-size:20px; font-weight:700; color:#fff; margin-bottom:6px; }
+        .container { max-width:760px; margin:0 auto; padding:24px 16px 48px; }
+        h1 { font-size:24px; font-weight:800; color:#ffffff; margin:0 0 8px; }
+        .lead { font-size:14px; color:#b8cad6; margin-bottom:16px; }
+        .hero { border-radius:16px; overflow:hidden; margin-bottom:18px; border:1px solid rgba(79,195,247,0.18); box-shadow:0 14px 28px rgba(0,0,0,0.18); }
+        .hero img { width:100%; display:block; aspect-ratio:16/5; object-fit:cover; }
+        .section { background:rgba(255,255,255,0.04); border:1px solid rgba(79,195,247,0.14); border-radius:14px; padding:18px 20px; margin-bottom:14px; }
+        h2 { font-size:17px; font-weight:700; color:#80cbc4; margin:0 0 10px; padding-left:10px; border-left:3px solid #4fc3f7; }
+        p { font-size:14px; color:#b0bec5; margin-bottom:12px; }
+        ul, ol { padding-left:20px; margin-bottom:12px; }
+        li { font-size:14px; color:#b0bec5; margin-bottom:6px; }
+        .badge { display:inline-block; font-size:11px; color:#4fc3f7; background:rgba(79,195,247,0.12); border:1px solid rgba(79,195,247,0.28); border-radius:999px; padding:3px 8px; margin-bottom:10px; }
+        .link-row { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+        .link-row a { color:#4fc3f7; text-decoration:none; border:1px solid rgba(79,195,247,0.22); background:rgba(79,195,247,0.08); border-radius:999px; padding:6px 10px; font-size:12px; }
+        .footer { text-align:center; padding:24px 16px; border-top:1px solid rgba(255,255,255,0.08); font-size:12px; color:#546e7a; }
+        .footer a { color:#4fc3f7; margin:0 8px; text-decoration:none; }
+        table { width:100%; border-collapse:collapse; margin-top:8px; }
+        td { padding:8px 10px; border-bottom:1px solid rgba(255,255,255,0.08); font-size:13px; color:#b0bec5; vertical-align:top; }
+        td:first-child { color:#78909c; width:140px; white-space:nowrap; }
+    </style>
+</head>
+<body>
+<header class="header">
+    <img src="./assets/des_logo.jpg" alt="DES_AI競馬予想ロゴ">
+    <div class="site-title">DES_AI競馬予想</div>
+    <a href="https://aipapa247272.github.io/keiba-auto-gist-updater/">← トップページへ戻る</a>
+</header>
+<div class="container">
+    
+<div class="hero"><img src="./assets/recommend_banner.jpg" alt="今日の推奨レース予想バナー"></div>
+<h1>予想ロジックの見方</h1>
+<p class="lead">このページでは、推奨レースと参考レースの違い、買い目の考え方、結果ページの見方を初心者にも分かるように整理しています。</p>
+<div class="section">
+    <div class="badge">PREDICTION FLOW</div>
+    <h2>基本の判定フロー</h2>
+    <ol>
+        <li>レース条件やスコアを集計し、候補レースを抽出します。</li>
+        <li>合成オッズや期待値基準をもとに、推奨レースと参考レースに分けます。</li>
+        <li>軸馬・相手・穴候補を整理し、三連複BOXの買い目を作成します。</li>
+        <li>投資額は100円単位で統一し、表示と集計の基準を合わせています。</li>
+    </ol>
+</div>
+<div class="section">
+    <h2>推奨レースと参考レースの違い</h2>
+    <table>
+        <tr><td>推奨レース</td><td>期待値基準を満たした本線候補です。まず最初に確認してほしいレースを掲載します。</td></tr>
+        <tr><td>参考レース</td><td>基準には届かないものの、見どころや比較材料があるレースです。少額・研究用として区別しています。</td></tr>
+        <tr><td>投資額</td><td>いずれも100円単位で表示します。結果ページでも同じ基準で損益を計算します。</td></tr>
+    </table>
+</div>
+<div class="section">
+    <h2>結果ページで見てほしい点</h2>
+    <ul>
+        <li>最上段の対象レース数・的中数・的中率・収支で昨日の結論を確認する</li>
+        <li>気になるレースだけカードを開き、予想と結果のズレを確認する</li>
+        <li>統計ページで期間全体の傾向や競馬場別の成績を確認する</li>
+    </ul>
+</div>
+<div class="section">
+    <h2>重要な注意事項</h2>
+    <p>予想ロジックは継続的に改善されるため、掲載内容は将来の成績を保証するものではありません。あくまで参考情報としてご利用ください。</p>
+    <div class="link-row">
+        <a href="./about.html">このサイトについて</a>
+        <a href="./terms.html">利用規約・免責事項</a>
+    </div>
+</div>
+
+</div>
+<footer class="footer">
+    <a href="./">トップ</a>
+    <a href="./about.html">このサイトについて</a>
+    <a href="./methodology.html">予想ロジック</a>
+    <a href="./privacy.html">プライバシーポリシー</a>
+    <a href="./terms.html">利用規約</a>
+    <a href="./contact.html">お問い合わせ</a>
+    <br><br>&copy; 2026 DES_AI競馬予想
+</footer>
+</body>
+</html>
