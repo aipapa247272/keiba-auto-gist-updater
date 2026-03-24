@@ -1886,6 +1886,18 @@
         </div>
 
         <div id="stats-tab" class="tab-content">
+            <div class="section-banner results">
+                <img src="./assets/banner_results.webp" alt="統計・成績分析バナー">
+                <div class="section-banner-copy">
+                    <div class="section-banner-kicker">STATISTICS & TRENDS</div>
+                    <h2>統計・推移データ</h2>
+                    <p>日別・競馬場別・トラック別の実績を一覧化し、AI予想の傾向と回収率の推移をひと目で確認できます。</p>
+                </div>
+            </div>
+            <div class="content-card tab-lead">
+                <div class="tab-lead-title">📈 統計ページの見方</div>
+                <p>総レース数、的中率、回収率を先に確認し、その後に日別・競馬場別・トラック別の差分を見ると傾向を掴みやすくなります。</p>
+            </div>
             <div class="section-header">
                 <div class="section-title">📈 統計</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-left:auto;">
@@ -2113,18 +2125,30 @@
             </div>
 
         <div id="reports-tab" class="tab-content">
-       <div class="section-title">📊 分析レポート</div>
-    
-       <div class="report-type-selector">
-        <button class="report-type-btn active" onclick="loadReport('daily')">📅 日次レポート</button>
-        <button class="report-type-btn" onclick="loadReport('weekly')">📊 週次レポート</button>
-               <button class="report-type-btn" onclick="loadReport('monthly')">📈 月次レポート</button>
+            <div class="section-banner results">
+                <img src="./assets/banner_results.webp" alt="分析レポートバナー">
+                <div class="section-banner-copy">
+                    <div class="section-banner-kicker">REPORTS & INSIGHTS</div>
+                    <h2>分析レポート</h2>
+                    <p>日次・週次・月次レポートを切り替えながら、回収率の変化やセグメント別の傾向をまとめて確認できます。</p>
                 </div>
+            </div>
+            <div class="content-card tab-lead">
+                <div class="tab-lead-title">📊 レポートページの見方</div>
+                <p>まず期間を切り替えて全体像を確認し、その後にインサイトや推奨アクションを見ると次回の判断材料として使いやすくなります。</p>
+            </div>
+            <div class="section-title">📊 分析レポート</div>
+    
+            <div class="report-type-selector">
+                <button class="report-type-btn active" onclick="loadReport('daily')">📅 日次レポート</button>
+                <button class="report-type-btn" onclick="loadReport('weekly')">📊 週次レポート</button>
+                <button class="report-type-btn" onclick="loadReport('monthly')">📈 月次レポート</button>
+            </div>
     
             <div id="report-container" class="report-container">
-            <div class="loading">📊 レポートを読み込み中...</div>
-                </div>
-                </div>
+                <div class="loading">📊 レポートを読み込み中...</div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -3475,7 +3499,7 @@
             const recommendCount = recommendSummary.total_races ?? races.filter(r => (r.prediction_type || 'recommend') !== 'reference').length;
             const referenceCount = referenceSummary.total_races ?? races.filter(r => (r.prediction_type || 'recommend') === 'reference').length;
 
-            let html = `
+            let html = getResultsIntroHTML() + `
                 <div class="section-header">
                     <div class="section-title">🎯 昨日の結果</div>
                     <button class="refresh-btn" onclick="loadResults()">🔄 更新</button>
@@ -3486,14 +3510,6 @@
                     <div class="update-time">${formatDate(targetDate)}</div>
                 </div>
 
-                <div class="content-card tab-lead">
-                    <div class="tab-lead-title">🧾 結果ページのポイント</div>
-                    <p>推奨・参考の区別を残したまま、投資額・払戻・損益を1カードに整理しています。昨日の結論を上で確認し、気になるレースだけ下へ進めば振り返りやすい構成です。</p>
-                    <div class="inline-link-list">
-                        <a href="./methodology.html">判定基準を見る</a>
-                        <a href="./terms.html">免責事項を見る</a>
-                    </div>
-                </div>
 
                 <div class="summary-grid">
                     <div class="summary-card">
@@ -3548,17 +3564,39 @@
                     </div>
                 `;
             } else {
-                // ① 開催時間順にソート（start_time がない場合は race_num 順）
-                races.sort((a, b) => {
+                const sortByStartTime = (a, b) => {
                     const ta = a.start_time || '99:99';
                     const tb = b.start_time || '99:99';
                     if (ta !== tb) return ta.localeCompare(tb);
                     return String(a.race_num || '').localeCompare(String(b.race_num || ''));
-                });
-                races.forEach(result => {
+                };
+                const recommendResults = races
+                    .filter(r => (r.prediction_type || 'recommend') !== 'reference')
+                    .slice()
+                    .sort(sortByStartTime);
+                const referenceResults = races
+                    .filter(r => (r.prediction_type || 'recommend') === 'reference')
+                    .slice()
+                    .sort(sortByStartTime);
+                const orderedResults = [...recommendResults, ...referenceResults];
+                const renderedGroups = { recommend: false, reference: false };
+                orderedResults.forEach(result => {
+                    const predictionType = result.prediction_type || 'recommend';
+                    if (!renderedGroups[predictionType]) {
+                        const isReferenceGroup = predictionType === 'reference';
+                        const groupCount = isReferenceGroup ? referenceResults.length : recommendResults.length;
+                        html += `
+                            <div class="content-card" style="margin-bottom: 14px; border-left: 4px solid ${isReferenceGroup ? '#90a4ae' : '#4fc3f7'}; background: linear-gradient(135deg, rgba(22,31,43,0.95), rgba(17,25,38,0.92));">
+                                <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+                                    <div style="font-size:15px;font-weight:700;color:${isReferenceGroup ? '#cfd8dc' : '#4fc3f7'};">${isReferenceGroup ? '参考レース' : '推奨レース'}（発走時刻順）</div>
+                                    <div style="font-size:12px;color:#90a4ae;">${groupCount}Rをこの順で表示</div>
+                                </div>
+                            </div>
+                        `;
+                        renderedGroups[predictionType] = true;
+                    }
                     const statusText = result.hit ? '🎯 的中' : '❌ 不的中';
                     const statusClass = result.hit ? 'hit' : 'miss';
-                    const predictionType = result.prediction_type || 'recommend';
                     const isReference = predictionType === 'reference';
                     const predictionBadge = isReference
                         ? '<span class="rank-badge rank-reference" style="margin-right:6px;vertical-align:middle;">⭐⭐ 参考</span>'
