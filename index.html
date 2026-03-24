@@ -1243,8 +1243,10 @@
             margin-right: 6px;
         }
         .rank-recommend {
-            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            background: linear-gradient(135deg, #00bcd4, #2196f3);
             color: #fff;
+            border: 1px solid rgba(79, 195, 247, 0.45);
+            box-shadow: 0 2px 10px rgba(33, 150, 243, 0.22);
         }
         .rank-reference {
             background: #b0bec5;
@@ -2164,7 +2166,7 @@
 
             if (selected.length > 0) {
                 comment += `<b>📅 ${dateStr}</b> — 対象${total}R中、`;
-                comment += `<span style="color:#ffd54f;font-weight:bold;">推奨${selected.length}件</span>`;
+                comment += `<span style="color:#4fc3f7;font-weight:bold;">推奨${selected.length}件</span>`;
                 if (refRaces.length > 0) comment += `・参考${refRaces.length}件`;
                 comment += `を選定しました。<br>`;
 
@@ -2257,7 +2259,7 @@
                 if (selected.length > 0) {
                     const lbl = document.createElement('div');
                     lbl.className = 'section-label';
-                    lbl.innerHTML = `<span style="color:#ffd54f;">⭐⭐⭐ 推奨レース（${selected.length}件）</span><span style="color:#90a4ae;font-size:11px;margin-left:8px;">合成オッズ3.5倍以上・高期待値</span>`;
+                    lbl.innerHTML = `<span style="color:#4fc3f7;">⭐⭐⭐ 推奨レース（${selected.length}件）</span><span style="color:#90a4ae;font-size:11px;margin-left:8px;">合成オッズ3.5倍以上・高期待値</span>`;
                     container.appendChild(lbl);
                     selected.forEach(race => renderRaceCard(race, 'recommend', container));
                 } else {
@@ -2646,13 +2648,13 @@
                         <div class="summary-label">全レース数</div>
                         <div class="summary-value">${totalRacesCount}R</div>
                     </div>
-                    <div class="summary-card" style="border-left:3px solid #ffd54f;">
+                    <div class="summary-card" style="border-left:3px solid #4fc3f7; box-shadow: inset 0 0 0 1px rgba(79,195,247,0.12);">
                         <div class="summary-label">⭐⭐⭐推奨レース</div>
-                        <div class="summary-value" style="color:#ffd54f;">${races.length}R</div>
+                        <div class="summary-value" style="color:#4fc3f7;">${races.length}R</div>
                     </div>
-                    <div class="summary-card" style="border-left:3px solid #ffd54f;">
+                    <div class="summary-card" style="border-left:3px solid #4fc3f7; box-shadow: inset 0 0 0 1px rgba(79,195,247,0.12);">
                         <div class="summary-label">推奨 投資額</div>
-                        <div class="summary-value" style="color:#ffd54f;">¥${recInvestment.toLocaleString()}</div>
+                        <div class="summary-value" style="color:#4fc3f7;">¥${recInvestment.toLocaleString()}</div>
                     </div>
                     <div class="summary-card" style="border-left:3px solid #90a4ae;">
                         <div class="summary-label">⭐⭐参考レース</div>
@@ -3512,9 +3514,9 @@
                             ${totalProfit >= 0 ? '+' : ''}¥${totalProfit.toLocaleString()}
                         </div>
                     </div>
-                    <div class="summary-card" style="border-left:3px solid #ffd54f;">
+                    <div class="summary-card" style="border-left:3px solid #4fc3f7; box-shadow: inset 0 0 0 1px rgba(79,195,247,0.12);">
                         <div class="summary-label">推奨結果</div>
-                        <div class="summary-value" style="color:#ffd54f;">${recommendCount}R</div>
+                        <div class="summary-value" style="color:#4fc3f7;">${recommendCount}R</div>
                     </div>
                     <div class="summary-card" style="border-left:3px solid #90a4ae;">
                         <div class="summary-label">参考結果</div>
