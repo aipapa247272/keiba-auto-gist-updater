@@ -20,10 +20,10 @@
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="DES_AI競馬予想 | AI三連複予想">
     <meta name="twitter:description" content="AIと断層オッズ分析で三連複フォーメーションを毎日無料公開。">
-    <link rel="icon" href="./assets/des_logo.jpg" type="image/jpeg">
+    <link rel="icon" href="./assets/des_logo.png" type="image/png">
     <link rel="canonical" href="https://aipapa247272.github.io/keiba-auto-gist-updater/">
-    <meta property="og:image" content="https://aipapa247272.github.io/keiba-auto-gist-updater/assets/des_hero.jpg">
-    <meta name="twitter:image" content="https://aipapa247272.github.io/keiba-auto-gist-updater/assets/des_hero.jpg">
+    <meta property="og:image" content="https://aipapa247272.github.io/keiba-auto-gist-updater/assets/hero_main.webp">
+    <meta name="twitter:image" content="https://aipapa247272.github.io/keiba-auto-gist-updater/assets/hero_main.webp">
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -37,7 +37,7 @@
         "url": "https://aipapa247272.github.io/keiba-auto-gist-updater/",
         "logo": {
           "@type": "ImageObject",
-          "url": "https://aipapa247272.github.io/keiba-auto-gist-updater/assets/des_logo.jpg"
+          "url": "https://aipapa247272.github.io/keiba-auto-gist-updater/assets/des_logo.png"
         }
       }
     }
@@ -1693,6 +1693,9 @@
         .section-banner.reference::after {
             background: linear-gradient(90deg, rgba(14,20,30,0.86) 0%, rgba(14,20,30,0.54) 55%, rgba(14,20,30,0.18) 100%);
         }
+        .section-banner.results::after {
+            background: linear-gradient(90deg, rgba(8,16,28,0.88) 0%, rgba(8,16,28,0.58) 55%, rgba(8,16,28,0.16) 100%);
+        }
         .section-banner-copy {
             position: relative;
             z-index: 1;
@@ -1749,7 +1752,7 @@
 </head>
 <body>
     <div class="header">
-        <img src="./assets/des_logo.jpg" alt="DES_AI競馬予想ロゴ" class="header-brand">
+        <img src="./assets/des_logo.png" alt="DES_AI競馬予想ロゴ" class="header-brand">
         <div class="title">DES_AI競馬予想</div>
         <div class="subtitle">デュアル・エッジ・システム</div>
         <div class="subtitle">週単位プラス収支を目指す</div>
@@ -1763,12 +1766,12 @@
     <div class="top-shell">
         <section class="hero-panel">
             <div class="hero-media">
-                <img src="./assets/des_hero.jpg" alt="DES_AI競馬予想 メインビジュアル">
+                <img src="./assets/hero_main.webp" alt="DES_AI競馬予想 メインビジュアル">
                 <div class="hero-overlay"></div>
                 <div class="hero-copy">
-                    <div class="hero-eyebrow">AI×断層オッズ分析</div>
-                    <div class="hero-heading">無料で毎日更新する三連複予想と結果検証</div>
-                    <div class="hero-text">「今日はどこを見ればいいか」が3秒で分かるよう、推奨・参考・結果・統計を整理して掲載しています。</div>
+                    <div class="hero-eyebrow">AI HORSE RACING ANALYTICS</div>
+                    <div class="hero-heading">日本のAI競馬分析</div>
+                    <div class="hero-text">推奨・参考・結果を、AI分析でわかりやすく可視化。予想から実績検証までを、ひとつの画面で整理表示します。</div>
                 </div>
             </div>
         </section>
@@ -2350,6 +2353,14 @@
 
         function getResultsIntroHTML() {
             return `
+                <div class="section-banner results">
+                    <img src="./assets/banner_results.webp" alt="結果・実績分析バナー">
+                    <div class="section-banner-copy">
+                        <div class="section-banner-kicker">RESULTS & PERFORMANCE</div>
+                        <h2>結果・実績分析</h2>
+                        <p>回収率・的中率・収支をAI分析で可視化し、予想結果を数値と推移でわかりやすく整理します。</p>
+                    </div>
+                </div>
                 <div class="content-card tab-lead">
                     <div class="tab-lead-title">📗 結果ページの見方</div>
                     <p>結果ページでは、投資額・払戻・損益を100円単位で振り返れます。推奨と参考の違いも残したまま表示するため、翌日以降の見直しにも使えます。</p>
@@ -2687,11 +2698,11 @@
                 </div>
 
                 <div class="section-banner recommend">
-                    <img src="./assets/recommend_banner.jpg" alt="今日の推奨レース予想バナー">
+                    <img src="./assets/banner_recommended.webp" alt="推奨レース予想バナー">
                     <div class="section-banner-copy">
-                        <div class="section-banner-kicker">MAIN PICKS</div>
-                        <h2>今日の推奨レース予想</h2>
-                        <p>まずはここから確認。期待値基準を満たした本線候補を、投資額・軸馬・買い目付きで表示します。</p>
+                        <div class="section-banner-kicker">RECOMMENDED RACE PICKS</div>
+                        <h2>推奨レース予想</h2>
+                        <p>AI分析に基づく注目レースを厳選表示。投資額・軸馬・買い目をまとめて確認できます。</p>
                     </div>
                 </div>
             `;
@@ -3202,11 +3213,11 @@
             // ===== 参考レース描画（viewer-first v14.5）=====
             if (refRaces.length > 0) {
                 html += `<div class="section-banner reference">
-                            <img src="./assets/des_hero.jpg" alt="今日の参考レース予想バナー">
+                            <img src="./assets/banner_reference.webp" alt="参考レース予想バナー">
                             <div class="section-banner-copy">
-                                <div class="section-banner-kicker">REFERENCE PICKS</div>
-                                <h2>今日の参考レース予想</h2>
-                                <p>基準には一歩届かないものの、比較材料として残しておきたいレースを研究用として掲載しています。</p>
+                                <div class="section-banner-kicker">REFERENCE RACE PICKS</div>
+                                <h2>参考レース予想</h2>
+                                <p>AI分析に基づく参考候補を整理表示。低予算で確認しやすい比較材料として掲載しています。</p>
                             </div>
                          </div>`;
                 html += '<div class="section-label section-label-ref" style="margin-top:16px;">'
