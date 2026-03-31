@@ -382,8 +382,8 @@
         }
 
         .race-info {
-            font-size: 13px;
-            color: #b0c4de;
+            font-size: 14px;
+            color: #c1d4e8;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -3644,23 +3644,26 @@
                             
                             <div style="margin: 12px 0; padding: 12px; background: rgba(14,22,34,0.78); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px;">
                                 <details style="font-size: 13px;">
-                                    <summary style="color: #b0c4de; cursor: pointer; user-select: none; list-style: none; display: flex; align-items: flex-start; gap: 4px;">
-                                        <span style="font-size: 11px; color: #90a4ae; margin-top: 2px;">▶</span>
-                                        <div style="line-height: 1.9;">
-                                            <div><span style="color: #ffd54f; font-weight: 600;">📊予想:</span><span style="color: #e0e0e0;">軸</span><strong style="color: #4fc3f7; letter-spacing: 1px;">${axisStr || '-'}</strong></div>
-                                            <div style="padding-left: 3.2em;"><span style="color: #e0e0e0;">穴 </span><strong style="color: #ce93d8;">${opponentStr || '-'}</strong></div>
-                                            <div><span style="color: #a5d6a7; font-weight: 600;">🎯結果:</span><strong style="color: #fff;">${actual}</strong></div>
-                                            <div>
-        <span style="color: #ffcc80; font-weight: 600;">💰買い目:</span>
-        <strong style="color: #4fc3f7;">${predictedArray.length}点買い</strong>
-        <span style="color: #90caf9; font-size: 12px; margin-left:4px;">
-            (1点 ¥${comboCount > 0 ? perBetInvestment.toLocaleString() : '-'})
-        </span>
-        <span style="color: #78909c; font-size: 11px;">（タップで展開）</span>
-    </div>
+                                    <summary style="color: #d6e4f0; cursor: pointer; user-select: none; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(79,195,247,0.14); border-radius: 8px; padding: 10px 12px;">
+                                        <div style="display:flex; align-items:flex-start; gap:8px; flex:1; min-width:0;">
+                                            <span style="font-size: 11px; color: #d8f3ff; background: rgba(79,195,247,0.16); border: 1px solid rgba(79,195,247,0.25); border-radius: 999px; padding: 3px 8px; margin-top: 2px; white-space: nowrap;">詳細</span>
+                                            <div style="line-height: 1.95; flex:1; min-width:0;">
+                                                <div><span style="color: #ffd54f; font-weight: 600;">📊予想:</span><span style="color: #e0e0e0;">軸</span><strong style="color: #4fc3f7; letter-spacing: 1px;">${axisStr || '-'}</strong></div>
+                                                <div style="padding-left: 3.2em;"><span style="color: #e0e0e0;">穴 </span><strong style="color: #ce93d8;">${opponentStr || '-'}</strong></div>
+                                                <div><span style="color: #a5d6a7; font-weight: 600;">🎯結果:</span><strong style="color: #fff;">${actual}</strong></div>
+                                                <div>
+            <span style="color: #ffcc80; font-weight: 600;">💰買い目:</span>
+            <strong style="color: #4fc3f7;">${predictedArray.length}点買い</strong>
+            <span style="color: #b3e5fc; font-size: 13px; margin-left:4px;">
+                (1点 ¥${comboCount > 0 ? perBetInvestment.toLocaleString() : '-'})
+            </span>
+            <span style="color: #9fb3c8; font-size: 12px; margin-left:6px;">タップで詳細表示</span>
+        </div>
+                                            </div>
                                         </div>
+                                        <span style="font-size: 12px; color: #b0bec5; white-space: nowrap;">開く ▾</span>
                                     </summary>
-                                    <div style="margin-top: 8px; word-break: break-all; line-height: 1.8; padding-left: 1.2em;">
+                                    <div style="margin-top: 10px; word-break: break-all; line-height: 1.9; padding-left: 2px; font-size: 13px;">
                                         ${(() => {
                                             const actualStr = (result.actual?.[0] || '').trim();
                                             const actualSet = new Set(actualStr ? actualStr.split('-') : []);
@@ -3736,23 +3739,23 @@
                         Object.values(virtualBets).forEach(v => { vbTotalProfit += (v['収支'] || 0); });
                         html += `
                             <div style="margin-top:12px;padding:12px;background:rgba(19, 44, 68, 0.74);border-radius:8px;border:1px solid rgba(100,181,246,0.28);">
-                                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-                                    <div style="font-size:12px;color:#64b5f6;font-weight:600;">🧪 仮想収支（テスト検証用）</div>
-                                    <div style="font-size:11px;font-weight:700;color:${vbTotalProfit>=0?'#4caf50':'#ef5350'};">${vbTotalProfit>=0?'+':''}¥${vbTotalProfit.toLocaleString()}</div>
+                                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:10px;">
+                                    <div style="font-size:13px;color:#64b5f6;font-weight:700;">🧪 仮想収支（テスト検証用）</div>
+                                    <div style="font-size:13px;font-weight:800;color:${vbTotalProfit>=0?'#4caf50':'#ef5350'}; white-space:nowrap;">${vbTotalProfit>=0?'+':''}¥${vbTotalProfit.toLocaleString()}</div>
                                 </div>
-                                <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+                                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
                         `;
                         Object.entries(virtualBets).forEach(([key, v]) => {
                             const label = vbTypeLabel[key] || key;
                             const hitMark = v['的中'] ? '✅' : '❌';
                             const profitColor = v['収支'] >= 0 ? '#4caf50' : '#ef5350';
                             html += `
-                                    <div style="padding:8px;background:rgba(14,22,34,0.6);border-radius:6px;border:1px solid rgba(255,255,255,0.06);font-size:11px;">
-                                        <div style="display:flex;justify-content:space-between;align-items:center;">
-                                            <span style="color:#e3edf4;">${hitMark} ${label}</span>
-                                            <span style="color:${profitColor};font-weight:700;">${v['収支']>=0?'+':''}¥${v['収支'].toLocaleString()}</span>
+                                    <div style="padding:10px;background:rgba(14,22,34,0.6);border-radius:6px;border:1px solid rgba(255,255,255,0.06);font-size:12px;line-height:1.45;">
+                                        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
+                                            <span style="color:#e3edf4;font-weight:600;">${hitMark} ${label}</span>
+                                            <span style="color:${profitColor};font-weight:800;white-space:nowrap;">${v['収支']>=0?'+':''}¥${v['収支'].toLocaleString()}</span>
                                         </div>
-                                        <div style="color:#b0bec5;font-size:10px;margin-top:3px;">払戻 ¥${(v['払戻']||0).toLocaleString()} / 投資 ¥${(v['投資']||100).toLocaleString()}</div>
+                                        <div style="color:#c4d3df;font-size:11px;margin-top:5px;">払戻 ¥${(v['払戻']||0).toLocaleString()} / 投資 ¥${(v['投資']||100).toLocaleString()}</div>
                                     </div>
                             `;
                         });
