@@ -1754,6 +1754,265 @@
             .section-banner-copy { max-width: 82%; }
             .header-brand { width: 74px; height: 74px; }
         }
+
+        .strategy376-mode-switch {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 16px 0 12px;
+        }
+
+        .strategy376-mode-btn {
+            appearance: none;
+            border: 1px solid rgba(255,255,255,0.10);
+            background: rgba(18, 28, 42, 0.82);
+            color: #d8e6f3;
+            border-radius: 12px;
+            padding: 12px 14px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .2s ease;
+        }
+
+        .strategy376-mode-btn.active {
+            border-color: rgba(79,195,247,0.42);
+            background: rgba(20, 43, 67, 0.96);
+            color: #ffffff;
+            box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+        }
+
+        .strategy376-mode-btn[data-mode="popularity"].active {
+            border-color: rgba(255, 193, 7, 0.38);
+            background: rgba(74, 58, 13, 0.42);
+            color: #fff8db;
+        }
+
+        .strategy376-mode-btn[data-mode="desrank"].active {
+            border-color: rgba(79,195,247,0.42);
+            background: rgba(18, 49, 74, 0.52);
+            color: #e1f5fe;
+        }
+
+        .strategy376-note {
+            margin: 12px 0 16px;
+            padding: 14px;
+            background: rgba(20, 31, 46, 0.92);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            color: #c7d6e4;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .strategy376-kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            margin: 12px 0 18px;
+        }
+
+        .strategy376-kpi-card {
+            background: linear-gradient(180deg, rgba(28,39,56,0.96) 0%, rgba(16,24,36,0.98) 100%);
+            border-radius: 12px;
+            padding: 14px 12px;
+            border: 1px solid rgba(255,255,255,0.08);
+            text-align: center;
+        }
+
+        .strategy376-kpi-label {
+            color: #9eb0c2;
+            font-size: 11px;
+            margin-bottom: 7px;
+        }
+
+        .strategy376-kpi-value {
+            color: #ffffff;
+            font-size: 21px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .strategy376-kpi-value.positive { color: #81c784; }
+        .strategy376-kpi-value.negative { color: #ef9a9a; }
+        .strategy376-kpi-value.info { color: #4fc3f7; }
+        .strategy376-kpi-value.warn { color: #ffe082; }
+
+        .strategy376-section-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin: 18px 0 10px;
+            color: #fff;
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .strategy376-section-sub {
+            color: #90a4ae;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .strategy376-card {
+            background: linear-gradient(180deg, rgba(31,43,60,0.96) 0%, rgba(18,27,39,0.98) 100%);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 15px;
+            margin-bottom: 14px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.20);
+        }
+
+        .strategy376-card.popularity {
+            border-left: 4px solid #ffca28;
+        }
+
+        .strategy376-card.desrank {
+            border-left: 4px solid #4fc3f7;
+        }
+
+        .strategy376-card-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .strategy376-card-title {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 1.45;
+        }
+
+        .strategy376-card-meta {
+            color: #c2d4e4;
+            font-size: 13px;
+            margin-top: 5px;
+            line-height: 1.6;
+        }
+
+        .strategy376-pill-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0 12px;
+        }
+
+        .strategy376-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            border-radius: 999px;
+            padding: 5px 9px;
+            font-size: 11px;
+            font-weight: 700;
+            border: 1px solid rgba(255,255,255,0.10);
+            background: rgba(255,255,255,0.03);
+            color: #d6e3ef;
+        }
+
+        .strategy376-pill.good { background: rgba(76,175,80,0.15); color: #c8e6c9; border-color: rgba(76,175,80,0.25); }
+        .strategy376-pill.bad { background: rgba(229,57,53,0.14); color: #ffcdd2; border-color: rgba(229,57,53,0.25); }
+        .strategy376-pill.info { background: rgba(79,195,247,0.12); color: #b3e5fc; border-color: rgba(79,195,247,0.22); }
+        .strategy376-pill.warn { background: rgba(255,193,7,0.12); color: #ffe082; border-color: rgba(255,193,7,0.24); }
+
+        .strategy376-columns {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin: 12px 0;
+        }
+
+        .strategy376-column {
+            background: rgba(10, 18, 28, 0.42);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .strategy376-column-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #8ab4f8;
+            margin-bottom: 6px;
+        }
+
+        .strategy376-column-value {
+            color: #fff;
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.55;
+            word-break: break-word;
+        }
+
+        .strategy376-card details {
+            margin-top: 10px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 10px;
+            padding: 10px 12px;
+        }
+
+        .strategy376-card summary {
+            cursor: pointer;
+            color: #dbe7f1;
+            font-size: 12px;
+            font-weight: 700;
+            user-select: none;
+        }
+
+        .strategy376-combo-preview,
+        .strategy376-ranking-preview {
+            margin-top: 10px;
+            font-size: 12px;
+            line-height: 1.8;
+            color: #c6d4df;
+            word-break: break-word;
+        }
+
+        .strategy376-table-wrap {
+            overflow-x: auto;
+            margin-top: 10px;
+            background: rgba(20,29,40,0.85);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+        }
+
+        .strategy376-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 520px;
+        }
+
+        .strategy376-table th,
+        .strategy376-table td {
+            padding: 8px 6px;
+            font-size: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .strategy376-table th {
+            color: #90caf9;
+            text-align: left;
+            font-size: 11px;
+            white-space: nowrap;
+        }
+
+        .strategy376-empty {
+            margin: 14px 0;
+            padding: 18px 14px;
+            border-radius: 12px;
+            background: rgba(20,29,40,0.92);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: #b0c4de;
+            text-align: center;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
 </style>
 </head>
 <body>
@@ -1837,6 +2096,10 @@
         <button class="tab-btn" onclick="switchTab('reports')">
             <span class="tab-label">レポート</span>
             <span class="tab-icon">📋</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab('strategy376')">
+            <span class="tab-label">3-7-6</span>
+            <span class="tab-icon">🧪</span>
         </button>
     </div>
 
@@ -2153,11 +2416,37 @@
                 <div class="loading">📊 レポートを読み込み中...</div>
             </div>
         </div>
+
+
+        <div id="strategy376-tab" class="tab-content">
+            <div class="section-banner results">
+                <img src="./assets/banner_results.webp" alt="3-7-6検証バナー">
+                <div class="section-banner-copy">
+                    <div class="section-banner-kicker">STRATEGY LAB</div>
+                    <h2>3-7-6検証</h2>
+                    <p>DES本線とは分離し、人気順3-7-6とDES順位3-7-6を同条件で見比べる実験ページです。</p>
+                </div>
+            </div>
+            <div class="content-card tab-lead">
+                <div class="tab-lead-title">🧪 3-7-6検証ページの見方</div>
+                <p>本ページは既存DESロジックの本線成績とは別枠で、三連複フォーメーション「3-7-6」を検証するための実験タブです。初期版では1点100円固定、9頭以上かつ必要順位データが揃うレースを対象にしています。</p>
+            </div>
+            <div class="loading-shell">
+                <div class="loading-shell-title">🧪 3-7-6検証データを取得中</div>
+                <div class="loading-shell-text">人気順型とDES順位型の候補レース・履歴集計を読み込んでいます。少々お待ちください。</div>
+                <div class="skeleton-line short"></div>
+                <div class="skeleton-line long"></div>
+                <div class="skeleton-line mid"></div>
+            </div>
+        </div>
+
     </div>
 
     <script>
         let predictionsData = null;
         let resultsData = null;
+        let strategy376Data = null;
+        let strategy376Mode = 'popularity';
 
 
         // ── Phase2: 本日の分析コメント自動生成 ──
@@ -2471,9 +2760,11 @@
             
             if (tabName === 'stats') {
                 loadStatistics();
-                } else if (tabName === 'reports') {
-                    initReports();
-                }
+            } else if (tabName === 'reports') {
+                initReports();
+            } else if (tabName === 'strategy376') {
+                loadStrategy376();
+            }
            }
 
         async function loadPredictions() {
@@ -4743,6 +5034,235 @@ function formatReportDate(date, format) {
         return `${year}${month}`;
     }
     return `${year}-${month}-${day}`;
+}
+
+
+function getStrategy376IntroHTML() {
+    return `
+        <div class="section-banner results">
+            <img src="./assets/banner_results.webp" alt="3-7-6検証バナー">
+            <div class="section-banner-copy">
+                <div class="section-banner-kicker">STRATEGY LAB</div>
+                <h2>3-7-6検証</h2>
+                <p>人気順型とDES順位型を完全分離し、初期条件に合うレースだけを抽出して検証します。</p>
+            </div>
+        </div>
+        <div class="content-card tab-lead">
+            <div class="tab-lead-title">🧪 3-7-6検証ページの見方</div>
+            <p>DES本線の予想ロジックには混ぜず、別タブで人気順3-7-6とDES順位3-7-6を検証します。初期版は1点100円固定、履歴集計は結果データが存在するレースのみ対象です。</p>
+        </div>
+    `;
+}
+
+function formatYMDLabel(ymd) {
+    if (!ymd) return '-';
+    const s = String(ymd);
+    return s.replace(/(\d{4})(\d{2})(\d{2})/, '$1/$2/$3');
+}
+
+function formatMoney(value) {
+    const num = Number(value || 0);
+    const sign = num > 0 ? '+' : '';
+    return `${sign}¥${num.toLocaleString()}`;
+}
+
+function strategyModeLabel(mode) {
+    return mode === 'desrank' ? 'DES順位3-7-6' : '人気順3-7-6';
+}
+
+function strategyModeAccent(mode) {
+    return mode === 'desrank' ? '#4fc3f7' : '#ffca28';
+}
+
+async function loadStrategy376(forceReload = false) {
+    const container = document.getElementById('strategy376-tab');
+    if (!container) return;
+
+    if (strategy376Data && !forceReload) {
+        renderStrategy376(strategy376Data);
+        return;
+    }
+
+    container.innerHTML = getStrategy376IntroHTML() + buildLoadingShell('3-7-6検証データを読み込んでいます。人気順型とDES順位型の候補レース・履歴集計を反映中です。');
+
+    try {
+        const response = await fetch(`./data/strategy_376_lab.json?t=${Date.now()}`, { cache: 'no-cache' });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        strategy376Data = await response.json();
+        renderStrategy376(strategy376Data);
+    } catch (error) {
+        container.innerHTML = getStrategy376IntroHTML() + buildErrorPanel('❌ 3-7-6検証データの取得に失敗しました', `strategy_376_lab.json の読み込みに失敗しました。詳細: ${error.message}`, 'loadStrategy376');
+    }
+}
+
+function setStrategy376Mode(mode) {
+    strategy376Mode = mode;
+    if (strategy376Data) {
+        renderStrategy376(strategy376Data);
+    }
+}
+
+function renderStrategy376(data) {
+    const container = document.getElementById('strategy376-tab');
+    if (!container) return;
+
+    const mode = strategy376Mode || 'popularity';
+    const current = data.current?.modes?.[mode] || { summary: {}, races: [] };
+    const history = data.history?.modes?.[mode] || { summary: {}, records: [] };
+    const historySummary = history.summary || {};
+    const currentSummary = current.summary || {};
+    const accent = strategyModeAccent(mode);
+    const currentApplied = (current.races || []).filter(r => r.applied);
+    const recentRecords = (history.records || []).filter(r => r.applied).slice(0, 16);
+    const dailyRows = (data.history?.daily || []).slice(0, 14).map(day => {
+        const sum = day.modes?.[mode] || {};
+        return `
+            <tr>
+                <td>${formatYMDLabel(day.ymd)}</td>
+                <td style="text-align:center;">${sum.sample_races || 0}</td>
+                <td style="text-align:center;">${sum.applicable_races || 0}</td>
+                <td style="text-align:center;">${sum.hit_count || 0}</td>
+                <td style="text-align:right;">${(sum.hit_rate || 0).toFixed(1)}%</td>
+                <td style="text-align:right;">${(sum.recovery_rate || 0).toFixed(1)}%</td>
+                <td style="text-align:right; color:${(sum.total_profit || 0) >= 0 ? '#81c784' : '#ef9a9a'};">${formatMoney(sum.total_profit || 0)}</td>
+            </tr>
+        `;
+    }).join('');
+
+    const currentCards = currentApplied.length
+        ? currentApplied.map(race => renderStrategyCurrentCard(race, mode)).join('')
+        : `<div class="strategy376-empty">本日時点で初期条件に合う ${strategyModeLabel(mode)} の候補レースはありません。</div>`;
+
+    const historyCards = recentRecords.length
+        ? recentRecords.map(record => renderStrategyHistoryCard(record, mode)).join('')
+        : `<div class="strategy376-empty">履歴集計の対象となる ${strategyModeLabel(mode)} レースがまだありません。</div>`;
+
+    container.innerHTML = `
+        ${getStrategy376IntroHTML()}
+        <div class="section-header">
+            <div class="section-title">🧪 3-7-6検証</div>
+            <button class="refresh-btn" onclick="loadStrategy376(true)">🔄 更新</button>
+        </div>
+
+        <div class="strategy376-mode-switch">
+            <button class="strategy376-mode-btn ${mode === 'popularity' ? 'active' : ''}" data-mode="popularity" onclick="setStrategy376Mode('popularity')">👥 人気順3-7-6</button>
+            <button class="strategy376-mode-btn ${mode === 'desrank' ? 'active' : ''}" data-mode="desrank" onclick="setStrategy376Mode('desrank')">🧠 DES順位3-7-6</button>
+        </div>
+
+        <div class="strategy376-note">
+            <div style="font-weight:700; color:#fff; margin-bottom:6px;">現在表示中: <span style="color:${accent};">${strategyModeLabel(mode)}</span></div>
+            <div>本日の候補: ${formatYMDLabel(data.current?.ymd)} ｜ 初期条件: ${data.current?.apply_rule_note || '-'} ｜ 履歴集計: ${data.history?.sample_note || '-'}</div>
+            <div>固定条件: 1点 ¥${(data.unit_bet || 100).toLocaleString()} ｜ 歴史データは race_results と race_data が両方存在するレースのみを対象</div>
+        </div>
+
+        <div class="strategy376-section-title">📊 履歴サマリー <span class="strategy376-section-sub">結果データで検証できるレースのみ集計</span></div>
+        <div class="strategy376-kpi-grid">
+            <div class="strategy376-kpi-card"><div class="strategy376-kpi-label">検証レース数</div><div class="strategy376-kpi-value info">${historySummary.sample_races || 0}</div></div>
+            <div class="strategy376-kpi-card"><div class="strategy376-kpi-label">適用レース数</div><div class="strategy376-kpi-value info">${historySummary.applicable_races || 0}</div></div>
+            <div class="strategy376-kpi-card"><div class="strategy376-kpi-label">的中率</div><div class="strategy376-kpi-value ${((historySummary.hit_rate || 0) >= 50) ? 'positive' : 'warn'}">${(historySummary.hit_rate || 0).toFixed(1)}%</div></div>
+            <div class="strategy376-kpi-card"><div class="strategy376-kpi-label">回収率</div><div class="strategy376-kpi-value ${((historySummary.recovery_rate || 0) >= 100) ? 'positive' : 'warn'}">${(historySummary.recovery_rate || 0).toFixed(1)}%</div></div>
+            <div class="strategy376-kpi-card"><div class="strategy376-kpi-label">平均点数</div><div class="strategy376-kpi-value info">${historySummary.avg_bet_count || 0}点</div></div>
+            <div class="strategy376-kpi-card"><div class="strategy376-kpi-label">トリガミ率</div><div class="strategy376-kpi-value ${((historySummary.trigami_rate || 0) < 50) ? 'positive' : 'negative'}">${(historySummary.trigami_rate || 0).toFixed(1)}%</div></div>
+            <div class="strategy376-kpi-card"><div class="strategy376-kpi-label">総投資</div><div class="strategy376-kpi-value info">¥${(historySummary.total_investment || 0).toLocaleString()}</div></div>
+            <div class="strategy376-kpi-card"><div class="strategy376-kpi-label">総収支</div><div class="strategy376-kpi-value ${(historySummary.total_profit || 0) >= 0 ? 'positive' : 'negative'}">${formatMoney(historySummary.total_profit || 0)}</div></div>
+        </div>
+
+        <div class="strategy376-section-title">📅 本日の候補 <span class="strategy376-section-sub">${formatYMDLabel(data.current?.ymd)} / 適用 ${currentSummary.applicable_races || 0}R</span></div>
+        <div class="strategy376-note">
+            <div>対象レース数: <b>${currentSummary.sample_races || 0}</b> ｜ 適用: <b>${currentSummary.applicable_races || 0}</b> ｜ 見送り: <b>${currentSummary.skipped_races || 0}</b> ｜ 平均点数: <b>${currentSummary.avg_bet_count || 0}点</b></div>
+            <div>※ 初期版は適用条件を絞り込み過ぎず、まず候補を広く確認する設計です。後続フェーズでフィルタ強化が可能です。</div>
+        </div>
+        ${currentCards}
+
+        <div class="strategy376-section-title">🗓 日別サマリー <span class="strategy376-section-sub">直近14営業日</span></div>
+        <div class="strategy376-table-wrap">
+            <table class="strategy376-table">
+                <thead>
+                    <tr>
+                        <th>日付</th>
+                        <th style="text-align:center;">検証</th>
+                        <th style="text-align:center;">適用</th>
+                        <th style="text-align:center;">的中</th>
+                        <th style="text-align:right;">的中率</th>
+                        <th style="text-align:right;">回収率</th>
+                        <th style="text-align:right;">収支</th>
+                    </tr>
+                </thead>
+                <tbody>${dailyRows || '<tr><td colspan="7">データなし</td></tr>'}</tbody>
+            </table>
+        </div>
+
+        <div class="strategy376-section-title">📚 直近の履歴レース <span class="strategy376-section-sub">適用レースのみ最新16件</span></div>
+        ${historyCards}
+    `;
+}
+
+function renderStrategyCurrentCard(race, mode) {
+    const accent = strategyModeAccent(mode);
+    const comboPreview = (race.combinations || []).slice(0, 12).join(' / ');
+    const restCount = Math.max((race.combinations || []).length - 12, 0);
+    const pickTypeClass = race.des_pick_type === '推奨' ? 'good' : (race.des_pick_type === '参考' ? 'warn' : 'info');
+    return `
+        <div class="strategy376-card ${mode}">
+            <div class="strategy376-card-head">
+                <div>
+                    <div class="strategy376-card-title">${race.venue} ${race.race_num}R ${race.race_name}</div>
+                    <div class="strategy376-card-meta">${race.track || '-'}${race.distance || '-'}m ｜ 発走 ${race.start_time || '-'} ｜ ${race.head_count || '-'}頭</div>
+                </div>
+                <div class="strategy376-pill good">適用</div>
+            </div>
+            <div class="strategy376-pill-row">
+                <span class="strategy376-pill ${pickTypeClass}">DES掲載: ${race.des_pick_type || '未掲載'}</span>
+                <span class="strategy376-pill info">${race.bet_count || 0}点</span>
+                <span class="strategy376-pill info">¥${(race.total_investment || 0).toLocaleString()}</span>
+                <span class="strategy376-pill warn">${race.reason || '初期条件クリア'}</span>
+            </div>
+            <div class="strategy376-columns">
+                <div class="strategy376-column"><div class="strategy376-column-label">1列目 A</div><div class="strategy376-column-value">${(race.columns?.A || []).join(' - ') || '-'}</div></div>
+                <div class="strategy376-column"><div class="strategy376-column-label">2列目 B</div><div class="strategy376-column-value">${(race.columns?.B || []).join(' - ') || '-'}</div></div>
+                <div class="strategy376-column"><div class="strategy376-column-label">3列目 C</div><div class="strategy376-column-value">${(race.columns?.C || []).join(' - ') || '-'}</div></div>
+            </div>
+            <details>
+                <summary>買い目と順位プレビューを開く</summary>
+                <div class="strategy376-combo-preview"><b style="color:${accent};">買い目先頭12点:</b> ${comboPreview || 'データなし'}${restCount > 0 ? ` / ...残り${restCount}点` : ''}</div>
+                <div class="strategy376-ranking-preview"><b style="color:${accent};">順位プレビュー:</b> ${(race.ranked_preview || []).map(item => `${item.rank}位:${item.horse_no}`).join(' / ')}</div>
+            </details>
+        </div>
+    `;
+}
+
+function renderStrategyHistoryCard(record, mode) {
+    const accent = strategyModeAccent(mode);
+    const comboPreview = (record.combinations || []).slice(0, 10).join(' / ');
+    const restCount = Math.max((record.combinations || []).length - 10, 0);
+    return `
+        <div class="strategy376-card ${mode}">
+            <div class="strategy376-card-head">
+                <div>
+                    <div class="strategy376-card-title">${formatYMDLabel(record.ymd)} ${record.venue} ${record.race_num}R ${record.race_name}</div>
+                    <div class="strategy376-card-meta">${record.track || '-'}${record.distance || '-'}m ｜ 発走 ${record.start_time || '-'} ｜ 実際の三連複 ${record.actual_combo || '-'}</div>
+                </div>
+                <div class="strategy376-pill ${record.hit ? 'good' : 'bad'}">${record.hit ? '的中' : '不的中'}</div>
+            </div>
+            <div class="strategy376-pill-row">
+                <span class="strategy376-pill info">${record.bet_count || 0}点</span>
+                <span class="strategy376-pill info">投資 ¥${(record.total_investment || 0).toLocaleString()}</span>
+                <span class="strategy376-pill ${record.hit ? 'good' : 'bad'}">払戻 ¥${(record.payout || 0).toLocaleString()}</span>
+                <span class="strategy376-pill ${(record.profit || 0) >= 0 ? 'good' : 'bad'}">収支 ${formatMoney(record.profit || 0)}</span>
+                <span class="strategy376-pill warn">元ページ: ${record.prediction_label || record.prediction_type || '検証'}</span>
+            </div>
+            <div class="strategy376-columns">
+                <div class="strategy376-column"><div class="strategy376-column-label">1列目 A</div><div class="strategy376-column-value">${(record.columns?.A || []).join(' - ') || '-'}</div></div>
+                <div class="strategy376-column"><div class="strategy376-column-label">2列目 B</div><div class="strategy376-column-value">${(record.columns?.B || []).join(' - ') || '-'}</div></div>
+                <div class="strategy376-column"><div class="strategy376-column-label">3列目 C</div><div class="strategy376-column-value">${(record.columns?.C || []).join(' - ') || '-'}</div></div>
+            </div>
+            <details>
+                <summary>買い目詳細を開く</summary>
+                <div class="strategy376-combo-preview"><b style="color:${accent};">買い目先頭10点:</b> ${comboPreview || 'データなし'}${restCount > 0 ? ` / ...残り${restCount}点` : ''}</div>
+                <div class="strategy376-ranking-preview"><b style="color:${accent};">順位プレビュー:</b> ${(record.ranked_preview || []).map(item => `${item.rank}位:${item.horse_no}`).join(' / ')}</div>
+            </details>
+        </div>
+    `;
 }
 
 function getMonday(date) {
