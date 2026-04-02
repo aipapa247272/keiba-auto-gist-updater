@@ -4330,6 +4330,40 @@
         // ── 統計データ グローバルキャッシュ ──
         let _statsData = null;
 
+        function parseLogicVersion(logicVersion) {
+            const raw = String(logicVersion || '').trim();
+            if (!raw) return { raw, sortable: false, parts: [-1] };
+            if (raw.includes('以前')) return { raw, sortable: false, parts: [-2] };
+            const normalized = raw.replace(/^v/i, '');
+            const parts = normalized.split('.').map(part => {
+                const num = Number(part.replace(/[^0-9]/g, ''));
+                return Number.isFinite(num) ? num : 0;
+            });
+            return { raw, sortable: true, parts };
+        }
+
+        function compareLogicVersionDesc(a, b) {
+            const va = parseLogicVersion(a?.logic_version ?? a);
+            const vb = parseLogicVersion(b?.logic_version ?? b);
+            if (va.sortable !== vb.sortable) return va.sortable ? -1 : 1;
+            const len = Math.max(va.parts.length, vb.parts.length);
+            for (let i = 0; i < len; i++) {
+                const pa = va.parts[i] ?? 0;
+                const pb = vb.parts[i] ?? 0;
+                if (pa !== pb) return pb - pa;
+            }
+            return String(a?.logic_version ?? a).localeCompare(String(b?.logic_version ?? b), 'ja');
+        }
+
+        function getSortedLogicVersions(data) {
+            return [...(data?.by_logic_version || [])].sort(compareLogicVersionDesc);
+        }
+
+        function getLatestLogicVersionEntry(data) {
+            const sorted = getSortedLogicVersions(data).filter(lv => lv.logic_version);
+            return sorted[0] || data?.latest_logic_overall || null;
+        }
+
         async function loadStatistics() {
             try {
                 const response = await fetch('https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/statistics.json?t=' + Date.now(), {cache: 'no-cache'});
@@ -4360,8 +4394,9 @@
             if (!sel) return;
             // 既存のオプションをクリアして再構築
             sel.innerHTML = '<option value="latest">最新ロジック</option>';
-            if (data.by_logic_version && data.by_logic_version.length > 0) {
-                data.by_logic_version.forEach(lv => {
+            const sortedLogicVersions = getSortedLogicVersions(data);
+            if (sortedLogicVersions.length > 0) {
+                sortedLogicVersions.forEach(lv => {
                     const opt = document.createElement('option');
                     opt.value = lv.logic_version;
                     opt.textContent = `${lv.logic_version}（${lv.races}R）`;
@@ -4393,20 +4428,20 @@
                 period = '';
                 filteredDaily = data.daily || [];
             } else if (ver === 'latest') {
-                // 最新ロジック (latest_logic_overall)
-                const lv = data.latest_logic_overall || data.overall;
+                // 最新ロジック（バージョン文字列を比較して最大値を採用）
+                const latestEntry = getLatestLogicVersionEntry(data);
+                const lv = latestEntry || data.latest_logic_overall || data.overall;
+                const latestVer = latestEntry?.logic_version || lv?.logic_version || null;
                 kpiData = {
-                    total_races:      lv.races      || lv.total_races      || 0,
-                    total_hits:       lv.hits       || lv.total_hits       || 0,
-                    hit_rate:         lv.hit_rate   || 0,
-                    recovery_rate:    lv.recovery_rate || 0,
-                    total_investment: lv.investment || lv.total_investment || 0,
-                    total_profit:     lv.profit     || lv.total_profit     || 0
+                    total_races:      lv?.races      || lv?.total_races      || 0,
+                    total_hits:       lv?.hits       || lv?.total_hits       || 0,
+                    hit_rate:         lv?.hit_rate   || 0,
+                    recovery_rate:    lv?.recovery_rate || 0,
+                    total_investment: lv?.investment || lv?.total_investment || 0,
+                    total_profit:     lv?.profit     || lv?.total_profit     || 0
                 };
-                label = '最新ロジック：' + (lv.logic_version || 'v13.1');
-                period = lv.period || '';
-                // 最新バージョンの日別データのみフィルタ
-                const latestVer = (data.by_logic_version && data.by_logic_version[0]) ? data.by_logic_version[0].logic_version : null;
+                label = '最新ロジック：' + (latestVer || 'v14.3.1');
+                period = lv?.period || '';
                 filteredDaily = latestVer
                     ? (data.daily || []).filter(d => d.logic_version === latestVer)
                     : (data.daily || []);
