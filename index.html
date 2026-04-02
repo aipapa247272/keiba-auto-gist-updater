@@ -1399,7 +1399,19 @@
             width: 100%;
             margin: 12px 0;
             text-align: center;
-            min-height: 60px;
+        }
+        .ad-slot.live-ad-slot {
+            margin: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.25s ease, margin 0.25s ease;
+        }
+        .ad-slot.live-ad-slot.is-filled {
+            margin: 16px 0 12px;
+            max-height: 280px;
+        }
+        .ad-slot.live-ad-slot.is-unfilled {
+            display: none;
         }
         .ad-slot-banner {
             background: rgba(255,255,255,0.03);
@@ -2381,7 +2393,7 @@
         </div>
 
             <!-- Phase3: 広告スロット（統計タブ下部） -->
-            <div class="ad-slot" style="margin-top:16px;">
+            <div class="ad-slot live-ad-slot">
                 <ins class="adsbygoogle"
                      style="display:block"
                      data-ad-client="ca-pub-5125047658543748"
@@ -2719,9 +2731,46 @@
             `;
         }
 
+        let managedAdSlotsInitialized = false;
+
+        function updateManagedAdSlots() {
+            document.querySelectorAll('.live-ad-slot').forEach(slot => {
+                const ad = slot.querySelector('ins.adsbygoogle');
+                if (!ad) return;
+                const status = ad.getAttribute('data-ad-status');
+                slot.classList.remove('is-filled', 'is-unfilled');
+                if (status === 'filled') {
+                    slot.classList.add('is-filled');
+                } else if (status === 'unfilled') {
+                    slot.classList.add('is-unfilled');
+                }
+            });
+        }
+
+        function initManagedAdSlots() {
+            if (managedAdSlotsInitialized) {
+                updateManagedAdSlots();
+                return;
+            }
+            managedAdSlotsInitialized = true;
+
+            document.querySelectorAll('.live-ad-slot ins.adsbygoogle').forEach(ad => {
+                const observer = new MutationObserver(() => updateManagedAdSlots());
+                observer.observe(ad, {
+                    attributes: true,
+                    attributeFilter: ['data-ad-status', 'style']
+                });
+            });
+
+            updateManagedAdSlots();
+            window.setTimeout(updateManagedAdSlots, 1200);
+            window.setTimeout(updateManagedAdSlots, 3200);
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             loadPredictions();
             loadResults();
+            initManagedAdSlots();
         });
 
 
@@ -2760,6 +2809,7 @@
             
             if (tabName === 'stats') {
                 loadStatistics();
+                window.setTimeout(updateManagedAdSlots, 300);
             } else if (tabName === 'reports') {
                 initReports();
             } else if (tabName === 'strategy376') {
