@@ -13,25 +13,47 @@ import requests
 from datetime import datetime
 from collections import defaultdict
 import os
+import re
 
 BASE_URL = "https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/"
 
 # ロジックバージョンの日付マッピング（日付→バージョン）
 # final_predictions から読み取れない場合のフォールバック
 LOGIC_VERSION_DATES = {
-    "v13.1": "20260306",   # 2026-03-06以降
-    "v13.0": "20260227",   # 2026-02-27〜03-05
-    "v12以前": "20260101", # 〜2026-02-26
+    "v14.4": "20260405",
+    "v14.3.1": "20260318",
+    "v14.3": "20260314",
+    "v14.1": "20260313",
+    "v14.0": "20260312",
+    "v13.1": "20260308",
+    "v13.0": "20260306",
+    "v12": "20260225",
+    "v12以前": "20260101",
 }
 
 def get_logic_version_by_date(ymd):
     """日付からロジックバージョンを推定（フォールバック用）"""
-    if ymd >= "20260306":
-        return "v13.1"
-    elif ymd >= "20260227":
-        return "v13.0"
-    else:
-        return "v12以前"
+    for version, start_date in sorted(
+        LOGIC_VERSION_DATES.items(), key=lambda x: x[1], reverse=True
+    ):
+        if ymd >= start_date:
+            return version
+    return "v12以前"
+
+
+def parse_logic_version(version):
+    """v14.3.1 / v12以前 / v13.0 などを比較可能なタプルへ変換"""
+    if not version:
+        return (-1, -1, -1, version or "")
+    if version == "v12以前":
+        return (12, -1, -1, version)
+    match = re.match(r'^v(\d+)(?:\.(\d+))?(?:\.(\d+))?$', version)
+    if match:
+        major = int(match.group(1) or 0)
+        minor = int(match.group(2) or 0)
+        patch = int(match.group(3) or 0)
+        return (major, minor, patch, version)
+    return (-1, -1, -1, version)
 
 
 def fetch_logic_versions():
@@ -224,10 +246,11 @@ def calculate_statistics(all_data, version_map):
 
     # ロジックバージョン別リスト（最新版が先頭）
     logic_list = []
-    # バージョン番号で降順ソート
-    version_order = {"v13.1": 0, "v13.0": 1, "v12以前": 2}
-    for k, s in sorted(logic_stats.items(),
-                        key=lambda x: version_order.get(x[0], 99)):
+    for k, s in sorted(
+        logic_stats.items(),
+        key=lambda x: parse_logic_version(x[0]),
+        reverse=True
+    ):
         dates_sorted = sorted(s['dates'])
         period_start = dates_sorted[0] if dates_sorted else ''
         period_end   = dates_sorted[-1] if dates_sorted else ''
