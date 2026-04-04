@@ -4382,7 +4382,7 @@
                 renderHitHighlights();
 
                 // ── verification_stats ダッシュボード ──
-                renderVerificationStats(_statsData);
+                renderVerificationStats(_statsData, 'latest');
 
             } catch (error) {
                 console.error('統計データ取得エラー:', error);
@@ -4541,14 +4541,29 @@
                     `;
                 });
             }
+
+            renderVerificationStats(data, ver);
         }
 
+
+        function getVerificationStatsForVersion(data, ver = 'latest') {
+            const allStats = data?.verification_stats || {};
+            const byLogicVersion = allStats.by_logic_version || {};
+
+            if (ver === 'all') return allStats;
+            if (ver === 'latest') {
+                const latestEntry = getLatestLogicVersionEntry(data);
+                const latestVer = latestEntry?.logic_version || null;
+                return (latestVer && byLogicVersion[latestVer]) || allStats;
+            }
+            return byLogicVersion[ver] || allStats;
+        }
 
         // ============================================================
         // verification_stats ダッシュボード描画
         // ============================================================
-        function renderVerificationStats(data) {
-            const vs = data.verification_stats;
+        function renderVerificationStats(data, ver = 'latest') {
+            const vs = getVerificationStatsForVersion(data, ver);
             if (!vs || vs.total_verify_races === 0) {
                 // データ未蓄積時はセクション非表示
                 const sec = document.getElementById('vstat-section');

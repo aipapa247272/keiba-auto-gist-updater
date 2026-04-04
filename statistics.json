@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-04 22:13:11",
+  "generated_at": "2026-04-04 22:18:14",
   "overall": {
     "total_races": 315,
     "total_hits": 60,
@@ -1170,6 +1170,67 @@
     "upset_rate": 31.0,
     "avg_odds_ratio": 50.281,
     "avg_predicted_in_top3": 1.73,
-    "note": "axis_in_top3 > 50%, score_top1_in_top3 > 40%, 93rule_avg > 70% が精度改善の目安"
+    "note": "axis_in_top3 > 50%, score_top1_in_top3 > 40%, 93rule_avg > 70% が精度改善の目安",
+    "by_logic_version": {
+      "v14.3.1": {
+        "total_verify_races": 59,
+        "axis_in_top3_rate": 74.6,
+        "score_top1_in_top3_rate": 26.7,
+        "93rule_avg_rate": 54.2,
+        "miss_pattern_distribution": {
+          "穴台頭": 36,
+          "的中": 8,
+          "軸外れ": 15
+        },
+        "upset_rate": 32.2,
+        "avg_odds_ratio": 56.795,
+        "avg_predicted_in_top3": 1.71,
+        "note": "axis_in_top3 > 50%, score_top1_in_top3 > 40%, 93rule_avg > 70% が精度改善の目安"
+      },
+      "v14.3": {
+        "total_verify_races": 5,
+        "axis_in_top3_rate": 60.0,
+        "score_top1_in_top3_rate": 20.0,
+        "93rule_avg_rate": 66.7,
+        "miss_pattern_distribution": {
+          "軸外れ": 2,
+          "穴台頭": 3
+        },
+        "upset_rate": 0.0,
+        "avg_odds_ratio": 16.623,
+        "avg_predicted_in_top3": 1.8,
+        "note": "axis_in_top3 > 50%, score_top1_in_top3 > 40%, 93rule_avg > 70% が精度改善の目安"
+      },
+      "v14.0": {
+        "total_verify_races": 4,
+        "axis_in_top3_rate": 50.0,
+        "score_top1_in_top3_rate": 25.0,
+        "93rule_avg_rate": 58.3,
+        "miss_pattern_distribution": {
+          "軸外れ": 2,
+          "穴台頭": 1,
+          "的中": 1
+        },
+        "upset_rate": 50.0,
+        "avg_odds_ratio": 11.756,
+        "avg_predicted_in_top3": 1.75,
+        "note": "axis_in_top3 > 50%, score_top1_in_top3 > 40%, 93rule_avg > 70% が精度改善の目安"
+      },
+      "v13.1": {
+        "total_verify_races": 3,
+        "axis_in_top3_rate": 66.7,
+        "score_top1_in_top3_rate": 100.0,
+        "93rule_avg_rate": 33.3,
+        "miss_pattern_distribution": {
+          "軸外れ": 1,
+          "穴台頭": 1,
+          "的中": 1
+        },
+        "upset_rate": 33.3,
+        "avg_odds_ratio": 29.631,
+        "avg_predicted_in_top3": 2.0,
+        "note": "axis_in_top3 > 50%, score_top1_in_top3 > 40%, 93rule_avg > 70% が精度改善の目安"
+      }
+    }
   }
 }

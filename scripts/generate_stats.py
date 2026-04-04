@@ -20,40 +20,42 @@ BASE_URL = "https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updat
 # ロジックバージョンの日付マッピング（日付→バージョン）
 # final_predictions から読み取れない場合のフォールバック
 LOGIC_VERSION_DATES = {
-    "v14.4": "20260405",
-    "v14.3.1": "20260318",
-    "v14.3": "20260314",
-    "v14.1": "20260313",
-    "v14.0": "20260312",
-    "v13.1": "20260308",
-    "v13.0": "20260306",
-    "v12": "20260225",
-    "v12以前": "20260101",
+    "v13.1": "20260306",   # 2026-03-06以降
+    "v13.0": "20260227",   # 2026-02-27〜03-05
+    "v12以前": "20260101", # 〜2026-02-26
 }
 
 def get_logic_version_by_date(ymd):
     """日付からロジックバージョンを推定（フォールバック用）"""
-    for version, start_date in sorted(
-        LOGIC_VERSION_DATES.items(), key=lambda x: x[1], reverse=True
-    ):
-        if ymd >= start_date:
-            return version
-    return "v12以前"
+    if ymd >= "20260306":
+        return "v13.1"
+    elif ymd >= "20260227":
+        return "v13.0"
+    else:
+        return "v12以前"
 
 
 def parse_logic_version(version):
-    """v14.3.1 / v12以前 / v13.0 などを比較可能なタプルへ変換"""
-    if not version:
-        return (-1, -1, -1, version or "")
-    if version == "v12以前":
-        return (12, -1, -1, version)
-    match = re.match(r'^v(\d+)(?:\.(\d+))?(?:\.(\d+))?$', version)
-    if match:
-        major = int(match.group(1) or 0)
-        minor = int(match.group(2) or 0)
-        patch = int(match.group(3) or 0)
-        return (major, minor, patch, version)
-    return (-1, -1, -1, version)
+    raw = str(version or '').strip()
+    if not raw:
+        return False, (-1,)
+    if '以前' in raw:
+        return False, (-2,)
+
+    normalized = raw[1:] if raw.lower().startswith('v') else raw
+    parts = []
+    for part in normalized.split('.'):
+        match = re.search(r'(\d+)', part)
+        parts.append(int(match.group(1)) if match else 0)
+    return True, tuple(parts)
+
+
+def logic_version_sort_key(version):
+    sortable, parts = parse_logic_version(version)
+    if sortable:
+        padded = tuple(list(parts[:4]) + [0] * max(0, 4 - len(parts)))
+        return (0, tuple(-p for p in padded), str(version))
+    return (1, (9999, 9999, 9999, 9999), str(version))
 
 
 def fetch_logic_versions():
@@ -158,6 +160,83 @@ def calculate_statistics(all_data, version_map):
 
     vb_stats = defaultdict(lambda: {"count":0,"hits":0,"investment":0,"return":0})
 
+    def init_verification_bucket():
+        return {
+            'axis_in_top3_total': 0,
+            'axis_in_top3_count': 0,
+            'score_top1_in_top3_total': 0,
+            'score_top1_count': 0,
+            'rule93_total': 0.0,
+            'rule93_count': 0,
+            'miss_pattern_dist': defaultdict(int),
+            'upset_count': 0,
+            'upset_total': 0,
+            'odds_ratio_sum': 0.0,
+            'odds_ratio_count': 0,
+            'predicted_in_top3_sum': 0,
+            'total_verify_races': 0,
+        }
+
+    def update_verification_bucket(bucket, rv):
+        if not rv:
+            return
+        bucket['total_verify_races'] += 1
+        bucket['axis_in_top3_total'] += 1
+        if rv.get('axis_in_top3', False):
+            bucket['axis_in_top3_count'] += 1
+
+        rate = rv.get('93rule_pop_in_top3_rate')
+        if rate is not None:
+            bucket['rule93_total'] += float(rate)
+            bucket['rule93_count'] += 1
+
+        if rv.get('score_top1_rank') is not None:
+            bucket['score_top1_count'] += 1
+            if rv.get('score_top1_in_top3', False):
+                bucket['score_top1_in_top3_total'] += 1
+
+        miss_pattern = rv.get('miss_pattern', '不明')
+        bucket['miss_pattern_dist'][miss_pattern] += 1
+
+        bucket['upset_total'] += 1
+        if rv.get('is_upset', False):
+            bucket['upset_count'] += 1
+
+        ratio = rv.get('odds_ratio')
+        if ratio is not None:
+            bucket['odds_ratio_sum'] += ratio
+            bucket['odds_ratio_count'] += 1
+
+        bucket['predicted_in_top3_sum'] += rv.get('predicted_in_top3_count', 0)
+
+    def finalize_verification_bucket(bucket):
+        total_verify_races = bucket['total_verify_races']
+        return {
+            'total_verify_races': total_verify_races,
+            'axis_in_top3_rate': round(
+                bucket['axis_in_top3_count'] / bucket['axis_in_top3_total'] * 100, 1
+            ) if bucket['axis_in_top3_total'] > 0 else 0.0,
+            'score_top1_in_top3_rate': round(
+                bucket['score_top1_in_top3_total'] / bucket['score_top1_count'] * 100, 1
+            ) if bucket['score_top1_count'] > 0 else 0.0,
+            '93rule_avg_rate': round(
+                bucket['rule93_total'] / bucket['rule93_count'], 1
+            ) if bucket['rule93_count'] > 0 else 0.0,
+            'miss_pattern_distribution': dict(bucket['miss_pattern_dist']),
+            'upset_rate': round(
+                bucket['upset_count'] / bucket['upset_total'] * 100, 1
+            ) if bucket['upset_total'] > 0 else 0.0,
+            'avg_odds_ratio': round(
+                bucket['odds_ratio_sum'] / bucket['odds_ratio_count'], 3
+            ) if bucket['odds_ratio_count'] > 0 else None,
+            'avg_predicted_in_top3': round(
+                bucket['predicted_in_top3_sum'] / total_verify_races, 2
+            ) if total_verify_races > 0 else 0.0,
+            'note': 'axis_in_top3 > 50%, score_top1_in_top3 > 40%, 93rule_avg > 70% が精度改善の目安'
+        }
+
+    verification_buckets = defaultdict(init_verification_bucket)
+
     for day_data in sorted(all_data, key=lambda d: d.get('ymd','99999999')):
         date = day_data.get('date', '')
         ymd  = day_data.get('ymd', '')
@@ -227,6 +306,11 @@ def calculate_statistics(all_data, version_map):
                 vb_stats[key]['investment'] += vb.get('投資', 100)
                 vb_stats[key]['return']     += vb.get('払戻', 0)
 
+            rv = race.get('race_verification', {})
+            if rv:
+                update_verification_bucket(verification_buckets['overall'], rv)
+                update_verification_bucket(verification_buckets[logic_ver], rv)
+
     # 整形ヘルパ
     def make_list(d, key_field):
         out = []
@@ -246,11 +330,7 @@ def calculate_statistics(all_data, version_map):
 
     # ロジックバージョン別リスト（最新版が先頭）
     logic_list = []
-    for k, s in sorted(
-        logic_stats.items(),
-        key=lambda x: parse_logic_version(x[0]),
-        reverse=True
-    ):
+    for k, s in sorted(logic_stats.items(), key=lambda x: logic_version_sort_key(x[0])):
         dates_sorted = sorted(s['dates'])
         period_start = dates_sorted[0] if dates_sorted else ''
         period_end   = dates_sorted[-1] if dates_sorted else ''
@@ -293,85 +373,13 @@ def calculate_statistics(all_data, version_map):
     # ============================================================
     # A: verification_stats（自動ロジック検証サマリー累積統計）
     # ============================================================
-    axis_in_top3_total    = 0
-    axis_in_top3_count    = 0
-    score_top1_in_top3_total = 0
-    score_top1_count      = 0
-    rule93_total          = 0.0
-    rule93_count          = 0
-    miss_pattern_dist     = {}
-    upset_count           = 0
-    upset_total           = 0
-    odds_ratio_sum        = 0.0
-    odds_ratio_count      = 0
-    predicted_in_top3_sum = 0
-    total_verify_races    = 0
-
-    for day_data in all_data:
-        for race in day_data.get('races', []):
-            rv = race.get('race_verification', {})
-            if not rv:
-                continue
-            total_verify_races += 1
-
-            # 1. 軸馬3着以内率
-            axis_in_top3_total += 1
-            if rv.get('axis_in_top3', False):
-                axis_in_top3_count += 1
-
-            # 2. 93法則実績
-            rate = rv.get('93rule_pop_in_top3_rate')
-            if rate is not None:
-                rule93_total += float(rate)
-                rule93_count += 1
-
-            # 3. スコアTop1 3着以内率
-            if rv.get('score_top1_rank') is not None:
-                score_top1_count += 1
-                if rv.get('score_top1_in_top3', False):
-                    score_top1_in_top3_total += 1
-
-            # 4. 外れパターン分布
-            mp = rv.get('miss_pattern', '不明')
-            miss_pattern_dist[mp] = miss_pattern_dist.get(mp, 0) + 1
-
-            # 5. 荒れ度
-            upset_total += 1
-            if rv.get('is_upset', False):
-                upset_count += 1
-
-            # 6. 合成オッズ精度
-            ratio = rv.get('odds_ratio')
-            if ratio is not None:
-                odds_ratio_sum  += ratio
-                odds_ratio_count += 1
-
-            # 7. 上位3着内の予測馬数（平均）
-            predicted_in_top3_sum += rv.get('predicted_in_top3_count', 0)
-
-    verification_stats = {
-        'total_verify_races': total_verify_races,
-        'axis_in_top3_rate': round(
-            axis_in_top3_count / axis_in_top3_total * 100, 1
-        ) if axis_in_top3_total > 0 else 0.0,
-        'score_top1_in_top3_rate': round(
-            score_top1_in_top3_total / score_top1_count * 100, 1
-        ) if score_top1_count > 0 else 0.0,
-        '93rule_avg_rate': round(
-            rule93_total / rule93_count, 1
-        ) if rule93_count > 0 else 0.0,
-        'miss_pattern_distribution': miss_pattern_dist,
-        'upset_rate': round(
-            upset_count / upset_total * 100, 1
-        ) if upset_total > 0 else 0.0,
-        'avg_odds_ratio': round(
-            odds_ratio_sum / odds_ratio_count, 3
-        ) if odds_ratio_count > 0 else None,
-        'avg_predicted_in_top3': round(
-            predicted_in_top3_sum / total_verify_races, 2
-        ) if total_verify_races > 0 else 0.0,
-        # 参考値: ideal は axis_in_top3 > 50%, score_top1 > 40%, 93rule > 70%
-        'note': 'axis_in_top3 > 50%, score_top1_in_top3 > 40%, 93rule_avg > 70% が精度改善の目安'
+    verification_stats = finalize_verification_bucket(verification_buckets['overall'])
+    verification_stats['by_logic_version'] = {
+        logic_version: finalize_verification_bucket(bucket)
+        for logic_version, bucket in sorted(
+            ((lv, bucket) for lv, bucket in verification_buckets.items() if lv != 'overall'),
+            key=lambda item: logic_version_sort_key(item[0])
+        )
     }
 
     return {
