@@ -1,4 +1,4 @@
-# ロジックバージョン: v14.0 (2026-03-11: 軸2頭化+相手ボックス追加)
+# ロジックバージョン: v14.4 (2026-04-04: 93法則条件化+穴保護枠+合成オッズ閾値動的化)
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
@@ -770,21 +770,34 @@ def _estimate_single_odds(score_rank: int) -> float:
     idx = max(0, min(score_rank - 1, len(_SCORE_RANK_TO_ODDS) - 1))
     return _SCORE_RANK_TO_ODDS[idx]
 
+def _estimate_trifecta_return_value(ranks: list) -> float:
+    """3頭のスコア順位から推定三連複期待配当倍率を返す"""
+    if len(ranks) != 3:
+        return 0.0
+    o1, o2, o3 = [_estimate_single_odds(r) for r in ranks]
+    p1, p2, p3 = 1.0 / o1, 1.0 / o2, 1.0 / o3
+    hit_prob = p1 * p2 * p3 * 6  # 順不問なので×6
+    if hit_prob <= 0:
+        return 0.0
+    return 0.75 / hit_prob
+
+
 def _estimate_trifecta_expected_return(ranks: list, min_return: float = 1.5) -> bool:
     """3頭のスコア順位から推定三連複期待配当倍率を計算し閾値以上かどうか返す
     min_return: 最低限の配当倍率 (1点100円投資で100×min_return円以上の期待配当)
     """
-    if len(ranks) != 3:
+    estimated_return = _estimate_trifecta_return_value(ranks)
+    if estimated_return <= 0:
         return True
-    o1, o2, o3 = [_estimate_single_odds(r) for r in ranks]
-    # 各馬が3着以内に来る確率の近似
-    p1, p2, p3 = 1.0/o1, 1.0/o2, 1.0/o3
-    hit_prob = p1 * p2 * p3 * 6  # 順不問なので×6
-    if hit_prob <= 0:
-        return True
-    # JRA三連複払戻率75%で推定配当倍率を計算
-    estimated_return = 0.75 / hit_prob
     return estimated_return >= min_return
+
+
+def _safe_int(value, default=999):
+    """人気や馬番などの安全な整数変換"""
+    try:
+        return int(str(value).strip())
+    except (TypeError, ValueError):
+        return default
 
 def generate_betting_plan(race):
     """
@@ -898,6 +911,10 @@ def generate_betting_plan(race):
     hole_candidates = sorted(hole_candidates,
                              key=lambda h: h.get('補正後スコア', 0), reverse=True)
     
+    upset_score, upset_reasons = _calculate_upset_score(race, axis_candidates, hole_candidates)
+    axis_top_score = axis_candidates[0].get('補正後スコア', 0) if axis_candidates else 0
+    hole_top_score = hole_candidates[0].get('穴馬専用スコア', hole_candidates[0].get('補正後スコア', 0)) if hole_candidates else 0
+
     # --- 1列目 (col1): 軸馬 ---
     # 基本: ◎1頭+○1頭 (2頭)
     # スコア差がAXIS_SCORE_GAP(8点)以内のときのみ3頭に拡張
@@ -914,26 +931,35 @@ def generate_betting_plan(race):
     col1_nums_set = {str(h.get('馬番')) for h in col1 if h.get('馬番') is not None}
 
     # =============================================
-    # 改善①(v14.0): 軸1頭時の強制2頭化
-    # 軸が1頭しかいない場合、rival/93法則候補からスコア最高の馬を軸に昇格
-    # 理由: 軸1頭は的中率が著しく低い（1点でも外れると全滅）
+    # 改善①(v14.4): 93法則の条件化
+    # 波乱度が高いレースほど人気1-3の固定押し込みを弱め、穴の余地を残す
     # =============================================
-    # ★93%法則v2: 人気1-3を全員col2に強制追加（統計的に93%が3着以内）
-    # 但し、危険フラグあり馬は除外、既にcol1/col2にある馬は重複しない
-    # Bug Fix (v14.0): top3_pop_horsesをcol1強制2頭化より前に定義（UnboundLocalError修正）
-    top3_pop_horses = sorted(
-        [h for h in horses_with_roles if h.get('人気') and int(h.get('人気', 99)) <= 3
-         and not h.get('危険フラグ')],
+    pop_force_limit = 3
+    pop_force_reason = "通常レースのため人気1-3を維持"
+    if upset_score >= 80:
+        pop_force_limit = 1
+        pop_force_reason = f"upset_score={upset_score}で波乱度が極端に高いため人気固定を1頭に制限"
+    elif upset_score >= 60:
+        pop_force_limit = 2
+        pop_force_reason = f"upset_score={upset_score}で波乱度が高いため人気固定を2頭に制限"
+    elif axis_top_score < 55 or hole_top_score >= axis_top_score:
+        pop_force_limit = 2
+        pop_force_reason = "軸優勢が弱く穴優勢のため人気固定を2頭に制限"
+
+    all_top3_pop_horses = sorted(
+        [h for h in horses_with_roles
+         if h.get('人気') and _safe_int(h.get('人気'), 99) <= 3 and not h.get('危険フラグ')],
         key=lambda h: h.get('補正後スコア', 0), reverse=True
     )
+    top3_pop_horses = all_top3_pop_horses[:pop_force_limit]
 
     # =============================================
-    # 改善①(v14.0): 軸1頭時の強制2頭化
+    # 改善②(v14.0): 軸1頭時の強制2頭化
     # =============================================
     if len(col1) < 2:
         # rival_candidates + 人気1-3からスコア最高の馬を軸に昇格
         _upgrade_pool = sorted(
-            [h for h in rival_candidates + top3_pop_horses
+            [h for h in rival_candidates + all_top3_pop_horses
              if str(h.get('馬番')) not in col1_nums_set and h.get('馬番')],
             key=lambda h: h.get('補正後スコア', 0), reverse=True
         )
@@ -949,29 +975,30 @@ def generate_betting_plan(race):
             col1_nums_set.add(str(_promoted.get('馬番')))
             print(f"[v14改善①] 軸1頭→2頭化: {_promoted.get('馬番')}番昇格"
                   f"(スコア:{_promoted.get('補正後スコア',0):.1f})")
-    
+
     # --- 2列目 (col2): 4頭 = col1(2頭) + ▲2頭 ---
     col2_set = set(col1_nums_set)  # str型で統一
     col2 = list(col1)  # ◎○を先頭に含める
 
-    # col2 に 93%法則: top3_pop_horses を強制追加
+    # col2 に 93%法則: ただし波乱度に応じて強制頭数を制限
     for forced_horse in top3_pop_horses:
-        # Bug Fix ②: 馬番をstr型に統一して重複チェック
         fnum = str(forced_horse.get('馬番')) if forced_horse.get('馬番') is not None else None
         if fnum and fnum not in col2_set:
             col2_set.add(fnum)
             col2.append(forced_horse)
-    
+        if len(col2) >= 4:
+            break
+
     for h in rival_candidates:
-        # Bug Fix ②: 馬番をstr型に統一
         key = str(h.get('馬番')) if h.get('馬番') is not None else None
         if key and key not in col2_set:
             col2_set.add(key)
             col2.append(h)
         if len(col2) >= 4:  # 合計4頭まで
             break
+
     # 対抗馬が足りない場合はスコア上位から補充
-    if len(col2) < 3:
+    if len(col2) < 4:
         for h in sorted(horses_with_roles, key=lambda h: h.get('補正後スコア', 0), reverse=True):
             key = str(h.get('馬番')) if h.get('馬番') is not None else None
             if key and key not in col2_set:
@@ -979,58 +1006,87 @@ def generate_betting_plan(race):
                 col2.append(h)
             if len(col2) >= 4:
                 break
-    
-    # --- 3列目 (col3): 7頭 = col2(4頭) + 穴馬3頭 ---
-    # col2の全馬を含め、穴馬3頭を追加（6番人気以下を必ず1頭含む）
-    # Bug Fix ②: col3_setもstr型で統一
+
+    # --- 3列目 (col3): 穴保護枠つき拡張 ---
+    # col2の全馬を含めたうえで、波乱度が高い日は穴馬の専用枠を明示的に確保する
     col3_set = {str(n) for n in col2_set}
-    col3 = list(col2)  # col2の全馬を先頭に含める（重要: 必ず含める）
-    
-    # 6番人気以下の穴馬を特定（93%法則対応）
-    min_pop = FUND_MANAGEMENT["hole_horse_min_popularity"]  # 6番人気以下
-    dark_horses = [h for h in hole_candidates
-                   if h.get('人気', 999) >= min_pop
-                   and str(h.get('馬番')) not in col3_set]
-    # 穴馬は「穴馬専用スコア」(補正後スコア+斤量騎手ボーナス)で優先順位付け
-    dark_horses_sorted = sorted(dark_horses,
-                                key=lambda h: h.get('穴馬専用スコア', h.get('補正後スコア', 0)), reverse=True)
-    
-    # 6番人気以下を必ず1頭追加（なければ最低人気馬を追加）
-    added_dark = False
+    col3 = list(col2)
+
+    min_pop = FUND_MANAGEMENT["hole_horse_min_popularity"]
+    dark_horses = [
+        h for h in hole_candidates
+        if _safe_int(h.get('人気'), 999) >= min_pop and str(h.get('馬番')) not in col3_set
+    ]
+    dark_horses_sorted = sorted(
+        dark_horses,
+        key=lambda h: h.get('穴馬専用スコア', h.get('補正後スコア', 0)),
+        reverse=True
+    )
+
+    protected_hole_slots = 1
+    if upset_score >= 80:
+        protected_hole_slots = 3
+    elif upset_score >= 60:
+        protected_hole_slots = 2
+
+    target_col3_size = 7
+    if upset_score >= 80:
+        target_col3_size = 9
+    elif upset_score >= 60:
+        target_col3_size = 8
+    target_col3_size = min(len(horses_with_roles), max(target_col3_size, len(col2) + protected_hole_slots))
+
+    protected_hole_nums = []
+
+    def _append_to_col3(candidate):
+        key = str(candidate.get('馬番')) if candidate.get('馬番') is not None else None
+        if key and key not in col3_set:
+            col3_set.add(key)
+            col3.append(candidate)
+            return key
+        return None
+
+    # まずは6番人気以下の穴馬を優先的に保護
     for h in dark_horses_sorted:
-        # Bug Fix ②: 馬番をstr型に統一
-        key = str(h.get('馬番')) if h.get('馬番') is not None else None
-        if key and key not in col3_set:
-            col3_set.add(key)
-            col3.append(h)
-            added_dark = True
+        added_key = _append_to_col3(h)
+        if added_key:
+            protected_hole_nums.append(added_key)
+        if len(protected_hole_nums) >= protected_hole_slots or len(col3) >= target_col3_size:
             break
-    if not added_dark:
-        # 6番人気以下がいない場合は最低スコア馬を追加
-        for h in sorted(horses_with_roles, key=lambda h: h.get('補正後スコア', 0)):
-            key = str(h.get('馬番')) if h.get('馬番') is not None else None
-            if key and key not in col3_set:
-                col3_set.add(key)
-                col3.append(h)
+
+    # 保護枠が埋まらない場合は hole_candidates 全体から補充
+    if len(protected_hole_nums) < protected_hole_slots:
+        for h in hole_candidates:
+            added_key = _append_to_col3(h)
+            if added_key:
+                protected_hole_nums.append(added_key)
+            if len(protected_hole_nums) >= protected_hole_slots or len(col3) >= target_col3_size:
                 break
-    
-    # 残り2頭の穴馬をスコア順で追加（合計3頭の穴馬枠）
-    remaining_holes = [h for h in hole_candidates if str(h.get('馬番')) not in col3_set]
-    for h in remaining_holes:
-        key = str(h.get('馬番')) if h.get('馬番') is not None else None
-        if key and key not in col3_set:
-            col3_set.add(key)
-            col3.append(h)
-        if len(col3) >= 7:
-            break
-    # まだ足りない場合は全体スコア下位から補充
-    if len(col3) < 5:
+
+    # なお足りなければ最低スコア帯から補充
+    if not protected_hole_nums:
         for h in sorted(horses_with_roles, key=lambda h: h.get('補正後スコア', 0)):
-            key = h.get('馬番')
-            if key and key not in col3_set:
-                col3_set.add(key)
-                col3.append(h)
-            if len(col3) >= 7:
+            added_key = _append_to_col3(h)
+            if added_key:
+                protected_hole_nums.append(added_key)
+                break
+
+    # 残りは穴候補優先で埋める
+    remaining_holes = sorted(
+        [h for h in hole_candidates if str(h.get('馬番')) not in col3_set],
+        key=lambda h: h.get('穴馬専用スコア', h.get('補正後スコア', 0)),
+        reverse=True
+    )
+    for h in remaining_holes:
+        _append_to_col3(h)
+        if len(col3) >= target_col3_size:
+            break
+
+    # まだ足りない場合は全体スコア下位から補充
+    if len(col3) < target_col3_size:
+        for h in sorted(horses_with_roles, key=lambda h: h.get('補正後スコア', 0)):
+            _append_to_col3(h)
+            if len(col3) >= target_col3_size:
                 break
     
     # --- 2-4-7型フォーメーション 全組み合わせ生成 ---
@@ -1075,6 +1131,13 @@ def generate_betting_plan(race):
         horses_with_roles, key=lambda h: h.get('補正後スコア', 0), reverse=True
     ) if h.get('馬番')]
     score_rank_map = {int(num): rank+1 for rank, num in enumerate(score_sorted_nums)}
+    horse_map = {
+        int(h.get('馬番')): h
+        for h in horses_with_roles
+        if h.get('馬番') is not None and str(h.get('馬番')).isdigit()
+    }
+    protected_hole_num_set = {int(n) for n in protected_hole_nums if str(n).isdigit()}
+
     _MIN_COMBO_RETURN = 1.5  # 1点100円投資で150円以上の期待配当が見込める組み合わせのみ残す
     profitable_combos = [
         combo for combo in all_combos
@@ -1083,11 +1146,23 @@ def generate_betting_plan(race):
             min_return=_MIN_COMBO_RETURN
         )
     ]
-    # フィルター後に1点も残らない場合は元のリストを使用
     if profitable_combos:
         all_combos = profitable_combos
-    
-    # 最大点数制限（10点以内）
+
+    def _combo_priority(combo):
+        ranks = [score_rank_map.get(int(n), 9) for n in combo]
+        est_return = _estimate_trifecta_return_value(ranks)
+        protected_hits = sum(1 for n in combo if int(n) in protected_hole_num_set)
+        dark_hits = sum(
+            1 for n in combo
+            if _safe_int(horse_map.get(int(n), {}).get('人気'), 999) >= min_pop
+        )
+        score_total = sum(horse_map.get(int(n), {}).get('補正後スコア', 0) for n in combo)
+        return (protected_hits, dark_hits, est_return, score_total)
+
+    all_combos = sorted(all_combos, key=_combo_priority, reverse=True)
+
+    # 最大点数制限（20点以内）
     max_c = FUND_MANAGEMENT["max_combos_trifecta"]
     if len(all_combos) > max_c:
         all_combos = all_combos[:max_c]
@@ -1113,26 +1188,34 @@ def generate_betting_plan(race):
     synthetic_odds = core_synthetic_odds
     
     # --- 合成オッズフィルター ---
-    # コアペア (1軸馬+1穴馬) の合成オッズ >= min_synthetic_odds (3.0倍)
-    # 理由: 三連複の配当は軸×穴の組み合わせに大きく依存するため、
-    #        コアペアの期待値で判断するのが実態に近い。
-    min_so   = FUND_MANAGEMENT["min_synthetic_odds"]
-    ref_min  = FUND_MANAGEMENT.get("reference_min_odds", 2.0)
-    ref_max  = FUND_MANAGEMENT.get("reference_max_odds", 3.5)
-    ref_ratio= FUND_MANAGEMENT.get("reference_stake_ratio", 0.5)
+    # コアペア (1軸馬+1穴馬) の合成オッズを基準にしつつ、
+    # 波乱度が高いレースでは閾値を少し緩めて参考枠・推奨枠の取りこぼしを抑える。
+    min_so_base = FUND_MANAGEMENT["min_synthetic_odds"]
+    min_so = min_so_base
+    if upset_score >= 80:
+        min_so = max(2.6, min_so_base - 0.9)
+    elif upset_score >= 60:
+        min_so = max(2.8, min_so_base - 0.7)
+    elif axis_top_score < 55 or hole_top_score >= axis_top_score:
+        min_so = max(3.0, min_so_base - 0.5)
 
-    # ── オッズデータ有無の確認（参考用ログのみ・閾値は変更しない） ──
-    # v14.3修正: 推定オッズでも3.5倍基準を維持し、2.0〜3.5倍は参考枠へ正しく分類する。
-    # 旧v14.2では閾値を2.0倍に緩和していたが、推奨/参考の分類が崩れるため廃止。
+    ref_min = FUND_MANAGEMENT.get("reference_min_odds", 2.0)
+    ref_max = min_so
+    ref_ratio = FUND_MANAGEMENT.get("reference_stake_ratio", 0.5)
+
     has_odds_data = any(
         h.get('単勝オッズ') or h.get('オッズ') or h.get('win_odds') or h.get('人気')
         for h in horses_with_roles
     )
     if not has_odds_data:
-        # [v14.3] 閾値緩和を廃止: 推定値でも min_so=3.5, ref_min=2.0 をそのまま使用
-        # 推定合成オッズ 2.0〜3.5倍 → 参考予測(⭐⭐) として表示
-        # 推定合成オッズ ≥ 3.5倍   → 推奨予測(⭐⭐⭐) として表示
-        print(f"[v14.3] 推定オッズ使用（閾値維持: min_so={min_so}, ref_min={ref_min}）")
+        print(f"[v14.4] 推定オッズ使用（動的閾値: base={min_so_base}, effective={min_so}, ref_min={ref_min}）")
+
+    analysis["合成オッズ_基準値"] = min_so
+    analysis["合成オッズ_基準値_通常"] = min_so_base
+    analysis["93ルール_強制頭数"] = pop_force_limit
+    analysis["93ルール_理由"] = pop_force_reason
+    analysis["穴保護枠"] = protected_hole_slots
+    analysis["穴保護対象"] = protected_hole_nums
 
     if core_synthetic_odds < min_so:
         analysis["合成オッズ"] = core_synthetic_odds
@@ -1203,7 +1286,6 @@ def generate_betting_plan(race):
     _UPSET_BOX_THRESHOLD = 60   # 発動閾値 (0〜100+)
     _UPSET_BOX_MAX_HORSES = 4   # ボックス対象最大頭数 → C(4,3)=4点まで
 
-    upset_score, upset_reasons = _calculate_upset_score(race, axis_candidates, hole_candidates)
     hole_box_combos = []  # 穴ボックス専用組み合わせリスト
 
     if upset_score >= _UPSET_BOX_THRESHOLD:
@@ -1350,6 +1432,11 @@ def generate_betting_plan(race):
         "合成オッズ": core_synthetic_odds,
         "合成オッズ_全体": full_synthetic_odds,
         "合成オッズ_方法": so_method,
+        "合成オッズ_基準値": min_so,
+        "93ルール_強制頭数": pop_force_limit,
+        "93ルール_理由": pop_force_reason,
+        "穴保護枠": protected_hole_slots,
+        "穴保護対象": protected_hole_nums,
         "賭け金調整": stake_reason,
         "全買い目": [
             '-'.join(str(n) for n in combo)
@@ -1376,6 +1463,11 @@ def generate_betting_plan(race):
     analysis["合成オッズ"] = core_synthetic_odds
     analysis["合成オッズ_全体"] = full_synthetic_odds
     analysis["合成オッズ_方法"] = so_method
+    analysis["合成オッズ_基準値"] = min_so
+    analysis["93ルール_強制頭数"] = pop_force_limit
+    analysis["93ルール_理由"] = pop_force_reason
+    analysis["穴保護枠"] = protected_hole_slots
+    analysis["穴保護対象"] = protected_hole_nums
     analysis["レースタイプ"] = race_type
     analysis["断層数"] = len(layers)
     analysis["軸馬数"] = len(col1)
@@ -1724,7 +1816,7 @@ def main():
         
         output_data = {
             "ymd": ymd,
-            "logic_version": "v14.3.1_参考レース投資額100円統一・軸馬情報表示修正",
+            "logic_version": "v14.4_93法則条件化・穴保護枠・合成オッズ閾値動的化",
             "generated_at": datetime.now(timezone(timedelta(hours=9))).strftime(
                 "%Y-%m-%d %H:%M:%S (JST)"
             ),
