@@ -1,315 +1,453 @@
 {
-  "date": "20260405",
-  "generated_at": "2026-04-04T23:34:29.580351+09:00",
-  "is_weekend": true,
-  "weekday": "日",
-  "total_race_count": 24,
-  "total_venues": 2,
-  "jra_races": 24,
-  "nar_races": 0,
+  "date": "20260406",
+  "generated_at": "2026-04-05T23:35:53.392701+09:00",
+  "is_weekend": false,
+  "weekday": "月",
+  "total_race_count": 35,
+  "total_venues": 3,
+  "jra_races": 0,
+  "nar_races": 35,
   "race_ids": [
-    "202606030401",
-    "202606030402",
-    "202606030403",
-    "202606030404",
-    "202606030405",
-    "202606030406",
-    "202606030407",
-    "202606030408",
-    "202606030409",
-    "202606030410",
-    "202606030411",
-    "202606030412",
-    "202609020401",
-    "202609020402",
-    "202609020403",
-    "202609020404",
-    "202609020405",
-    "202609020406",
-    "202609020407",
-    "202609020408",
-    "202609020409",
-    "202609020410",
-    "202609020411",
-    "202609020412"
+    "202636040601",
+    "202636040602",
+    "202636040603",
+    "202636040604",
+    "202636040605",
+    "202636040606",
+    "202636040607",
+    "202636040608",
+    "202636040609",
+    "202636040610",
+    "202636040611",
+    "202636040612",
+    "202645040601",
+    "202645040602",
+    "202645040603",
+    "202645040604",
+    "202645040605",
+    "202645040606",
+    "202645040607",
+    "202645040608",
+    "202645040609",
+    "202645040610",
+    "202645040611",
+    "202645040612",
+    "202655040601",
+    "202655040602",
+    "202655040603",
+    "202655040604",
+    "202655040605",
+    "202655040606",
+    "202655040607",
+    "202655040608",
+    "202655040609",
+    "202655040610",
+    "202655040611"
   ],
   "selected_predictions": [
     {
-      "race_id": "202606030401",
+      "race_id": "202636040601",
       "race_info": {
-        "venue": "中山",
-        "venue_code": "06",
-        "venue_type": "JRA",
+        "venue": "水沢",
+        "venue_code": "36",
+        "venue_type": "NAR",
         "race_no": 1,
         "レース名": "1R"
       }
     },
     {
-      "race_id": "202606030402",
+      "race_id": "202636040602",
       "race_info": {
-        "venue": "中山",
-        "venue_code": "06",
-        "venue_type": "JRA",
+        "venue": "水沢",
+        "venue_code": "36",
+        "venue_type": "NAR",
         "race_no": 2,
         "レース名": "2R"
       }
     },
     {
-      "race_id": "202606030403",
+      "race_id": "202636040603",
       "race_info": {
-        "venue": "中山",
-        "venue_code": "06",
-        "venue_type": "JRA",
+        "venue": "水沢",
+        "venue_code": "36",
+        "venue_type": "NAR",
         "race_no": 3,
         "レース名": "3R"
       }
     },
     {
-      "race_id": "202606030404",
+      "race_id": "202636040604",
       "race_info": {
-        "venue": "中山",
-        "venue_code": "06",
-        "venue_type": "JRA",
+        "venue": "水沢",
+        "venue_code": "36",
+        "venue_type": "NAR",
         "race_no": 4,
         "レース名": "4R"
       }
     },
     {
-      "race_id": "202606030405",
+      "race_id": "202636040605",
       "race_info": {
-        "venue": "中山",
-        "venue_code": "06",
-        "venue_type": "JRA",
+        "venue": "水沢",
+        "venue_code": "36",
+        "venue_type": "NAR",
         "race_no": 5,
         "レース名": "5R"
       }
     },
     {
-      "race_id": "202606030406",
+      "race_id": "202636040606",
       "race_info": {
-        "venue": "中山",
-        "venue_code": "06",
-        "venue_type": "JRA",
+        "venue": "水沢",
+        "venue_code": "36",
+        "venue_type": "NAR",
         "race_no": 6,
         "レース名": "6R"
       }
     },
     {
-      "race_id": "202606030407",
+      "race_id": "202636040607",
       "race_info": {
-        "venue": "中山",
-        "venue_code": "06",
-        "venue_type": "JRA",
+        "venue": "水沢",
+        "venue_code": "36",
+        "venue_type": "NAR",
         "race_no": 7,
         "レース名": "7R"
       }
     },
     {
-      "race_id": "202606030408",
+      "race_id": "202636040608",
       "race_info": {
-        "venue": "中山",
-        "venue_code": "06",
-        "venue_type": "JRA",
+        "venue": "水沢",
+        "venue_code": "36",
+        "venue_type": "NAR",
         "race_no": 8,
         "レース名": "8R"
       }
     },
     {
-      "race_id": "202606030409",
+      "race_id": "202636040609",
       "race_info": {
-        "venue": "中山",
-        "venue_code": "06",
-        "venue_type": "JRA",
+        "venue": "水沢",
+        "venue_code": "36",
+        "venue_type": "NAR",
         "race_no": 9,
         "レース名": "9R"
       }
     },
     {
-      "race_id": "202606030410",
+      "race_id": "202636040610",
       "race_info": {
-        "venue": "中山",
-        "venue_code": "06",
-        "venue_type": "JRA",
+        "venue": "水沢",
+        "venue_code": "36",
+        "venue_type": "NAR",
         "race_no": 10,
         "レース名": "10R"
       }
     },
     {
-      "race_id": "202606030411",
+      "race_id": "202636040611",
       "race_info": {
-        "venue": "中山",
-        "venue_code": "06",
-        "venue_type": "JRA",
+        "venue": "水沢",
+        "venue_code": "36",
+        "venue_type": "NAR",
         "race_no": 11,
         "レース名": "11R"
       }
     },
     {
-      "race_id": "202606030412",
+      "race_id": "202636040612",
       "race_info": {
-        "venue": "中山",
-        "venue_code": "06",
-        "venue_type": "JRA",
+        "venue": "水沢",
+        "venue_code": "36",
+        "venue_type": "NAR",
         "race_no": 12,
         "レース名": "12R"
       }
     },
     {
-      "race_id": "202609020401",
+      "race_id": "202645040601",
       "race_info": {
-        "venue": "阪神",
-        "venue_code": "09",
-        "venue_type": "JRA",
+        "venue": "川崎",
+        "venue_code": "45",
+        "venue_type": "NAR",
         "race_no": 1,
         "レース名": "1R"
       }
     },
     {
-      "race_id": "202609020402",
+      "race_id": "202645040602",
       "race_info": {
-        "venue": "阪神",
-        "venue_code": "09",
-        "venue_type": "JRA",
+        "venue": "川崎",
+        "venue_code": "45",
+        "venue_type": "NAR",
         "race_no": 2,
         "レース名": "2R"
       }
     },
     {
-      "race_id": "202609020403",
+      "race_id": "202645040603",
       "race_info": {
-        "venue": "阪神",
-        "venue_code": "09",
-        "venue_type": "JRA",
+        "venue": "川崎",
+        "venue_code": "45",
+        "venue_type": "NAR",
         "race_no": 3,
         "レース名": "3R"
       }
     },
     {
-      "race_id": "202609020404",
+      "race_id": "202645040604",
       "race_info": {
-        "venue": "阪神",
-        "venue_code": "09",
-        "venue_type": "JRA",
+        "venue": "川崎",
+        "venue_code": "45",
+        "venue_type": "NAR",
         "race_no": 4,
         "レース名": "4R"
       }
     },
     {
-      "race_id": "202609020405",
+      "race_id": "202645040605",
       "race_info": {
-        "venue": "阪神",
-        "venue_code": "09",
-        "venue_type": "JRA",
+        "venue": "川崎",
+        "venue_code": "45",
+        "venue_type": "NAR",
         "race_no": 5,
         "レース名": "5R"
       }
     },
     {
-      "race_id": "202609020406",
+      "race_id": "202645040606",
       "race_info": {
-        "venue": "阪神",
-        "venue_code": "09",
-        "venue_type": "JRA",
+        "venue": "川崎",
+        "venue_code": "45",
+        "venue_type": "NAR",
         "race_no": 6,
         "レース名": "6R"
       }
     },
     {
-      "race_id": "202609020407",
+      "race_id": "202645040607",
       "race_info": {
-        "venue": "阪神",
-        "venue_code": "09",
-        "venue_type": "JRA",
+        "venue": "川崎",
+        "venue_code": "45",
+        "venue_type": "NAR",
         "race_no": 7,
         "レース名": "7R"
       }
     },
     {
-      "race_id": "202609020408",
+      "race_id": "202645040608",
       "race_info": {
-        "venue": "阪神",
-        "venue_code": "09",
-        "venue_type": "JRA",
+        "venue": "川崎",
+        "venue_code": "45",
+        "venue_type": "NAR",
         "race_no": 8,
         "レース名": "8R"
       }
     },
     {
-      "race_id": "202609020409",
+      "race_id": "202645040609",
       "race_info": {
-        "venue": "阪神",
-        "venue_code": "09",
-        "venue_type": "JRA",
+        "venue": "川崎",
+        "venue_code": "45",
+        "venue_type": "NAR",
         "race_no": 9,
         "レース名": "9R"
       }
     },
     {
-      "race_id": "202609020410",
+      "race_id": "202645040610",
       "race_info": {
-        "venue": "阪神",
-        "venue_code": "09",
-        "venue_type": "JRA",
+        "venue": "川崎",
+        "venue_code": "45",
+        "venue_type": "NAR",
         "race_no": 10,
         "レース名": "10R"
       }
     },
     {
-      "race_id": "202609020411",
+      "race_id": "202645040611",
       "race_info": {
-        "venue": "阪神",
-        "venue_code": "09",
-        "venue_type": "JRA",
+        "venue": "川崎",
+        "venue_code": "45",
+        "venue_type": "NAR",
         "race_no": 11,
         "レース名": "11R"
       }
     },
     {
-      "race_id": "202609020412",
+      "race_id": "202645040612",
       "race_info": {
-        "venue": "阪神",
-        "venue_code": "09",
-        "venue_type": "JRA",
+        "venue": "川崎",
+        "venue_code": "45",
+        "venue_type": "NAR",
         "race_no": 12,
         "レース名": "12R"
+      }
+    },
+    {
+      "race_id": "202655040601",
+      "race_info": {
+        "venue": "佐賀",
+        "venue_code": "55",
+        "venue_type": "NAR",
+        "race_no": 1,
+        "レース名": "1R"
+      }
+    },
+    {
+      "race_id": "202655040602",
+      "race_info": {
+        "venue": "佐賀",
+        "venue_code": "55",
+        "venue_type": "NAR",
+        "race_no": 2,
+        "レース名": "2R"
+      }
+    },
+    {
+      "race_id": "202655040603",
+      "race_info": {
+        "venue": "佐賀",
+        "venue_code": "55",
+        "venue_type": "NAR",
+        "race_no": 3,
+        "レース名": "3R"
+      }
+    },
+    {
+      "race_id": "202655040604",
+      "race_info": {
+        "venue": "佐賀",
+        "venue_code": "55",
+        "venue_type": "NAR",
+        "race_no": 4,
+        "レース名": "4R"
+      }
+    },
+    {
+      "race_id": "202655040605",
+      "race_info": {
+        "venue": "佐賀",
+        "venue_code": "55",
+        "venue_type": "NAR",
+        "race_no": 5,
+        "レース名": "5R"
+      }
+    },
+    {
+      "race_id": "202655040606",
+      "race_info": {
+        "venue": "佐賀",
+        "venue_code": "55",
+        "venue_type": "NAR",
+        "race_no": 6,
+        "レース名": "6R"
+      }
+    },
+    {
+      "race_id": "202655040607",
+      "race_info": {
+        "venue": "佐賀",
+        "venue_code": "55",
+        "venue_type": "NAR",
+        "race_no": 7,
+        "レース名": "7R"
+      }
+    },
+    {
+      "race_id": "202655040608",
+      "race_info": {
+        "venue": "佐賀",
+        "venue_code": "55",
+        "venue_type": "NAR",
+        "race_no": 8,
+        "レース名": "8R"
+      }
+    },
+    {
+      "race_id": "202655040609",
+      "race_info": {
+        "venue": "佐賀",
+        "venue_code": "55",
+        "venue_type": "NAR",
+        "race_no": 9,
+        "レース名": "9R"
+      }
+    },
+    {
+      "race_id": "202655040610",
+      "race_info": {
+        "venue": "佐賀",
+        "venue_code": "55",
+        "venue_type": "NAR",
+        "race_no": 10,
+        "レース名": "10R"
+      }
+    },
+    {
+      "race_id": "202655040611",
+      "race_info": {
+        "venue": "佐賀",
+        "venue_code": "55",
+        "venue_type": "NAR",
+        "race_no": 11,
+        "レース名": "11R"
       }
     }
   ],
   "races_by_venue": {
-    "06": {
-      "name": "中山",
-      "type": "JRA",
+    "36": {
+      "name": "水沢",
+      "type": "NAR",
       "race_id_map": {
-        "1": "202606030401",
-        "2": "202606030402",
-        "3": "202606030403",
-        "4": "202606030404",
-        "5": "202606030405",
-        "6": "202606030406",
-        "7": "202606030407",
-        "8": "202606030408",
-        "9": "202606030409",
-        "10": "202606030410",
-        "11": "202606030411",
-        "12": "202606030412"
+        "1": "202636040601",
+        "2": "202636040602",
+        "3": "202636040603",
+        "4": "202636040604",
+        "5": "202636040605",
+        "6": "202636040606",
+        "7": "202636040607",
+        "8": "202636040608",
+        "9": "202636040609",
+        "10": "202636040610",
+        "11": "202636040611",
+        "12": "202636040612"
       }
     },
-    "09": {
-      "name": "阪神",
-      "type": "JRA",
+    "45": {
+      "name": "川崎",
+      "type": "NAR",
       "race_id_map": {
-        "1": "202609020401",
-        "2": "202609020402",
-        "3": "202609020403",
-        "4": "202609020404",
-        "5": "202609020405",
-        "6": "202609020406",
-        "7": "202609020407",
-        "8": "202609020408",
-        "9": "202609020409",
-        "10": "202609020410",
-        "11": "202609020411",
-        "12": "202609020412"
+        "1": "202645040601",
+        "2": "202645040602",
+        "3": "202645040603",
+        "4": "202645040604",
+        "5": "202645040605",
+        "6": "202645040606",
+        "7": "202645040607",
+        "8": "202645040608",
+        "9": "202645040609",
+        "10": "202645040610",
+        "11": "202645040611",
+        "12": "202645040612"
+      }
+    },
+    "55": {
+      "name": "佐賀",
+      "type": "NAR",
+      "race_id_map": {
+        "1": "202655040601",
+        "2": "202655040602",
+        "3": "202655040603",
+        "4": "202655040604",
+        "5": "202655040605",
+        "6": "202655040606",
+        "7": "202655040607",
+        "8": "202655040608",
+        "9": "202655040609",
+        "10": "202655040610",
+        "11": "202655040611"
       }
     }
   }
