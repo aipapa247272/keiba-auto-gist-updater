@@ -186,6 +186,11 @@ def extract_horses_from_table(soup, venue_type):
         
         horse_data = {}
         
+        row_id = row.get('id', '')
+        row_num_match = re.search(r'tr_(\d+)', row_id)
+        if row_num_match:
+            horse_data['馬番'] = int(row_num_match.group(1))
+        
         # 馬名とhorse_id
         horse_data['馬名'] = horse_link.get_text(strip=True)
         href = horse_link.get('href', '')

@@ -2637,10 +2637,11 @@
                 : '<span class="rank-badge rank-recommend">⭐⭐⭐ 推奨</span>';
 
             const bp    = race.betting_plan || {};
-            const axes  = (bp['軸'] || []).map(h => `${h['馬番']}番`).join('・') || '—';
+            const axisNums = (bp['軸'] || []).map(h => h && h['馬番']).filter(n => n !== null && n !== undefined && n !== '');
+            const axes  = axisNums.map(n => `${n}番`).join('・') || '—';
             const combos= bp['組み合わせ数'] || race.combos || '—';
             const synOdds = (race['合成オッズ'] || race.synthetic_odds || 0);
-            const invest = (race.investment || 0).toLocaleString();
+            const invest = getRaceDisplayInvestment(race).toLocaleString();
             const turbulence = race.turbulence || '—';
 
             card.innerHTML = `
@@ -2900,6 +2901,22 @@
             return String(combo);
         }
 
+        function getRaceDisplayInvestment(race) {
+            const bp = race?.betting_plan || {};
+            const direct = Number(race?.investment || bp['投資額'] || 0);
+            if (direct > 0) return direct;
+
+            const comboCount = Number(
+                bp['組み合わせ数'] ||
+                (Array.isArray(bp['全買い目']) ? bp['全買い目'].length : 0) ||
+                0
+            );
+            const stakeReason = bp['賭け金調整'] || '';
+            const perComboStake = /200円/.test(stakeReason) ? 200 : 100;
+            const estimated = comboCount * perComboStake;
+            return estimated > 0 ? estimated : 0;
+        }
+
         function toggleScoreBreakdown(raceId, horseNum) {
             const element = document.getElementById(`breakdown-${raceId}-${horseNum}`);
             if (element) {
@@ -2980,8 +2997,8 @@
             const totalRacesCount = data.total_races || 0;
             const totalInvestment = summary.total_investment || 0;
             // v14.3: 推奨・参考それぞれの投資額を計算
-            const recInvestment = races.reduce((s, r) => s + (r.betting_plan?.投資額 || r.investment || 0), 0);
-            const refInvestment = refRaces.reduce((s, r) => s + (r.betting_plan?.投資額 || r.investment || 0), 0);
+            const recInvestment = races.reduce((s, r) => s + getRaceDisplayInvestment(r), 0);
+            const refInvestment = refRaces.reduce((s, r) => s + getRaceDisplayInvestment(r), 0);
             const updateTime = data.generated_at || new Date().toLocaleString('ja-JP');
             const targetDate = data.ymd || '';
 
@@ -3079,7 +3096,7 @@
             `;
 
             races.forEach((race, index) => {
-                const raceNum = extractRaceNumber(race.race_id);
+                const raceNum = race.race_num || extractRaceNumber(String(race.race_id || ''));
                 const venue = race.venue || '-';
                 const raceName = race.race_name || `${raceNum}R`;
                 const track = race.track || '-';
@@ -3087,17 +3104,17 @@
                 const distanceIcon = getDistanceIcon(distance);
                 const startTime = race.start_time || '-';
                 const turbLevel = race.turbulence || '-';
-                const investment = race.investment || 0;
+                const investment = getRaceDisplayInvestment(race);
 
-                const topHorses = race.betting_plan?.軸 || [];
-                const darkHorses = race.betting_plan?.相手 || [];
+                const topHorses = (race.betting_plan?.軸 || []).filter(h => h && h.馬名);
+                const darkHorses = (race.betting_plan?.穴 || race.betting_plan?.相手 || []).filter(h => h && h.馬名);
                 
                 html += `
                     <div class="race-card">
                         <div class="race-header">
-                            <div class="race-number">AI予想レース${index + 1}</div>
+                            <div class="race-number">${venue} ${raceNum}R</div>
                             <div class="race-title">
-                                ${venue} ${raceNum}R ${raceName}
+                                ${raceName}
                             </div>
                             <div class="race-info">
                                 <span class="track-badge ${track}">${track}</span>
@@ -3596,14 +3613,14 @@
                       + '<span style="color:#78909c;font-size:11px;margin-left:8px;">合成オッズ2.0〜3.5倍・少額参考推奨（100円/点）</span>'
                       + '</div>';
                 refRaces.forEach(function(race, refIndex) {
-                    var raceNum   = extractRaceNumber(race.race_id);
+                    var raceNum   = race.race_num || extractRaceNumber(String(race.race_id || ''));
                     var venue     = race.venue || '-';
                     var raceName  = race.race_name || (raceNum + 'R');
                     var distance  = race.distance || '-';
                     var track     = race.track || '-';
                     var startTime = race.start_time || '-';
                     var synOdds   = race.synthetic_odds || 0;
-                    var invest    = race.investment || 0;
+                    var invest    = getRaceDisplayInvestment(race);
                     var note      = race.note || '合成オッズが推奨基準未満。自己判断でご参考ください。';
                     var bp        = race.betting_plan || {};
                     var layer     = race['断層分析'] || {};
@@ -3661,8 +3678,8 @@
                     html += `
                         <div class="race-card race-card-reference">
                             <div class="race-header">
-                                <div class="race-number">参考AIレース${refIndex + 1}</div>
-                                <div class="race-title">${venue} ${raceNum}R ${raceName}</div>
+                                <div class="race-number">${venue} ${raceNum}R</div>
+                                <div class="race-title">${raceName}</div>
                                 <div class="race-info">
                                     <span class="track-badge ${track}">${track}</span>
                                     <span>${getDistanceIcon(distance)} ${distance}m</span>

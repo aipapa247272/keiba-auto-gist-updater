@@ -799,6 +799,40 @@ def _safe_int(value, default=999):
     except (TypeError, ValueError):
         return default
 
+
+def normalize_race_horses(race):
+    """馬番欠損でも買い目生成が壊れないよう、最低限の識別子を補完する。"""
+    horses = race.get('horses', [])
+    normalized = []
+    used_numbers = set()
+
+    for idx, horse in enumerate(horses, start=1):
+        h = dict(horse)
+
+        raw_num = h.get('馬番')
+        horse_num = _safe_int(raw_num, default=None)
+        if horse_num is None or horse_num in used_numbers:
+            fallback_num = idx
+            while fallback_num in used_numbers:
+                fallback_num += 1
+            horse_num = fallback_num
+            h['_馬番補完'] = True
+        h['馬番'] = horse_num
+        used_numbers.add(horse_num)
+
+        raw_pop = h.get('人気') or h.get('popularity') or h.get('人気順')
+        pop_val = _safe_int(raw_pop, default=None)
+        if pop_val is not None:
+            h['人気'] = pop_val
+        else:
+            h.pop('人気', None)
+
+        normalized.append(h)
+
+    race['horses'] = normalized
+    return normalized
+
+
 def generate_betting_plan(race):
     """
     新ロジック: オッズ断層ベースの三連複フォーメーション
@@ -816,7 +850,7 @@ def generate_betting_plan(race):
         skip_reason: str or None (スキップ理由)
         analysis: dict (断層分析結果)
     """
-    horses = race.get('horses', [])
+    horses = normalize_race_horses(race)
     race_distance = race.get('距離')
     
     # --- 旧ロジック計算 (比較用) ---
@@ -1428,6 +1462,7 @@ def generate_betting_plan(race):
             if str(h.get('馬番')) not in {str(x.get('馬番')) for x in col1}
         }.values()),
         "買い目タイプ": "三連複フォーメーション(断層役割ベース・精度改善v3)",
+        "投資額": investment,
         "組み合わせ数": combo_count + len(hole_box_combos) + len(rival_box_combos),
         "合成オッズ": core_synthetic_odds,
         "合成オッズ_全体": full_synthetic_odds,
@@ -1519,7 +1554,7 @@ def select_races(race_data, max_races=9999):
     turbulence_counts = {"低": 0, "中": 0, "高": 0}
     
     for race in races:
-        horses = race.get('horses', [])
+        horses = normalize_race_horses(race)
         
         # 基本フィルター: 若馬限定戦スキップ（3歳/2歳戦は予測精度が低いため除外）
         race_name_str = race.get('レース名', '')
