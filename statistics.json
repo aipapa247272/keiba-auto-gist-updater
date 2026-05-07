@@ -1,25 +1,25 @@
 {
-  "generated_at": "2026-05-06 15:19:08",
+  "generated_at": "2026-05-07 15:23:51",
   "overall": {
-    "total_races": 413,
+    "total_races": 418,
     "total_hits": 76,
-    "total_investment": 882000,
+    "total_investment": 889600,
     "total_return": 314890,
-    "total_profit": -567110,
-    "hit_rate": 18.4,
-    "recovery_rate": 35.7
+    "total_profit": -574710,
+    "hit_rate": 18.2,
+    "recovery_rate": 35.4
   },
   "latest_logic_overall": {
     "logic_version": "v14.4",
-    "period": "2026/04/05 〜 2026/05/03",
-    "active_days": 23,
-    "races": 91,
+    "period": "2026/04/05 〜 2026/05/07",
+    "active_days": 24,
+    "races": 96,
     "hits": 15,
-    "hit_rate": 16.5,
-    "investment": 74700,
+    "hit_rate": 15.6,
+    "investment": 82300,
     "return": 57240,
-    "profit": -17460,
-    "recovery_rate": 76.6
+    "profit": -25060,
+    "recovery_rate": 69.6
   },
   "daily": [
     {
@@ -1017,20 +1017,32 @@
       "profit": -4770,
       "hit_rate": 14.3,
       "recovery_rate": 43.2
+    },
+    {
+      "date": "2026/05/07",
+      "ymd": "20260507",
+      "logic_version": "v14.4",
+      "races": 5,
+      "hits": 0,
+      "investment": 7600,
+      "return": 0,
+      "profit": -7600,
+      "hit_rate": 0.0,
+      "recovery_rate": 0.0
     }
   ],
   "by_logic_version": [
     {
       "logic_version": "v14.4",
-      "period": "2026/04/05 〜 2026/05/03",
-      "active_days": 23,
-      "races": 91,
+      "period": "2026/04/05 〜 2026/05/07",
+      "active_days": 24,
+      "races": 96,
       "hits": 15,
-      "hit_rate": 16.5,
-      "investment": 74700,
+      "hit_rate": 15.6,
+      "investment": 82300,
       "return": 57240,
-      "profit": -17460,
-      "recovery_rate": 76.6
+      "profit": -25060,
+      "recovery_rate": 69.6
     },
     {
       "logic_version": "v14.3.1",
@@ -1132,13 +1144,13 @@
   "by_venue": [
     {
       "venue": "名古屋",
-      "races": 57,
+      "races": 60,
       "hits": 17,
-      "hit_rate": 29.8,
-      "investment": 100600,
+      "hit_rate": 28.3,
+      "investment": 107400,
       "return": 41730,
-      "profit": -58870,
-      "recovery_rate": 41.5
+      "profit": -65670,
+      "recovery_rate": 38.9
     },
     {
       "venue": "阪神",
@@ -1232,13 +1244,13 @@
     },
     {
       "venue": "船橋",
-      "races": 16,
+      "races": 18,
       "hits": 4,
-      "hit_rate": 25.0,
-      "investment": 26900,
+      "hit_rate": 22.2,
+      "investment": 27700,
       "return": 23130,
-      "profit": -3770,
-      "recovery_rate": 86.0
+      "profit": -4570,
+      "recovery_rate": 83.5
     },
     {
       "venue": "園田",
@@ -1354,13 +1366,13 @@
   "by_track": [
     {
       "track": "ダ",
-      "races": 290,
+      "races": 295,
       "hits": 68,
-      "hit_rate": 23.4,
-      "investment": 582300,
+      "hit_rate": 23.1,
+      "investment": 589900,
       "return": 265850,
-      "profit": -316450,
-      "recovery_rate": 45.7
+      "profit": -324050,
+      "recovery_rate": 45.1
     },
     {
       "track": "芝",
@@ -1386,33 +1398,33 @@
   "by_score_tier": [
     {
       "tier": "?",
-      "races": 382,
+      "races": 385,
       "hits": 70,
-      "hit_rate": 18.3,
-      "investment": 790800,
+      "hit_rate": 18.2,
+      "investment": 792000,
       "return": 268800,
-      "profit": -522000,
-      "recovery_rate": 34.0
+      "profit": -523200,
+      "recovery_rate": 33.9
     },
     {
       "tier": "C",
-      "races": 14,
+      "races": 15,
       "hits": 4,
-      "hit_rate": 28.6,
-      "investment": 36000,
+      "hit_rate": 26.7,
+      "investment": 40200,
       "return": 39830,
-      "profit": 3830,
-      "recovery_rate": 110.6
+      "profit": -370,
+      "recovery_rate": 99.1
     },
     {
       "tier": "B",
-      "races": 11,
+      "races": 12,
       "hits": 1,
-      "hit_rate": 9.1,
-      "investment": 39500,
+      "hit_rate": 8.3,
+      "investment": 41700,
       "return": 1300,
-      "profit": -38200,
-      "recovery_rate": 3.3
+      "profit": -40400,
+      "recovery_rate": 3.1
     },
     {
       "tier": "A",
