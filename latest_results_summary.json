@@ -1,16 +1,16 @@
 {
   "ymd": "20260508",
-  "generated_at": "2026-05-07 15:23:17",
+  "generated_at": "2026-05-08 14:28:17",
   "logic_version": "v12",
   "summary": {
     "total_races": 1,
-    "hit_count": 0,
-    "miss_count": 1,
-    "hit_rate": 0.0,
+    "hit_count": 1,
+    "miss_count": 0,
+    "hit_rate": 100.0,
     "total_investment": 2100,
-    "total_payout": 0,
-    "net_profit": -2100,
-    "recovery_rate": 0.0
+    "total_payout": 4550,
+    "net_profit": 2450,
+    "recovery_rate": 216.7
   },
   "details": [
     {
@@ -22,11 +22,11 @@
       "combo_count": 21,
       "per_bet_investment": 100,
       "synthetic_odds": 4.7,
-      "hit": false,
-      "hit_type": null,
-      "payout": 0,
-      "profit": -2100,
-      "reason": "着順データなし"
+      "hit": true,
+      "hit_type": "三連複",
+      "payout": 4550,
+      "profit": 2450,
+      "reason": "的中 6-3-8"
     }
   ]
 }
