@@ -336,7 +336,8 @@ def fetch_race_results(ymd):
                 'investment': investment,
                 'per_bet_investment': per_bet_investment,
                 'return': 0,
-                'profit': -investment,
+                'profit': 0,
+                'aggregate_excluded': True,
                 'payouts': {},
                 'horse_weights': [],
                 'all_horses_result': [],   # Phase1
@@ -565,11 +566,12 @@ def fetch_race_results(ymd):
     unavailable_count = sum(1 for r in results if r['status'] == '結果取得不可')
     no_pred_count = sum(1 for r in results if r['status'] == '予想なし')
     
-    # 的中率計算は「予想あり」レースのみを対象にする
+    # 的中率・回収率は「有効結果（的中/不的中）」のみを対象にする
     valid_races = hit_count + miss_count
+    valid_results = [r for r in results if r.get('status') in ('的中', '不的中')]
     
-    total_investment = sum(r['investment'] for r in results)
-    total_return = sum(r['return'] for r in results)
+    total_investment = sum(r.get('investment', 0) for r in valid_results)
+    total_return = sum(r.get('return', 0) for r in valid_results)
     total_profit = total_return - total_investment
     
     hit_rate = (hit_count / valid_races * 100) if valid_races > 0 else 0
@@ -594,9 +596,10 @@ def fetch_race_results(ymd):
     for ptype, label in [('recommend', '推奨'), ('reference', '参考')]:
         subset = [r for r in results if r.get('prediction_type', 'recommend') == ptype]
         subset_hit = sum(1 for r in subset if r.get('status') == '的中')
-        subset_valid = sum(1 for r in subset if r.get('status') in ('的中', '不的中'))
-        subset_investment = sum(r.get('investment', 0) for r in subset)
-        subset_return = sum(r.get('return', 0) for r in subset)
+        subset_valid_results = [r for r in subset if r.get('status') in ('的中', '不的中')]
+        subset_valid = len(subset_valid_results)
+        subset_investment = sum(r.get('investment', 0) for r in subset_valid_results)
+        subset_return = sum(r.get('return', 0) for r in subset_valid_results)
         subset_profit = subset_return - subset_investment
         subset_hit_rate = (subset_hit / subset_valid * 100) if subset_valid > 0 else 0
         subset_recovery = (subset_return / subset_investment * 100) if subset_investment > 0 else 0

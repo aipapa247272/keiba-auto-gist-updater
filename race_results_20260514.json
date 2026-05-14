@@ -1,40 +1,40 @@
 {
   "date": "2026/05/14",
   "ymd": "20260514",
-  "generated_at": "2026-05-13 15:37:59",
+  "generated_at": "2026-05-14 04:28:33",
   "total_races": 5,
   "hit_count": 0,
   "miss_count": 0,
   "unavailable_count": 5,
   "no_pred_count": 0,
   "valid_races": 0,
-  "total_investment": 10200,
+  "total_investment": 0,
   "total_return": 0,
-  "total_profit": -10200,
+  "total_profit": 0,
   "hit_rate": 0,
-  "recovery_rate": 0.0,
+  "recovery_rate": 0,
   "summary_by_type": {
     "recommend": {
       "label": "推奨",
       "total_races": 2,
       "hit_count": 0,
       "valid_races": 0,
-      "total_investment": 9000,
+      "total_investment": 0,
       "total_return": 0,
-      "total_profit": -9000,
+      "total_profit": 0,
       "hit_rate": 0,
-      "recovery_rate": 0.0
+      "recovery_rate": 0
     },
     "reference": {
       "label": "参考",
       "total_races": 3,
       "hit_count": 0,
       "valid_races": 0,
-      "total_investment": 1200,
+      "total_investment": 0,
       "total_return": 0,
-      "total_profit": -1200,
+      "total_profit": 0,
       "hit_rate": 0,
-      "recovery_rate": 0.0
+      "recovery_rate": 0
     }
   },
   "races": [
@@ -333,15 +333,15 @@
       "investment": 4400,
       "per_bet_investment": 200,
       "return": 0,
-      "profit": -4400,
+      "profit": 0,
+      "aggregate_excluded": true,
       "payouts": {},
       "horse_weights": [],
       "all_horses_result": [],
       "race_verification": {},
       "virtual_bets_result": {},
       "weather": "",
-      "track_condition": "",
-      "predicted_pace": "ハイペース"
+      "track_condition": ""
     },
     {
       "race_id": "202645051402",
@@ -641,15 +641,15 @@
       "investment": 4600,
       "per_bet_investment": 200,
       "return": 0,
-      "profit": -4600,
+      "profit": 0,
+      "aggregate_excluded": true,
       "payouts": {},
       "horse_weights": [],
       "all_horses_result": [],
       "race_verification": {},
       "virtual_bets_result": {},
       "weather": "",
-      "track_condition": "",
-      "predicted_pace": "ハイペース"
+      "track_condition": ""
     },
     {
       "race_id": "202630051409",
@@ -747,15 +747,15 @@
       "investment": 400,
       "per_bet_investment": 100,
       "return": 0,
-      "profit": -400,
+      "profit": 0,
+      "aggregate_excluded": true,
       "payouts": {},
       "horse_weights": [],
       "all_horses_result": [],
       "race_verification": {},
       "virtual_bets_result": {},
       "weather": "",
-      "track_condition": "",
-      "predicted_pace": "ハイペース"
+      "track_condition": ""
     },
     {
       "race_id": "202645051409",
@@ -853,15 +853,15 @@
       "investment": 400,
       "per_bet_investment": 100,
       "return": 0,
-      "profit": -400,
+      "profit": 0,
+      "aggregate_excluded": true,
       "payouts": {},
       "horse_weights": [],
       "all_horses_result": [],
       "race_verification": {},
       "virtual_bets_result": {},
       "weather": "",
-      "track_condition": "",
-      "predicted_pace": "ハイペース"
+      "track_condition": ""
     },
     {
       "race_id": "202650051411",
@@ -959,15 +959,15 @@
       "investment": 400,
       "per_bet_investment": 100,
       "return": 0,
-      "profit": -400,
+      "profit": 0,
+      "aggregate_excluded": true,
       "payouts": {},
       "horse_weights": [],
       "all_horses_result": [],
       "race_verification": {},
       "virtual_bets_result": {},
       "weather": "",
-      "track_condition": "",
-      "predicted_pace": "ハイペース"
+      "track_condition": ""
     }
   ]
 }

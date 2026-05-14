@@ -1,6 +1,6 @@
 {
   "ymd": "20260513",
-  "generated_at": "2026-05-12 15:35:01",
+  "generated_at": "2026-05-14 04:28:33",
   "logic_version": "v12",
   "summary": {
     "total_races": 3,
@@ -26,7 +26,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -2300,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 5-2-9, 23点中)"
     },
     {
       "race_id": "202630051310",
@@ -41,7 +41,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -4600,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 10-13-5, 23点中)"
     },
     {
       "race_id": "202645051310",
@@ -56,7 +56,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -2300,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 7-4-9, 23点中)"
     }
   ]
 }
