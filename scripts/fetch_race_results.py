@@ -674,7 +674,9 @@ def fetch_single_race_result(race_id, ymd):
     else:
         base_url = 'https://nar.netkeiba.com'
     
-    url = f'{base_url}/race/result.html?race_id={race_id}'
+    url_candidates = [f'{base_url}/race/result.html?race_id={race_id}']
+    if race_type == 'local':
+        url_candidates.append(f'{base_url}/race/result.html?race_id={race_id}&mode=result')
     
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
@@ -684,38 +686,70 @@ def fetch_single_race_result(race_id, ymd):
     try:
         print(f"  🏇 {race_type.upper()} - {venue_name}")
         
-        response = requests.get(url, headers=headers, timeout=15)
-        response.raise_for_status()
+        soup = None
+        rows = []
+        result_table = None
+        last_error = ''
         
-        # NARサイトはEUC-JPエンコーディング
-        html_bytes = response.content
-        html_text = None
-        for enc in ['euc-jp', 'shift_jis', 'utf-8']:
+        for attempt_idx, url in enumerate(list(dict.fromkeys(url_candidates)), 1):
             try:
-                decoded = html_bytes.decode(enc)
-                if '単勝' in decoded or 'ワイド' in decoded or '払戻' in decoded:
-                    html_text = decoded
-                    print(f"  📄 エンコーディング: {enc}")
-                    break
-            except Exception:
+                response = requests.get(url, headers=headers, timeout=15)
+                response.raise_for_status()
+            except requests.RequestException as e:
+                last_error = f"ネットワークエラー: {e}"
                 continue
-        if html_text is None:
-            html_text = html_bytes.decode('utf-8', errors='ignore')
-        soup = BeautifulSoup(html_text, 'html.parser')
+            
+            html_bytes = response.content
+            html_text = None
+            for enc in ['euc-jp', 'euc_jp', 'shift_jis', 'utf-8']:
+                try:
+                    decoded = html_bytes.decode(enc)
+                    if '単勝' in decoded or 'ワイド' in decoded or '払戻' in decoded or '3連複' in decoded:
+                        html_text = decoded
+                        print(f"  📄 エンコーディング: {enc} / attempt {attempt_idx}")
+                        break
+                except Exception:
+                    continue
+            if html_text is None:
+                html_text = html_bytes.decode('euc_jp', errors='ignore')
+            
+            soup = BeautifulSoup(html_text, 'html.parser')
+            candidate_tables = []
+            seen_tables = set()
+            for selector in [
+                'table.RaceTable01.ResultMain',
+                'table.Shutuba_Table',
+                'table.race_table_01',
+                'table.RaceCommon_Table.ResultMain',
+                'table.RaceCommon_Table'
+            ]:
+                for table in soup.select(selector):
+                    table_id = id(table)
+                    if table_id in seen_tables:
+                        continue
+                    seen_tables.add(table_id)
+                    table_rows = table.select('tr')
+                    data_rows = [r for r in table_rows if len(r.select('td')) >= 10]
+                    candidate_tables.append((len(data_rows), len(table_rows), selector, table))
+            
+            if not candidate_tables:
+                last_error = 'レース結果テーブルが見つかりません'
+                continue
+            
+            candidate_tables.sort(key=lambda x: (x[0], x[1]), reverse=True)
+            best_data_rows, best_total_rows, best_selector, best_table = candidate_tables[0]
+            print(f"  📊 result table: {best_selector} rows={best_total_rows} data_rows={best_data_rows}")
+            
+            if best_data_rows < 3:
+                last_error = f'着順データが不足 rows={best_total_rows} data_rows={best_data_rows}'
+                continue
+            
+            result_table = best_table
+            rows = result_table.select('tr')
+            break
         
-        result_table = soup.select_one('table.Shutuba_Table')
         if not result_table:
-            result_table = soup.select_one('table.race_table_01')
-        if not result_table:
-            result_table = soup.select_one('table.RaceCommon_Table')
-        
-        if not result_table:
-            print(f"  ❌ レース結果テーブルが見つかりません")
-            return None
-        
-        rows = result_table.select('tr')
-        if len(rows) < 4:
-            print(f"  ❌ 着順データが不足")
+            print(f"  ❌ {last_error or 'レース結果テーブルが見つかりません'}")
             return None
         
         top_3 = []
