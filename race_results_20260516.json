@@ -1,7 +1,7 @@
 {
   "date": "2026/05/16",
   "ymd": "20260516",
-  "generated_at": "2026-05-15 15:08:02",
+  "generated_at": "2026-05-15 18:44:13",
   "total_races": 2,
   "hit_count": 0,
   "miss_count": 0,
@@ -68,8 +68,7 @@
       "race_verification": {},
       "virtual_bets_result": {},
       "weather": "",
-      "track_condition": "",
-      "predicted_pace": "スローペース"
+      "track_condition": ""
     },
     {
       "race_id": "202605020712",
@@ -176,8 +175,7 @@
       "race_verification": {},
       "virtual_bets_result": {},
       "weather": "",
-      "track_condition": "",
-      "predicted_pace": "ハイペース"
+      "track_condition": ""
     }
   ]
 }
