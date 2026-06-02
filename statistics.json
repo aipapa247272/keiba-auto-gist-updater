@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-06-01 18:32:20",
+  "generated_at": "2026-06-02 17:13:10",
   "overall": {
-    "total_races": 514,
+    "total_races": 516,
     "total_hits": 85,
     "total_investment": 941500,
     "total_return": 350740,
@@ -11,11 +11,11 @@
   },
   "latest_logic_overall": {
     "logic_version": "v14.4",
-    "period": "2026/04/05 〜 2026/05/31",
-    "active_days": 43,
-    "races": 182,
+    "period": "2026/04/05 〜 2026/06/02",
+    "active_days": 44,
+    "races": 184,
     "hits": 20,
-    "hit_rate": 11.0,
+    "hit_rate": 10.9,
     "investment": 130200,
     "return": 88270,
     "profit": -41930,
@@ -1281,16 +1281,28 @@
       "profit": -4200,
       "hit_rate": 0.0,
       "recovery_rate": 0.0
+    },
+    {
+      "date": "2026/06/02",
+      "ymd": "20260602",
+      "logic_version": "v14.4",
+      "races": 2,
+      "hits": 0,
+      "investment": 0,
+      "return": 0,
+      "profit": 0,
+      "hit_rate": 0.0,
+      "recovery_rate": 0
     }
   ],
   "by_logic_version": [
     {
       "logic_version": "v14.4",
-      "period": "2026/04/05 〜 2026/05/31",
-      "active_days": 43,
-      "races": 182,
+      "period": "2026/04/05 〜 2026/06/02",
+      "active_days": 44,
+      "races": 184,
       "hits": 20,
-      "hit_rate": 11.0,
+      "hit_rate": 10.9,
       "investment": 130200,
       "return": 88270,
       "profit": -41930,
@@ -1526,13 +1538,13 @@
     },
     {
       "venue": "船橋",
-      "races": 18,
+      "races": 20,
       "hits": 5,
-      "hit_rate": 27.8,
-      "investment": 27700,
+      "hit_rate": 25.0,
+      "investment": 28500,
       "return": 24900,
-      "profit": -2800,
-      "recovery_rate": 89.9
+      "profit": -3600,
+      "recovery_rate": 87.4
     },
     {
       "venue": "新潟",
@@ -1618,13 +1630,13 @@
   "by_track": [
     {
       "track": "ダ",
-      "races": 366,
+      "races": 368,
       "hits": 77,
-      "hit_rate": 21.0,
-      "investment": 666700,
+      "hit_rate": 20.9,
+      "investment": 667500,
       "return": 301700,
-      "profit": -365000,
-      "recovery_rate": 45.3
+      "profit": -365800,
+      "recovery_rate": 45.2
     },
     {
       "track": "芝",
@@ -1650,13 +1662,13 @@
   "by_score_tier": [
     {
       "tier": "?",
-      "races": 456,
+      "races": 458,
       "hits": 76,
-      "hit_rate": 16.7,
-      "investment": 819500,
+      "hit_rate": 16.6,
+      "investment": 820300,
       "return": 276650,
-      "profit": -542850,
-      "recovery_rate": 33.8
+      "profit": -543650,
+      "recovery_rate": 33.7
     },
     {
       "tier": "B",
