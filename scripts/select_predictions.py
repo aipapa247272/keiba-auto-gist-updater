@@ -1616,10 +1616,22 @@ def select_races(race_data, max_races=9999):
         # 新ロジック: 買い目生成
         betting_plan, investment, skip_reason, analysis, old_logic = generate_betting_plan(race)
         
-        # 断層フラット・合成オッズ不足によるスキップ
+        # 断層フラット・合成オッズ不足・データ欠落等によるスキップ
         if skip_reason:
             is_reference = analysis.get("参考予測", False)
-            skip_type = "断層なし" if "フラット" in skip_reason else "合成オッズ不足"
+            if "フラット" in skip_reason:
+                skip_type = "断層なし"
+            elif "合成オッズ" in skip_reason:
+                skip_type = "合成オッズ不足"
+            elif "低ROI競馬場除外" in skip_reason:
+                skip_type = "低ROI除外"
+            elif "軸" in skip_reason:
+                skip_type = "軸候補不足"
+            elif "データ" in skip_reason or "欠落" in skip_reason:
+                skip_type = "データ不足"
+            else:
+                skip_type = "ロジック保留"
+            analysis["スキップ種別"] = skip_type
 
             if is_reference:
                 # --- Phase1: 参考予測として別リストへ ---
@@ -1848,6 +1860,10 @@ def main():
         skip_flat  = sum(1 for s in skipped_races if s.get('skip_type') == '断層なし')
         skip_odds  = sum(1 for s in skipped_races if s.get('skip_type') == '合成オッズ不足')
         skip_other = len(skipped_races) - skip_flat - skip_odds
+        detailed_skip_breakdown = {}
+        for s in skipped_races:
+            key = s.get('skip_type', '不明')
+            detailed_skip_breakdown[key] = detailed_skip_breakdown.get(key, 0) + 1
         
         output_data = {
             "ymd": ymd,
@@ -1868,6 +1884,7 @@ def main():
                     "合成オッズ不足": skip_odds,
                     "その他": skip_other
                 },
+                "skip_breakdown_detailed": detailed_skip_breakdown,
                 "reference_count": len(reference_races)
             },
             "fund_management": FUND_MANAGEMENT,
@@ -1891,6 +1908,7 @@ def main():
         print(f"選定レース数    : {len(selected_races)}R")
         print(f"スキップ(断層なし): {skip_flat}R")
         print(f"スキップ(合成オッズ): {skip_odds}R")
+        print(f"スキップ(詳細)    : {detailed_skip_breakdown}")
         print(f"--- 投資額比較 ---")
         print(f"新ロジック総投資: ¥{total_investment:,}")
         print(f"旧ロジック総投資: ¥{old_total_investment:,}")

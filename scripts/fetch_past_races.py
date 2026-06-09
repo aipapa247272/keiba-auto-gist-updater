@@ -56,13 +56,13 @@ def get_base_url(race_id):
 # ====================================================================
 # HTTP取得（共通関数）
 # ====================================================================
-def http_get(url, encoding="EUC-JP", timeout=10):
+def http_get(url, encoding=None, timeout=10):
     """
     HTTP GET リクエストを送信
     
     Args:
         url (str): 取得対象URL
-        encoding (str): 文字エンコーディング
+        encoding (str|None): 文字エンコーディング。None の場合はURL/レスポンスから自動判定
         timeout (int): タイムアウト秒数
     
     Returns:
@@ -76,7 +76,18 @@ def http_get(url, encoding="EUC-JP", timeout=10):
             timeout=timeout
         )
         resp.raise_for_status()
-        resp.encoding = encoding
+
+        if encoding:
+            resp.encoding = encoding
+        else:
+            content_type = (resp.headers.get("content-type") or "").lower()
+            if "charset=" in content_type:
+                resp.encoding = content_type.split("charset=")[-1].split(";")[0].strip()
+            elif "nar.netkeiba.com" in url or "utf-8" in content_type:
+                resp.encoding = "utf-8"
+            else:
+                resp.encoding = resp.apparent_encoding or "utf-8"
+
         return resp.text
     except Exception as e:
         print(f"[ERROR] HTTP GET failed: {url} -> {e}", file=sys.stderr)
@@ -86,6 +97,89 @@ def http_get(url, encoding="EUC-JP", timeout=10):
 # ====================================================================
 # 馬柱ページ解析
 # ====================================================================
+def _normalize_cell_text(text):
+    return re.sub(r"\s+", " ", text or "").strip()
+
+
+def _extract_past_race_from_text(text):
+    text = _normalize_cell_text(text)
+    if not text or not re.search(r"\d{4}\.\d{2}\.\d{2}", text):
+        return None
+
+    race = {
+        "開催日": "",
+        "競馬場": "",
+        "レース番号": "",
+        "距離種別": "",
+        "距離": "",
+        "タイム": "",
+        "馬場状態": "",
+        "頭数": "",
+        "枠番": "",
+        "人気": "",
+        "騎手": "",
+        "斤量": "",
+        "コーナー通過順": "",
+        "上り": "",
+        "馬体重": ""
+    }
+
+    m = re.search(r"(\d{4}\.\d{2}\.\d{2})\s+([^\s]+)", text)
+    if m:
+        race["開催日"] = m.group(1)
+        race["競馬場"] = m.group(2)
+
+    m = re.search(r"\b(\d{1,2})R\b", text)
+    if m:
+        race["レース番号"] = m.group(1)
+    else:
+        m = re.search(r"\d{4}\.\d{2}\.\d{2}\s+[^\s]+\s+(\d{1,2})\b", text)
+        if m:
+            race["レース番号"] = m.group(1)
+
+    m = re.search(r"(ダ|芝)(\d{3,4})", text)
+    if m:
+        race["距離種別"] = m.group(1)
+        race["距離"] = m.group(2)
+
+    m = re.search(r"(\d:\d{2}\.\d)", text)
+    if m:
+        race["タイム"] = m.group(1)
+
+    for cond in ["不良", "稍重", "良", "重", "稍"]:
+        if cond in text:
+            race["馬場状態"] = cond
+            break
+
+    m = re.search(r"(\d+)頭\s+(\d+)番\s+(\d+)人", text)
+    if m:
+        race["頭数"] = m.group(1)
+        race["枠番"] = m.group(2)
+        race["人気"] = m.group(3)
+
+    m = re.search(r"\d+頭\s+\d+番\s+\d+人\s+([^\d\s][^\d]*?)\s+(\d{2}(?:\.\d)?)\b", text)
+    if m:
+        race["騎手"] = m.group(1).strip()
+        race["斤量"] = m.group(2)
+
+    m = re.search(r"(\d+(?:-\d+){1,3})", text)
+    if m:
+        race["コーナー通過順"] = m.group(1)
+
+    m = re.search(r"\((\d{2}\.\d)\)\s+(\d+\([+\-]?\d+\))", text)
+    if m:
+        race["上り"] = m.group(1)
+        race["馬体重"] = m.group(2)
+    else:
+        m = re.search(r"(\d+\([+\-]?\d+\))", text)
+        if m:
+            race["馬体重"] = m.group(1)
+
+    if not race["開催日"]:
+        return None
+    return race
+
+
 def parse_past_races_html(html, horse_id):
     """
     馬柱ページ（shutuba_past.html）のHTMLを解析し、
@@ -107,49 +201,53 @@ def parse_past_races_html(html, horse_id):
         print(f"[WARN] horse_id={horse_id} のリンクが見つかりません")
         return past_races
     
-    # <tr class="HorseList"> 要素を取得
+    # NARページでは HorseList クラスが無いことがあるため一般trにフォールバック
     tr = horse_link.find_parent("tr", class_="HorseList")
+    if not tr:
+        tr = horse_link.find_parent("tr")
+        if tr:
+            print(f"[INFO] horse_id={horse_id} は一般trを使用して解析します")
     if not tr:
         print(f"[WARN] horse_id={horse_id} の <tr> が見つかりません")
         return past_races
-    
-    # tr 要素全体のテキストを取得
-    text = tr.get_text(separator="\n", strip=True)
-    
-    # レースデータのパターン（改行区切り）
-    pattern = re.compile(
-        r"(\d{4}\.\d{2}\.\d{2})\s+(\S+)\s*\n"  # 開催日 競馬場
-        r"(\d+)\s*\n"                        # レース番号
-        r"[^\n]*\n"                          # レース条件（スキップ）
-        r"(ダ|芝)(\d+)\s+([\d:\.]+)\s*\n"  # 距離 タイム
-        r"(\S+)\s*\n"                       # 馬場状態
-        r"(\d+)頭\s+(\d+)番\s+(\d+)人\s+(\S+)\s+([\d\.]+)\s*\n"  # 頭数 枠番 人気 騎手 斤量
-        r"([\d\-]+)\s+\(([\d\.]+)\)\s+(\d+\([\+\-]?\d+\))"  # コーナー 上り 馬体重
-    )
-    
-    matches = pattern.findall(text)
-    
-    for match in matches[:5]:  # 最大5走分
-        race = {
-            "開催日": match[0],
-            "競馬場": match[1],
-            "レース番号": match[2],
-            "距離種別": match[3],
-            "距離": match[4],
-            "タイム": match[5],
-            "馬場状態": match[6],
-            "頭数": match[7],
-            "枠番": match[8],
-            "人気": match[9],
-            "騎手": match[10],
-            "斤量": match[11],
-            "コーナー通過順": match[12],
-            "上り": match[13],
-            "馬体重": match[14]
-        }
-        past_races.append(race)
-    
-    return past_races
+
+    tds = tr.find_all("td")
+    print(f"[DEBUG] horse_id={horse_id} td_count={len(tds)}")
+
+    # まずは td 単位で抽出（NAR向け）
+    for td in tds:
+        td_text = td.get_text(" ", strip=True)
+        if not re.search(r"\d{4}\.\d{2}\.\d{2}", td_text):
+            continue
+        race = _extract_past_race_from_text(td_text)
+        if race:
+            past_races.append(race)
+
+    # td抽出で失敗した場合は行全体を日付ごとに分割して再試行
+    if not past_races:
+        row_text = tr.get_text(" ", strip=True)
+        segments = [seg.strip() for seg in re.split(r"(?=\d{4}\.\d{2}\.\d{2})", row_text) if seg.strip()]
+        for seg in segments:
+            race = _extract_past_race_from_text(seg)
+            if race:
+                past_races.append(race)
+
+    deduped = []
+    seen = set()
+    for race in past_races:
+        key = (race.get("開催日", ""), race.get("競馬場", ""), race.get("レース番号", ""), race.get("距離", ""))
+        if key in seen:
+            continue
+        seen.add(key)
+        deduped.append(race)
+
+    deduped = deduped[:5]
+    if not deduped:
+        print(f"[WARN] horse_id={horse_id} の過去走抽出に失敗しました")
+    else:
+        print(f"[DEBUG] horse_id={horse_id} parsed_past_races={len(deduped)}")
+
+    return deduped
 
 
 # ====================================================================
@@ -181,6 +279,7 @@ def main():
     # 過去走データ取得カウンター
     total_horses = 0
     total_past_races = 0
+    total_warning_horses = 0
     jra_count = 0
     nar_count = 0
     
@@ -221,6 +320,12 @@ def main():
             
             # 馬データに追加
             horse["past_races"] = past_races
+            if not past_races:
+                warning_reason = f"{venue_type} past_races parse failed or empty"
+                horse["past_races_fetch_warning"] = warning_reason
+                total_warning_horses += 1
+            else:
+                horse.pop("past_races_fetch_warning", None)
             
             total_horses += 1
             total_past_races += len(past_races)
@@ -242,6 +347,7 @@ def main():
     print(f"  - 対象馬数: {total_horses}")
     print(f"  - 取得過去走数: {total_past_races}")
     print(f"  - 平均過去走数: {total_past_races / max(total_horses, 1):.1f}走/馬")
+    print(f"  - 警告馬数: {total_warning_horses}")
     print(f"  - 保存先: {output_file}")
     
     with open(output_file, "w", encoding="utf-8") as f:

@@ -99,6 +99,61 @@ def estimate_running_style(past_races):
         return "差し"
 
 
+def calculate_missing_data_rescue_score(horse, race_info):
+    """過去走が取れない場合でも最低限の相対評価を残すための救済スコア。"""
+    rescue = 0.0
+
+    pop = horse.get('人気') or horse.get('popularity') or horse.get('人気順')
+    try:
+        pop = int(str(pop).strip())
+    except Exception:
+        pop = None
+
+    odds = horse.get('単勝オッズ') or horse.get('オッズ') or horse.get('odds')
+    try:
+        odds = float(str(odds).strip())
+    except Exception:
+        odds = None
+
+    waku = horse.get('枠番') or horse.get('枠')
+    try:
+        waku = int(str(waku).strip())
+    except Exception:
+        waku = None
+
+    if pop is not None:
+        if pop <= 3:
+            rescue += 18
+        elif pop <= 5:
+            rescue += 12
+        elif pop <= 8:
+            rescue += 7
+        else:
+            rescue += 3
+    elif odds is not None:
+        if odds <= 5:
+            rescue += 16
+        elif odds <= 10:
+            rescue += 11
+        elif odds <= 20:
+            rescue += 7
+        else:
+            rescue += 3
+
+    if waku is not None:
+        rescue += 2 if 1 <= waku <= 4 else 1
+
+    target_distance = race_info.get('距離', 0)
+    try:
+        target_distance = int(str(target_distance).replace('m', '').strip())
+    except Exception:
+        target_distance = 0
+    if target_distance >= 1800:
+        rescue += 2
+
+    return round(min(rescue, 20.0), 1)
+
+
 # ====================================================================
 # A. 過去実績スコア（40点満点）
 # ====================================================================
@@ -426,6 +481,10 @@ def calculate_des_score(horse, race_info):
     d_score = calculate_race_style_score(horse, race_info)
     
     total = a_score + b_score + c_score + d_score
+    rescue_score = 0.0
+    if not horse.get('past_races', []):
+        rescue_score = calculate_missing_data_rescue_score(horse, race_info)
+        total += rescue_score
     
     # 信頼度判定
     if total >= 75:
@@ -442,6 +501,8 @@ def calculate_des_score(horse, race_info):
         "B_距離馬場適性": b_score,
         "C_騎手厩舎": c_score,
         "D_展開適性": d_score,
+        "救済スコア": rescue_score,
+        "データ不足フラグ": not bool(horse.get('past_races', [])),
         "total": round(total, 1),
         "信頼度": confidence
     }
@@ -476,6 +537,8 @@ def main():
     # DESスコア計算カウンター
     total_horses = 0
     calculated_count = 0
+    rescue_applied_count = 0
+    missing_past_races_count = 0
     
     # 各レースを処理
     for race in race_data["races"]:
@@ -502,6 +565,11 @@ def main():
             # 馬データに追加
             horse["des_score"] = des_score
             
+            if des_score.get("データ不足フラグ"):
+                missing_past_races_count += 1
+            if des_score.get("救済スコア", 0) > 0:
+                rescue_applied_count += 1
+            
             total_horses += 1
             calculated_count += 1
             
@@ -523,6 +591,8 @@ def main():
     print(f"   - 対象レース数: {len(race_data.get('races', []))}")
     print(f"   - 対象馬数: {total_horses}")
     print(f"   - DESスコア計算完了: {calculated_count}")
+    print(f"   - past_races不足馬数: {missing_past_races_count}")
+    print(f"   - 救済スコア適用馬数: {rescue_applied_count}")
 
 
 if __name__ == "__main__":
