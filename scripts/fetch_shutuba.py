@@ -34,6 +34,29 @@ def get_base_url(race_id):
         # デフォルトは地方競馬
         return 'https://nar.netkeiba.com'
 
+def detect_response_encoding(resp, url=''):
+    """
+    レスポンスの文字コードをヘッダ / meta charset / URL から判定
+    NAR は UTF-8、JRA は EUC-JP が基本。
+    """
+    content_type = (resp.headers.get('content-type') or '').lower()
+    m = re.search(r'charset=([a-zA-Z0-9_\-]+)', content_type)
+    if m:
+        return m.group(1)
+
+    head = resp.content[:4096].decode('ascii', errors='ignore')
+    m = re.search(r'<meta[^>]+charset=["\']?([a-zA-Z0-9_\-]+)', head, re.IGNORECASE)
+    if m:
+        return m.group(1)
+
+    if 'nar.netkeiba.com' in url:
+        return 'utf-8'
+    if 'race.netkeiba.com' in url:
+        return 'euc-jp'
+
+    return resp.apparent_encoding or 'utf-8'
+
+
 def fetch_race_data(race_id):
     """
     指定されたrace_idの出馬表データを取得
@@ -50,13 +73,18 @@ def fetch_race_data(race_id):
     
     try:
         resp = requests.get(url, headers=headers, timeout=10)
-        resp.encoding = 'EUC-JP'
-        
+
         if resp.status_code != 200:
             print(f"❌ HTTP Error {resp.status_code} for race_id={race_id}")
             return None
+
+        encoding = detect_response_encoding(resp, url)
+        try:
+            html = resp.content.decode(encoding, errors='replace')
+        except LookupError:
+            html = resp.text
         
-        soup = BeautifulSoup(resp.text, 'html.parser')
+        soup = BeautifulSoup(html, 'html.parser')
         
         # レース基本情報の取得
         race_info = extract_race_info(soup, race_id, venue_type)
