@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-06-12 16:09:55",
+  "generated_at": "2026-06-13 14:55:09",
   "overall": {
-    "total_races": 548,
+    "total_races": 549,
     "total_hits": 85,
     "total_investment": 942300,
     "total_return": 350740,
@@ -11,11 +11,11 @@
   },
   "latest_logic_overall": {
     "logic_version": "v14.4",
-    "period": "2026/04/05 〜 2026/06/12",
-    "active_days": 53,
-    "races": 216,
+    "period": "2026/04/05 〜 2026/06/13",
+    "active_days": 54,
+    "races": 217,
     "hits": 20,
-    "hit_rate": 9.3,
+    "hit_rate": 9.2,
     "investment": 131000,
     "return": 88270,
     "profit": -42730,
@@ -1401,16 +1401,28 @@
       "profit": 0,
       "hit_rate": 0.0,
       "recovery_rate": 0
+    },
+    {
+      "date": "2026/06/13",
+      "ymd": "20260613",
+      "logic_version": "v14.4",
+      "races": 1,
+      "hits": 0,
+      "investment": 0,
+      "return": 0,
+      "profit": 0,
+      "hit_rate": 0.0,
+      "recovery_rate": 0
     }
   ],
   "by_logic_version": [
     {
       "logic_version": "v14.4",
-      "period": "2026/04/05 〜 2026/06/12",
-      "active_days": 53,
-      "races": 216,
+      "period": "2026/04/05 〜 2026/06/13",
+      "active_days": 54,
+      "races": 217,
       "hits": 20,
-      "hit_rate": 9.3,
+      "hit_rate": 9.2,
       "investment": 131000,
       "return": 88270,
       "profit": -42730,
@@ -1626,12 +1638,12 @@
     },
     {
       "venue": "東京",
-      "races": 24,
+      "races": 25,
       "hits": 0,
       "hit_rate": 0.0,
-      "investment": 21100,
+      "investment": 21500,
       "return": 0,
-      "profit": -21100,
+      "profit": -21500,
       "recovery_rate": 0.0
     },
     {
@@ -1758,24 +1770,24 @@
     },
     {
       "track": "不明",
-      "races": 55,
+      "races": 56,
       "hits": 0,
       "hit_rate": 0.0,
-      "investment": 114400,
+      "investment": 114800,
       "return": 0,
-      "profit": -114400,
+      "profit": -114800,
       "recovery_rate": 0.0
     }
   ],
   "by_score_tier": [
     {
       "tier": "?",
-      "races": 480,
+      "races": 481,
       "hits": 76,
       "hit_rate": 15.8,
-      "investment": 829700,
+      "investment": 830100,
       "return": 276650,
-      "profit": -553050,
+      "profit": -553450,
       "recovery_rate": 33.3
     },
     {
