@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-06-15 17:48:03",
+  "generated_at": "2026-06-16 17:52:21",
   "overall": {
-    "total_races": 551,
+    "total_races": 553,
     "total_hits": 85,
     "total_investment": 942700,
     "total_return": 350740,
@@ -11,11 +11,11 @@
   },
   "latest_logic_overall": {
     "logic_version": "v14.4",
-    "period": "2026/04/05 〜 2026/06/15",
-    "active_days": 55,
-    "races": 219,
+    "period": "2026/04/05 〜 2026/06/16",
+    "active_days": 56,
+    "races": 221,
     "hits": 20,
-    "hit_rate": 9.1,
+    "hit_rate": 9.0,
     "investment": 131400,
     "return": 88270,
     "profit": -43130,
@@ -1425,16 +1425,28 @@
       "profit": 0,
       "hit_rate": 0.0,
       "recovery_rate": 0
+    },
+    {
+      "date": "2026/06/16",
+      "ymd": "20260616",
+      "logic_version": "v14.4",
+      "races": 2,
+      "hits": 0,
+      "investment": 0,
+      "return": 0,
+      "profit": 0,
+      "hit_rate": 0.0,
+      "recovery_rate": 0
     }
   ],
   "by_logic_version": [
     {
       "logic_version": "v14.4",
-      "period": "2026/04/05 〜 2026/06/15",
-      "active_days": 55,
-      "races": 219,
+      "period": "2026/04/05 〜 2026/06/16",
+      "active_days": 56,
+      "races": 221,
       "hits": 20,
-      "hit_rate": 9.1,
+      "hit_rate": 9.0,
       "investment": 131400,
       "return": 88270,
       "profit": -43130,
@@ -1580,13 +1592,13 @@
     },
     {
       "venue": "川崎",
-      "races": 38,
+      "races": 39,
       "hits": 5,
-      "hit_rate": 13.2,
-      "investment": 61900,
+      "hit_rate": 12.8,
+      "investment": 62300,
       "return": 23610,
-      "profit": -38290,
-      "recovery_rate": 38.1
+      "profit": -38690,
+      "recovery_rate": 37.9
     },
     {
       "venue": "中山",
@@ -1689,6 +1701,16 @@
       "recovery_rate": 0.0
     },
     {
+      "venue": "水沢",
+      "races": 10,
+      "hits": 0,
+      "hit_rate": 0.0,
+      "investment": 16800,
+      "return": 0,
+      "profit": -16800,
+      "recovery_rate": 0.0
+    },
+    {
       "venue": "門別",
       "races": 10,
       "hits": 0,
@@ -1696,16 +1718,6 @@
       "investment": 11800,
       "return": 0,
       "profit": -11800,
-      "recovery_rate": 0.0
-    },
-    {
-      "venue": "水沢",
-      "races": 9,
-      "hits": 0,
-      "hit_rate": 0.0,
-      "investment": 16400,
-      "return": 0,
-      "profit": -16400,
       "recovery_rate": 0.0
     },
     {
@@ -1762,12 +1774,12 @@
   "by_track": [
     {
       "track": "ダ",
-      "races": 396,
+      "races": 398,
       "hits": 77,
-      "hit_rate": 19.4,
-      "investment": 709300,
+      "hit_rate": 19.3,
+      "investment": 710100,
       "return": 301700,
-      "profit": -407600,
+      "profit": -408400,
       "recovery_rate": 42.5
     },
     {
@@ -1794,12 +1806,12 @@
   "by_score_tier": [
     {
       "tier": "?",
-      "races": 481,
+      "races": 483,
       "hits": 76,
-      "hit_rate": 15.8,
-      "investment": 830100,
+      "hit_rate": 15.7,
+      "investment": 830900,
       "return": 276650,
-      "profit": -553450,
+      "profit": -554250,
       "recovery_rate": 33.3
     },
     {
