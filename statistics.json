@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-06-16 17:52:21",
+  "generated_at": "2026-06-17 16:31:41",
   "overall": {
-    "total_races": 553,
+    "total_races": 558,
     "total_hits": 85,
     "total_investment": 942700,
     "total_return": 350740,
     "total_profit": -591960,
-    "hit_rate": 15.4,
+    "hit_rate": 15.2,
     "recovery_rate": 37.2
   },
   "latest_logic_overall": {
     "logic_version": "v14.4",
-    "period": "2026/04/05 〜 2026/06/16",
-    "active_days": 56,
-    "races": 221,
+    "period": "2026/04/05 〜 2026/06/17",
+    "active_days": 57,
+    "races": 226,
     "hits": 20,
-    "hit_rate": 9.0,
+    "hit_rate": 8.8,
     "investment": 131400,
     "return": 88270,
     "profit": -43130,
@@ -1437,16 +1437,28 @@
       "profit": 0,
       "hit_rate": 0.0,
       "recovery_rate": 0
+    },
+    {
+      "date": "2026/06/17",
+      "ymd": "20260617",
+      "logic_version": "v14.4",
+      "races": 5,
+      "hits": 0,
+      "investment": 0,
+      "return": 0,
+      "profit": 0,
+      "hit_rate": 0.0,
+      "recovery_rate": 0
     }
   ],
   "by_logic_version": [
     {
       "logic_version": "v14.4",
-      "period": "2026/04/05 〜 2026/06/16",
-      "active_days": 56,
-      "races": 221,
+      "period": "2026/04/05 〜 2026/06/17",
+      "active_days": 57,
+      "races": 226,
       "hits": 20,
-      "hit_rate": 9.0,
+      "hit_rate": 8.8,
       "investment": 131400,
       "return": 88270,
       "profit": -43130,
@@ -1552,13 +1564,13 @@
   "by_venue": [
     {
       "venue": "名古屋",
-      "races": 73,
+      "races": 75,
       "hits": 18,
-      "hit_rate": 24.7,
-      "investment": 125300,
+      "hit_rate": 24.0,
+      "investment": 130300,
       "return": 46280,
-      "profit": -79020,
-      "recovery_rate": 36.9
+      "profit": -84020,
+      "recovery_rate": 35.5
     },
     {
       "venue": "阪神",
@@ -1581,6 +1593,16 @@
       "recovery_rate": 34.7
     },
     {
+      "venue": "川崎",
+      "races": 42,
+      "hits": 5,
+      "hit_rate": 11.9,
+      "investment": 65300,
+      "return": 23610,
+      "profit": -41690,
+      "recovery_rate": 36.2
+    },
+    {
       "venue": "小倉",
       "races": 40,
       "hits": 5,
@@ -1589,16 +1611,6 @@
       "return": 56880,
       "profit": -130820,
       "recovery_rate": 30.3
-    },
-    {
-      "venue": "川崎",
-      "races": 39,
-      "hits": 5,
-      "hit_rate": 12.8,
-      "investment": 62300,
-      "return": 23610,
-      "profit": -38690,
-      "recovery_rate": 37.9
     },
     {
       "venue": "中山",
@@ -1774,13 +1786,13 @@
   "by_track": [
     {
       "track": "ダ",
-      "races": 398,
+      "races": 403,
       "hits": 77,
-      "hit_rate": 19.3,
-      "investment": 710100,
+      "hit_rate": 19.1,
+      "investment": 718100,
       "return": 301700,
-      "profit": -408400,
-      "recovery_rate": 42.5
+      "profit": -416400,
+      "recovery_rate": 42.0
     },
     {
       "track": "芝",
@@ -1806,13 +1818,13 @@
   "by_score_tier": [
     {
       "tier": "?",
-      "races": 483,
+      "races": 486,
       "hits": 76,
-      "hit_rate": 15.7,
-      "investment": 830900,
+      "hit_rate": 15.6,
+      "investment": 832100,
       "return": 276650,
-      "profit": -554250,
-      "recovery_rate": 33.3
+      "profit": -555450,
+      "recovery_rate": 33.2
     },
     {
       "tier": "B",
@@ -1826,23 +1838,23 @@
     },
     {
       "tier": "C",
-      "races": 25,
+      "races": 26,
       "hits": 4,
-      "hit_rate": 16.0,
-      "investment": 61800,
+      "hit_rate": 15.4,
+      "investment": 66400,
       "return": 39830,
-      "profit": -21970,
-      "recovery_rate": 64.4
+      "profit": -26570,
+      "recovery_rate": 60.0
     },
     {
       "tier": "A",
-      "races": 15,
+      "races": 16,
       "hits": 1,
-      "hit_rate": 6.7,
-      "investment": 39800,
+      "hit_rate": 6.2,
+      "investment": 42000,
       "return": 4960,
-      "profit": -34840,
-      "recovery_rate": 12.5
+      "profit": -37040,
+      "recovery_rate": 11.8
     }
   ],
   "virtual_bets": [
