@@ -880,6 +880,7 @@
 
         .result-badge.hit { background: rgba(56, 142, 60, 0.26); color: #dcedc8; border: 1px solid rgba(129,199,132,0.45); }
         .result-badge.miss { background: rgba(198, 40, 40, 0.24); color: #ffcdd2; border: 1px solid rgba(229,115,115,0.4); }
+        .result-badge.pending { background: rgba(255, 193, 7, 0.18); color: #ffe082; border: 1px solid rgba(255, 213, 79, 0.35); }
 
         .result-details {
             display: grid;
@@ -3958,8 +3959,22 @@
                         `;
                         renderedGroups[predictionType] = true;
                     }
-                    const statusText = result.hit ? '🎯 的中' : '❌ 不的中';
-                    const statusClass = result.hit ? 'hit' : 'miss';
+                    const resultStatus = result.status || (result.hit ? '的中' : (Array.isArray(result.actual) && result.actual.length > 0 ? '不的中' : '結果取得不可'));
+                    let statusText = '⚠️ 結果未取得';
+                    let statusClass = 'pending';
+                    if (resultStatus === '的中') {
+                        statusText = '🎯 的中';
+                        statusClass = 'hit';
+                    } else if (resultStatus === '不的中') {
+                        statusText = '❌ 不的中';
+                        statusClass = 'miss';
+                    } else if (resultStatus === '予想なし') {
+                        statusText = 'ℹ️ 予想なし';
+                        statusClass = 'pending';
+                    } else if (resultStatus === '結果取得不可') {
+                        statusText = '⚠️ 結果未取得';
+                        statusClass = 'pending';
+                    }
                     const isReference = predictionType === 'reference';
                     const predictionBadge = isReference
                         ? '<span class="rank-badge rank-reference" style="margin-right:6px;vertical-align:middle;">⭐⭐ 参考</span>'
