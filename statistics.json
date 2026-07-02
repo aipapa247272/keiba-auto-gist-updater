@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-07-01 15:33:27",
+  "generated_at": "2026-07-02 15:02:39",
   "overall": {
-    "total_races": 599,
+    "total_races": 605,
     "total_hits": 89,
     "total_investment": 966200,
     "total_return": 387550,
     "total_profit": -578650,
-    "hit_rate": 14.9,
+    "hit_rate": 14.7,
     "recovery_rate": 40.1
   },
   "latest_logic_overall": {
     "logic_version": "v14.4",
-    "period": "2026/04/05 〜 2026/07/01",
-    "active_days": 69,
-    "races": 267,
+    "period": "2026/04/05 〜 2026/07/02",
+    "active_days": 70,
+    "races": 273,
     "hits": 24,
-    "hit_rate": 9.0,
+    "hit_rate": 8.8,
     "investment": 154900,
     "return": 125080,
     "profit": -29820,
@@ -1593,16 +1593,28 @@
       "profit": 0,
       "hit_rate": 0.0,
       "recovery_rate": 0
+    },
+    {
+      "date": "2026/07/02",
+      "ymd": "20260702",
+      "logic_version": "v14.4",
+      "races": 6,
+      "hits": 0,
+      "investment": 0,
+      "return": 0,
+      "profit": 0,
+      "hit_rate": 0.0,
+      "recovery_rate": 0
     }
   ],
   "by_logic_version": [
     {
       "logic_version": "v14.4",
-      "period": "2026/04/05 〜 2026/07/01",
-      "active_days": 69,
-      "races": 267,
+      "period": "2026/04/05 〜 2026/07/02",
+      "active_days": 70,
+      "races": 273,
       "hits": 24,
-      "hit_rate": 9.0,
+      "hit_rate": 8.8,
       "investment": 154900,
       "return": 125080,
       "profit": -29820,
@@ -1708,13 +1720,23 @@
   "by_venue": [
     {
       "venue": "名古屋",
-      "races": 83,
+      "races": 85,
       "hits": 18,
-      "hit_rate": 21.7,
-      "investment": 142800,
+      "hit_rate": 21.2,
+      "investment": 147400,
       "return": 46280,
-      "profit": -96520,
-      "recovery_rate": 32.4
+      "profit": -101120,
+      "recovery_rate": 31.4
+    },
+    {
+      "venue": "大井",
+      "races": 48,
+      "hits": 5,
+      "hit_rate": 10.4,
+      "investment": 64100,
+      "return": 20180,
+      "profit": -43920,
+      "recovery_rate": 31.5
     },
     {
       "venue": "阪神",
@@ -1725,16 +1747,6 @@
       "return": 60300,
       "profit": -53400,
       "recovery_rate": 53.0
-    },
-    {
-      "venue": "大井",
-      "races": 46,
-      "hits": 5,
-      "hit_rate": 10.9,
-      "investment": 63300,
-      "return": 20180,
-      "profit": -43120,
-      "recovery_rate": 31.9
     },
     {
       "venue": "川崎",
@@ -1767,6 +1779,16 @@
       "recovery_rate": 9.6
     },
     {
+      "venue": "園田",
+      "races": 32,
+      "hits": 4,
+      "hit_rate": 12.5,
+      "investment": 36900,
+      "return": 16750,
+      "profit": -20150,
+      "recovery_rate": 45.4
+    },
+    {
       "venue": "笠松",
       "races": 31,
       "hits": 2,
@@ -1785,16 +1807,6 @@
       "return": 15120,
       "profit": -42680,
       "recovery_rate": 26.2
-    },
-    {
-      "venue": "園田",
-      "races": 31,
-      "hits": 4,
-      "hit_rate": 12.9,
-      "investment": 36500,
-      "return": 16750,
-      "profit": -19750,
-      "recovery_rate": 45.9
     },
     {
       "venue": "姫路",
@@ -1848,13 +1860,13 @@
     },
     {
       "venue": "門別",
-      "races": 18,
+      "races": 19,
       "hits": 2,
-      "hit_rate": 11.1,
-      "investment": 18800,
+      "hit_rate": 10.5,
+      "investment": 21100,
       "return": 1550,
-      "profit": -17250,
-      "recovery_rate": 8.2
+      "profit": -19550,
+      "recovery_rate": 7.3
     },
     {
       "venue": "水沢",
@@ -1940,13 +1952,13 @@
   "by_track": [
     {
       "track": "ダ",
-      "races": 441,
+      "races": 447,
       "hits": 81,
-      "hit_rate": 18.4,
-      "investment": 764500,
+      "hit_rate": 18.1,
+      "investment": 772600,
       "return": 338510,
-      "profit": -425990,
-      "recovery_rate": 44.3
+      "profit": -434090,
+      "recovery_rate": 43.8
     },
     {
       "track": "芝",
@@ -1972,23 +1984,23 @@
   "by_score_tier": [
     {
       "tier": "?",
-      "races": 514,
+      "races": 518,
       "hits": 78,
-      "hit_rate": 15.2,
-      "investment": 843300,
+      "hit_rate": 15.1,
+      "investment": 844900,
       "return": 278200,
-      "profit": -565100,
-      "recovery_rate": 33.0
+      "profit": -566700,
+      "recovery_rate": 32.9
     },
     {
       "tier": "B",
-      "races": 34,
+      "races": 36,
       "hits": 5,
-      "hit_rate": 14.7,
-      "investment": 115700,
+      "hit_rate": 13.9,
+      "investment": 122200,
       "return": 58360,
-      "profit": -57340,
-      "recovery_rate": 50.4
+      "profit": -63840,
+      "recovery_rate": 47.8
     },
     {
       "tier": "C",
