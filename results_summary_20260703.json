@@ -1,16 +1,16 @@
 {
   "ymd": "20260703",
-  "generated_at": "2026-07-02 15:02:10",
+  "generated_at": "2026-07-03 14:59:36",
   "logic_version": "v12",
   "summary": {
     "total_races": 8,
-    "hit_count": 0,
-    "miss_count": 8,
-    "hit_rate": 0.0,
+    "hit_count": 1,
+    "miss_count": 7,
+    "hit_rate": 12.5,
     "total_investment": 8900,
-    "total_payout": 0,
-    "net_profit": -8900,
-    "recovery_rate": 0.0
+    "total_payout": 890,
+    "net_profit": -8010,
+    "recovery_rate": 10.0
   },
   "details": [
     {
@@ -26,7 +26,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -2300,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 10-11-4, 23点中)"
     },
     {
       "race_id": "202650070306",
@@ -41,7 +41,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -2300,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 11-2-9, 23点中)"
     },
     {
       "race_id": "202650070309",
@@ -56,7 +56,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -2300,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 10-6-3, 23点中)"
     },
     {
       "race_id": "202643070306",
@@ -71,7 +71,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -400,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 9-2-8, 4点中)"
     },
     {
       "race_id": "202643070310",
@@ -86,7 +86,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -400,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 9-2-5, 4点中)"
     },
     {
       "race_id": "202644070302",
@@ -101,7 +101,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -400,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 13-11-12, 4点中)"
     },
     {
       "race_id": "202648070308",
@@ -116,7 +116,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -400,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 4-7-10, 4点中)"
     },
     {
       "race_id": "202648070311",
@@ -127,11 +127,11 @@
       "combo_count": 4,
       "per_bet_investment": 100,
       "synthetic_odds": 2.15,
-      "hit": false,
-      "hit_type": null,
-      "payout": 0,
-      "profit": -400,
-      "reason": "着順データなし"
+      "hit": true,
+      "hit_type": "三連複",
+      "payout": 890,
+      "profit": 490,
+      "reason": "的中 11-3-6"
     }
   ]
 }
