@@ -126,6 +126,25 @@ def resolve_effective_investment(race, betting_plan, predicted_combinations, pre
     investment = per_bet * combo_count
     return investment, per_bet
 
+
+def _extract_info_box_message(soup):
+    box = soup.select_one('.Race_Infomation_Box')
+    if not box:
+        return ''
+    return re.sub(r'\s+', ' ', box.get_text(' ', strip=True)).strip()
+
+
+def _looks_like_result_row(row):
+    cols = row.select('td')
+    if len(cols) < 5:
+        return False
+    rank_text = cols[0].get_text(strip=True)
+    return bool(re.fullmatch(r'\d+', rank_text))
+
+
+def _result_like_rows(table):
+    return [r for r in table.select('tr') if _looks_like_result_row(r)]
+
 def fetch_race_results(ymd):
     """
     指定日付のレース結果を取得
@@ -729,19 +748,25 @@ def fetch_single_race_result(race_id, ymd):
                         continue
                     seen_tables.add(table_id)
                     table_rows = table.select('tr')
-                    data_rows = [r for r in table_rows if len(r.select('td')) >= 10]
-                    candidate_tables.append((len(data_rows), len(table_rows), selector, table))
+                    result_rows = _result_like_rows(table)
+                    td_rows = [r for r in table_rows if r.select('td')]
+                    candidate_tables.append((len(result_rows), len(td_rows), len(table_rows), selector, table))
             
             if not candidate_tables:
-                last_error = 'レース結果テーブルが見つかりません'
+                info_msg = _extract_info_box_message(soup)
+                last_error = f'レース結果テーブルが見つかりません: {info_msg}' if info_msg else 'レース結果テーブルが見つかりません'
                 continue
             
-            candidate_tables.sort(key=lambda x: (x[0], x[1]), reverse=True)
-            best_data_rows, best_total_rows, best_selector, best_table = candidate_tables[0]
-            print(f"  📊 result table: {best_selector} rows={best_total_rows} data_rows={best_data_rows}")
+            candidate_tables.sort(key=lambda x: (x[0], x[1], x[2]), reverse=True)
+            best_result_rows, best_td_rows, best_total_rows, best_selector, best_table = candidate_tables[0]
+            print(f"  📊 result table: {best_selector} rows={best_total_rows} td_rows={best_td_rows} result_rows={best_result_rows}")
             
-            if best_data_rows < 3:
-                last_error = f'着順データが不足 rows={best_total_rows} data_rows={best_data_rows}'
+            if best_result_rows < 3:
+                info_msg = _extract_info_box_message(soup)
+                if info_msg:
+                    last_error = f'結果ページ未確定: {info_msg} (rows={best_total_rows} td_rows={best_td_rows} result_rows={best_result_rows})'
+                else:
+                    last_error = f'着順データが不足 rows={best_total_rows} td_rows={best_td_rows} result_rows={best_result_rows}'
                 continue
             
             result_table = best_table
@@ -756,7 +781,9 @@ def fetch_single_race_result(race_id, ymd):
         horse_weights = []
         all_horses_data = []  # Phase1: 全馬着順データ
         
-        all_data_rows = [r for r in rows if r.select('td')]
+        all_data_rows = _result_like_rows(result_table)
+        if len(all_data_rows) < 3:
+            all_data_rows = [r for r in rows if r.select('td')]
         data_rows = all_data_rows[:3]
         
         # ─── 全馬データ取得（Phase1） ───────────────────────
