@@ -2,7 +2,9 @@ name: Fetch Race Results
 
 on:
   schedule:
-    - cron: '0 13 * * *'  # 毎日 22:00 JST (UTC 13:00) - レース結果取得
+    - cron: '0 13 * * *'   # 毎日 22:00 JST - 当日結果の初回取得
+    - cron: '30 15 * * *'  # 毎日 00:30 JST - 深夜の再取得（前日固定）
+    - cron: '30 17 * * *'  # 毎日 02:30 JST - 深夜の再取得（前日固定）
   workflow_dispatch:
     inputs:
       date:
@@ -33,11 +35,20 @@ jobs:
         run: |
           if [ -n "${{ github.event.inputs.date }}" ]; then
             ymd="${{ github.event.inputs.date }}"
+            mode="manual-input"
           else
-            ymd=$(TZ=Asia/Tokyo date +%Y%m%d)
+            jst_hour=$(TZ=Asia/Tokyo date +%H)
+            if [ "$jst_hour" -lt 6 ]; then
+              ymd=$(TZ=Asia/Tokyo date -d 'yesterday' +%Y%m%d)
+              mode="auto-yesterday"
+            else
+              ymd=$(TZ=Asia/Tokyo date +%Y%m%d)
+              mode="auto-today"
+            fi
           fi
           echo "ymd=${ymd}" >> $GITHUB_OUTPUT
-          echo "📅 日付: ${ymd}"
+          echo "mode=${mode}" >> $GITHUB_OUTPUT
+          echo "📅 対象日付: ${ymd} (${mode})"
       
       - name: Fetch race results
         run: |
