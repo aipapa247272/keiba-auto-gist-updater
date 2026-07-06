@@ -5,6 +5,7 @@ on:
     - cron: '0 13 * * *'   # 毎日 22:00 JST - 当日結果の初回取得
     - cron: '30 15 * * *'  # 毎日 00:30 JST - 深夜の再取得（前日固定）
     - cron: '30 17 * * *'  # 毎日 02:30 JST - 深夜の再取得（前日固定）
+    - cron: '30 19 * * *'  # 毎日 04:30 JST - 追加の再取得（前日固定）
   workflow_dispatch:
     inputs:
       date:
@@ -53,6 +54,41 @@ jobs:
       - name: Fetch race results
         run: |
           python scripts/fetch_race_results.py ${{ steps.get_ymd.outputs.ymd }}
+
+      - name: Retry unavailable results
+        run: |
+          YMD="${{ steps.get_ymd.outputs.ymd }}"
+          for wait_sec in 180 600; do
+            if [ ! -f "race_results_${YMD}.json" ]; then
+              echo "⚠️ race_results_${YMD}.json が見つからないため再試行を終了"
+              break
+            fi
+
+            unavailable=$(python - <<PY
+import json
+with open(f'race_results_${YMD}.json', 'r', encoding='utf-8') as f:
+    data = json.load(f)
+print(int(data.get('unavailable_count', 0)))
+PY
+)
+            total=$(python - <<PY
+import json
+with open(f'race_results_${YMD}.json', 'r', encoding='utf-8') as f:
+    data = json.load(f)
+print(int(data.get('total_races', 0)))
+PY
+)
+
+            echo "📊 現在の unavailable_count=${unavailable} / total_races=${total}"
+            if [ "${unavailable}" -le 0 ]; then
+              echo "✅ 取得不可レースなし。再試行不要"
+              break
+            fi
+
+            echo "⏳ ${wait_sec}秒待機して再取得します..."
+            sleep "${wait_sec}"
+            python scripts/fetch_race_results.py "${YMD}" || true
+          done
       
       # ===== 🆕 展開情報追加ステップ =====
       - name: Add pace information to results
