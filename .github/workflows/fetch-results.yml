@@ -89,6 +89,43 @@ PY
             sleep "${wait_sec}"
             python scripts/fetch_race_results.py "${YMD}" || true
           done
+
+      - name: Backfill recent missing results
+        run: |
+          BASE_YMD="${{ steps.get_ymd.outputs.ymd }}"
+          BASE_DATE="${BASE_YMD:0:4}-${BASE_YMD:4:2}-${BASE_YMD:6:2}"
+
+          for offset in 1 2 3 4 5 6 7; do
+            TARGET_YMD=$(TZ=Asia/Tokyo date -d "${BASE_DATE} -${offset} day" +%Y%m%d)
+            PRED_FILE="final_predictions_${TARGET_YMD}.json"
+            RESULT_FILE="race_results_${TARGET_YMD}.json"
+
+            if [ ! -f "${PRED_FILE}" ]; then
+              echo "ℹ️ ${PRED_FILE} が無いためスキップ"
+              continue
+            fi
+
+            NEED_FETCH=$(python - <<PY
+import json, os
+result_file = '${RESULT_FILE}'
+if not os.path.exists(result_file):
+    print('yes')
+else:
+    with open(result_file, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    unavailable = int(data.get('unavailable_count', 0))
+    total = int(data.get('total_races', 0))
+    print('yes' if unavailable > 0 or total == 0 else 'no')
+PY
+)
+
+            if [ "${NEED_FETCH}" = "yes" ]; then
+              echo "🔁 ${TARGET_YMD} の不足結果を補完します"
+              python scripts/fetch_race_results.py "${TARGET_YMD}" || true
+            else
+              echo "✅ ${TARGET_YMD} は結果済みのためスキップ"
+            fi
+          done
       
       # ===== 🆕 展開情報追加ステップ =====
       - name: Add pace information to results
