@@ -2842,21 +2842,26 @@
                 document.getElementById('results-tab').innerHTML = getResultsIntroHTML() + buildLoadingShell('結果データを更新中です。昨日の損益と各レースの払戻を確認しています。');
 
                 const jstNow = new Date(Date.now() + 9 * 60 * 60 * 1000);
-                const jstYesterday = new Date(jstNow.getTime() - 24 * 60 * 60 * 1000);
-                const ymd = jstYesterday.toISOString().slice(0, 10).replace(/-/g, '');
                 const BASE_RAW = 'https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/';
 
                 let loadedData = null;
+                let loadedYmd = null;
 
-                try {
-                    const urlYesterday = `${BASE_RAW}race_results_${ymd}.json?t=${Date.now()}`;
-                    const res = await fetch(urlYesterday, { cache: 'no-cache' });
-                    if (res.ok) {
-                        loadedData = await res.json();
-                        console.log('Loaded yesterday results:', ymd, loadedData);
+                for (let offset = 1; offset <= 7; offset++) {
+                    const candidateDate = new Date(jstNow.getTime() - offset * 24 * 60 * 60 * 1000);
+                    const candidateYmd = candidateDate.toISOString().slice(0, 10).replace(/-/g, '');
+                    try {
+                        const urlCandidate = `${BASE_RAW}race_results_${candidateYmd}.json?t=${Date.now()}`;
+                        const res = await fetch(urlCandidate, { cache: 'no-cache' });
+                        if (res.ok) {
+                            loadedData = await res.json();
+                            loadedYmd = candidateYmd;
+                            console.log('Loaded historical results:', candidateYmd, loadedData);
+                            break;
+                        }
+                    } catch (e) {
+                        console.warn('Historical results not found:', candidateYmd, e);
                     }
-                } catch (e) {
-                    console.warn('Yesterday results not found, trying latest_results.json', e);
                 }
 
                 if (!loadedData) {
@@ -2864,7 +2869,8 @@
                     const res2 = await fetch(urlLatest, { cache: 'no-cache' });
                     if (!res2.ok) throw new Error(`HTTP ${res2.status}`);
                     loadedData = await res2.json();
-                    console.log('Loaded latest results (fallback):', loadedData);
+                    loadedYmd = loadedData?.ymd || null;
+                    console.log('Loaded latest results (fallback):', loadedYmd, loadedData);
                 }
 
                 resultsData = loadedData;
