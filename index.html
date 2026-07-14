@@ -2846,22 +2846,58 @@
 
                 let loadedData = null;
                 let loadedYmd = null;
+                let bestFallbackData = null;
+                let bestFallbackYmd = null;
 
-                for (let offset = 1; offset <= 7; offset++) {
+                for (let offset = 1; offset <= 14; offset++) {
                     const candidateDate = new Date(jstNow.getTime() - offset * 24 * 60 * 60 * 1000);
                     const candidateYmd = candidateDate.toISOString().slice(0, 10).replace(/-/g, '');
                     try {
                         const urlCandidate = `${BASE_RAW}race_results_${candidateYmd}.json?t=${Date.now()}`;
                         const res = await fetch(urlCandidate, { cache: 'no-cache' });
-                        if (res.ok) {
-                            loadedData = await res.json();
+                        if (!res.ok) continue;
+
+                        const data = await res.json();
+                        const total = Number(data?.total_races || 0);
+                        const unavailable = Number(data?.unavailable_count || 0);
+                        const resolved = Number(data?.hit_count || 0) + Number(data?.miss_count || 0);
+
+                        if (!bestFallbackData) {
+                            bestFallbackData = data;
+                            bestFallbackYmd = candidateYmd;
+                        }
+
+                        if (total > 0 && unavailable === 0 && resolved > 0) {
+                            loadedData = data;
                             loadedYmd = candidateYmd;
-                            console.log('Loaded historical results:', candidateYmd, loadedData);
+                            console.log('Loaded complete historical results:', candidateYmd, loadedData);
                             break;
                         }
+
+                        console.warn('Historical results are incomplete, continuing scan:', candidateYmd, { total, unavailable, resolved });
                     } catch (e) {
                         console.warn('Historical results not found:', candidateYmd, e);
                     }
+                }
+
+                if (!loadedData) {
+                    try {
+                        const urlLatestComplete = `${BASE_RAW}latest_complete_results.json?t=${Date.now()}`;
+                        const resComplete = await fetch(urlLatestComplete, { cache: 'no-cache' });
+                        if (resComplete.ok) {
+                            loadedData = await resComplete.json();
+                            loadedYmd = loadedData?.ymd || null;
+                            console.log('Loaded latest complete results:', loadedYmd, loadedData);
+                        }
+                    } catch (e) {
+                        console.warn('latest_complete_results.json not found, trying other fallbacks', e);
+                    }
+                }
+
+                if (!loadedData && bestFallbackData) {
+                    loadedData = bestFallbackData;
+                    loadedYmd = bestFallbackYmd;
+                    console.log('Loaded best available historical results:', loadedYmd, loadedData);
                 }
 
                 if (!loadedData) {
@@ -2870,7 +2906,7 @@
                     if (!res2.ok) throw new Error(`HTTP ${res2.status}`);
                     loadedData = await res2.json();
                     loadedYmd = loadedData?.ymd || null;
-                    console.log('Loaded latest results (fallback):', loadedYmd, loadedData);
+                    console.log('Loaded latest results (final fallback):', loadedYmd, loadedData);
                 }
 
                 resultsData = loadedData;

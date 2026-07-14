@@ -127,6 +127,10 @@ PY
             fi
           done
       
+      - name: Audit recent results health
+        run: |
+          python scripts/audit_recent_results.py --base-ymd ${{ steps.get_ymd.outputs.ymd }} --lookback-days 14 || echo "⚠️ audit_recent_results.py failed, continuing..."
+
       # ===== 🆕 展開情報追加ステップ =====
       - name: Add pace information to results
         run: |
@@ -200,6 +204,7 @@ PY
           # 存在するファイルのみ add
           git add race_results_*.json latest_results.json 2>/dev/null || true
           git add results_summary_*.json latest_results_summary.json 2>/dev/null || true
+          git add latest_complete_results.json recent_results_audit.json scripts/audit_recent_results.py 2>/dev/null || true
           
           # 変更があればコミット
           if git diff --cached --quiet; then
