@@ -30,6 +30,8 @@ def date_to_ymd(d: dt.date) -> str:
 def should_refetch(result_data: Optional[Dict[str, Any]]) -> bool:
     if not result_data:
         return True
+    if bool(result_data.get('no_predictions')):
+        return False
     total = int(result_data.get('total_races', 0) or 0)
     unavailable = int(result_data.get('unavailable_count', 0) or 0)
     hit = int(result_data.get('hit_count', 0) or 0)
@@ -47,8 +49,10 @@ def should_refetch(result_data: Optional[Dict[str, Any]]) -> bool:
 def is_complete_result(result_data: Optional[Dict[str, Any]]) -> bool:
     if not result_data:
         return False
-    total = int(result_data.get('total_races', 0) or 0)
     unavailable = int(result_data.get('unavailable_count', 0) or 0)
+    if bool(result_data.get('no_predictions')):
+        return unavailable == 0
+    total = int(result_data.get('total_races', 0) or 0)
     hit = int(result_data.get('hit_count', 0) or 0)
     miss = int(result_data.get('miss_count', 0) or 0)
     resolved = hit + miss
@@ -57,6 +61,8 @@ def is_complete_result(result_data: Optional[Dict[str, Any]]) -> bool:
 
 def is_partial_result(result_data: Optional[Dict[str, Any]]) -> bool:
     if not result_data:
+        return False
+    if bool(result_data.get('no_predictions')):
         return False
     total = int(result_data.get('total_races', 0) or 0)
     unavailable = int(result_data.get('unavailable_count', 0) or 0)

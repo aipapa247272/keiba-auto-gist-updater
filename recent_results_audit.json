@@ -1,38 +1,162 @@
 {
-  "generated_at": "2026-07-14 02:12:55",
-  "base_ymd": "20260714",
+  "generated_at": "2026-07-19 02:38:11",
+  "base_ymd": "20260719",
   "lookback_days": 14,
-  "latest_complete_ymd": "20260713",
+  "latest_complete_ymd": "20260718",
   "complete_dates": [
+    "20260718",
+    "20260717",
+    "20260716",
+    "20260715",
     "20260713",
     "20260712",
     "20260711",
     "20260710",
     "20260709",
     "20260707",
-    "20260706",
-    "20260705",
-    "20260704",
-    "20260703",
-    "20260702",
-    "20260701"
+    "20260706"
   ],
   "partial_dates": [
+    "20260717",
+    "20260716",
+    "20260715",
     "20260713",
     "20260712",
     "20260711",
     "20260710",
     "20260709",
     "20260707",
-    "20260706",
-    "20260705",
-    "20260704",
-    "20260703",
-    "20260702",
-    "20260701"
+    "20260706"
   ],
-  "unresolved_dates": [],
+  "unresolved_dates": [
+    "20260719"
+  ],
   "rows": [
+    {
+      "ymd": "20260719",
+      "has_predictions": true,
+      "had_result_before": true,
+      "refetched": true,
+      "fetch_rc": 0,
+      "status_before": {
+        "ymd": "20260719",
+        "total_races": 3,
+        "hit_count": 0,
+        "miss_count": 0,
+        "unavailable_count": 3,
+        "total_profit": 0
+      },
+      "status_after": {
+        "ymd": "20260719",
+        "total_races": 3,
+        "hit_count": 0,
+        "miss_count": 0,
+        "unavailable_count": 3,
+        "total_profit": 0
+      },
+      "is_complete": false,
+      "is_partial": false
+    },
+    {
+      "ymd": "20260718",
+      "has_predictions": true,
+      "had_result_before": true,
+      "refetched": false,
+      "fetch_rc": null,
+      "status_before": {
+        "ymd": "20260718",
+        "total_races": 0,
+        "hit_count": 0,
+        "miss_count": 0,
+        "unavailable_count": 0,
+        "total_profit": 0
+      },
+      "status_after": {
+        "ymd": "20260718",
+        "total_races": 0,
+        "hit_count": 0,
+        "miss_count": 0,
+        "unavailable_count": 0,
+        "total_profit": 0
+      },
+      "is_complete": true,
+      "is_partial": false
+    },
+    {
+      "ymd": "20260717",
+      "has_predictions": true,
+      "had_result_before": true,
+      "refetched": false,
+      "fetch_rc": null,
+      "status_before": {
+        "ymd": "20260717",
+        "total_races": 4,
+        "hit_count": 2,
+        "miss_count": 2,
+        "unavailable_count": 0,
+        "total_profit": 1950
+      },
+      "status_after": {
+        "ymd": "20260717",
+        "total_races": 4,
+        "hit_count": 2,
+        "miss_count": 2,
+        "unavailable_count": 0,
+        "total_profit": 1950
+      },
+      "is_complete": true,
+      "is_partial": true
+    },
+    {
+      "ymd": "20260716",
+      "has_predictions": true,
+      "had_result_before": true,
+      "refetched": false,
+      "fetch_rc": null,
+      "status_before": {
+        "ymd": "20260716",
+        "total_races": 4,
+        "hit_count": 1,
+        "miss_count": 3,
+        "unavailable_count": 0,
+        "total_profit": -5090
+      },
+      "status_after": {
+        "ymd": "20260716",
+        "total_races": 4,
+        "hit_count": 1,
+        "miss_count": 3,
+        "unavailable_count": 0,
+        "total_profit": -5090
+      },
+      "is_complete": true,
+      "is_partial": true
+    },
+    {
+      "ymd": "20260715",
+      "has_predictions": true,
+      "had_result_before": true,
+      "refetched": false,
+      "fetch_rc": null,
+      "status_before": {
+        "ymd": "20260715",
+        "total_races": 6,
+        "hit_count": 1,
+        "miss_count": 5,
+        "unavailable_count": 0,
+        "total_profit": -5110
+      },
+      "status_after": {
+        "ymd": "20260715",
+        "total_races": 6,
+        "hit_count": 1,
+        "miss_count": 5,
+        "unavailable_count": 0,
+        "total_profit": -5110
+      },
+      "is_complete": true,
+      "is_partial": true
+    },
     {
       "ymd": "20260714",
       "has_predictions": false,
@@ -222,131 +346,6 @@
         "miss_count": 1,
         "unavailable_count": 0,
         "total_profit": -400
-      },
-      "is_complete": true,
-      "is_partial": true
-    },
-    {
-      "ymd": "20260705",
-      "has_predictions": true,
-      "had_result_before": true,
-      "refetched": false,
-      "fetch_rc": null,
-      "status_before": {
-        "ymd": "20260705",
-        "total_races": 2,
-        "hit_count": 0,
-        "miss_count": 2,
-        "unavailable_count": 0,
-        "total_profit": -800
-      },
-      "status_after": {
-        "ymd": "20260705",
-        "total_races": 2,
-        "hit_count": 0,
-        "miss_count": 2,
-        "unavailable_count": 0,
-        "total_profit": -800
-      },
-      "is_complete": true,
-      "is_partial": true
-    },
-    {
-      "ymd": "20260704",
-      "has_predictions": true,
-      "had_result_before": true,
-      "refetched": false,
-      "fetch_rc": null,
-      "status_before": {
-        "ymd": "20260704",
-        "total_races": 2,
-        "hit_count": 0,
-        "miss_count": 2,
-        "unavailable_count": 0,
-        "total_profit": -800
-      },
-      "status_after": {
-        "ymd": "20260704",
-        "total_races": 2,
-        "hit_count": 0,
-        "miss_count": 2,
-        "unavailable_count": 0,
-        "total_profit": -800
-      },
-      "is_complete": true,
-      "is_partial": true
-    },
-    {
-      "ymd": "20260703",
-      "has_predictions": true,
-      "had_result_before": true,
-      "refetched": false,
-      "fetch_rc": null,
-      "status_before": {
-        "ymd": "20260703",
-        "total_races": 8,
-        "hit_count": 1,
-        "miss_count": 7,
-        "unavailable_count": 0,
-        "total_profit": -8010
-      },
-      "status_after": {
-        "ymd": "20260703",
-        "total_races": 8,
-        "hit_count": 1,
-        "miss_count": 7,
-        "unavailable_count": 0,
-        "total_profit": -8010
-      },
-      "is_complete": true,
-      "is_partial": true
-    },
-    {
-      "ymd": "20260702",
-      "has_predictions": true,
-      "had_result_before": true,
-      "refetched": false,
-      "fetch_rc": null,
-      "status_before": {
-        "ymd": "20260702",
-        "total_races": 6,
-        "hit_count": 1,
-        "miss_count": 5,
-        "unavailable_count": 0,
-        "total_profit": -6130
-      },
-      "status_after": {
-        "ymd": "20260702",
-        "total_races": 6,
-        "hit_count": 1,
-        "miss_count": 5,
-        "unavailable_count": 0,
-        "total_profit": -6130
-      },
-      "is_complete": true,
-      "is_partial": true
-    },
-    {
-      "ymd": "20260701",
-      "has_predictions": true,
-      "had_result_before": true,
-      "refetched": false,
-      "fetch_rc": null,
-      "status_before": {
-        "ymd": "20260701",
-        "total_races": 4,
-        "hit_count": 0,
-        "miss_count": 4,
-        "unavailable_count": 0,
-        "total_profit": -5400
-      },
-      "status_after": {
-        "ymd": "20260701",
-        "total_races": 4,
-        "hit_count": 0,
-        "miss_count": 4,
-        "unavailable_count": 0,
-        "total_profit": -5400
       },
       "is_complete": true,
       "is_partial": true

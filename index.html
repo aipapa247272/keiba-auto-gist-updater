@@ -2861,20 +2861,22 @@
                         const total = Number(data?.total_races || 0);
                         const unavailable = Number(data?.unavailable_count || 0);
                         const resolved = Number(data?.hit_count || 0) + Number(data?.miss_count || 0);
+                        const noPredictions = Boolean(data?.no_predictions);
+                        const displayReady = (total > 0 && unavailable === 0 && resolved > 0) || (noPredictions && unavailable === 0);
 
                         if (!bestFallbackData) {
                             bestFallbackData = data;
                             bestFallbackYmd = candidateYmd;
                         }
 
-                        if (total > 0 && unavailable === 0 && resolved > 0) {
+                        if (displayReady) {
                             loadedData = data;
                             loadedYmd = candidateYmd;
-                            console.log('Loaded complete historical results:', candidateYmd, loadedData);
+                            console.log('Loaded display-ready historical results:', candidateYmd, loadedData);
                             break;
                         }
 
-                        console.warn('Historical results are incomplete, continuing scan:', candidateYmd, { total, unavailable, resolved });
+                        console.warn('Historical results are incomplete, continuing scan:', candidateYmd, { total, unavailable, resolved, noPredictions });
                     } catch (e) {
                         console.warn('Historical results not found:', candidateYmd, e);
                     }
