@@ -6,6 +6,10 @@ on:
     - cron: '30 15 * * *'  # 毎日 00:30 JST - 深夜の再取得（前日固定）
     - cron: '30 17 * * *'  # 毎日 02:30 JST - 深夜の再取得（前日固定）
     - cron: '30 19 * * *'  # 毎日 04:30 JST - 追加の再取得（前日固定）
+  workflow_run:
+    workflows: ["Daily Select"]
+    types:
+      - completed
   workflow_dispatch:
     inputs:
       date:
@@ -15,6 +19,7 @@ on:
 
 jobs:
   fetch-results:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     
     steps:
