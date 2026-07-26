@@ -1,0 +1,45 @@
+{
+  "date": "2026/07/25",
+  "ymd": "20260725",
+  "generated_at": "2026-07-26 15:56:36",
+  "rescraped": false,
+  "no_predictions": true,
+  "reason": "推奨・参考ともに対象レース0件",
+  "fund_management_v": "v13.1",
+  "total_races": 0,
+  "hit_count": 0,
+  "miss_count": 0,
+  "unavailable_count": 0,
+  "no_pred_count": 0,
+  "valid_races": 0,
+  "total_investment": 0,
+  "total_return": 0,
+  "total_profit": 0,
+  "hit_rate": 0.0,
+  "recovery_rate": 0.0,
+  "summary_by_type": {
+    "recommend": {
+      "label": "推奨",
+      "total_races": 0,
+      "hit_count": 0,
+      "valid_races": 0,
+      "total_investment": 0,
+      "total_return": 0,
+      "total_profit": 0,
+      "hit_rate": 0.0,
+      "recovery_rate": 0.0
+    },
+    "reference": {
+      "label": "参考",
+      "total_races": 0,
+      "hit_count": 0,
+      "valid_races": 0,
+      "total_investment": 0,
+      "total_return": 0,
+      "total_profit": 0,
+      "hit_rate": 0.0,
+      "recovery_rate": 0.0
+    }
+  },
+  "races": []
+}

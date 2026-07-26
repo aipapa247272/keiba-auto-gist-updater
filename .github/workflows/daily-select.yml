@@ -107,6 +107,38 @@ jobs:
           git diff --cached --quiet || git commit -m "Add race_data for ${{ steps.get_date.outputs.date }}"
           git push || true
 
+      - name: Refresh recent results and statistics
+        run: |
+          RESULT_DATE=$(TZ=Asia/Tokyo date +%Y%m%d)
+          echo "📅 結果更新対象日: ${RESULT_DATE}"
+
+          python scripts/fetch_race_results.py "${RESULT_DATE}" || true
+          python scripts/audit_recent_results.py --base-ymd "${RESULT_DATE}" --lookback-days 14 || true
+
+          if [ -f recent_results_audit.json ]; then
+            LATEST_COMPLETE=$(python - <<'PY'
+import json
+with open('recent_results_audit.json', 'r', encoding='utf-8') as f:
+    data = json.load(f)
+print(data.get('latest_complete_ymd') or '')
+PY
+)
+            if [ -n "${LATEST_COMPLETE}" ] && [ -f "race_results_${LATEST_COMPLETE}.json" ]; then
+              cp "race_results_${LATEST_COMPLETE}.json" latest_results.json
+              echo "✅ latest_results.json を race_results_${LATEST_COMPLETE}.json に同期"
+            fi
+          fi
+
+          python scripts/generate_stats.py || echo "⚠️ generate_stats.py failed, continuing..."
+
+      - name: Commit refreshed public data
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git add race_results_*.json latest_results.json latest_complete_results.json recent_results_audit.json statistics.json 2>/dev/null || true
+          git diff --cached --quiet || git commit -m "Refresh results/statistics after daily select"
+          git push || true
+
       - name: Generate final output
         if: steps.check_cancel.outputs.cancelled == 'false'
         run: |
