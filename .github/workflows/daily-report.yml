@@ -1,5 +1,8 @@
 name: Generate Daily Report
 
+permissions:
+  contents: write
+
 on:
   schedule:
     # 毎日21:00 JST (12:00 UTC) に実行
@@ -29,8 +32,19 @@ jobs:
         run: |
           if [ -n "${{ github.event.inputs.target_date }}" ]; then
             TARGET_DATE="${{ github.event.inputs.target_date }}"
+          elif [ -f recent_results_audit.json ]; then
+            TARGET_DATE=$(python3 - <<'PY'
+import json
+with open('recent_results_audit.json', 'r', encoding='utf-8') as f:
+    data = json.load(f)
+print(data.get('latest_complete_ymd') or '')
+PY
+)
+            if [ -z "${TARGET_DATE}" ]; then
+              TARGET_DATE=$(TZ=Asia/Tokyo date -d 'yesterday' +%Y%m%d)
+            fi
           else
-            TARGET_DATE=$(TZ=Asia/Tokyo date +%Y%m%d)
+            TARGET_DATE=$(TZ=Asia/Tokyo date -d 'yesterday' +%Y%m%d)
           fi
           echo "target_date=${TARGET_DATE}" >> $GITHUB_OUTPUT
           echo "📅 Target date: ${TARGET_DATE}"
@@ -50,8 +64,8 @@ jobs:
           fi
           
           # 結果データ
-          if [ -f "results_${TARGET_DATE}.json" ]; then
-            cp "results_${TARGET_DATE}.json" results.json
+          if [ -f "race_results_${TARGET_DATE}.json" ]; then
+            cp "race_results_${TARGET_DATE}.json" results.json
           elif [ -f "latest_results.json" ]; then
             cp latest_results.json results.json
           else

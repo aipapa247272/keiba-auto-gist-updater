@@ -1,5 +1,8 @@
 name: Fetch Race Results
 
+permissions:
+  contents: write
+
 on:
   schedule:
     - cron: '0 13 * * *'   # 毎日 22:00 JST - 当日結果の初回取得
@@ -175,23 +178,39 @@ PY
             echo "⚠️ generate_results_summary.py not found, skipping..."
           fi
       
-      - name: Copy to latest results
+      - name: Copy latest complete results
         run: |
-          # race_results JSON を必ずコピー
-          if [ -f "race_results_${{ steps.get_ymd.outputs.ymd }}.json" ]; then
-            cp race_results_${{ steps.get_ymd.outputs.ymd }}.json latest_results.json
-            echo "✅ Copied race_results JSON"
+          YMD="${{ steps.get_ymd.outputs.ymd }}"
+          LATEST_COMPLETE=""
+
+          if [ -f recent_results_audit.json ]; then
+            LATEST_COMPLETE=$(python - <<'PY'
+import json
+with open('recent_results_audit.json', 'r', encoding='utf-8') as f:
+    data = json.load(f)
+print(data.get('latest_complete_ymd') or '')
+PY
+)
+          fi
+
+          if [ -n "${LATEST_COMPLETE}" ] && [ -f "race_results_${LATEST_COMPLETE}.json" ]; then
+            cp "race_results_${LATEST_COMPLETE}.json" latest_results.json
+            cp "race_results_${LATEST_COMPLETE}.json" latest_complete_results.json
+            echo "✅ latest_results.json <= race_results_${LATEST_COMPLETE}.json"
+          elif [ -f "race_results_${YMD}.json" ]; then
+            cp "race_results_${YMD}.json" latest_results.json
+            echo "⚠️ latest_complete_ymd が見つからないため ${YMD} を採用"
           else
-            echo "❌ race_results JSON not found!"
+            echo "❌ コピー対象の race_results JSON が見つかりません"
             exit 1
           fi
-          
-          # results_summary JSON は存在する場合のみコピー
-          if [ -f "results_summary_${{ steps.get_ymd.outputs.ymd }}.json" ]; then
-            cp results_summary_${{ steps.get_ymd.outputs.ymd }}.json latest_results_summary.json
-            echo "✅ Copied results_summary JSON"
+
+          SUMMARY_SOURCE="${LATEST_COMPLETE:-${YMD}}"
+          if [ -f "results_summary_${SUMMARY_SOURCE}.json" ]; then
+            cp "results_summary_${SUMMARY_SOURCE}.json" latest_results_summary.json
+            echo "✅ latest_results_summary.json <= results_summary_${SUMMARY_SOURCE}.json"
           else
-            echo "⚠️ results_summary JSON not found, skipping..."
+            echo "⚠️ results_summary_${SUMMARY_SOURCE}.json not found, skipping..."
           fi
       
       - name: Update statistics
@@ -207,9 +226,9 @@ PY
           git config --local user.name "github-actions[bot]"
           
           # 存在するファイルのみ add
-          git add race_results_*.json latest_results.json 2>/dev/null || true
+          git add race_results_*.json latest_results.json latest_complete_results.json 2>/dev/null || true
           git add results_summary_*.json latest_results_summary.json 2>/dev/null || true
-          git add latest_complete_results.json recent_results_audit.json scripts/audit_recent_results.py 2>/dev/null || true
+          git add recent_results_audit.json scripts/audit_recent_results.py 2>/dev/null || true
           
           # 変更があればコミット
           if git diff --cached --quiet; then

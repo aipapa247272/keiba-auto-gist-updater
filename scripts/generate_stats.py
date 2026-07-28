@@ -59,38 +59,51 @@ def logic_version_sort_key(version):
 
 
 def fetch_logic_versions():
-    """GitHubから全final_predictions_*.jsonのlogic_versionを取得"""
+    """logic_version を取得（ローカル優先、なければGitHub）"""
     api_url = "https://api.github.com/repos/aipapa247272/keiba-auto-gist-updater/contents/"
     version_map = {}  # ymd -> logic_version
 
-    try:
-        resp = requests.get(api_url, timeout=15)
-        files = resp.json()
-        pred_files = sorted([
-            f['name'] for f in files
-            if isinstance(f, dict)
-            and f.get('name','').startswith('final_predictions_202')
-            and f.get('name','').endswith('.json')
-        ])
-        print(f"📋 予想ファイル検出: {len(pred_files)} 件")
-    except Exception as e:
-        print(f"⚠️ 予想ファイル一覧取得失敗: {e}")
-        return version_map
+    pred_files = sorted([
+        name for name in os.listdir('.')
+        if name.startswith('final_predictions_202') and name.endswith('.json')
+    ])
+
+    source = 'local'
+    if not pred_files:
+        try:
+            resp = requests.get(api_url, timeout=15)
+            files = resp.json()
+            pred_files = sorted([
+                f['name'] for f in files
+                if isinstance(f, dict)
+                and f.get('name','').startswith('final_predictions_202')
+                and f.get('name','').endswith('.json')
+            ])
+            source = 'github'
+        except Exception as e:
+            print(f"⚠️ 予想ファイル一覧取得失敗: {e}")
+            return version_map
+
+    print(f"📋 予想ファイル検出: {len(pred_files)} 件 ({source})")
 
     for fname in pred_files:
         ymd = fname.replace('final_predictions_', '').replace('.json', '')
-        url = f"{BASE_URL}{fname}"
         try:
-            response = requests.get(url, timeout=10)
-            if response.status_code == 200:
+            if source == 'local':
+                with open(fname, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+            else:
+                url = f"{BASE_URL}{fname}"
+                response = requests.get(url, timeout=10)
+                response.raise_for_status()
                 data = response.json()
-                lv = data.get('logic_version', '')
-                if lv:
-                    # バージョン文字列を短縮（例: "v13.1_断層・合成オッズ対応..." → "v13.1"）
-                    short_lv = lv.split('_')[0] if '_' in lv else lv
-                    version_map[ymd] = short_lv
-                else:
-                    version_map[ymd] = get_logic_version_by_date(ymd)
+
+            lv = data.get('logic_version', '')
+            if lv:
+                short_lv = lv.split('_')[0] if '_' in lv else lv
+                version_map[ymd] = short_lv
+            else:
+                version_map[ymd] = get_logic_version_by_date(ymd)
         except Exception:
             version_map[ymd] = get_logic_version_by_date(ymd)
 
@@ -98,42 +111,63 @@ def fetch_logic_versions():
 
 
 def fetch_all_results():
-    """GitHubから全結果JSONを自動検出して取得"""
+    """結果JSONを自動検出して取得（ローカル優先、なければGitHub）"""
     api_url = "https://api.github.com/repos/aipapa247272/keiba-auto-gist-updater/contents/"
     all_data = []
 
-    try:
-        resp = requests.get(api_url, timeout=15)
-        files = resp.json()
-        result_files = sorted([
-            f['name'] for f in files
-            if isinstance(f, dict)
-            and f.get('name','').startswith('race_results_202')
-            and f.get('name','').endswith('.json')
-            and not f.get('name','').startswith('race_results_00')
-        ])
-        print(f"📂 検出: {len(result_files)} 件の結果ファイル")
-    except Exception as e:
-        print(f"❌ ファイル一覧取得失敗: {e}")
-        return []
+    result_files = sorted([
+        name for name in os.listdir('.')
+        if name.startswith('race_results_202')
+        and name.endswith('.json')
+        and not name.startswith('race_results_00')
+    ])
+
+    source = 'local'
+    if not result_files:
+        try:
+            resp = requests.get(api_url, timeout=15)
+            files = resp.json()
+            result_files = sorted([
+                f['name'] for f in files
+                if isinstance(f, dict)
+                and f.get('name','').startswith('race_results_202')
+                and f.get('name','').endswith('.json')
+                and not f.get('name','').startswith('race_results_00')
+            ])
+            source = 'github'
+        except Exception as e:
+            print(f"❌ ファイル一覧取得失敗: {e}")
+            return []
+
+    print(f"📂 検出: {len(result_files)} 件の結果ファイル ({source})")
 
     for fname in result_files:
         ymd = fname.replace('race_results_', '').replace('.json', '')
-        url = f"{BASE_URL}{fname}"
         try:
-            response = requests.get(url, timeout=10)
-            if response.status_code == 200:
-                data = response.json()
-                if not data.get('ymd'):
-                    data['ymd'] = ymd
-                if not data.get('date'):
-                    data['date'] = f"{ymd[:4]}/{ymd[4:6]}/{ymd[6:]}"
-                all_data.append(data)
-                races = data.get('total_races', len(data.get('races', [])))
-                hits  = data.get('hit_count', 0)
-                print(f"  ✅ {ymd}: {races}R / 的中{hits}")
+            if source == 'local':
+                with open(fname, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
             else:
-                print(f"  ⚠️ {ymd}: HTTP {response.status_code}")
+                url = f"{BASE_URL}{fname}"
+                response = requests.get(url, timeout=10)
+                response.raise_for_status()
+                data = response.json()
+
+            if not data.get('ymd'):
+                data['ymd'] = ymd
+            if not data.get('date'):
+                data['date'] = f"{ymd[:4]}/{ymd[4:6]}/{ymd[6:]}"
+
+            unavailable = int(data.get('unavailable_count', 0) or 0)
+            if unavailable > 0:
+                races = data.get('total_races', len(data.get('races', [])))
+                print(f"  ⏭️ {ymd}: unavailable_count={unavailable} のため統計から除外 ({races}R)")
+                continue
+
+            all_data.append(data)
+            races = data.get('total_races', len(data.get('races', [])))
+            hits  = data.get('hit_count', 0)
+            print(f"  ✅ {ymd}: {races}R / 的中{hits}")
         except Exception as e:
             print(f"  ❌ {ymd}: {e}")
 
