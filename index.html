@@ -2819,15 +2819,49 @@
             }
            }
 
+        const RAW_BASE = 'https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/';
+        const LOCAL_BASE = './';
+
+        function buildDataUrl(path, bustCache = true, preferRaw = false) {
+            const base = preferRaw ? RAW_BASE : LOCAL_BASE;
+            const separator = path.includes('?') ? '&' : '?';
+            return bustCache ? `${base}${path}${separator}t=${Date.now()}` : `${base}${path}`;
+        }
+
+        async function fetchJsonData(path, options = {}) {
+            const urls = [
+                buildDataUrl(path, options.bustCache !== false, false),
+                buildDataUrl(path, options.bustCache !== false, true)
+            ];
+
+            let lastError = null;
+            for (const url of urls) {
+                try {
+                    const response = await fetch(url, { cache: options.cache || 'no-cache' });
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    return await response.json();
+                } catch (error) {
+                    lastError = error;
+                    console.warn('JSON fetch failed:', path, url, error);
+                }
+            }
+            throw lastError || new Error(`Failed to fetch ${path}`);
+        }
+
+        async function tryFetchJsonData(path, options = {}) {
+            try {
+                return await fetchJsonData(path, options);
+            } catch (error) {
+                return null;
+            }
+        }
+
         async function loadPredictions() {
             try {
                 console.log('Loading predictions...');
                 document.getElementById('predictions-tab').innerHTML = getPredictionIntroHTML() + buildLoadingShell('予想データを更新中です。推奨・参考レースの反映まで少々お待ちください。');
 
-                const url = `https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/latest_predictions.json?t=${Date.now()}`;
-                const response = await fetch(url, { cache: 'no-cache' });
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                predictionsData = await response.json();
+                predictionsData = await fetchJsonData('latest_predictions.json');
                 console.log('Predictions data:', predictionsData);
                 renderPredictions(predictionsData);
             } catch (error) {
@@ -2842,22 +2876,29 @@
                 document.getElementById('results-tab').innerHTML = getResultsIntroHTML() + buildLoadingShell('結果データを更新中です。昨日の損益と各レースの払戻を確認しています。');
 
                 const jstNow = new Date(Date.now() + 9 * 60 * 60 * 1000);
-                const BASE_RAW = 'https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/';
 
                 let loadedData = null;
                 let loadedYmd = null;
                 let bestFallbackData = null;
                 let bestFallbackYmd = null;
 
-                for (let offset = 1; offset <= 14; offset++) {
+                const auditData = await tryFetchJsonData('recent_results_audit.json');
+                const latestCompleteYmd = auditData?.latest_complete_ymd || null;
+                if (latestCompleteYmd) {
+                    const latestCompleteData = await tryFetchJsonData(`race_results_${latestCompleteYmd}.json`);
+                    if (latestCompleteData) {
+                        loadedData = latestCompleteData;
+                        loadedYmd = latestCompleteYmd;
+                        console.log('Loaded latest complete results from audit:', loadedYmd, loadedData);
+                    }
+                }
+
+                for (let offset = 1; !loadedData && offset <= 14; offset++) {
                     const candidateDate = new Date(jstNow.getTime() - offset * 24 * 60 * 60 * 1000);
                     const candidateYmd = candidateDate.toISOString().slice(0, 10).replace(/-/g, '');
                     try {
-                        const urlCandidate = `${BASE_RAW}race_results_${candidateYmd}.json?t=${Date.now()}`;
-                        const res = await fetch(urlCandidate, { cache: 'no-cache' });
-                        if (!res.ok) continue;
-
-                        const data = await res.json();
+                        const data = await tryFetchJsonData(`race_results_${candidateYmd}.json`);
+                        if (!data) continue;
                         const total = Number(data?.total_races || 0);
                         const unavailable = Number(data?.unavailable_count || 0);
                         const resolved = Number(data?.hit_count || 0) + Number(data?.miss_count || 0);
@@ -2884,13 +2925,9 @@
 
                 if (!loadedData) {
                     try {
-                        const urlLatestComplete = `${BASE_RAW}latest_complete_results.json?t=${Date.now()}`;
-                        const resComplete = await fetch(urlLatestComplete, { cache: 'no-cache' });
-                        if (resComplete.ok) {
-                            loadedData = await resComplete.json();
-                            loadedYmd = loadedData?.ymd || null;
-                            console.log('Loaded latest complete results:', loadedYmd, loadedData);
-                        }
+                        loadedData = await fetchJsonData('latest_complete_results.json');
+                        loadedYmd = loadedData?.ymd || null;
+                        console.log('Loaded latest complete results:', loadedYmd, loadedData);
                     } catch (e) {
                         console.warn('latest_complete_results.json not found, trying other fallbacks', e);
                     }
@@ -2903,10 +2940,7 @@
                 }
 
                 if (!loadedData) {
-                    const urlLatest = `${BASE_RAW}latest_results.json?t=${Date.now()}`;
-                    const res2 = await fetch(urlLatest, { cache: 'no-cache' });
-                    if (!res2.ok) throw new Error(`HTTP ${res2.status}`);
-                    loadedData = await res2.json();
+                    loadedData = await fetchJsonData('latest_results.json');
                     loadedYmd = loadedData?.ymd || null;
                     console.log('Loaded latest results (final fallback):', loadedYmd, loadedData);
                 }
@@ -4202,7 +4236,7 @@
 
 
         // ===== バックテスト機能 (2026-03-06追加) =====
-        const BT_REPO = 'https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/';
+        const BT_REPO = LOCAL_BASE;
 
         async function runBacktest() {
             const btn = document.getElementById('bt-run-btn');
@@ -4442,8 +4476,7 @@
 
         async function loadStatistics() {
             try {
-                const response = await fetch('https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/statistics.json?t=' + Date.now(), {cache: 'no-cache'});
-                _statsData = await response.json();
+                _statsData = await fetchJsonData('statistics.json');
 
                 // ── ロジックバージョンセレクター を動的に構築 ──
                 buildLogicVersionSelector(_statsData);
@@ -4886,17 +4919,14 @@
             wrap.innerHTML = '<div style="color:#78909c;font-size:12px;">📡 直近の的中を取得中...</div>';
 
             try {
-                const RAW = 'https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/';
-                const statsRes = await fetch(RAW + 'statistics.json?t=' + Date.now(), {cache:'no-cache'});
-                const stats = await statsRes.json();
+                const stats = await fetchJsonData('statistics.json');
                 const daily = (stats.daily || []).filter(d => (d.hits || d.hit_count || 0) > 0).reverse().slice(0, 8);
 
                 const hits = [];
                 for (const day of daily) {
                     if (hits.length >= 5) break;
                     try {
-                        const rr = await fetch(RAW + `race_results_${day.ymd}.json?t=` + Date.now(), {cache:'no-cache'});
-                        const rrData = await rr.json();
+                        const rrData = await fetchJsonData(`race_results_${day.ymd}.json`);
                         const races  = rrData.races || (Array.isArray(rrData) ? rrData : []);
                         races.filter(r => r.hit).forEach(r => {
                             if (hits.length < 5) hits.push({...r, ymd: day.ymd});
@@ -4959,7 +4989,7 @@ async function loadReport(reportType) {
             filename = `monthly_report_${formatReportDate(today, 'YYYYMM')}.json`;
         }
         
-        const response = await fetch(`https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/${filename}`);
+        const response = await fetch(buildDataUrl(filename), { cache: 'no-cache' });
         
         if (!response.ok) {
             throw new Error('レポートが見つかりません');
@@ -5460,10 +5490,7 @@ async function loadReport(type) {
     container.innerHTML = '<div class="loading">📊 レポートを読み込み中...</div>';
 
     try {
-        const RAW = 'https://raw.githubusercontent.com/aipapa247272/keiba-auto-gist-updater/main/';
-        const res = await fetch(RAW + 'statistics.json', { cache: 'no-cache' });
-        if (!res.ok) throw new Error('statistics.json not found');
-        const stats = await res.json();
+        const stats = await fetchJsonData('statistics.json', { bustCache: false, cache: 'no-cache' });
 
         // アクティブボタン切替
         document.querySelectorAll('.report-type-btn').forEach(b => b.classList.remove('active'));
