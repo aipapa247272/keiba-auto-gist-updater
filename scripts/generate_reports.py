@@ -535,7 +535,7 @@ class ReportGenerator:
 def main():
     """メイン処理"""
     if len(sys.argv) < 4:
-        print("Usage: python generate_reports.py <report_type> <predictions_json> <results_json> [statistics_json]")
+        print("Usage: python generate_reports.py <report_type> <predictions_json> <results_json> [statistics_json] [target_date]")
         print("  report_type: daily, weekly, monthly")
         sys.exit(1)
     
@@ -543,14 +543,15 @@ def main():
     predictions_file = sys.argv[2]
     results_file = sys.argv[3]
     statistics_file = sys.argv[4] if len(sys.argv) > 4 else "statistics.json"
+    target_date_override = sys.argv[5] if len(sys.argv) > 5 else ""
     
     generator = ReportGenerator()
     generator.load_data(predictions_file, results_file, statistics_file)
     
     if report_type == "daily":
-        target_date = datetime.now().strftime("%Y-%m-%d")
+        target_date = target_date_override or datetime.now().strftime("%Y-%m-%d")
         report = generator.generate_daily_report(target_date)
-        output_file = f"daily_report_{datetime.now().strftime('%Y%m%d')}.json"
+        output_file = f"daily_report_{target_date.replace('-', '')}.json"
     
     elif report_type == "weekly":
         today = datetime.now()

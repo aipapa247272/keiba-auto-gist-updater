@@ -1,5 +1,8 @@
 name: Daily Select
 
+permissions:
+  contents: write
+
 on:
   workflow_dispatch:
     inputs:
@@ -8,7 +11,8 @@ on:
         required: false
         type: string
   schedule:
-    - cron: '0 14 * * *'  # 23:00 JST daily
+    - cron: '7 14 * * *'   # 23:07 JST daily
+    - cron: '37 15 * * *'  # 00:37 JST backup
 
 jobs:
   daily-select:
@@ -109,8 +113,15 @@ jobs:
 
       - name: Refresh recent results and statistics
         run: |
-          RESULT_DATE=$(TZ=Asia/Tokyo date +%Y%m%d)
-          echo "📅 結果更新対象日: ${RESULT_DATE}"
+          JST_HOUR=$(TZ=Asia/Tokyo date +%H)
+          if [ "${JST_HOUR}" -lt 6 ]; then
+            RESULT_DATE=$(TZ=Asia/Tokyo date -d 'yesterday' +%Y%m%d)
+            MODE='auto-yesterday'
+          else
+            RESULT_DATE=$(TZ=Asia/Tokyo date +%Y%m%d)
+            MODE='auto-today'
+          fi
+          echo "📅 結果更新対象日: ${RESULT_DATE} (${MODE})"
 
           python scripts/fetch_race_results.py "${RESULT_DATE}" || true
           python scripts/audit_recent_results.py --base-ymd "${RESULT_DATE}" --lookback-days 14 || true
@@ -125,17 +136,30 @@ PY
 )
             if [ -n "${LATEST_COMPLETE}" ] && [ -f "race_results_${LATEST_COMPLETE}.json" ]; then
               cp "race_results_${LATEST_COMPLETE}.json" latest_results.json
+              cp "race_results_${LATEST_COMPLETE}.json" latest_complete_results.json
               echo "✅ latest_results.json を race_results_${LATEST_COMPLETE}.json に同期"
             fi
           fi
 
           python scripts/generate_stats.py || echo "⚠️ generate_stats.py failed, continuing..."
 
+          if [ -n "${LATEST_COMPLETE}" ] && [ -f "final_predictions_${LATEST_COMPLETE}.json" ] && [ -f "race_results_${LATEST_COMPLETE}.json" ]; then
+            cp "final_predictions_${LATEST_COMPLETE}.json" predictions.json
+            cp "race_results_${LATEST_COMPLETE}.json" results.json
+            python3 scripts/generate_reports.py daily predictions.json results.json statistics.json || echo "⚠️ generate_reports.py failed, continuing..."
+            REPORT_FILE=$(ls -1t daily_report_*.json 2>/dev/null | head -n 1)
+            if [ -n "${REPORT_FILE}" ]; then
+              TARGET_REPORT="daily_report_${LATEST_COMPLETE}.json"
+              cp "${REPORT_FILE}" "${TARGET_REPORT}"
+              echo "✅ ${TARGET_REPORT} を更新"
+            fi
+          fi
+
       - name: Commit refreshed public data
         run: |
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git add race_results_*.json latest_results.json latest_complete_results.json recent_results_audit.json statistics.json 2>/dev/null || true
+          git add race_results_*.json latest_results.json latest_complete_results.json recent_results_audit.json statistics.json daily_report_*.json 2>/dev/null || true
           git diff --cached --quiet || git commit -m "Refresh results/statistics after daily select"
           git push || true
 

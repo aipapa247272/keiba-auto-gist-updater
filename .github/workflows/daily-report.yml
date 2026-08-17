@@ -5,8 +5,12 @@ permissions:
 
 on:
   schedule:
-    # 毎日21:00 JST (12:00 UTC) に実行
-    - cron: '0 12 * * *'
+    # 毎日21:17 JST (12:17 UTC) に実行
+    - cron: '17 12 * * *'
+  workflow_run:
+    workflows: ["Fetch Race Results"]
+    types:
+      - completed
   workflow_dispatch:
     inputs:
       target_date:
@@ -16,6 +20,7 @@ on:
 
 jobs:
   generate-report:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     
     steps:
@@ -83,7 +88,8 @@ PY
       
       - name: Generate daily report
         run: |
-          python3 scripts/generate_reports.py daily predictions.json results.json statistics.json
+          TARGET_DATE="${{ steps.date.outputs.target_date }}"
+          python3 scripts/generate_reports.py daily predictions.json results.json statistics.json "${TARGET_DATE}"
       
       - name: Commit and push report
         run: |

@@ -1,0 +1,215 @@
+{
+  "ymd": "20260816",
+  "logic_version": "v14.4_93法則条件化・穴保護枠・合成オッズ閾値動的化",
+  "generated_at": "2026-08-17 11:08:47 (JST)",
+  "total_races": 35,
+  "selected_races": 0,
+  "skipped_races": 34,
+  "summary": {
+    "turbulence": {
+      "低": 0,
+      "中": 0,
+      "高": 0
+    },
+    "total_investment": 0,
+    "old_total_investment": 0,
+    "investment_reduction": "100.0%削減",
+    "skip_breakdown": {
+      "断層なし(フラット)": 7,
+      "合成オッズ不足": 1,
+      "その他": 26
+    },
+    "skip_breakdown_detailed": {
+      "若馬戦": 26,
+      "断層なし": 7,
+      "合成オッズ不足": 1
+    },
+    "reference_count": 1
+  },
+  "fund_management": {
+    "base_stake_trifecta": 100,
+    "base_stake_wide": 500,
+    "base_stake_place": 300,
+    "max_combos_trifecta": 20,
+    "max_combos_wide": 2,
+    "max_combos_place": 3,
+    "min_synthetic_odds": 3.5,
+    "odds_boost_threshold_5": 5.0,
+    "min_wide_odds": 5.0,
+    "min_place_odds": 2.0,
+    "place_odds_spread_min": 2.0,
+    "daily_loss_limit": 10000,
+    "weekly_loss_limit": 30000,
+    "consecutive_loss_stop": 3,
+    "odds_layer_threshold": 2.0,
+    "max_popularity_place": 5,
+    "hole_horse_min_popularity": 5,
+    "reference_min_odds": 2.0,
+    "reference_max_odds": 3.5,
+    "reference_stake_ratio": 1.0
+  },
+  "selected_predictions": [],
+  "reference_predictions": [
+    {
+      "race_id": "202604020806",
+      "race_name": "稲妻S",
+      "venue": "新潟",
+      "distance": 1000,
+      "track": "芝",
+      "start_time": "14:50",
+      "grade": "",
+      "ref_rank": "⭐⭐",
+      "ref_label": "参考",
+      "synthetic_odds": 2.12,
+      "investment": 400,
+      "note": "合成オッズが推奨基準未満。自己判断でご参考ください。",
+      "断層分析": {
+        "断層数": 1,
+        "断層詳細": [
+          {
+            "position": 4,
+            "change_rate": 1.38,
+            "boundary_odds": null,
+            "from_horse": "ポッドソル",
+            "to_horse": "エコロジーク",
+            "estimated": true,
+            "method": "score_diff"
+          }
+        ],
+        "レースタイプ": "single_layer",
+        "実オッズ使用": false,
+        "合成オッズ_基準値": 3.5,
+        "合成オッズ_基準値_通常": 3.5,
+        "93ルール_強制頭数": 3,
+        "93ルール_理由": "通常レースのため人気1-3を維持",
+        "穴保護枠": 1,
+        "穴保護対象": [
+          "5"
+        ],
+        "合成オッズ": 2.12,
+        "合成オッズ_全体": 0.81,
+        "合成オッズ_方法": "estimated",
+        "スキップ理由": "合成オッズ不足(参考枠へ)(コア:2.12倍 < 3.5倍)",
+        "参考予測": true,
+        "参考_合成オッズ": 2.12,
+        "軸馬候補": [
+          {
+            "馬番": 6,
+            "馬名": "ベイビーキッス",
+            "人気": null,
+            "補正後スコア": 67.9
+          },
+          {
+            "馬番": 9,
+            "馬名": "メイショウキルギス",
+            "人気": null,
+            "補正後スコア": 63.5
+          },
+          {
+            "馬番": 7,
+            "馬名": "クーデール",
+            "人気": null,
+            "補正後スコア": 60.5
+          }
+        ],
+        "相手馬候補": [
+          {
+            "馬番": 12,
+            "馬名": "ポッドソル",
+            "人気": null
+          }
+        ],
+        "穴馬候補": [
+          {
+            "馬番": 5,
+            "馬名": "エコロジーク",
+            "人気": null
+          },
+          {
+            "馬番": 2,
+            "馬名": "リュウノタブーク",
+            "人気": null
+          },
+          {
+            "馬番": 10,
+            "馬名": "クールベイビー",
+            "人気": null
+          }
+        ],
+        "スキップ種別": "合成オッズ不足"
+      },
+      "betting_plan": {
+        "軸": [
+          {
+            "馬番": 6,
+            "馬名": "ベイビーキッス",
+            "人気": null,
+            "補正後スコア": 67.9
+          },
+          {
+            "馬番": 9,
+            "馬名": "メイショウキルギス",
+            "人気": null,
+            "補正後スコア": 63.5
+          },
+          {
+            "馬番": 7,
+            "馬名": "クーデール",
+            "人気": null,
+            "補正後スコア": 60.5
+          }
+        ],
+        "相手": [
+          {
+            "馬番": 12,
+            "馬名": "ポッドソル",
+            "人気": null
+          }
+        ],
+        "穴": [
+          {
+            "馬番": 5,
+            "馬名": "エコロジーク",
+            "人気": null
+          },
+          {
+            "馬番": 2,
+            "馬名": "リュウノタブーク",
+            "人気": null
+          },
+          {
+            "馬番": 10,
+            "馬名": "クールベイビー",
+            "人気": null
+          }
+        ],
+        "合成オッズ": 2.12,
+        "組み合わせ数": 4,
+        "全買い目": [
+          [
+            6,
+            9,
+            7
+          ],
+          [
+            6,
+            9,
+            12
+          ],
+          [
+            6,
+            7,
+            12
+          ],
+          [
+            9,
+            7,
+            12
+          ]
+        ],
+        "投資額": 400
+      }
+    }
+  ],
+  "reference_count": 1
+}

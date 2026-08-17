@@ -1,0 +1,254 @@
+{
+  "date": "2026/08/17",
+  "ymd": "20260817",
+  "generated_at": "2026-08-17 02:14:31",
+  "total_races": 2,
+  "hit_count": 0,
+  "miss_count": 0,
+  "unavailable_count": 2,
+  "no_pred_count": 0,
+  "valid_races": 0,
+  "total_investment": 0,
+  "total_return": 0,
+  "total_profit": 0,
+  "hit_rate": 0,
+  "recovery_rate": 0,
+  "summary_by_type": {
+    "recommend": {
+      "label": "推奨",
+      "total_races": 0,
+      "hit_count": 0,
+      "valid_races": 0,
+      "total_investment": 0,
+      "total_return": 0,
+      "total_profit": 0,
+      "hit_rate": 0,
+      "recovery_rate": 0
+    },
+    "reference": {
+      "label": "参考",
+      "total_races": 2,
+      "hit_count": 0,
+      "valid_races": 0,
+      "total_investment": 0,
+      "total_return": 0,
+      "total_profit": 0,
+      "hit_rate": 0,
+      "recovery_rate": 0
+    }
+  },
+  "races": [
+    {
+      "race_id": "202635081709",
+      "venue": "盛岡",
+      "race_num": "09",
+      "race_name": "C1",
+      "prediction_type": "reference",
+      "prediction_label": "参考",
+      "ref_rank": "⭐⭐",
+      "note": "合成オッズが推奨基準未満。自己判断でご参考ください。",
+      "synthetic_odds": 2.85,
+      "score_tier": "",
+      "distance": 1400,
+      "track": "ダ",
+      "start_time": "16:20",
+      "betting_plan": {
+        "軸": [
+          {
+            "馬番": 9,
+            "馬名": "メリア",
+            "人気": 4,
+            "補正後スコア": 63.65
+          },
+          {
+            "馬番": 4,
+            "馬名": "ヤマノマタカ",
+            "人気": 2,
+            "補正後スコア": 47.0
+          }
+        ],
+        "相手": [
+          {
+            "馬番": 3,
+            "馬名": "ウテナ",
+            "人気": 1
+          },
+          {
+            "馬番": 6,
+            "馬名": "ビッグサララルーフ",
+            "人気": 3
+          }
+        ],
+        "穴": [
+          {
+            "馬番": 5,
+            "馬名": "アニマルクィーン",
+            "人気": 8
+          },
+          {
+            "馬番": 2,
+            "馬名": "ファンタズマ",
+            "人気": 7
+          },
+          {
+            "馬番": 7,
+            "馬名": "ロードアブソルート",
+            "人気": 6
+          }
+        ],
+        "合成オッズ": 2.85,
+        "組み合わせ数": 4,
+        "全買い目": [
+          [
+            9,
+            4,
+            3
+          ],
+          [
+            9,
+            4,
+            6
+          ],
+          [
+            9,
+            3,
+            6
+          ],
+          [
+            4,
+            3,
+            6
+          ]
+        ],
+        "投資額": 400
+      },
+      "status": "結果取得不可",
+      "predicted": [
+        "9-4-3",
+        "9-4-6",
+        "9-3-6",
+        "4-3-6"
+      ],
+      "actual": [],
+      "hit": false,
+      "investment": 400,
+      "per_bet_investment": 100,
+      "return": 0,
+      "profit": 0,
+      "aggregate_excluded": true,
+      "payouts": {},
+      "horse_weights": [],
+      "all_horses_result": [],
+      "race_verification": {},
+      "virtual_bets_result": {},
+      "weather": "",
+      "track_condition": ""
+    },
+    {
+      "race_id": "202646081709",
+      "venue": "金沢",
+      "race_num": "09",
+      "race_name": "能登復興支援 皆月海岸賞(B1)",
+      "prediction_type": "reference",
+      "prediction_label": "参考",
+      "ref_rank": "⭐⭐",
+      "note": "合成オッズが推奨基準未満。自己判断でご参考ください。",
+      "synthetic_odds": 2.25,
+      "score_tier": "",
+      "distance": 1400,
+      "track": "ダ",
+      "start_time": "20:00",
+      "betting_plan": {
+        "軸": [
+          {
+            "馬番": 8,
+            "馬名": "デルマスソバライ",
+            "人気": 2,
+            "補正後スコア": 97.4
+          },
+          {
+            "馬番": 7,
+            "馬名": "ノーブルジェネシス",
+            "人気": 1,
+            "補正後スコア": 95.5
+          }
+        ],
+        "相手": [
+          {
+            "馬番": 3,
+            "馬名": "ユナパール",
+            "人気": 3
+          },
+          {
+            "馬番": 6,
+            "馬名": "ミヤギロード",
+            "人気": 6
+          }
+        ],
+        "穴": [
+          {
+            "馬番": 1,
+            "馬名": "ラインポーチュラカ",
+            "人気": 9
+          },
+          {
+            "馬番": 5,
+            "馬名": "フレーズタルト",
+            "人気": 8
+          },
+          {
+            "馬番": 9,
+            "馬名": "イモータルソウル",
+            "人気": 4
+          }
+        ],
+        "合成オッズ": 2.25,
+        "組み合わせ数": 4,
+        "全買い目": [
+          [
+            8,
+            7,
+            3
+          ],
+          [
+            8,
+            7,
+            6
+          ],
+          [
+            8,
+            3,
+            6
+          ],
+          [
+            7,
+            3,
+            6
+          ]
+        ],
+        "投資額": 400
+      },
+      "status": "結果取得不可",
+      "predicted": [
+        "8-7-3",
+        "8-7-6",
+        "8-3-6",
+        "7-3-6"
+      ],
+      "actual": [],
+      "hit": false,
+      "investment": 400,
+      "per_bet_investment": 100,
+      "return": 0,
+      "profit": 0,
+      "aggregate_excluded": true,
+      "payouts": {},
+      "horse_weights": [],
+      "all_horses_result": [],
+      "race_verification": {},
+      "virtual_bets_result": {},
+      "weather": "",
+      "track_condition": ""
+    }
+  ]
+}
