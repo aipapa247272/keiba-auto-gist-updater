@@ -1,27 +1,27 @@
 {
   "report_type": "daily",
   "target_date": "20260902",
-  "generated_at": "2026-09-02 16:35:05",
+  "generated_at": "2026-09-02 22:10:19",
   "summary": {
-    "total_races": 1,
+    "total_races": 11,
     "hits": 0,
-    "misses": 1,
+    "misses": 11,
     "hit_rate": 0.0,
-    "total_investment": 400,
+    "total_investment": 7900,
     "total_payout": 0,
-    "profit": -400,
+    "profit": -7900,
     "recovery_rate": 0.0
   },
   "race_analysis": [],
   "performance_by_segment": {
     "by_num_horses": {
       "0": {
-        "races": 1,
+        "races": 11,
         "hits": 0,
         "hit_rate": 0.0,
-        "investment": 400,
+        "investment": 7900,
         "payout": 0,
-        "profit": -400,
+        "profit": -7900,
         "recovery_rate": 0.0
       }
     },
@@ -29,7 +29,43 @@
     "by_distance_category": {},
     "by_turbulence": {},
     "by_venue": {
-      "新潟": {
+      "園田": {
+        "races": 4,
+        "hits": 0,
+        "hit_rate": 0.0,
+        "investment": 3400,
+        "payout": 0,
+        "profit": -3400,
+        "recovery_rate": 0.0
+      },
+      "門別": {
+        "races": 2,
+        "hits": 0,
+        "hit_rate": 0.0,
+        "investment": 2500,
+        "payout": 0,
+        "profit": -2500,
+        "recovery_rate": 0.0
+      },
+      "大井": {
+        "races": 3,
+        "hits": 0,
+        "hit_rate": 0.0,
+        "investment": 1200,
+        "payout": 0,
+        "profit": -1200,
+        "recovery_rate": 0.0
+      },
+      "名古屋": {
+        "races": 1,
+        "hits": 0,
+        "hit_rate": 0.0,
+        "investment": 400,
+        "payout": 0,
+        "profit": -400,
+        "recovery_rate": 0.0
+      },
+      "佐賀": {
         "races": 1,
         "hits": 0,
         "hit_rate": 0.0,
