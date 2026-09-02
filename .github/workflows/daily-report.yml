@@ -25,10 +25,10 @@ jobs:
     
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
       
@@ -38,13 +38,7 @@ jobs:
           if [ -n "${{ github.event.inputs.target_date }}" ]; then
             TARGET_DATE="${{ github.event.inputs.target_date }}"
           elif [ -f recent_results_audit.json ]; then
-            TARGET_DATE=$(python3 - <<'PY'
-import json
-with open('recent_results_audit.json', 'r', encoding='utf-8') as f:
-    data = json.load(f)
-print(data.get('latest_complete_ymd') or '')
-PY
-)
+            TARGET_DATE=$(jq -r '.latest_complete_ymd // ""' recent_results_audit.json 2>/dev/null || echo "")
             if [ -z "${TARGET_DATE}" ]; then
               TARGET_DATE=$(TZ=Asia/Tokyo date -d 'yesterday' +%Y%m%d)
             fi
@@ -80,7 +74,7 @@ PY
           
           # 統計データ
           if [ -f "statistics.json" ]; then
-            cp statistics.json statistics.json
+            echo "✅ statistics.json を利用します"
           else
             echo "⚠️ 統計データが見つかりません"
             echo '{}' > statistics.json
