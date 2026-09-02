@@ -127,13 +127,7 @@ jobs:
           python scripts/audit_recent_results.py --base-ymd "${RESULT_DATE}" --lookback-days 14 || true
 
           if [ -f recent_results_audit.json ]; then
-            LATEST_COMPLETE=$(python - <<'PY'
-import json
-with open('recent_results_audit.json', 'r', encoding='utf-8') as f:
-    data = json.load(f)
-print(data.get('latest_complete_ymd') or '')
-PY
-)
+            LATEST_COMPLETE=$(jq -r '.latest_complete_ymd // ""' recent_results_audit.json 2>/dev/null || echo "")
             if [ -n "${LATEST_COMPLETE}" ] && [ -f "race_results_${LATEST_COMPLETE}.json" ]; then
               cp "race_results_${LATEST_COMPLETE}.json" latest_results.json
               cp "race_results_${LATEST_COMPLETE}.json" latest_complete_results.json
