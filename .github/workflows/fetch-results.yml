@@ -27,10 +27,10 @@ jobs:
     
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
       
@@ -72,20 +72,8 @@ jobs:
               break
             fi
 
-            unavailable=$(python - <<PY
-import json
-with open(f'race_results_${YMD}.json', 'r', encoding='utf-8') as f:
-    data = json.load(f)
-print(int(data.get('unavailable_count', 0)))
-PY
-)
-            total=$(python - <<PY
-import json
-with open(f'race_results_${YMD}.json', 'r', encoding='utf-8') as f:
-    data = json.load(f)
-print(int(data.get('total_races', 0)))
-PY
-)
+            unavailable=$(jq -r '.unavailable_count // 0' "race_results_${YMD}.json" 2>/dev/null || echo 0)
+            total=$(jq -r '.total_races // 0' "race_results_${YMD}.json" 2>/dev/null || echo 0)
 
             echo "📊 現在の unavailable_count=${unavailable} / total_races=${total}"
             if [ "${unavailable}" -le 0 ]; then
@@ -113,19 +101,17 @@ PY
               continue
             fi
 
-            NEED_FETCH=$(python - <<PY
-import json, os
-result_file = '${RESULT_FILE}'
-if not os.path.exists(result_file):
-    print('yes')
-else:
-    with open(result_file, 'r', encoding='utf-8') as f:
-        data = json.load(f)
-    unavailable = int(data.get('unavailable_count', 0))
-    total = int(data.get('total_races', 0))
-    print('yes' if unavailable > 0 or total == 0 else 'no')
-PY
-)
+            if [ ! -f "${RESULT_FILE}" ]; then
+              NEED_FETCH=yes
+            else
+              _u=$(jq -r '.unavailable_count // 0' "${RESULT_FILE}" 2>/dev/null || echo 0)
+              _t=$(jq -r '.total_races // 0' "${RESULT_FILE}" 2>/dev/null || echo 0)
+              if [ "${_u}" -gt 0 ] || [ "${_t}" -eq 0 ]; then
+                NEED_FETCH=yes
+              else
+                NEED_FETCH=no
+              fi
+            fi
 
             if [ "${NEED_FETCH}" = "yes" ]; then
               echo "🔁 ${TARGET_YMD} の不足結果を補完します"
@@ -184,13 +170,7 @@ PY
           LATEST_COMPLETE=""
 
           if [ -f recent_results_audit.json ]; then
-            LATEST_COMPLETE=$(python - <<'PY'
-import json
-with open('recent_results_audit.json', 'r', encoding='utf-8') as f:
-    data = json.load(f)
-print(data.get('latest_complete_ymd') or '')
-PY
-)
+            LATEST_COMPLETE=$(jq -r '.latest_complete_ymd // ""' recent_results_audit.json 2>/dev/null || echo "")
           fi
 
           if [ -n "${LATEST_COMPLETE}" ] && [ -f "race_results_${LATEST_COMPLETE}.json" ]; then
