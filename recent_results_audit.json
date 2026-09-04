@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-03 22:04:28",
+  "generated_at": "2026-09-04 01:32:03",
   "base_ymd": "20260904",
   "lookback_days": 14,
   "latest_complete_ymd": "20260903",
@@ -21,18 +21,18 @@
       "fetch_rc": 0,
       "status_before": {
         "ymd": "20260904",
-        "total_races": 5,
+        "total_races": 4,
         "hit_count": 0,
         "miss_count": 0,
-        "unavailable_count": 5,
+        "unavailable_count": 4,
         "total_profit": 0
       },
       "status_after": {
         "ymd": "20260904",
-        "total_races": 5,
+        "total_races": 4,
         "hit_count": 0,
         "miss_count": 0,
-        "unavailable_count": 5,
+        "unavailable_count": 4,
         "total_profit": 0
       },
       "is_complete": false,
