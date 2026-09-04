@@ -1,7 +1,7 @@
 {
   "date": "2026/09/04",
   "ymd": "20260904",
-  "generated_at": "2026-09-04 01:32:03",
+  "generated_at": "2026-09-04 01:45:35",
   "total_races": 4,
   "hit_count": 0,
   "miss_count": 0,
@@ -142,7 +142,8 @@
       "race_verification": {},
       "virtual_bets_result": {},
       "weather": "",
-      "track_condition": ""
+      "track_condition": "",
+      "predicted_pace": "スローペース"
     },
     {
       "race_id": "202648090403",
@@ -249,7 +250,8 @@
       "race_verification": {},
       "virtual_bets_result": {},
       "weather": "",
-      "track_condition": ""
+      "track_condition": "",
+      "predicted_pace": "ミドルペース"
     },
     {
       "race_id": "202648090409",
@@ -355,7 +357,8 @@
       "race_verification": {},
       "virtual_bets_result": {},
       "weather": "",
-      "track_condition": ""
+      "track_condition": "",
+      "predicted_pace": "ハイペース"
     },
     {
       "race_id": "202650090412",
@@ -461,7 +464,8 @@
       "race_verification": {},
       "virtual_bets_result": {},
       "weather": "",
-      "track_condition": ""
+      "track_condition": "",
+      "predicted_pace": "ミドルペース"
     }
   ]
 }
