@@ -1,0 +1,47 @@
+{
+  "ymd": "20260905",
+  "generated_at": "2026-09-04 21:56:49",
+  "logic_version": "v12",
+  "summary": {
+    "total_races": 2,
+    "hit_count": 0,
+    "miss_count": 2,
+    "hit_rate": 0.0,
+    "total_investment": 800,
+    "total_payout": 0,
+    "net_profit": -800,
+    "recovery_rate": 0.0
+  },
+  "details": [
+    {
+      "race_id": "202606040111",
+      "race_name": "京成杯AH",
+      "venue": "中山",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.19,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202609040109",
+      "race_name": "出石特別",
+      "venue": "阪神",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.04,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    }
+  ]
+}

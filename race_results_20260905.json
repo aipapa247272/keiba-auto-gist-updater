@@ -1,0 +1,258 @@
+{
+  "date": "2026/09/05",
+  "ymd": "20260905",
+  "generated_at": "2026-09-04 21:56:49",
+  "total_races": 2,
+  "hit_count": 0,
+  "miss_count": 0,
+  "unavailable_count": 2,
+  "no_pred_count": 0,
+  "valid_races": 0,
+  "total_investment": 0,
+  "total_return": 0,
+  "total_profit": 0,
+  "hit_rate": 0,
+  "recovery_rate": 0,
+  "summary_by_type": {
+    "recommend": {
+      "label": "推奨",
+      "total_races": 0,
+      "hit_count": 0,
+      "valid_races": 0,
+      "total_investment": 0,
+      "total_return": 0,
+      "total_profit": 0,
+      "hit_rate": 0,
+      "recovery_rate": 0
+    },
+    "reference": {
+      "label": "参考",
+      "total_races": 2,
+      "hit_count": 0,
+      "valid_races": 0,
+      "total_investment": 0,
+      "total_return": 0,
+      "total_profit": 0,
+      "hit_rate": 0,
+      "recovery_rate": 0
+    }
+  },
+  "races": [
+    {
+      "race_id": "202606040111",
+      "venue": "中山",
+      "race_num": "11",
+      "race_name": "京成杯AH",
+      "prediction_type": "reference",
+      "prediction_label": "参考",
+      "ref_rank": "⭐⭐",
+      "note": "合成オッズが推奨基準未満。自己判断でご参考ください。",
+      "synthetic_odds": 2.19,
+      "score_tier": "",
+      "distance": 1600,
+      "track": "芝",
+      "start_time": "15:45",
+      "betting_plan": {
+        "軸": [
+          {
+            "馬番": 18,
+            "馬名": "ディールメーカー",
+            "人気": null,
+            "補正後スコア": 74.5
+          },
+          {
+            "馬番": 17,
+            "馬名": "レザベーション",
+            "人気": null,
+            "補正後スコア": 74.5
+          },
+          {
+            "馬番": 6,
+            "馬名": "クランフォード",
+            "人気": null,
+            "補正後スコア": 70.0
+          }
+        ],
+        "相手": [
+          {
+            "馬番": 8,
+            "馬名": "ミナデオロ",
+            "人気": null
+          }
+        ],
+        "穴": [
+          {
+            "馬番": 19,
+            "馬名": "フォルテアンジェロ",
+            "人気": null
+          },
+          {
+            "馬番": 14,
+            "馬名": "テレサ",
+            "人気": null
+          },
+          {
+            "馬番": 11,
+            "馬名": "ピコローズ",
+            "人気": null
+          }
+        ],
+        "合成オッズ": 2.19,
+        "組み合わせ数": 4,
+        "全買い目": [
+          [
+            18,
+            17,
+            6
+          ],
+          [
+            18,
+            17,
+            8
+          ],
+          [
+            18,
+            6,
+            8
+          ],
+          [
+            17,
+            6,
+            8
+          ]
+        ],
+        "投資額": 400
+      },
+      "status": "結果取得不可",
+      "predicted": [
+        "18-17-6",
+        "18-17-8",
+        "18-6-8",
+        "17-6-8"
+      ],
+      "actual": [],
+      "hit": false,
+      "investment": 400,
+      "per_bet_investment": 100,
+      "return": 0,
+      "profit": 0,
+      "aggregate_excluded": true,
+      "payouts": {},
+      "horse_weights": [],
+      "all_horses_result": [],
+      "race_verification": {},
+      "virtual_bets_result": {},
+      "weather": "",
+      "track_condition": "",
+      "predicted_pace": "ハイペース"
+    },
+    {
+      "race_id": "202609040109",
+      "venue": "阪神",
+      "race_num": "09",
+      "race_name": "出石特別",
+      "prediction_type": "reference",
+      "prediction_label": "参考",
+      "ref_rank": "⭐⭐",
+      "note": "合成オッズが推奨基準未満。自己判断でご参考ください。",
+      "synthetic_odds": 2.04,
+      "score_tier": "",
+      "distance": 1800,
+      "track": "ダ",
+      "start_time": "14:20",
+      "betting_plan": {
+        "軸": [
+          {
+            "馬番": 5,
+            "馬名": "ソニックステップ",
+            "人気": null,
+            "補正後スコア": 73.5
+          },
+          {
+            "馬番": 11,
+            "馬名": "システマソラー",
+            "人気": null,
+            "補正後スコア": 66.4
+          },
+          {
+            "馬番": 9,
+            "馬名": "ジャイアンバローズ",
+            "人気": null,
+            "補正後スコア": 66.4
+          }
+        ],
+        "相手": [
+          {
+            "馬番": 10,
+            "馬名": "ストラーダ",
+            "人気": null
+          }
+        ],
+        "穴": [
+          {
+            "馬番": 6,
+            "馬名": "ショーダンサー",
+            "人気": null
+          },
+          {
+            "馬番": 7,
+            "馬名": "クロノスバレット",
+            "人気": null
+          },
+          {
+            "馬番": 3,
+            "馬名": "シュヴァルツリーベ",
+            "人気": null
+          }
+        ],
+        "合成オッズ": 2.04,
+        "組み合わせ数": 4,
+        "全買い目": [
+          [
+            5,
+            11,
+            9
+          ],
+          [
+            5,
+            11,
+            10
+          ],
+          [
+            5,
+            9,
+            10
+          ],
+          [
+            11,
+            9,
+            10
+          ]
+        ],
+        "投資額": 400
+      },
+      "status": "結果取得不可",
+      "predicted": [
+        "5-11-9",
+        "5-11-10",
+        "5-9-10",
+        "11-9-10"
+      ],
+      "actual": [],
+      "hit": false,
+      "investment": 400,
+      "per_bet_investment": 100,
+      "return": 0,
+      "profit": 0,
+      "aggregate_excluded": true,
+      "payouts": {},
+      "horse_weights": [],
+      "all_horses_result": [],
+      "race_verification": {},
+      "virtual_bets_result": {},
+      "weather": "",
+      "track_condition": "",
+      "predicted_pace": "ミドルペース"
+    }
+  ]
+}
