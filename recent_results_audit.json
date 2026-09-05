@@ -1,44 +1,44 @@
 {
-  "generated_at": "2026-09-04 21:56:49",
+  "generated_at": "2026-09-05 15:56:58",
   "base_ymd": "20260905",
   "lookback_days": 14,
-  "latest_complete_ymd": "20260904",
+  "latest_complete_ymd": "20260905",
   "complete_dates": [
+    "20260905",
     "20260904",
     "20260903"
   ],
   "partial_dates": [
+    "20260905",
     "20260904",
     "20260903"
   ],
-  "unresolved_dates": [
-    "20260905"
-  ],
+  "unresolved_dates": [],
   "rows": [
     {
       "ymd": "20260905",
       "has_predictions": true,
       "had_result_before": true,
-      "refetched": true,
-      "fetch_rc": 0,
+      "refetched": false,
+      "fetch_rc": null,
       "status_before": {
         "ymd": "20260905",
         "total_races": 2,
         "hit_count": 0,
-        "miss_count": 0,
-        "unavailable_count": 2,
-        "total_profit": 0
+        "miss_count": 2,
+        "unavailable_count": 0,
+        "total_profit": -800
       },
       "status_after": {
         "ymd": "20260905",
         "total_races": 2,
         "hit_count": 0,
-        "miss_count": 0,
-        "unavailable_count": 2,
-        "total_profit": 0
+        "miss_count": 2,
+        "unavailable_count": 0,
+        "total_profit": -800
       },
-      "is_complete": false,
-      "is_partial": false
+      "is_complete": true,
+      "is_partial": true
     },
     {
       "ymd": "20260904",

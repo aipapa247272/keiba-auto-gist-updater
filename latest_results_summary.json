@@ -1,77 +1,47 @@
 {
-  "ymd": "20260904",
-  "generated_at": "2026-09-04 19:49:47",
+  "ymd": "20260905",
+  "generated_at": "2026-09-05 15:56:58",
   "logic_version": "v12",
   "summary": {
-    "total_races": 4,
+    "total_races": 2,
     "hit_count": 0,
-    "miss_count": 4,
+    "miss_count": 2,
     "hit_rate": 0.0,
-    "total_investment": 1600,
+    "total_investment": 800,
     "total_payout": 0,
-    "net_profit": -1600,
+    "net_profit": -800,
     "recovery_rate": 0.0
   },
   "details": [
     {
-      "race_id": "202648090402",
-      "race_name": "C5組",
-      "venue": "名古屋",
+      "race_id": "202606040111",
+      "race_name": "京成杯AH",
+      "venue": "中山",
       "prediction_type": "reference",
       "investment": 400,
       "combo_count": 4,
       "per_bet_investment": 100,
-      "synthetic_odds": 2.9,
+      "synthetic_odds": 2.19,
       "hit": false,
       "hit_type": null,
       "payout": 0,
       "profit": -400,
-      "reason": "不的中 (実際: 3-5-9, 4点中)"
+      "reason": "不的中 (実際: 8-7-3, 4点中)"
     },
     {
-      "race_id": "202648090403",
-      "race_name": "C4組",
-      "venue": "名古屋",
+      "race_id": "202609040109",
+      "race_name": "出石特別",
+      "venue": "阪神",
       "prediction_type": "reference",
       "investment": 400,
       "combo_count": 4,
       "per_bet_investment": 100,
-      "synthetic_odds": 2.7,
+      "synthetic_odds": 2.04,
       "hit": false,
       "hit_type": null,
       "payout": 0,
       "profit": -400,
-      "reason": "不的中 (実際: 9-6-2, 4点中)"
-    },
-    {
-      "race_id": "202648090409",
-      "race_name": "B7組",
-      "venue": "名古屋",
-      "prediction_type": "reference",
-      "investment": 400,
-      "combo_count": 4,
-      "per_bet_investment": 100,
-      "synthetic_odds": 2.2,
-      "hit": false,
-      "hit_type": null,
-      "payout": 0,
-      "profit": -400,
-      "reason": "不的中 (実際: 10-7-5, 4点中)"
-    },
-    {
-      "race_id": "202650090412",
-      "race_name": "キンモクセイ賞C1",
-      "venue": "園田",
-      "prediction_type": "reference",
-      "investment": 400,
-      "combo_count": 4,
-      "per_bet_investment": 100,
-      "synthetic_odds": 2.0,
-      "hit": false,
-      "hit_type": null,
-      "payout": 0,
-      "profit": -400,
-      "reason": "不的中 (実際: 12-10-11, 4点中)"
+      "reason": "不的中 (実際: 2-8-6, 4点中)"
     }
   ]
 }
