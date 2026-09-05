@@ -1,0 +1,73 @@
+{
+  "report_type": "daily",
+  "target_date": "20260905",
+  "generated_at": "2026-09-05 15:57:14",
+  "summary": {
+    "total_races": 2,
+    "hits": 0,
+    "misses": 2,
+    "hit_rate": 0.0,
+    "total_investment": 800,
+    "total_payout": 0,
+    "profit": -800,
+    "recovery_rate": 0.0
+  },
+  "race_analysis": [],
+  "performance_by_segment": {
+    "by_num_horses": {
+      "0": {
+        "races": 2,
+        "hits": 0,
+        "hit_rate": 0.0,
+        "investment": 800,
+        "payout": 0,
+        "profit": -800,
+        "recovery_rate": 0.0
+      }
+    },
+    "by_track": {},
+    "by_distance_category": {},
+    "by_turbulence": {},
+    "by_venue": {
+      "中山": {
+        "races": 1,
+        "hits": 0,
+        "hit_rate": 0.0,
+        "investment": 400,
+        "payout": 0,
+        "profit": -400,
+        "recovery_rate": 0.0
+      },
+      "阪神": {
+        "races": 1,
+        "hits": 0,
+        "hit_rate": 0.0,
+        "investment": 400,
+        "payout": 0,
+        "profit": -400,
+        "recovery_rate": 0.0
+      }
+    },
+    "by_hole_count": {}
+  },
+  "pace_analysis": {},
+  "insights": [
+    {
+      "type": "warning",
+      "message": "⚠️ 本日は的中なし - 明日の条件を見直し",
+      "priority": "high"
+    },
+    {
+      "type": "warning",
+      "message": "📉 回収率 0.0% - 買い目の見直しが必要",
+      "priority": "medium"
+    }
+  ],
+  "recommendations": [
+    {
+      "category": "出馬数",
+      "suggestion": "0頭レースを重点的に狙う（回収率0.0%）",
+      "priority": "high"
+    }
+  ]
+}
