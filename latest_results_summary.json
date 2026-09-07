@@ -1,16 +1,62 @@
 {
-  "ymd": "20260906",
-  "generated_at": "2026-09-06 19:27:28",
+  "ymd": "20260907",
+  "generated_at": "2026-09-07 18:13:35",
   "logic_version": "v12",
   "summary": {
-    "total_races": 0,
+    "total_races": 3,
     "hit_count": 0,
-    "miss_count": 0,
-    "hit_rate": 0,
-    "total_investment": 0,
+    "miss_count": 3,
+    "hit_rate": 0.0,
+    "total_investment": 7100,
     "total_payout": 0,
-    "net_profit": 0,
-    "recovery_rate": 0
+    "net_profit": -7100,
+    "recovery_rate": 0.0
   },
-  "details": []
+  "details": [
+    {
+      "race_id": "202645090706",
+      "race_name": "C2一二",
+      "venue": "川崎",
+      "prediction_type": "recommend",
+      "investment": 4600,
+      "combo_count": 23,
+      "per_bet_investment": 200,
+      "synthetic_odds": 9.0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -4600,
+      "reason": "不的中 (実際: 3-10-12, 23点中)"
+    },
+    {
+      "race_id": "202645090712",
+      "race_name": "花鳥風月賞(B3)",
+      "venue": "川崎",
+      "prediction_type": "recommend",
+      "investment": 2100,
+      "combo_count": 21,
+      "per_bet_investment": 100,
+      "synthetic_odds": 4.7,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2100,
+      "reason": "不的中 (実際: 7-10-8, 21点中)"
+    },
+    {
+      "race_id": "202648090707",
+      "race_name": "しまね和牛賞(B)",
+      "venue": "名古屋",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.75,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "不的中 (実際: 2-7-10, 4点中)"
+    }
+  ]
 }
