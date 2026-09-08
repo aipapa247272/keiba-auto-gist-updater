@@ -1,0 +1,256 @@
+{
+  "date": "2026/09/09",
+  "ymd": "20260909",
+  "generated_at": "2026-09-08 22:11:47",
+  "total_races": 2,
+  "hit_count": 0,
+  "miss_count": 0,
+  "unavailable_count": 2,
+  "no_pred_count": 0,
+  "valid_races": 0,
+  "total_investment": 0,
+  "total_return": 0,
+  "total_profit": 0,
+  "hit_rate": 0,
+  "recovery_rate": 0,
+  "summary_by_type": {
+    "recommend": {
+      "label": "推奨",
+      "total_races": 0,
+      "hit_count": 0,
+      "valid_races": 0,
+      "total_investment": 0,
+      "total_return": 0,
+      "total_profit": 0,
+      "hit_rate": 0,
+      "recovery_rate": 0
+    },
+    "reference": {
+      "label": "参考",
+      "total_races": 2,
+      "hit_count": 0,
+      "valid_races": 0,
+      "total_investment": 0,
+      "total_return": 0,
+      "total_profit": 0,
+      "hit_rate": 0,
+      "recovery_rate": 0
+    }
+  },
+  "races": [
+    {
+      "race_id": "202645090908",
+      "venue": "川崎",
+      "race_num": "08",
+      "race_name": "軍配賞(C1)",
+      "prediction_type": "reference",
+      "prediction_label": "参考",
+      "ref_rank": "⭐⭐",
+      "note": "合成オッズが推奨基準未満。自己判断でご参考ください。",
+      "synthetic_odds": 2.25,
+      "score_tier": "",
+      "distance": 1500,
+      "track": "ダ",
+      "start_time": "18:20",
+      "betting_plan": {
+        "軸": [
+          {
+            "馬番": 1,
+            "馬名": "エリンフレーム",
+            "人気": 2,
+            "補正後スコア": 99.0
+          },
+          {
+            "馬番": 2,
+            "馬名": "マッセダムール",
+            "人気": 3,
+            "補正後スコア": 88.5
+          }
+        ],
+        "相手": [
+          {
+            "馬番": 13,
+            "馬名": "ノンスタンダルド",
+            "人気": 1
+          },
+          {
+            "馬番": 14,
+            "馬名": "ポジティビティ",
+            "人気": 4
+          }
+        ],
+        "穴": [
+          {
+            "馬番": 3,
+            "馬名": "ミスサラワク",
+            "人気": 14
+          },
+          {
+            "馬番": 9,
+            "馬名": "ダイゴホマレリュウ",
+            "人気": 12
+          },
+          {
+            "馬番": 7,
+            "馬名": "フラッシュタイム",
+            "人気": 13
+          }
+        ],
+        "合成オッズ": 2.25,
+        "組み合わせ数": 4,
+        "全買い目": [
+          [
+            1,
+            2,
+            13
+          ],
+          [
+            1,
+            2,
+            14
+          ],
+          [
+            1,
+            13,
+            14
+          ],
+          [
+            2,
+            13,
+            14
+          ]
+        ],
+        "投資額": 400
+      },
+      "status": "結果取得不可",
+      "predicted": [
+        "1-2-13",
+        "1-2-14",
+        "1-13-14",
+        "2-13-14"
+      ],
+      "actual": [],
+      "hit": false,
+      "investment": 400,
+      "per_bet_investment": 100,
+      "return": 0,
+      "profit": 0,
+      "aggregate_excluded": true,
+      "payouts": {},
+      "horse_weights": [],
+      "all_horses_result": [],
+      "race_verification": {},
+      "virtual_bets_result": {},
+      "weather": "",
+      "track_condition": "",
+      "predicted_pace": "スローペース"
+    },
+    {
+      "race_id": "202645090912",
+      "venue": "川崎",
+      "race_num": "12",
+      "race_name": "2026川崎ジョッキーズカップ第4戦(C2)",
+      "prediction_type": "reference",
+      "prediction_label": "参考",
+      "ref_rank": "⭐⭐",
+      "note": "合成オッズが推奨基準未満。自己判断でご参考ください。",
+      "synthetic_odds": 2.6,
+      "score_tier": "",
+      "distance": 1500,
+      "track": "ダ",
+      "start_time": "20:50",
+      "betting_plan": {
+        "軸": [
+          {
+            "馬番": 3,
+            "馬名": "フリージングフォグ",
+            "人気": 2,
+            "補正後スコア": 86.5
+          },
+          {
+            "馬番": 5,
+            "馬名": "シェナベスト",
+            "人気": 3,
+            "補正後スコア": 76.0
+          }
+        ],
+        "相手": [
+          {
+            "馬番": 7,
+            "馬名": "ベラヴィットーリア",
+            "人気": 1
+          },
+          {
+            "馬番": 8,
+            "馬名": "スウィートドリーム",
+            "人気": 5
+          }
+        ],
+        "穴": [
+          {
+            "馬番": 6,
+            "馬名": "コックリサン",
+            "人気": 14
+          },
+          {
+            "馬番": 4,
+            "馬名": "チュイション",
+            "人気": 13
+          },
+          {
+            "馬番": 13,
+            "馬名": "レイニングキング",
+            "人気": 7
+          }
+        ],
+        "合成オッズ": 2.6,
+        "組み合わせ数": 4,
+        "全買い目": [
+          [
+            3,
+            5,
+            7
+          ],
+          [
+            3,
+            5,
+            8
+          ],
+          [
+            3,
+            7,
+            8
+          ],
+          [
+            5,
+            7,
+            8
+          ]
+        ],
+        "投資額": 400
+      },
+      "status": "結果取得不可",
+      "predicted": [
+        "3-5-7",
+        "3-5-8",
+        "3-7-8",
+        "5-7-8"
+      ],
+      "actual": [],
+      "hit": false,
+      "investment": 400,
+      "per_bet_investment": 100,
+      "return": 0,
+      "profit": 0,
+      "aggregate_excluded": true,
+      "payouts": {},
+      "horse_weights": [],
+      "all_horses_result": [],
+      "race_verification": {},
+      "virtual_bets_result": {},
+      "weather": "",
+      "track_condition": "",
+      "predicted_pace": "ミドルペース"
+    }
+  ]
+}

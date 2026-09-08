@@ -1,0 +1,47 @@
+{
+  "ymd": "20260909",
+  "generated_at": "2026-09-08 22:11:59",
+  "logic_version": "v12",
+  "summary": {
+    "total_races": 2,
+    "hit_count": 0,
+    "miss_count": 2,
+    "hit_rate": 0.0,
+    "total_investment": 800,
+    "total_payout": 0,
+    "net_profit": -800,
+    "recovery_rate": 0.0
+  },
+  "details": [
+    {
+      "race_id": "202645090908",
+      "race_name": "軍配賞(C1)",
+      "venue": "川崎",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.25,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202645090912",
+      "race_name": "2026川崎ジョッキーズカップ第4戦(C2)",
+      "venue": "川崎",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.6,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    }
+  ]
+}
