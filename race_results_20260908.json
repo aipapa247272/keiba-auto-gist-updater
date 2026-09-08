@@ -1,7 +1,7 @@
 {
   "date": "2026/09/08",
   "ymd": "20260908",
-  "generated_at": "2026-09-08 18:09:23",
+  "generated_at": "2026-09-08 18:59:40",
   "total_races": 10,
   "hit_count": 2,
   "miss_count": 7,
@@ -525,8 +525,7 @@
         }
       },
       "weather": "晴",
-      "track_condition": "重",
-      "predicted_pace": "ハイペース"
+      "track_condition": "重"
     },
     {
       "race_id": "202630090811",
@@ -807,8 +806,7 @@
         }
       },
       "weather": "雨",
-      "track_condition": "良",
-      "predicted_pace": "ハイペース"
+      "track_condition": "良"
     },
     {
       "race_id": "202636090810",
@@ -1061,8 +1059,7 @@
         }
       },
       "weather": "曇",
-      "track_condition": "重",
-      "predicted_pace": "スローペース"
+      "track_condition": "重"
     },
     {
       "race_id": "202636090811",
@@ -1315,8 +1312,7 @@
         }
       },
       "weather": "曇",
-      "track_condition": "重",
-      "predicted_pace": "ミドルペース"
+      "track_condition": "重"
     },
     {
       "race_id": "202645090806",
@@ -1607,8 +1603,7 @@
         }
       },
       "weather": "曇",
-      "track_condition": "重",
-      "predicted_pace": "ハイペース"
+      "track_condition": "重"
     },
     {
       "race_id": "202645090809",
@@ -1872,8 +1867,7 @@
         }
       },
       "weather": "曇",
-      "track_condition": "重",
-      "predicted_pace": "ミドルペース"
+      "track_condition": "重"
     },
     {
       "race_id": "202645090810",
@@ -2182,8 +2176,7 @@
         }
       },
       "weather": "曇",
-      "track_condition": "重",
-      "predicted_pace": "ハイペース"
+      "track_condition": "重"
     },
     {
       "race_id": "202646090806",
@@ -2456,8 +2449,7 @@
         }
       },
       "weather": "雨",
-      "track_condition": "重",
-      "predicted_pace": "ハイペース"
+      "track_condition": "重"
     },
     {
       "race_id": "202646090810",
@@ -2752,8 +2744,7 @@
         }
       },
       "weather": "雨",
-      "track_condition": "重",
-      "predicted_pace": "ハイペース"
+      "track_condition": "重"
     },
     {
       "race_id": "202647090809",
@@ -2859,8 +2850,7 @@
       "race_verification": {},
       "virtual_bets_result": {},
       "weather": "",
-      "track_condition": "",
-      "predicted_pace": "ハイペース"
+      "track_condition": ""
     }
   ]
 }
