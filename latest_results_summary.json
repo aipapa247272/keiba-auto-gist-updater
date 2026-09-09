@@ -1,62 +1,47 @@
 {
-  "ymd": "20260907",
-  "generated_at": "2026-09-07 20:45:57",
+  "ymd": "20260909",
+  "generated_at": "2026-09-09 17:07:52",
   "logic_version": "v12",
   "summary": {
-    "total_races": 3,
+    "total_races": 2,
     "hit_count": 0,
-    "miss_count": 3,
+    "miss_count": 2,
     "hit_rate": 0.0,
-    "total_investment": 7100,
+    "total_investment": 800,
     "total_payout": 0,
-    "net_profit": -7100,
+    "net_profit": -800,
     "recovery_rate": 0.0
   },
   "details": [
     {
-      "race_id": "202645090706",
-      "race_name": "C2一二",
+      "race_id": "202645090908",
+      "race_name": "軍配賞(C1)",
       "venue": "川崎",
-      "prediction_type": "recommend",
-      "investment": 4600,
-      "combo_count": 23,
-      "per_bet_investment": 200,
-      "synthetic_odds": 9.0,
-      "hit": false,
-      "hit_type": null,
-      "payout": 0,
-      "profit": -4600,
-      "reason": "不的中 (実際: 3-10-12, 23点中)"
-    },
-    {
-      "race_id": "202645090712",
-      "race_name": "花鳥風月賞(B3)",
-      "venue": "川崎",
-      "prediction_type": "recommend",
-      "investment": 2100,
-      "combo_count": 21,
-      "per_bet_investment": 100,
-      "synthetic_odds": 4.7,
-      "hit": false,
-      "hit_type": null,
-      "payout": 0,
-      "profit": -2100,
-      "reason": "不的中 (実際: 7-10-8, 21点中)"
-    },
-    {
-      "race_id": "202648090707",
-      "race_name": "しまね和牛賞(B)",
-      "venue": "名古屋",
       "prediction_type": "reference",
       "investment": 400,
       "combo_count": 4,
       "per_bet_investment": 100,
-      "synthetic_odds": 2.75,
+      "synthetic_odds": 2.25,
       "hit": false,
       "hit_type": null,
       "payout": 0,
       "profit": -400,
-      "reason": "不的中 (実際: 2-7-10, 4点中)"
+      "reason": "不的中 (実際: 14-1-6, 4点中)"
+    },
+    {
+      "race_id": "202645090912",
+      "race_name": "2026川崎ジョッキーズカップ第4戦(C2)",
+      "venue": "川崎",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.6,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "不的中 (実際: 5-6-2, 4点中)"
     }
   ]
 }
