@@ -1,0 +1,47 @@
+{
+  "ymd": "20260911",
+  "generated_at": "2026-09-10 22:01:23",
+  "logic_version": "v12",
+  "summary": {
+    "total_races": 2,
+    "hit_count": 0,
+    "miss_count": 2,
+    "hit_rate": 0.0,
+    "total_investment": 6300,
+    "total_payout": 0,
+    "net_profit": -6300,
+    "recovery_rate": 0.0
+  },
+  "details": [
+    {
+      "race_id": "202650091112",
+      "race_name": "蒼玉特別C2",
+      "venue": "園田",
+      "prediction_type": "recommend",
+      "investment": 2100,
+      "combo_count": 21,
+      "per_bet_investment": 100,
+      "synthetic_odds": 4.15,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2100,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202650091105",
+      "race_name": "C2一",
+      "venue": "園田",
+      "prediction_type": "recommend",
+      "investment": 4200,
+      "combo_count": 21,
+      "per_bet_investment": 200,
+      "synthetic_odds": 6.15,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -4200,
+      "reason": "着順データなし"
+    }
+  ]
+}
