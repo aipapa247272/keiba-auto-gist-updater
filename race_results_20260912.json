@@ -1,0 +1,150 @@
+{
+  "date": "2026/09/12",
+  "ymd": "20260912",
+  "generated_at": "2026-09-11 22:05:00",
+  "total_races": 1,
+  "hit_count": 0,
+  "miss_count": 0,
+  "unavailable_count": 1,
+  "no_pred_count": 0,
+  "valid_races": 0,
+  "total_investment": 0,
+  "total_return": 0,
+  "total_profit": 0,
+  "hit_rate": 0,
+  "recovery_rate": 0,
+  "summary_by_type": {
+    "recommend": {
+      "label": "推奨",
+      "total_races": 0,
+      "hit_count": 0,
+      "valid_races": 0,
+      "total_investment": 0,
+      "total_return": 0,
+      "total_profit": 0,
+      "hit_rate": 0,
+      "recovery_rate": 0
+    },
+    "reference": {
+      "label": "参考",
+      "total_races": 1,
+      "hit_count": 0,
+      "valid_races": 0,
+      "total_investment": 0,
+      "total_return": 0,
+      "total_profit": 0,
+      "hit_rate": 0,
+      "recovery_rate": 0
+    }
+  },
+  "races": [
+    {
+      "race_id": "202606040310",
+      "venue": "中山",
+      "race_num": "10",
+      "race_name": "レインボーS",
+      "prediction_type": "reference",
+      "prediction_label": "参考",
+      "ref_rank": "⭐⭐",
+      "note": "合成オッズが推奨基準未満。自己判断でご参考ください。",
+      "synthetic_odds": 2.1,
+      "score_tier": "",
+      "distance": 2000,
+      "track": "芝",
+      "start_time": "14:50",
+      "betting_plan": {
+        "軸": [
+          {
+            "馬番": 9,
+            "馬名": "ダノンジャイアン",
+            "人気": null,
+            "補正後スコア": 77.5
+          },
+          {
+            "馬番": 8,
+            "馬名": "ダンツファイター",
+            "人気": null,
+            "補正後スコア": 76.5
+          },
+          {
+            "馬番": 3,
+            "馬名": "トーアライデン",
+            "人気": null,
+            "補正後スコア": 73.5
+          }
+        ],
+        "相手": [
+          {
+            "馬番": 2,
+            "馬名": "アマイ",
+            "人気": null
+          }
+        ],
+        "穴": [
+          {
+            "馬番": 10,
+            "馬名": "ショウナンサムデイ",
+            "人気": null
+          },
+          {
+            "馬番": 1,
+            "馬名": "キントリヒ",
+            "人気": null
+          },
+          {
+            "馬番": 4,
+            "馬名": "キーパフォーマー",
+            "人気": null
+          }
+        ],
+        "合成オッズ": 2.1,
+        "組み合わせ数": 4,
+        "全買い目": [
+          [
+            9,
+            8,
+            3
+          ],
+          [
+            9,
+            8,
+            2
+          ],
+          [
+            9,
+            3,
+            2
+          ],
+          [
+            8,
+            3,
+            2
+          ]
+        ],
+        "投資額": 400
+      },
+      "status": "結果取得不可",
+      "predicted": [
+        "9-8-3",
+        "9-8-2",
+        "9-3-2",
+        "8-3-2"
+      ],
+      "actual": [],
+      "hit": false,
+      "investment": 400,
+      "per_bet_investment": 100,
+      "return": 0,
+      "profit": 0,
+      "aggregate_excluded": true,
+      "payouts": {},
+      "horse_weights": [],
+      "all_horses_result": [],
+      "race_verification": {},
+      "virtual_bets_result": {},
+      "weather": "",
+      "track_condition": "",
+      "predicted_pace": "ハイペース"
+    }
+  ]
+}

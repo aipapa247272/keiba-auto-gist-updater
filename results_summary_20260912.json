@@ -1,0 +1,32 @@
+{
+  "ymd": "20260912",
+  "generated_at": "2026-09-11 22:05:13",
+  "logic_version": "v12",
+  "summary": {
+    "total_races": 1,
+    "hit_count": 0,
+    "miss_count": 1,
+    "hit_rate": 0.0,
+    "total_investment": 400,
+    "total_payout": 0,
+    "net_profit": -400,
+    "recovery_rate": 0.0
+  },
+  "details": [
+    {
+      "race_id": "202606040310",
+      "race_name": "レインボーS",
+      "venue": "中山",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.1,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    }
+  ]
+}
