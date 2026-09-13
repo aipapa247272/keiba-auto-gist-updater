@@ -1,6 +1,6 @@
 {
-  "ymd": "20260912",
-  "generated_at": "2026-09-12 19:37:24",
+  "ymd": "20260913",
+  "generated_at": "2026-09-13 16:57:02",
   "logic_version": "v12",
   "summary": {
     "total_races": 1,
@@ -14,19 +14,19 @@
   },
   "details": [
     {
-      "race_id": "202606040310",
-      "race_name": "レインボーS",
+      "race_id": "202606040409",
+      "race_name": "習志野特別",
       "venue": "中山",
       "prediction_type": "reference",
       "investment": 400,
       "combo_count": 4,
       "per_bet_investment": 100,
-      "synthetic_odds": 2.1,
+      "synthetic_odds": 2.01,
       "hit": false,
       "hit_type": null,
       "payout": 0,
       "profit": -400,
-      "reason": "不的中 (実際: 5-2-4, 4点中)"
+      "reason": "不的中 (実際: 2-6-3, 4点中)"
     }
   ]
 }
