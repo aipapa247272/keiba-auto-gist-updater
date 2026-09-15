@@ -1,16 +1,16 @@
 {
   "ymd": "20260915",
-  "generated_at": "2026-09-14 22:55:16",
+  "generated_at": "2026-09-15 17:38:48",
   "logic_version": "v12",
   "summary": {
     "total_races": 7,
-    "hit_count": 0,
-    "miss_count": 7,
-    "hit_rate": 0.0,
+    "hit_count": 2,
+    "miss_count": 5,
+    "hit_rate": 28.6,
     "total_investment": 10200,
-    "total_payout": 0,
-    "net_profit": -10200,
-    "recovery_rate": 0.0
+    "total_payout": 8090,
+    "net_profit": -2110,
+    "recovery_rate": 79.3
   },
   "details": [
     {
@@ -22,11 +22,11 @@
       "combo_count": 21,
       "per_bet_investment": 100,
       "synthetic_odds": 3.6,
-      "hit": false,
-      "hit_type": null,
-      "payout": 0,
-      "profit": -2100,
-      "reason": "着順データなし"
+      "hit": true,
+      "hit_type": "三連複",
+      "payout": 2620,
+      "profit": 520,
+      "reason": "的中 2-8-3"
     },
     {
       "race_id": "202630091505",
@@ -41,7 +41,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -4400,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 10-4-6, 22点中)"
     },
     {
       "race_id": "202646091507",
@@ -52,11 +52,11 @@
       "combo_count": 21,
       "per_bet_investment": 100,
       "synthetic_odds": 3.55,
-      "hit": false,
-      "hit_type": null,
-      "payout": 0,
-      "profit": -2100,
-      "reason": "着順データなし"
+      "hit": true,
+      "hit_type": "三連複",
+      "payout": 5470,
+      "profit": 3370,
+      "reason": "的中 7-4-8"
     },
     {
       "race_id": "202630091510",
@@ -71,7 +71,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -400,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 2-4-1, 4点中)"
     },
     {
       "race_id": "202636091506",
@@ -86,7 +86,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -400,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 10-6-5, 4点中)"
     },
     {
       "race_id": "202636091508",
@@ -101,7 +101,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -400,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 10-4-6, 4点中)"
     },
     {
       "race_id": "202644091510",
@@ -116,7 +116,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -400,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 3-13-12, 4点中)"
     }
   ]
 }
