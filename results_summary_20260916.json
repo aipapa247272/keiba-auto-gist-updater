@@ -1,0 +1,92 @@
+{
+  "ymd": "20260916",
+  "generated_at": "2026-09-15 22:38:04",
+  "logic_version": "v12",
+  "summary": {
+    "total_races": 5,
+    "hit_count": 0,
+    "miss_count": 5,
+    "hit_rate": 0.0,
+    "total_investment": 10000,
+    "total_payout": 0,
+    "net_profit": -10000,
+    "recovery_rate": 0.0
+  },
+  "details": [
+    {
+      "race_id": "202644091605",
+      "race_name": "C2五六七(C2六)",
+      "venue": "大井",
+      "prediction_type": "recommend",
+      "investment": 2300,
+      "combo_count": 23,
+      "per_bet_investment": 100,
+      "synthetic_odds": 4.25,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2300,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202650091607",
+      "race_name": "ファイティングジョッキー賞C2",
+      "venue": "園田",
+      "prediction_type": "recommend",
+      "investment": 4600,
+      "combo_count": 23,
+      "per_bet_investment": 200,
+      "synthetic_odds": 10.45,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -4600,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202648091607",
+      "race_name": "星月夜賞(B)",
+      "venue": "名古屋",
+      "prediction_type": "recommend",
+      "investment": 2300,
+      "combo_count": 23,
+      "per_bet_investment": 100,
+      "synthetic_odds": 4.1,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2300,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202630091610",
+      "race_name": "グランシャリオドリーム60(B4)",
+      "venue": "門別",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.3,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202644091603",
+      "race_name": "C2五六七(C2六)",
+      "venue": "大井",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.15,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    }
+  ]
+}
