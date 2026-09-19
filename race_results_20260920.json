@@ -1,0 +1,150 @@
+{
+  "date": "2026/09/20",
+  "ymd": "20260920",
+  "generated_at": "2026-09-19 21:52:52",
+  "total_races": 1,
+  "hit_count": 0,
+  "miss_count": 0,
+  "unavailable_count": 1,
+  "no_pred_count": 0,
+  "valid_races": 0,
+  "total_investment": 0,
+  "total_return": 0,
+  "total_profit": 0,
+  "hit_rate": 0,
+  "recovery_rate": 0,
+  "summary_by_type": {
+    "recommend": {
+      "label": "推奨",
+      "total_races": 0,
+      "hit_count": 0,
+      "valid_races": 0,
+      "total_investment": 0,
+      "total_return": 0,
+      "total_profit": 0,
+      "hit_rate": 0,
+      "recovery_rate": 0
+    },
+    "reference": {
+      "label": "参考",
+      "total_races": 1,
+      "hit_count": 0,
+      "valid_races": 0,
+      "total_investment": 0,
+      "total_return": 0,
+      "total_profit": 0,
+      "hit_rate": 0,
+      "recovery_rate": 0
+    }
+  },
+  "races": [
+    {
+      "race_id": "202606040611",
+      "venue": "中山",
+      "race_num": "11",
+      "race_name": "オールカマー",
+      "prediction_type": "reference",
+      "prediction_label": "参考",
+      "ref_rank": "⭐⭐",
+      "note": "合成オッズが推奨基準未満。自己判断でご参考ください。",
+      "synthetic_odds": 2.22,
+      "score_tier": "",
+      "distance": 2200,
+      "track": "芝",
+      "start_time": "15:45",
+      "betting_plan": {
+        "軸": [
+          {
+            "馬番": 9,
+            "馬名": "コスモキュランダ",
+            "人気": null,
+            "補正後スコア": 73.5
+          },
+          {
+            "馬番": 8,
+            "馬名": "メイショウゲキリン",
+            "人気": null,
+            "補正後スコア": 72.75
+          },
+          {
+            "馬番": 4,
+            "馬名": "ヴーレヴー",
+            "人気": null,
+            "補正後スコア": 70.5
+          }
+        ],
+        "相手": [
+          {
+            "馬番": 12,
+            "馬名": "エセルフリーダ",
+            "人気": null
+          }
+        ],
+        "穴": [
+          {
+            "馬番": 1,
+            "馬名": "キャントウェイト",
+            "人気": null
+          },
+          {
+            "馬番": 7,
+            "馬名": "レガレイラ",
+            "人気": null
+          },
+          {
+            "馬番": 2,
+            "馬名": "ワイドエンペラー",
+            "人気": null
+          }
+        ],
+        "合成オッズ": 2.22,
+        "組み合わせ数": 4,
+        "全買い目": [
+          [
+            9,
+            8,
+            4
+          ],
+          [
+            9,
+            8,
+            12
+          ],
+          [
+            9,
+            4,
+            12
+          ],
+          [
+            8,
+            4,
+            12
+          ]
+        ],
+        "投資額": 400
+      },
+      "status": "結果取得不可",
+      "predicted": [
+        "9-8-4",
+        "9-8-12",
+        "9-4-12",
+        "8-4-12"
+      ],
+      "actual": [],
+      "hit": false,
+      "investment": 400,
+      "per_bet_investment": 100,
+      "return": 0,
+      "profit": 0,
+      "aggregate_excluded": true,
+      "payouts": {},
+      "horse_weights": [],
+      "all_horses_result": [],
+      "race_verification": {},
+      "virtual_bets_result": {},
+      "weather": "",
+      "track_condition": "",
+      "predicted_pace": "ハイペース"
+    }
+  ]
+}
