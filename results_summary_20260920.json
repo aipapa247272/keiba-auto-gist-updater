@@ -1,6 +1,6 @@
 {
   "ymd": "20260920",
-  "generated_at": "2026-09-19 21:53:06",
+  "generated_at": "2026-09-20 16:45:16",
   "logic_version": "v12",
   "summary": {
     "total_races": 1,
@@ -26,7 +26,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -400,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 8-1-4, 4点中)"
     }
   ]
 }
