@@ -1,0 +1,222 @@
+{
+  "report_type": "daily",
+  "target_date": "20260922",
+  "generated_at": "2026-09-22 17:37:02",
+  "summary": {
+    "total_races": 9,
+    "hits": 0,
+    "misses": 9,
+    "hit_rate": 0.0,
+    "total_investment": 7100,
+    "total_payout": 0,
+    "profit": -7100,
+    "recovery_rate": 0.0
+  },
+  "race_analysis": [
+    {
+      "race_id": "202642092205",
+      "venue": "浦和",
+      "race_number": "",
+      "is_hit": false,
+      "investment": 2100,
+      "payout": 0,
+      "profit": -2100,
+      "num_horses": 0,
+      "track": "ダ",
+      "distance": 800,
+      "turbulence": "低",
+      "predicted_pace": "ハイペース",
+      "axis_runstyles": [
+        "不明",
+        "不明"
+      ],
+      "hole_count": 5
+    },
+    {
+      "race_id": "202636092204",
+      "venue": "水沢",
+      "race_number": "",
+      "is_hit": false,
+      "investment": 2200,
+      "payout": 0,
+      "profit": -2200,
+      "num_horses": 0,
+      "track": "ダ",
+      "distance": 1300,
+      "turbulence": "低",
+      "predicted_pace": "スローペース",
+      "axis_runstyles": [
+        "不明",
+        "不明"
+      ],
+      "hole_count": 5
+    }
+  ],
+  "performance_by_segment": {
+    "by_num_horses": {
+      "0": {
+        "races": 9,
+        "hits": 0,
+        "hit_rate": 0.0,
+        "investment": 7100,
+        "payout": 0,
+        "profit": -7100,
+        "recovery_rate": 0.0
+      }
+    },
+    "by_track": {
+      "ダ": {
+        "races": 2,
+        "hits": 0,
+        "hit_rate": 0.0,
+        "investment": 4300,
+        "payout": 0,
+        "profit": -4300,
+        "recovery_rate": 0.0
+      }
+    },
+    "by_distance_category": {
+      "短距離": {
+        "races": 2,
+        "hits": 0,
+        "hit_rate": 0.0,
+        "investment": 4300,
+        "payout": 0,
+        "profit": -4300,
+        "recovery_rate": 0.0
+      }
+    },
+    "by_turbulence": {
+      "低": {
+        "races": 2,
+        "hits": 0,
+        "hit_rate": 0.0,
+        "investment": 4300,
+        "payout": 0,
+        "profit": -4300,
+        "recovery_rate": 0.0
+      }
+    },
+    "by_venue": {
+      "浦和": {
+        "races": 3,
+        "hits": 0,
+        "hit_rate": 0.0,
+        "investment": 2900,
+        "payout": 0,
+        "profit": -2900,
+        "recovery_rate": 0.0
+      },
+      "水沢": {
+        "races": 2,
+        "hits": 0,
+        "hit_rate": 0.0,
+        "investment": 2600,
+        "payout": 0,
+        "profit": -2600,
+        "recovery_rate": 0.0
+      },
+      "門別": {
+        "races": 1,
+        "hits": 0,
+        "hit_rate": 0.0,
+        "investment": 400,
+        "payout": 0,
+        "profit": -400,
+        "recovery_rate": 0.0
+      },
+      "笠松": {
+        "races": 1,
+        "hits": 0,
+        "hit_rate": 0.0,
+        "investment": 400,
+        "payout": 0,
+        "profit": -400,
+        "recovery_rate": 0.0
+      },
+      "高知": {
+        "races": 2,
+        "hits": 0,
+        "hit_rate": 0.0,
+        "investment": 800,
+        "payout": 0,
+        "profit": -800,
+        "recovery_rate": 0.0
+      }
+    },
+    "by_hole_count": {
+      "5": {
+        "races": 2,
+        "hits": 0,
+        "hit_rate": 0.0,
+        "investment": 4300,
+        "payout": 0,
+        "profit": -4300,
+        "recovery_rate": 0.0
+      }
+    }
+  },
+  "pace_analysis": {
+    "ハイペース": {
+      "races": 1,
+      "hits": 0,
+      "hit_rate": 0.0,
+      "investment": 2100,
+      "payout": 0,
+      "profit": -2100,
+      "recovery_rate": 0.0,
+      "axis_runstyle_performance": {
+        "不明": {
+          "races": 2,
+          "hits": 0,
+          "hit_rate": 0.0
+        }
+      }
+    },
+    "スローペース": {
+      "races": 1,
+      "hits": 0,
+      "hit_rate": 0.0,
+      "investment": 2200,
+      "payout": 0,
+      "profit": -2200,
+      "recovery_rate": 0.0,
+      "axis_runstyle_performance": {
+        "不明": {
+          "races": 2,
+          "hits": 0,
+          "hit_rate": 0.0
+        }
+      }
+    }
+  },
+  "insights": [
+    {
+      "type": "warning",
+      "message": "⚠️ 本日は的中なし - 明日の条件を見直し",
+      "priority": "high"
+    },
+    {
+      "type": "warning",
+      "message": "📉 回収率 0.0% - 買い目の見直しが必要",
+      "priority": "medium"
+    },
+    {
+      "type": "info",
+      "message": "💡 低混沌度レースが好調（的中率0.0%）",
+      "priority": "low"
+    }
+  ],
+  "recommendations": [
+    {
+      "category": "出馬数",
+      "suggestion": "0頭レースを重点的に狙う（回収率0.0%）",
+      "priority": "high"
+    },
+    {
+      "category": "レース展開",
+      "suggestion": "ハイペースのレースが的中しやすい（的中率0.0%）",
+      "priority": "medium"
+    }
+  ]
+}
