@@ -1,0 +1,92 @@
+{
+  "ymd": "20260923",
+  "generated_at": "2026-09-22 22:36:09",
+  "logic_version": "v12",
+  "summary": {
+    "total_races": 5,
+    "hit_count": 0,
+    "miss_count": 5,
+    "hit_rate": 0.0,
+    "total_investment": 6400,
+    "total_payout": 0,
+    "net_profit": -6400,
+    "recovery_rate": 0.0
+  },
+  "details": [
+    {
+      "race_id": "202650092307",
+      "race_name": "オダウエダ☆来場記念C2二",
+      "venue": "園田",
+      "prediction_type": "recommend",
+      "investment": 4200,
+      "combo_count": 21,
+      "per_bet_investment": 200,
+      "synthetic_odds": 5.65,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -4200,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202630092308",
+      "race_name": "Aiba札幌駅前8周年記念賞(C3)",
+      "venue": "門別",
+      "prediction_type": "reference",
+      "investment": 1000,
+      "combo_count": 10,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.45,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -1000,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202642092312",
+      "race_name": "秋分の日特別(B3C1)",
+      "venue": "浦和",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 3.25,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202650092311",
+      "race_name": "兵庫ジュベナイルカップ重賞",
+      "venue": "園田",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.25,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202650092312",
+      "race_name": "兵庫ジョッキーズ楽天競馬賞4thC2",
+      "venue": "園田",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.2,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    }
+  ]
+}
