@@ -1,0 +1,577 @@
+{
+  "date": "2026/09/24",
+  "ymd": "20260924",
+  "generated_at": "2026-09-23 22:38:53",
+  "total_races": 5,
+  "hit_count": 0,
+  "miss_count": 0,
+  "unavailable_count": 5,
+  "no_pred_count": 0,
+  "valid_races": 0,
+  "total_investment": 0,
+  "total_return": 0,
+  "total_profit": 0,
+  "hit_rate": 0,
+  "recovery_rate": 0,
+  "summary_by_type": {
+    "recommend": {
+      "label": "推奨",
+      "total_races": 0,
+      "hit_count": 0,
+      "valid_races": 0,
+      "total_investment": 0,
+      "total_return": 0,
+      "total_profit": 0,
+      "hit_rate": 0,
+      "recovery_rate": 0
+    },
+    "reference": {
+      "label": "参考",
+      "total_races": 5,
+      "hit_count": 0,
+      "valid_races": 0,
+      "total_investment": 0,
+      "total_return": 0,
+      "total_profit": 0,
+      "hit_rate": 0,
+      "recovery_rate": 0
+    }
+  },
+  "races": [
+    {
+      "race_id": "202642092409",
+      "venue": "浦和",
+      "race_num": "09",
+      "race_name": "曼珠沙華特別(C1)",
+      "prediction_type": "reference",
+      "prediction_label": "参考",
+      "ref_rank": "⭐⭐",
+      "note": "合成オッズが推奨基準未満。自己判断でご参考ください。",
+      "synthetic_odds": 2.5,
+      "score_tier": "",
+      "distance": 1500,
+      "track": "ダ",
+      "start_time": "17:45",
+      "betting_plan": {
+        "軸": [
+          {
+            "馬番": 7,
+            "馬名": "ジョーサルーテ",
+            "人気": 2,
+            "補正後スコア": 101.0
+          },
+          {
+            "馬番": 10,
+            "馬名": "レイナバローズ",
+            "人気": 1,
+            "補正後スコア": 98.5
+          }
+        ],
+        "相手": [
+          {
+            "馬番": 9,
+            "馬名": "キタノドンカルロ",
+            "人気": 3
+          },
+          {
+            "馬番": 12,
+            "馬名": "サンスレッド",
+            "人気": 9
+          }
+        ],
+        "穴": [
+          {
+            "馬番": 1,
+            "馬名": "レジェス",
+            "人気": 12
+          },
+          {
+            "馬番": 5,
+            "馬名": "メイショウマチルダ",
+            "人気": 7
+          },
+          {
+            "馬番": 2,
+            "馬名": "アパショナード",
+            "人気": 11
+          }
+        ],
+        "合成オッズ": 2.5,
+        "組み合わせ数": 4,
+        "全買い目": [
+          [
+            7,
+            10,
+            9
+          ],
+          [
+            7,
+            10,
+            12
+          ],
+          [
+            7,
+            9,
+            12
+          ],
+          [
+            10,
+            9,
+            12
+          ]
+        ],
+        "投資額": 400
+      },
+      "status": "結果取得不可",
+      "predicted": [
+        "7-10-9",
+        "7-10-12",
+        "7-9-12",
+        "10-9-12"
+      ],
+      "actual": [],
+      "hit": false,
+      "investment": 400,
+      "per_bet_investment": 100,
+      "return": 0,
+      "profit": 0,
+      "aggregate_excluded": true,
+      "payouts": {},
+      "horse_weights": [],
+      "all_horses_result": [],
+      "race_verification": {},
+      "virtual_bets_result": {},
+      "weather": "",
+      "track_condition": "",
+      "predicted_pace": "ハイペース"
+    },
+    {
+      "race_id": "202647092410",
+      "venue": "笠松",
+      "race_num": "10",
+      "race_name": "秋分特別(C)",
+      "prediction_type": "reference",
+      "prediction_label": "参考",
+      "ref_rank": "⭐⭐",
+      "note": "合成オッズが推奨基準未満。自己判断でご参考ください。",
+      "synthetic_odds": 2.5,
+      "score_tier": "",
+      "distance": 1580,
+      "track": "ダ",
+      "start_time": "16:15",
+      "betting_plan": {
+        "軸": [
+          {
+            "馬番": 8,
+            "馬名": "アイオンザボール",
+            "人気": 2,
+            "補正後スコア": 94.6
+          },
+          {
+            "馬番": 2,
+            "馬名": "ラヴーシュカ",
+            "人気": 6,
+            "補正後スコア": 81.5
+          }
+        ],
+        "相手": [
+          {
+            "馬番": 9,
+            "馬名": "グレートジーンズ",
+            "人気": 3
+          },
+          {
+            "馬番": 5,
+            "馬名": "コパノランサー",
+            "人気": 1
+          }
+        ],
+        "穴": [
+          {
+            "馬番": 3,
+            "馬名": "ダンテズセヴン",
+            "人気": 9
+          },
+          {
+            "馬番": 4,
+            "馬名": "ブラボーキリシマ",
+            "人気": 5
+          },
+          {
+            "馬番": 7,
+            "馬名": "サンモスクテール",
+            "人気": 4
+          }
+        ],
+        "合成オッズ": 2.5,
+        "組み合わせ数": 4,
+        "全買い目": [
+          [
+            8,
+            2,
+            9
+          ],
+          [
+            8,
+            2,
+            5
+          ],
+          [
+            8,
+            9,
+            5
+          ],
+          [
+            2,
+            9,
+            5
+          ]
+        ],
+        "投資額": 400
+      },
+      "status": "結果取得不可",
+      "predicted": [
+        "8-2-9",
+        "8-2-5",
+        "8-9-5",
+        "2-9-5"
+      ],
+      "actual": [],
+      "hit": false,
+      "investment": 400,
+      "per_bet_investment": 100,
+      "return": 0,
+      "profit": 0,
+      "aggregate_excluded": true,
+      "payouts": {},
+      "horse_weights": [],
+      "all_horses_result": [],
+      "race_verification": {},
+      "virtual_bets_result": {},
+      "weather": "",
+      "track_condition": "",
+      "predicted_pace": "ハイペース"
+    },
+    {
+      "race_id": "202650092408",
+      "venue": "園田",
+      "race_num": "08",
+      "race_name": "C2一",
+      "prediction_type": "reference",
+      "prediction_label": "参考",
+      "ref_rank": "⭐⭐",
+      "note": "合成オッズが推奨基準未満。自己判断でご参考ください。",
+      "synthetic_odds": 2.35,
+      "score_tier": "",
+      "distance": 1400,
+      "track": "ダ",
+      "start_time": "14:10",
+      "betting_plan": {
+        "軸": [
+          {
+            "馬番": 5,
+            "馬名": "エイシンピサロ",
+            "人気": 2,
+            "補正後スコア": 101.0
+          },
+          {
+            "馬番": 1,
+            "馬名": "タガノハスビナー",
+            "人気": 6,
+            "補正後スコア": 89.0
+          }
+        ],
+        "相手": [
+          {
+            "馬番": 6,
+            "馬名": "エイシンジザイテン",
+            "人気": 3
+          },
+          {
+            "馬番": 2,
+            "馬名": "ラガークイン",
+            "人気": 1
+          }
+        ],
+        "穴": [
+          {
+            "馬番": 7,
+            "馬名": "レディアエラ",
+            "人気": 10
+          },
+          {
+            "馬番": 9,
+            "馬名": "マジックエミリア",
+            "人気": 9
+          },
+          {
+            "馬番": 10,
+            "馬名": "アカオー",
+            "人気": 8
+          }
+        ],
+        "合成オッズ": 2.35,
+        "組み合わせ数": 4,
+        "全買い目": [
+          [
+            5,
+            1,
+            6
+          ],
+          [
+            5,
+            1,
+            2
+          ],
+          [
+            5,
+            6,
+            2
+          ],
+          [
+            1,
+            6,
+            2
+          ]
+        ],
+        "投資額": 400
+      },
+      "status": "結果取得不可",
+      "predicted": [
+        "5-1-6",
+        "5-1-2",
+        "5-6-2",
+        "1-6-2"
+      ],
+      "actual": [],
+      "hit": false,
+      "investment": 400,
+      "per_bet_investment": 100,
+      "return": 0,
+      "profit": 0,
+      "aggregate_excluded": true,
+      "payouts": {},
+      "horse_weights": [],
+      "all_horses_result": [],
+      "race_verification": {},
+      "virtual_bets_result": {},
+      "weather": "",
+      "track_condition": "",
+      "predicted_pace": "ハイペース"
+    },
+    {
+      "race_id": "202650092410",
+      "venue": "園田",
+      "race_num": "10",
+      "race_name": "C2",
+      "prediction_type": "reference",
+      "prediction_label": "参考",
+      "ref_rank": "⭐⭐",
+      "note": "合成オッズが推奨基準未満。自己判断でご参考ください。",
+      "synthetic_odds": 2.25,
+      "score_tier": "",
+      "distance": 1700,
+      "track": "ダ",
+      "start_time": "15:15",
+      "betting_plan": {
+        "軸": [
+          {
+            "馬番": 7,
+            "馬名": "サンオブザサン",
+            "人気": 3,
+            "補正後スコア": 65.5
+          },
+          {
+            "馬番": 4,
+            "馬名": "グランドフィナーレ",
+            "人気": 2,
+            "補正後スコア": 59.85
+          }
+        ],
+        "相手": [
+          {
+            "馬番": 9,
+            "馬名": "アンフィニレイス",
+            "人気": 8
+          },
+          {
+            "馬番": 2,
+            "馬名": "ヴィクトリーアイ",
+            "人気": 6
+          }
+        ],
+        "穴": [
+          {
+            "馬番": 6,
+            "馬名": "シュライフェ",
+            "人気": 10
+          },
+          {
+            "馬番": 5,
+            "馬名": "コカボムショット",
+            "人気": 7
+          },
+          {
+            "馬番": 8,
+            "馬名": "メイショウジンソウ",
+            "人気": 5
+          }
+        ],
+        "合成オッズ": 2.25,
+        "組み合わせ数": 4,
+        "全買い目": [
+          [
+            7,
+            4,
+            9
+          ],
+          [
+            7,
+            4,
+            2
+          ],
+          [
+            7,
+            9,
+            2
+          ],
+          [
+            4,
+            9,
+            2
+          ]
+        ],
+        "投資額": 400
+      },
+      "status": "結果取得不可",
+      "predicted": [
+        "7-4-9",
+        "7-4-2",
+        "7-9-2",
+        "4-9-2"
+      ],
+      "actual": [],
+      "hit": false,
+      "investment": 400,
+      "per_bet_investment": 100,
+      "return": 0,
+      "profit": 0,
+      "aggregate_excluded": true,
+      "payouts": {},
+      "horse_weights": [],
+      "all_horses_result": [],
+      "race_verification": {},
+      "virtual_bets_result": {},
+      "weather": "",
+      "track_condition": "",
+      "predicted_pace": "ハイペース"
+    },
+    {
+      "race_id": "202650092412",
+      "venue": "園田",
+      "race_num": "12",
+      "race_name": "秋の駒賞C1",
+      "prediction_type": "reference",
+      "prediction_label": "参考",
+      "ref_rank": "⭐⭐",
+      "note": "合成オッズが推奨基準未満。自己判断でご参考ください。",
+      "synthetic_odds": 3.05,
+      "score_tier": "",
+      "distance": 820,
+      "track": "ダ",
+      "start_time": "16:30",
+      "betting_plan": {
+        "軸": [
+          {
+            "馬番": 10,
+            "馬名": "ヴァンセゾニエ",
+            "人気": 5,
+            "補正後スコア": 97.0
+          },
+          {
+            "馬番": 8,
+            "馬名": "ソシジ",
+            "人気": 1,
+            "補正後スコア": 87.5
+          }
+        ],
+        "相手": [
+          {
+            "馬番": 11,
+            "馬名": "コッコラーレ",
+            "人気": 3
+          },
+          {
+            "馬番": 12,
+            "馬名": "ゼラスエフォーツ",
+            "人気": 2
+          }
+        ],
+        "穴": [
+          {
+            "馬番": 5,
+            "馬名": "エターナルウインド",
+            "人気": 8
+          },
+          {
+            "馬番": 3,
+            "馬名": "シークレットロゴ",
+            "人気": 10
+          },
+          {
+            "馬番": 1,
+            "馬名": "グローリアスキング",
+            "人気": 9
+          }
+        ],
+        "合成オッズ": 3.05,
+        "組み合わせ数": 4,
+        "全買い目": [
+          [
+            10,
+            8,
+            11
+          ],
+          [
+            10,
+            8,
+            12
+          ],
+          [
+            10,
+            11,
+            12
+          ],
+          [
+            8,
+            11,
+            12
+          ]
+        ],
+        "投資額": 400
+      },
+      "status": "結果取得不可",
+      "predicted": [
+        "10-8-11",
+        "10-8-12",
+        "10-11-12",
+        "8-11-12"
+      ],
+      "actual": [],
+      "hit": false,
+      "investment": 400,
+      "per_bet_investment": 100,
+      "return": 0,
+      "profit": 0,
+      "aggregate_excluded": true,
+      "payouts": {},
+      "horse_weights": [],
+      "all_horses_result": [],
+      "race_verification": {},
+      "virtual_bets_result": {},
+      "weather": "",
+      "track_condition": "",
+      "predicted_pace": "ハイペース"
+    }
+  ]
+}
