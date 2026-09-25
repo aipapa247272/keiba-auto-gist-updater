@@ -1,9 +1,10 @@
 {
-  "generated_at": "2026-09-25 20:42:11",
-  "base_ymd": "20260925",
+  "generated_at": "2026-09-25 22:42:44",
+  "base_ymd": "20260926",
   "lookback_days": 14,
-  "latest_complete_ymd": "20260925",
+  "latest_complete_ymd": "20260926",
   "complete_dates": [
+    "20260926",
     "20260925",
     "20260924",
     "20260923",
@@ -16,8 +17,7 @@
     "20260916",
     "20260915",
     "20260914",
-    "20260913",
-    "20260912"
+    "20260913"
   ],
   "partial_dates": [
     "20260925",
@@ -30,11 +30,35 @@
     "20260916",
     "20260915",
     "20260914",
-    "20260913",
-    "20260912"
+    "20260913"
   ],
   "unresolved_dates": [],
   "rows": [
+    {
+      "ymd": "20260926",
+      "has_predictions": true,
+      "had_result_before": true,
+      "refetched": false,
+      "fetch_rc": null,
+      "status_before": {
+        "ymd": "20260926",
+        "total_races": 0,
+        "hit_count": 0,
+        "miss_count": 0,
+        "unavailable_count": 0,
+        "total_profit": 0
+      },
+      "status_after": {
+        "ymd": "20260926",
+        "total_races": 0,
+        "hit_count": 0,
+        "miss_count": 0,
+        "unavailable_count": 0,
+        "total_profit": 0
+      },
+      "is_complete": true,
+      "is_partial": false
+    },
     {
       "ymd": "20260925",
       "has_predictions": true,
@@ -351,31 +375,6 @@
       },
       "status_after": {
         "ymd": "20260913",
-        "total_races": 1,
-        "hit_count": 0,
-        "miss_count": 1,
-        "unavailable_count": 0,
-        "total_profit": -400
-      },
-      "is_complete": true,
-      "is_partial": true
-    },
-    {
-      "ymd": "20260912",
-      "has_predictions": true,
-      "had_result_before": true,
-      "refetched": false,
-      "fetch_rc": null,
-      "status_before": {
-        "ymd": "20260912",
-        "total_races": 1,
-        "hit_count": 0,
-        "miss_count": 1,
-        "unavailable_count": 0,
-        "total_profit": -400
-      },
-      "status_after": {
-        "ymd": "20260912",
         "total_races": 1,
         "hit_count": 0,
         "miss_count": 1,
