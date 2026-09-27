@@ -1,0 +1,47 @@
+{
+  "ymd": "20260928",
+  "generated_at": "2026-09-27 22:44:16",
+  "logic_version": "v12",
+  "summary": {
+    "total_races": 2,
+    "hit_count": 0,
+    "miss_count": 2,
+    "hit_rate": 0.0,
+    "total_investment": 2500,
+    "total_payout": 0,
+    "net_profit": -2500,
+    "recovery_rate": 0.0
+  },
+  "details": [
+    {
+      "race_id": "202643092812",
+      "race_name": "令和8年8月千葉豪雨災害復興支援競走(C1五)",
+      "venue": "船橋",
+      "prediction_type": "recommend",
+      "investment": 2100,
+      "combo_count": 21,
+      "per_bet_investment": 100,
+      "synthetic_odds": 3.6,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2100,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202636092805",
+      "race_name": "C2",
+      "venue": "水沢",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.85,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    }
+  ]
+}
