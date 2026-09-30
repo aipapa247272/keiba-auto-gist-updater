@@ -1,16 +1,16 @@
 {
   "ymd": "20260930",
-  "generated_at": "2026-09-29 23:21:08",
+  "generated_at": "2026-09-30 18:23:02",
   "logic_version": "v12",
   "summary": {
     "total_races": 6,
-    "hit_count": 0,
-    "miss_count": 6,
-    "hit_rate": 0.0,
+    "hit_count": 2,
+    "miss_count": 4,
+    "hit_rate": 33.3,
     "total_investment": 8400,
-    "total_payout": 0,
-    "net_profit": -8400,
-    "recovery_rate": 0.0
+    "total_payout": 1040,
+    "net_profit": -7360,
+    "recovery_rate": 12.4
   },
   "details": [
     {
@@ -26,7 +26,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -4600,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 3-12-8, 23点中)"
     },
     {
       "race_id": "202630093011",
@@ -41,7 +41,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -2200,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 4-7-5, 22点中)"
     },
     {
       "race_id": "202643093003",
@@ -52,11 +52,11 @@
       "combo_count": 4,
       "per_bet_investment": 100,
       "synthetic_odds": 2.05,
-      "hit": false,
-      "hit_type": null,
-      "payout": 0,
-      "profit": -400,
-      "reason": "着順データなし"
+      "hit": true,
+      "hit_type": "三連複",
+      "payout": 510,
+      "profit": 110,
+      "reason": "的中 9-13-6"
     },
     {
       "race_id": "202648093008",
@@ -71,7 +71,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -400,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 12-1-4, 4点中)"
     },
     {
       "race_id": "202650093006",
@@ -82,11 +82,11 @@
       "combo_count": 4,
       "per_bet_investment": 100,
       "synthetic_odds": 2.35,
-      "hit": false,
-      "hit_type": null,
-      "payout": 0,
-      "profit": -400,
-      "reason": "着順データなし"
+      "hit": true,
+      "hit_type": "三連複",
+      "payout": 530,
+      "profit": 130,
+      "reason": "的中 3-1-10"
     },
     {
       "race_id": "202650093008",
@@ -101,7 +101,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -400,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 3-2-4, 4点中)"
     }
   ]
 }
