@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-10-06 20:32:15",
-  "base_ymd": "20261006",
+  "generated_at": "2026-10-06 22:04:56",
+  "base_ymd": "20261007",
   "lookback_days": 14,
   "latest_complete_ymd": "20261006",
   "complete_dates": [
@@ -16,8 +16,7 @@
     "20260927",
     "20260926",
     "20260925",
-    "20260924",
-    "20260923"
+    "20260924"
   ],
   "partial_dates": [
     "20261006",
@@ -28,11 +27,37 @@
     "20260929",
     "20260928",
     "20260925",
-    "20260924",
-    "20260923"
+    "20260924"
   ],
-  "unresolved_dates": [],
+  "unresolved_dates": [
+    "20261007"
+  ],
   "rows": [
+    {
+      "ymd": "20261007",
+      "has_predictions": true,
+      "had_result_before": true,
+      "refetched": true,
+      "fetch_rc": 0,
+      "status_before": {
+        "ymd": "20261007",
+        "total_races": 6,
+        "hit_count": 0,
+        "miss_count": 0,
+        "unavailable_count": 6,
+        "total_profit": 0
+      },
+      "status_after": {
+        "ymd": "20261007",
+        "total_races": 6,
+        "hit_count": 0,
+        "miss_count": 0,
+        "unavailable_count": 6,
+        "total_profit": 0
+      },
+      "is_complete": false,
+      "is_partial": false
+    },
     {
       "ymd": "20261006",
       "has_predictions": true,
@@ -354,31 +379,6 @@
         "miss_count": 5,
         "unavailable_count": 0,
         "total_profit": -2000
-      },
-      "is_complete": true,
-      "is_partial": true
-    },
-    {
-      "ymd": "20260923",
-      "has_predictions": true,
-      "had_result_before": true,
-      "refetched": false,
-      "fetch_rc": null,
-      "status_before": {
-        "ymd": "20260923",
-        "total_races": 5,
-        "hit_count": 1,
-        "miss_count": 4,
-        "unavailable_count": 0,
-        "total_profit": -1040
-      },
-      "status_after": {
-        "ymd": "20260923",
-        "total_races": 5,
-        "hit_count": 1,
-        "miss_count": 4,
-        "unavailable_count": 0,
-        "total_profit": -1040
       },
       "is_complete": true,
       "is_partial": true
