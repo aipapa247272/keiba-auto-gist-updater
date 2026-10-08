@@ -1,40 +1,40 @@
 {
   "date": "2026/10/08",
   "ymd": "20261008",
-  "generated_at": "2026-10-07 23:56:28",
+  "generated_at": "2026-10-08 19:14:17",
   "total_races": 6,
   "hit_count": 0,
-  "miss_count": 0,
-  "unavailable_count": 6,
+  "miss_count": 6,
+  "unavailable_count": 0,
   "no_pred_count": 0,
-  "valid_races": 0,
-  "total_investment": 0,
+  "valid_races": 6,
+  "total_investment": 4300,
   "total_return": 0,
-  "total_profit": 0,
-  "hit_rate": 0,
-  "recovery_rate": 0,
+  "total_profit": -4300,
+  "hit_rate": 0.0,
+  "recovery_rate": 0.0,
   "summary_by_type": {
     "recommend": {
       "label": "推奨",
       "total_races": 1,
       "hit_count": 0,
-      "valid_races": 0,
-      "total_investment": 0,
+      "valid_races": 1,
+      "total_investment": 2300,
       "total_return": 0,
-      "total_profit": 0,
-      "hit_rate": 0,
-      "recovery_rate": 0
+      "total_profit": -2300,
+      "hit_rate": 0.0,
+      "recovery_rate": 0.0
     },
     "reference": {
       "label": "参考",
       "total_races": 5,
       "hit_count": 0,
-      "valid_races": 0,
-      "total_investment": 0,
+      "valid_races": 5,
+      "total_investment": 2000,
       "total_return": 0,
-      "total_profit": 0,
-      "hit_rate": 0,
-      "recovery_rate": 0
+      "total_profit": -2000,
+      "hit_rate": 0.0,
+      "recovery_rate": 0.0
     }
   },
   "races": [
@@ -305,7 +305,7 @@
           "旧_買い目タイプ": "三連複フォーメーション(スコア順)"
         }
       },
-      "status": "結果取得不可",
+      "status": "不的中",
       "predicted": [
         "1-4-7",
         "1-4-9",
@@ -331,20 +331,204 @@
         "3-8-9",
         "3-4-9"
       ],
-      "actual": [],
+      "actual": [
+        "5-9-7"
+      ],
+      "result_sanrenpuku": "5-9-7",
+      "payout_sanrenpuku": 1340,
       "hit": false,
+      "payout_missing": false,
       "investment": 2300,
       "per_bet_investment": 100,
       "return": 0,
-      "profit": 0,
-      "aggregate_excluded": true,
-      "payouts": {},
-      "horse_weights": [],
-      "all_horses_result": [],
-      "race_verification": {},
-      "virtual_bets_result": {},
-      "weather": "",
-      "track_condition": "",
+      "profit": -2300,
+      "payouts": {
+        "単勝": 220,
+        "複勝": 110,
+        "枠連": 330,
+        "馬連": 380,
+        "ワイド": 190,
+        "馬単": 520,
+        "三連複": 1340,
+        "三連単": 5110
+      },
+      "horse_weights": [
+        {
+          "rank": 1,
+          "horse_number": "5",
+          "weight": "449(-8)"
+        },
+        {
+          "rank": 2,
+          "horse_number": "9",
+          "weight": "473(-2)"
+        },
+        {
+          "rank": 3,
+          "horse_number": "7",
+          "weight": "475(+16)"
+        }
+      ],
+      "all_horses_result": [
+        {
+          "馬番": "5",
+          "着順": 1,
+          "人気": 1,
+          "馬名": "フェアリータイザン",
+          "馬体重": "449(-8)",
+          "DASスコア": 80.5,
+          "役割": "軸"
+        },
+        {
+          "馬番": "9",
+          "着順": 2,
+          "人気": 2,
+          "馬名": "ディナーラッシュ",
+          "馬体重": "473(-2)",
+          "DASスコア": 68.1,
+          "役割": "相手"
+        },
+        {
+          "馬番": "7",
+          "着順": 3,
+          "人気": 5,
+          "馬名": "セレリタス",
+          "馬体重": "475(+16)",
+          "DASスコア": 87.0,
+          "役割": "軸"
+        },
+        {
+          "馬番": "8",
+          "着順": 4,
+          "人気": 7,
+          "馬名": "アングラー",
+          "馬体重": "460(-1)",
+          "DASスコア": 37.0,
+          "役割": "相手"
+        },
+        {
+          "馬番": "12",
+          "着順": 5,
+          "人気": 4,
+          "馬名": "ピンクマーベル",
+          "馬体重": "410(-2)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "11",
+          "着順": 6,
+          "人気": 10,
+          "馬名": "アサメシマエ",
+          "馬体重": "481(+2)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "10",
+          "着順": 7,
+          "人気": 6,
+          "馬名": "バクレツマホウ",
+          "馬体重": "478(+19)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "6",
+          "着順": 8,
+          "人気": 9,
+          "馬名": "ミストルティン",
+          "馬体重": "474(+3)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "2",
+          "着順": 9,
+          "人気": 8,
+          "馬名": "メイショウマサツラ",
+          "馬体重": "497(0)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "3",
+          "着順": 10,
+          "人気": 11,
+          "馬名": "ヴェレノージ",
+          "馬体重": "542(-3)",
+          "DASスコア": 31.0,
+          "役割": "相手"
+        },
+        {
+          "馬番": "1",
+          "着順": 11,
+          "人気": 3,
+          "馬名": "ヴァンセゾニエ",
+          "馬体重": "494(+3)",
+          "DASスコア": 79.0,
+          "役割": "軸"
+        },
+        {
+          "馬番": "4",
+          "着順": 12,
+          "人気": 12,
+          "馬名": "キタノセレナード",
+          "馬体重": "427(+1)",
+          "DASスコア": 31.0,
+          "役割": "相手"
+        }
+      ],
+      "race_verification": {
+        "axis_best_rank": 1,
+        "axis_in_top3": true,
+        "93rule_pop_in_top3_count": 2,
+        "93rule_pop_in_top3_rate": 66.7,
+        "score_top1_rank": 3,
+        "score_top2_rank": 1,
+        "score_top1_in_top3": true,
+        "predicted_in_top3_count": 3,
+        "unpredicted_in_top3_count": 0,
+        "miss_pattern": "相手外れ",
+        "winner_popularity": 1,
+        "is_upset": false,
+        "predicted_synthetic_odds": 4.4,
+        "actual_payout": 1340,
+        "odds_ratio": 3.045,
+        "opponent_in_top3_count": 1
+      },
+      "virtual_bets_result": {
+        "複勝_軸1": {
+          "type": "複勝",
+          "投資": 300,
+          "払戻": 330,
+          "収支": 30,
+          "的中": true
+        },
+        "複勝_軸2": {
+          "type": "複勝",
+          "投資": 300,
+          "払戻": 330,
+          "収支": 30,
+          "的中": true
+        },
+        "ワイド_軸1-2": {
+          "type": "ワイド",
+          "投資": 500,
+          "払戻": 950,
+          "収支": 450,
+          "的中": true
+        },
+        "馬連_軸1-2": {
+          "type": "馬連",
+          "投資": 500,
+          "払戻": 0,
+          "収支": -500,
+          "的中": false
+        }
+      },
+      "weather": "晴",
+      "track_condition": "稍",
       "predicted_pace": "ハイペース"
     },
     {
@@ -431,27 +615,239 @@
         ],
         "投資額": 400
       },
-      "status": "結果取得不可",
+      "status": "不的中",
       "predicted": [
         "13-2-5",
         "13-2-3",
         "13-5-3",
         "2-5-3"
       ],
-      "actual": [],
+      "actual": [
+        "2-5-6"
+      ],
+      "result_sanrenpuku": "2-5-6",
+      "payout_sanrenpuku": 1860,
       "hit": false,
+      "payout_missing": false,
       "investment": 400,
       "per_bet_investment": 100,
       "return": 0,
-      "profit": 0,
-      "aggregate_excluded": true,
-      "payouts": {},
-      "horse_weights": [],
-      "all_horses_result": [],
-      "race_verification": {},
-      "virtual_bets_result": {},
-      "weather": "",
-      "track_condition": "",
+      "profit": -400,
+      "payouts": {
+        "単勝": 310,
+        "複勝": 150,
+        "枠連": 340,
+        "馬連": 370,
+        "ワイド": 260,
+        "枠単": 700,
+        "馬単": 720,
+        "三連複": 1860,
+        "三連単": 5510
+      },
+      "horse_weights": [
+        {
+          "rank": 1,
+          "horse_number": "2",
+          "weight": "485(-6)"
+        },
+        {
+          "rank": 2,
+          "horse_number": "5",
+          "weight": "478(-1)"
+        },
+        {
+          "rank": 3,
+          "horse_number": "6",
+          "weight": "462(0)"
+        }
+      ],
+      "all_horses_result": [
+        {
+          "馬番": "2",
+          "着順": 1,
+          "人気": 2,
+          "馬名": "ペピタドーロ",
+          "馬体重": "485(-6)",
+          "DASスコア": null,
+          "役割": "軸"
+        },
+        {
+          "馬番": "5",
+          "着順": 2,
+          "人気": 1,
+          "馬名": "ランニングビーチ",
+          "馬体重": "478(-1)",
+          "DASスコア": null,
+          "役割": "相手"
+        },
+        {
+          "馬番": "6",
+          "着順": 3,
+          "人気": 7,
+          "馬名": "ハーレムシャフル",
+          "馬体重": "462(0)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "13",
+          "着順": 4,
+          "人気": 3,
+          "馬名": "ペルセイズ",
+          "馬体重": "513(+1)",
+          "DASスコア": null,
+          "役割": "軸"
+        },
+        {
+          "馬番": "8",
+          "着順": 5,
+          "人気": 11,
+          "馬名": "シビックフォイル",
+          "馬体重": "452(-5)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "1",
+          "着順": 6,
+          "人気": 9,
+          "馬名": "ドライブミーホーム",
+          "馬体重": "437(+1)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "12",
+          "着順": 7,
+          "人気": 8,
+          "馬名": "ティアード",
+          "馬体重": "451(-6)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "3",
+          "着順": 8,
+          "人気": 6,
+          "馬名": "エスプリボクチャン",
+          "馬体重": "527(+3)",
+          "DASスコア": null,
+          "役割": "相手"
+        },
+        {
+          "馬番": "11",
+          "着順": 9,
+          "人気": 12,
+          "馬名": "コスモブライヤー",
+          "馬体重": "507(-1)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "10",
+          "着順": 10,
+          "人気": 5,
+          "馬名": "ウインアイリーン",
+          "馬体重": "478(0)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "14",
+          "着順": 11,
+          "人気": 4,
+          "馬名": "ドレインザスワンプ",
+          "馬体重": "466(-1)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "4",
+          "着順": 12,
+          "人気": 14,
+          "馬名": "ラペルシェール",
+          "馬体重": "475(+6)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "7",
+          "着順": 13,
+          "人気": 15,
+          "馬名": "オーサムデアラー",
+          "馬体重": "485(+1)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "15",
+          "着順": 14,
+          "人気": 10,
+          "馬名": "パレスゴールド",
+          "馬体重": "515(+2)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "9",
+          "着順": 15,
+          "人気": 13,
+          "馬名": "フェレザ",
+          "馬体重": "479(+5)",
+          "DASスコア": null,
+          "役割": "予測外"
+        }
+      ],
+      "race_verification": {
+        "axis_best_rank": 1,
+        "axis_in_top3": true,
+        "93rule_pop_in_top3_count": 2,
+        "93rule_pop_in_top3_rate": 66.7,
+        "score_top1_rank": null,
+        "score_top2_rank": null,
+        "score_top1_in_top3": false,
+        "predicted_in_top3_count": 2,
+        "unpredicted_in_top3_count": 1,
+        "miss_pattern": "穴台頭",
+        "winner_popularity": 2,
+        "is_upset": false,
+        "predicted_synthetic_odds": 2.55,
+        "actual_payout": 1860,
+        "odds_ratio": 7.294,
+        "opponent_in_top3_count": 1
+      },
+      "virtual_bets_result": {
+        "複勝_軸1": {
+          "type": "複勝",
+          "投資": 100,
+          "払戻": 0,
+          "収支": -100,
+          "的中": false
+        },
+        "複勝_軸2": {
+          "type": "複勝",
+          "投資": 100,
+          "払戻": 150,
+          "収支": 50,
+          "的中": true
+        },
+        "ワイド_軸1-2": {
+          "type": "ワイド",
+          "投資": 100,
+          "払戻": 0,
+          "収支": -100,
+          "的中": false
+        },
+        "馬連_軸1-2": {
+          "type": "馬連",
+          "投資": 100,
+          "払戻": 0,
+          "収支": -100,
+          "的中": false
+        }
+      },
+      "weather": "晴",
+      "track_condition": "良",
       "predicted_pace": "ミドルペース"
     },
     {
@@ -538,27 +934,230 @@
         ],
         "投資額": 400
       },
-      "status": "結果取得不可",
+      "status": "不的中",
       "predicted": [
         "9-12-14",
         "9-12-5",
         "9-14-5",
         "12-14-5"
       ],
-      "actual": [],
+      "actual": [
+        "12-8-13"
+      ],
+      "result_sanrenpuku": "12-8-13",
+      "payout_sanrenpuku": 16630,
       "hit": false,
+      "payout_missing": false,
       "investment": 400,
       "per_bet_investment": 100,
       "return": 0,
-      "profit": 0,
-      "aggregate_excluded": true,
-      "payouts": {},
-      "horse_weights": [],
-      "all_horses_result": [],
-      "race_verification": {},
-      "virtual_bets_result": {},
-      "weather": "",
-      "track_condition": "",
+      "profit": -400,
+      "payouts": {
+        "単勝": 970,
+        "複勝": 320,
+        "枠連": 870,
+        "馬連": 4050,
+        "ワイド": 1400,
+        "枠単": 1980,
+        "馬単": 8050,
+        "三連複": 16630,
+        "三連単": 85210
+      },
+      "horse_weights": [
+        {
+          "rank": 1,
+          "horse_number": "12",
+          "weight": "483(-5)"
+        },
+        {
+          "rank": 2,
+          "horse_number": "8",
+          "weight": "530(-10)"
+        },
+        {
+          "rank": 3,
+          "horse_number": "13",
+          "weight": "472(0)"
+        }
+      ],
+      "all_horses_result": [
+        {
+          "馬番": "12",
+          "着順": 1,
+          "人気": 4,
+          "馬名": "ゼーロス",
+          "馬体重": "483(-5)",
+          "DASスコア": null,
+          "役割": "軸"
+        },
+        {
+          "馬番": "8",
+          "着順": 2,
+          "人気": 6,
+          "馬名": "ヤマニンチェルキ",
+          "馬体重": "530(-10)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "13",
+          "着順": 3,
+          "人気": 8,
+          "馬名": "トウカイマシェリ",
+          "馬体重": "472(0)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "14",
+          "着順": 4,
+          "人気": 2,
+          "馬名": "エコロレーヴ",
+          "馬体重": "509(-7)",
+          "DASスコア": null,
+          "役割": "相手"
+        },
+        {
+          "馬番": "7",
+          "着順": 5,
+          "人気": 3,
+          "馬名": "ティントレット",
+          "馬体重": "497(+3)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "5",
+          "着順": 6,
+          "人気": 1,
+          "馬名": "サトノボヤージュ",
+          "馬体重": "486(+20)",
+          "DASスコア": null,
+          "役割": "相手"
+        },
+        {
+          "馬番": "10",
+          "着順": 7,
+          "人気": 10,
+          "馬名": "ナスティウェザー",
+          "馬体重": "464(-2)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "3",
+          "着順": 8,
+          "人気": 9,
+          "馬名": "エートラックス",
+          "馬体重": "505(-9)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "2",
+          "着順": 9,
+          "人気": 11,
+          "馬名": "メンコイボクチャン",
+          "馬体重": "514(+4)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "9",
+          "着順": 10,
+          "人気": 5,
+          "馬名": "サンライズアムール",
+          "馬体重": "517(+4)",
+          "DASスコア": null,
+          "役割": "軸"
+        },
+        {
+          "馬番": "6",
+          "着順": 11,
+          "人気": 12,
+          "馬名": "ドリームビリーバー",
+          "馬体重": "484(+10)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "11",
+          "着順": 12,
+          "人気": 7,
+          "馬名": "ガビーズシスター",
+          "馬体重": "479(+3)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "1",
+          "着順": 13,
+          "人気": 13,
+          "馬名": "ツツウラウラ",
+          "馬体重": "465(+2)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "4",
+          "着順": 14,
+          "人気": 14,
+          "馬名": "ポリゴンウェイヴ",
+          "馬体重": "498(-14)",
+          "DASスコア": null,
+          "役割": "予測外"
+        }
+      ],
+      "race_verification": {
+        "axis_best_rank": 1,
+        "axis_in_top3": true,
+        "93rule_pop_in_top3_count": 0,
+        "93rule_pop_in_top3_rate": 0.0,
+        "score_top1_rank": null,
+        "score_top2_rank": null,
+        "score_top1_in_top3": false,
+        "predicted_in_top3_count": 1,
+        "unpredicted_in_top3_count": 2,
+        "miss_pattern": "穴台頭",
+        "winner_popularity": 4,
+        "is_upset": false,
+        "predicted_synthetic_odds": 2.85,
+        "actual_payout": 16630,
+        "odds_ratio": 58.351,
+        "opponent_in_top3_count": 0
+      },
+      "virtual_bets_result": {
+        "複勝_軸1": {
+          "type": "複勝",
+          "投資": 100,
+          "払戻": 0,
+          "収支": -100,
+          "的中": false
+        },
+        "複勝_軸2": {
+          "type": "複勝",
+          "投資": 100,
+          "払戻": 320,
+          "収支": 220,
+          "的中": true
+        },
+        "ワイド_軸1-2": {
+          "type": "ワイド",
+          "投資": 100,
+          "払戻": 0,
+          "収支": -100,
+          "的中": false
+        },
+        "馬連_軸1-2": {
+          "type": "馬連",
+          "投資": 100,
+          "払戻": 0,
+          "収支": -100,
+          "的中": false
+        }
+      },
+      "weather": "晴",
+      "track_condition": "良",
       "predicted_pace": "ハイペース"
     },
     {
@@ -645,27 +1244,221 @@
         ],
         "投資額": 400
       },
-      "status": "結果取得不可",
+      "status": "不的中",
       "predicted": [
         "6-1-8",
         "6-1-3",
         "6-8-3",
         "1-8-3"
       ],
-      "actual": [],
+      "actual": [
+        "13-1-8"
+      ],
+      "result_sanrenpuku": "13-1-8",
+      "payout_sanrenpuku": 4010,
       "hit": false,
+      "payout_missing": false,
       "investment": 400,
       "per_bet_investment": 100,
       "return": 0,
-      "profit": 0,
-      "aggregate_excluded": true,
-      "payouts": {},
-      "horse_weights": [],
-      "all_horses_result": [],
-      "race_verification": {},
-      "virtual_bets_result": {},
-      "weather": "",
-      "track_condition": "",
+      "profit": -400,
+      "payouts": {
+        "単勝": 560,
+        "複勝": 180,
+        "枠連": 1380,
+        "馬連": 1340,
+        "ワイド": 570,
+        "枠単": 2910,
+        "馬単": 3100,
+        "三連複": 4010,
+        "三連単": 22180
+      },
+      "horse_weights": [
+        {
+          "rank": 1,
+          "horse_number": "13",
+          "weight": "467(0)"
+        },
+        {
+          "rank": 2,
+          "horse_number": "1",
+          "weight": "507(+7)"
+        },
+        {
+          "rank": 3,
+          "horse_number": "8",
+          "weight": "479(-5)"
+        }
+      ],
+      "all_horses_result": [
+        {
+          "馬番": "13",
+          "着順": 1,
+          "人気": 3,
+          "馬名": "ピンナダ",
+          "馬体重": "467(0)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "1",
+          "着順": 2,
+          "人気": 2,
+          "馬名": "マムティプリンス",
+          "馬体重": "507(+7)",
+          "DASスコア": null,
+          "役割": "軸"
+        },
+        {
+          "馬番": "8",
+          "着順": 3,
+          "人気": 4,
+          "馬名": "オメガドライヴ",
+          "馬体重": "479(-5)",
+          "DASスコア": null,
+          "役割": "相手"
+        },
+        {
+          "馬番": "10",
+          "着順": 4,
+          "人気": 9,
+          "馬名": "ハボタン",
+          "馬体重": "429(-4)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "11",
+          "着順": 5,
+          "人気": 7,
+          "馬名": "リケアミネオラ",
+          "馬体重": "426(-1)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "3",
+          "着順": 6,
+          "人気": 5,
+          "馬名": "クアッズ",
+          "馬体重": "491(+3)",
+          "DASスコア": null,
+          "役割": "相手"
+        },
+        {
+          "馬番": "6",
+          "着順": 7,
+          "人気": 1,
+          "馬名": "ツートンショコラ",
+          "馬体重": "486(-9)",
+          "DASスコア": null,
+          "役割": "軸"
+        },
+        {
+          "馬番": "4",
+          "着順": 8,
+          "人気": 8,
+          "馬名": "タリスマンチャント",
+          "馬体重": "465(-4)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "5",
+          "着順": 9,
+          "人気": 6,
+          "馬名": "マイネルイージス",
+          "馬体重": "501(+4)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "2",
+          "着順": 10,
+          "人気": 12,
+          "馬名": "コスモギンガ",
+          "馬体重": "479(-4)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "7",
+          "着順": 11,
+          "人気": 10,
+          "馬名": "グレック",
+          "馬体重": "532(-4)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "9",
+          "着順": 12,
+          "人気": 11,
+          "馬名": "トビーンズ",
+          "馬体重": "445(-9)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "12",
+          "着順": 13,
+          "人気": 13,
+          "馬名": "オメガオリーブ",
+          "馬体重": "410(+1)",
+          "DASスコア": null,
+          "役割": "予測外"
+        }
+      ],
+      "race_verification": {
+        "axis_best_rank": 2,
+        "axis_in_top3": true,
+        "93rule_pop_in_top3_count": 2,
+        "93rule_pop_in_top3_rate": 66.7,
+        "score_top1_rank": null,
+        "score_top2_rank": null,
+        "score_top1_in_top3": false,
+        "predicted_in_top3_count": 2,
+        "unpredicted_in_top3_count": 1,
+        "miss_pattern": "穴台頭",
+        "winner_popularity": 3,
+        "is_upset": false,
+        "predicted_synthetic_odds": 2.35,
+        "actual_payout": 4010,
+        "odds_ratio": 17.064,
+        "opponent_in_top3_count": 1
+      },
+      "virtual_bets_result": {
+        "複勝_軸1": {
+          "type": "複勝",
+          "投資": 100,
+          "払戻": 0,
+          "収支": -100,
+          "的中": false
+        },
+        "複勝_軸2": {
+          "type": "複勝",
+          "投資": 100,
+          "払戻": 180,
+          "収支": 80,
+          "的中": true
+        },
+        "ワイド_軸1-2": {
+          "type": "ワイド",
+          "投資": 100,
+          "払戻": 0,
+          "収支": -100,
+          "的中": false
+        },
+        "馬連_軸1-2": {
+          "type": "馬連",
+          "投資": 100,
+          "払戻": 0,
+          "収支": -100,
+          "的中": false
+        }
+      },
+      "weather": "晴",
+      "track_condition": "良",
       "predicted_pace": "ハイペース"
     },
     {
@@ -757,27 +1550,184 @@
         ],
         "投資額": 400
       },
-      "status": "結果取得不可",
+      "status": "不的中",
       "predicted": [
         "6-9-1",
         "6-9-7",
         "6-1-7",
         "9-1-7"
       ],
-      "actual": [],
+      "actual": [
+        "8-6-1"
+      ],
+      "result_sanrenpuku": "8-6-1",
+      "payout_sanrenpuku": 1510,
       "hit": false,
+      "payout_missing": false,
       "investment": 400,
       "per_bet_investment": 100,
       "return": 0,
-      "profit": 0,
-      "aggregate_excluded": true,
-      "payouts": {},
-      "horse_weights": [],
-      "all_horses_result": [],
-      "race_verification": {},
-      "virtual_bets_result": {},
-      "weather": "",
-      "track_condition": "",
+      "profit": -400,
+      "payouts": {
+        "単勝": 230,
+        "複勝": 120,
+        "枠連": 380,
+        "馬連": 640,
+        "ワイド": 290,
+        "馬単": 940,
+        "三連複": 1510,
+        "三連単": 4990
+      },
+      "horse_weights": [
+        {
+          "rank": 1,
+          "horse_number": "8",
+          "weight": "501(+3)"
+        },
+        {
+          "rank": 2,
+          "horse_number": "6",
+          "weight": "471(-1)"
+        },
+        {
+          "rank": 3,
+          "horse_number": "1",
+          "weight": "460(-2)"
+        }
+      ],
+      "all_horses_result": [
+        {
+          "馬番": "8",
+          "着順": 1,
+          "人気": 1,
+          "馬名": "ジャスティンアポロ",
+          "馬体重": "501(+3)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "6",
+          "着順": 2,
+          "人気": 4,
+          "馬名": "ケイアイブラック",
+          "馬体重": "471(-1)",
+          "DASスコア": null,
+          "役割": "軸"
+        },
+        {
+          "馬番": "1",
+          "着順": 3,
+          "人気": 2,
+          "馬名": "ブレッティレディ",
+          "馬体重": "460(-2)",
+          "DASスコア": null,
+          "役割": "相手"
+        },
+        {
+          "馬番": "5",
+          "着順": 4,
+          "人気": 5,
+          "馬名": "ゼットヒーロ",
+          "馬体重": "476(-3)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "2",
+          "着順": 5,
+          "人気": 7,
+          "馬名": "ホワイトラバーズ",
+          "馬体重": "491(-9)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "7",
+          "着順": 6,
+          "人気": 8,
+          "馬名": "メヘラーンガル",
+          "馬体重": "452(+2)",
+          "DASスコア": null,
+          "役割": "相手"
+        },
+        {
+          "馬番": "9",
+          "着順": 7,
+          "人気": 3,
+          "馬名": "マメーアップル",
+          "馬体重": "446(+1)",
+          "DASスコア": null,
+          "役割": "軸"
+        },
+        {
+          "馬番": "4",
+          "着順": 8,
+          "人気": 6,
+          "馬名": "ミスマラッカ",
+          "馬体重": "454(0)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "3",
+          "着順": 9,
+          "人気": 9,
+          "馬名": "ミヤカグラ",
+          "馬体重": "429(-4)",
+          "DASスコア": null,
+          "役割": "予測外"
+        }
+      ],
+      "race_verification": {
+        "axis_best_rank": 2,
+        "axis_in_top3": true,
+        "93rule_pop_in_top3_count": 2,
+        "93rule_pop_in_top3_rate": 66.7,
+        "score_top1_rank": null,
+        "score_top2_rank": null,
+        "score_top1_in_top3": false,
+        "predicted_in_top3_count": 2,
+        "unpredicted_in_top3_count": 1,
+        "miss_pattern": "穴台頭",
+        "winner_popularity": 1,
+        "is_upset": false,
+        "predicted_synthetic_odds": 2.0,
+        "actual_payout": 1510,
+        "odds_ratio": 7.55,
+        "opponent_in_top3_count": 1
+      },
+      "virtual_bets_result": {
+        "複勝_軸1": {
+          "type": "複勝",
+          "投資": 100,
+          "払戻": 120,
+          "収支": 20,
+          "的中": true
+        },
+        "複勝_軸2": {
+          "type": "複勝",
+          "投資": 100,
+          "払戻": 0,
+          "収支": -100,
+          "的中": false
+        },
+        "ワイド_軸1-2": {
+          "type": "ワイド",
+          "投資": 100,
+          "払戻": 0,
+          "収支": -100,
+          "的中": false
+        },
+        "馬連_軸1-2": {
+          "type": "馬連",
+          "投資": 100,
+          "払戻": 0,
+          "収支": -100,
+          "的中": false
+        }
+      },
+      "weather": "晴",
+      "track_condition": "稍",
       "predicted_pace": "ハイペース"
     },
     {
@@ -864,27 +1814,184 @@
         ],
         "投資額": 400
       },
-      "status": "結果取得不可",
+      "status": "不的中",
       "predicted": [
         "3-1-6",
         "3-1-8",
         "3-6-8",
         "1-6-8"
       ],
-      "actual": [],
+      "actual": [
+        "8-6-9"
+      ],
+      "result_sanrenpuku": "8-6-9",
+      "payout_sanrenpuku": 620,
       "hit": false,
+      "payout_missing": false,
       "investment": 400,
       "per_bet_investment": 100,
       "return": 0,
-      "profit": 0,
-      "aggregate_excluded": true,
-      "payouts": {},
-      "horse_weights": [],
-      "all_horses_result": [],
-      "race_verification": {},
-      "virtual_bets_result": {},
-      "weather": "",
-      "track_condition": "",
+      "profit": -400,
+      "payouts": {
+        "単勝": 500,
+        "複勝": 100,
+        "枠連": 270,
+        "馬連": 460,
+        "ワイド": 190,
+        "馬単": 960,
+        "三連複": 620,
+        "三連単": 3140
+      },
+      "horse_weights": [
+        {
+          "rank": 1,
+          "horse_number": "8",
+          "weight": "459(-19)"
+        },
+        {
+          "rank": 2,
+          "horse_number": "6",
+          "weight": "484(+10)"
+        },
+        {
+          "rank": 3,
+          "horse_number": "9",
+          "weight": "434(+9)"
+        }
+      ],
+      "all_horses_result": [
+        {
+          "馬番": "8",
+          "着順": 1,
+          "人気": 2,
+          "馬名": "ハバタクジユウニ",
+          "馬体重": "459(-19)",
+          "DASスコア": null,
+          "役割": "相手"
+        },
+        {
+          "馬番": "6",
+          "着順": 2,
+          "人気": 1,
+          "馬名": "ヤマタケボニータ",
+          "馬体重": "484(+10)",
+          "DASスコア": null,
+          "役割": "相手"
+        },
+        {
+          "馬番": "9",
+          "着順": 3,
+          "人気": 4,
+          "馬名": "ゴートゥーミジョカ",
+          "馬体重": "434(+9)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "1",
+          "着順": 4,
+          "人気": 3,
+          "馬名": "コスモサンビタリア",
+          "馬体重": "462(-3)",
+          "DASスコア": null,
+          "役割": "軸"
+        },
+        {
+          "馬番": "4",
+          "着順": 5,
+          "人気": 7,
+          "馬名": "ララテロワール",
+          "馬体重": "499(0)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "3",
+          "着順": 6,
+          "人気": 5,
+          "馬名": "テイケイホロムア",
+          "馬体重": "444(-2)",
+          "DASスコア": null,
+          "役割": "軸"
+        },
+        {
+          "馬番": "5",
+          "着順": 7,
+          "人気": 8,
+          "馬名": "エコロアテナ",
+          "馬体重": "432(+2)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "7",
+          "着順": 8,
+          "人気": 9,
+          "馬名": "レディアエラ",
+          "馬体重": "436(+7)",
+          "DASスコア": null,
+          "役割": "予測外"
+        },
+        {
+          "馬番": "2",
+          "着順": 9,
+          "人気": 6,
+          "馬名": "マルカボヌール",
+          "馬体重": "475(+12)",
+          "DASスコア": null,
+          "役割": "予測外"
+        }
+      ],
+      "race_verification": {
+        "axis_best_rank": 4,
+        "axis_in_top3": false,
+        "93rule_pop_in_top3_count": 2,
+        "93rule_pop_in_top3_rate": 66.7,
+        "score_top1_rank": null,
+        "score_top2_rank": null,
+        "score_top1_in_top3": false,
+        "predicted_in_top3_count": 2,
+        "unpredicted_in_top3_count": 1,
+        "miss_pattern": "軸外れ",
+        "winner_popularity": 2,
+        "is_upset": false,
+        "predicted_synthetic_odds": 2.75,
+        "actual_payout": 620,
+        "odds_ratio": 2.255,
+        "opponent_in_top3_count": 2
+      },
+      "virtual_bets_result": {
+        "複勝_軸1": {
+          "type": "複勝",
+          "投資": 100,
+          "払戻": 0,
+          "収支": -100,
+          "的中": false
+        },
+        "複勝_軸2": {
+          "type": "複勝",
+          "投資": 100,
+          "払戻": 0,
+          "収支": -100,
+          "的中": false
+        },
+        "ワイド_軸1-2": {
+          "type": "ワイド",
+          "投資": 100,
+          "払戻": 0,
+          "収支": -100,
+          "的中": false
+        },
+        "馬連_軸1-2": {
+          "type": "馬連",
+          "投資": 100,
+          "払戻": 0,
+          "収支": -100,
+          "的中": false
+        }
+      },
+      "weather": "晴",
+      "track_condition": "稍",
       "predicted_pace": "スローペース"
     }
   ]
