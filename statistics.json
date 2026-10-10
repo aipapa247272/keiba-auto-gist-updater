@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-10 20:40:15",
+  "generated_at": "2026-10-10 22:52:26",
   "overall": {
     "total_races": 733,
     "total_hits": 128,
@@ -11,8 +11,8 @@
   },
   "latest_logic_overall": {
     "logic_version": "v14.4",
-    "period": "2026/04/05 〜 2026/10/10",
-    "active_days": 110,
+    "period": "2026/04/05 〜 2026/10/11",
+    "active_days": 111,
     "races": 401,
     "hits": 63,
     "hit_rate": 15.7,
@@ -2085,13 +2085,25 @@
       "profit": 0,
       "hit_rate": 0,
       "recovery_rate": 0
+    },
+    {
+      "date": "2026/10/11",
+      "ymd": "20261011",
+      "logic_version": "v14.4",
+      "races": 0,
+      "hits": 0,
+      "investment": 0,
+      "return": 0,
+      "profit": 0,
+      "hit_rate": 0,
+      "recovery_rate": 0
     }
   ],
   "by_logic_version": [
     {
       "logic_version": "v14.4",
-      "period": "2026/04/05 〜 2026/10/10",
-      "active_days": 110,
+      "period": "2026/04/05 〜 2026/10/11",
+      "active_days": 111,
       "races": 401,
       "hits": 63,
       "hit_rate": 15.7,
