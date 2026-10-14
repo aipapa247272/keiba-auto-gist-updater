@@ -1,0 +1,92 @@
+{
+  "ymd": "20261015",
+  "generated_at": "2026-10-14 22:45:22",
+  "logic_version": "v12",
+  "summary": {
+    "total_races": 5,
+    "hit_count": 0,
+    "miss_count": 5,
+    "hit_rate": 0.0,
+    "total_investment": 9600,
+    "total_payout": 0,
+    "net_profit": -9600,
+    "recovery_rate": 0.0
+  },
+  "details": [
+    {
+      "race_id": "202648101512",
+      "race_name": "金シャチ最終戦(C)",
+      "venue": "名古屋",
+      "prediction_type": "recommend",
+      "investment": 4600,
+      "combo_count": 23,
+      "per_bet_investment": 200,
+      "synthetic_odds": 11.75,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -4600,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202645101507",
+      "race_name": "展覧会「富野由悠季の原(C1)",
+      "venue": "川崎",
+      "prediction_type": "recommend",
+      "investment": 2100,
+      "combo_count": 21,
+      "per_bet_investment": 100,
+      "synthetic_odds": 3.6,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2100,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202648101502",
+      "race_name": "C19組",
+      "venue": "名古屋",
+      "prediction_type": "recommend",
+      "investment": 2100,
+      "combo_count": 21,
+      "per_bet_investment": 100,
+      "synthetic_odds": 4.65,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2100,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202645101510",
+      "race_name": "オクトーバースター賞(B2B3)",
+      "venue": "川崎",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.3,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202648101511",
+      "race_name": "ゴールド争覇重賞",
+      "venue": "名古屋",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.25,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    }
+  ]
+}
