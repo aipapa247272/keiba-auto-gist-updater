@@ -1,0 +1,62 @@
+{
+  "ymd": "20261018",
+  "generated_at": "2026-10-17 21:53:00",
+  "logic_version": "v12",
+  "summary": {
+    "total_races": 3,
+    "hit_count": 0,
+    "miss_count": 3,
+    "hit_rate": 0.0,
+    "total_investment": 1200,
+    "total_payout": 0,
+    "net_profit": -1200,
+    "recovery_rate": 0.0
+  },
+  "details": [
+    {
+      "race_id": "202608040710",
+      "race_name": "聚楽第特別",
+      "venue": "京都",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202608040712",
+      "race_name": "桂川S",
+      "venue": "京都",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.33,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202604040211",
+      "race_name": "新潟牝馬S",
+      "venue": "新潟",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.25,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    }
+  ]
+}
