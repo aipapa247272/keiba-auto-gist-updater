@@ -1,77 +1,32 @@
 {
-  "ymd": "20261016",
-  "generated_at": "2026-10-16 20:02:36",
+  "ymd": "20261017",
+  "generated_at": "2026-10-17 16:18:01",
   "logic_version": "v12",
   "summary": {
-    "total_races": 4,
-    "hit_count": 1,
-    "miss_count": 3,
-    "hit_rate": 25.0,
-    "total_investment": 7300,
-    "total_payout": 1200,
-    "net_profit": -6100,
-    "recovery_rate": 16.4
+    "total_races": 1,
+    "hit_count": 0,
+    "miss_count": 1,
+    "hit_rate": 0.0,
+    "total_investment": 400,
+    "total_payout": 0,
+    "net_profit": -400,
+    "recovery_rate": 0.0
   },
   "details": [
     {
-      "race_id": "202648101602",
-      "race_name": "C12組",
-      "venue": "名古屋",
-      "prediction_type": "recommend",
-      "investment": 4200,
-      "combo_count": 21,
-      "per_bet_investment": 200,
-      "synthetic_odds": 5.4,
-      "hit": false,
-      "hit_type": null,
-      "payout": 0,
-      "profit": -4200,
-      "reason": "不的中 (実際: 3-2-10, 21点中)"
-    },
-    {
-      "race_id": "202645101610",
-      "race_name": "かわさきミュートンもうすぐ20歳記念(B2B3)",
-      "venue": "川崎",
-      "prediction_type": "recommend",
-      "investment": 2300,
-      "combo_count": 23,
-      "per_bet_investment": 100,
-      "synthetic_odds": 4.85,
-      "hit": false,
-      "hit_type": null,
-      "payout": 0,
-      "profit": -2300,
-      "reason": "不的中 (実際: 5-4-8, 23点中)"
-    },
-    {
-      "race_id": "202648101612",
-      "race_name": "金シャチ最終戦(C)",
-      "venue": "名古屋",
+      "race_id": "202605040610",
+      "race_name": "伊勢佐木S",
+      "venue": "東京",
       "prediction_type": "reference",
       "investment": 400,
       "combo_count": 4,
       "per_bet_investment": 100,
-      "synthetic_odds": 2.0,
-      "hit": true,
-      "hit_type": "三連複",
-      "payout": 1200,
-      "profit": 800,
-      "reason": "的中 12-5-7"
-    },
-    {
-      "race_id": "202650101606",
-      "race_name": "C2二",
-      "venue": "園田",
-      "prediction_type": "reference",
-      "investment": 400,
-      "combo_count": 4,
-      "per_bet_investment": 100,
-      "synthetic_odds": 2.65,
+      "synthetic_odds": 2.38,
       "hit": false,
       "hit_type": null,
       "payout": 0,
       "profit": -400,
-      "reason": "不的中 (実際: 5-4-2, 4点中)"
+      "reason": "不的中 (実際: 4-10-14, 4点中)"
     }
   ]
 }
