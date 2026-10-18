@@ -1,0 +1,62 @@
+{
+  "ymd": "20261019",
+  "generated_at": "2026-10-18 21:57:53",
+  "logic_version": "v12",
+  "summary": {
+    "total_races": 3,
+    "hit_count": 0,
+    "miss_count": 3,
+    "hit_rate": 0.0,
+    "total_investment": 5000,
+    "total_payout": 0,
+    "net_profit": -5000,
+    "recovery_rate": 0.0
+  },
+  "details": [
+    {
+      "race_id": "202642101912",
+      "race_name": "秋の暮特別(C3)",
+      "venue": "浦和",
+      "prediction_type": "recommend",
+      "investment": 4200,
+      "combo_count": 21,
+      "per_bet_investment": 200,
+      "synthetic_odds": 5.35,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -4200,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202642101909",
+      "race_name": "錦秋特別(C2)",
+      "venue": "浦和",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 3.25,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202648101908",
+      "race_name": "B12組",
+      "venue": "名古屋",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 3.05,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    }
+  ]
+}
