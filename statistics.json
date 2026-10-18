@@ -1,25 +1,25 @@
 {
-  "generated_at": "2026-10-17 21:53:01",
+  "generated_at": "2026-10-18 16:27:28",
   "overall": {
-    "total_races": 763,
+    "total_races": 766,
     "total_hits": 135,
-    "total_investment": 1253600,
+    "total_investment": 1254800,
     "total_return": 543410,
-    "total_profit": -710190,
-    "hit_rate": 17.7,
+    "total_profit": -711390,
+    "hit_rate": 17.6,
     "recovery_rate": 43.3
   },
   "latest_logic_overall": {
     "logic_version": "v14.4",
-    "period": "2026/04/05 〜 2026/10/17",
-    "active_days": 117,
-    "races": 431,
+    "period": "2026/04/05 〜 2026/10/18",
+    "active_days": 118,
+    "races": 434,
     "hits": 70,
-    "hit_rate": 16.2,
-    "investment": 442300,
+    "hit_rate": 16.1,
+    "investment": 443500,
     "return": 280940,
-    "profit": -161360,
-    "recovery_rate": 63.5
+    "profit": -162560,
+    "recovery_rate": 63.3
   },
   "daily": [
     {
@@ -2169,20 +2169,32 @@
       "profit": -400,
       "hit_rate": 0.0,
       "recovery_rate": 0.0
+    },
+    {
+      "date": "2026/10/18",
+      "ymd": "20261018",
+      "logic_version": "v14.4",
+      "races": 3,
+      "hits": 0,
+      "investment": 1200,
+      "return": 0,
+      "profit": -1200,
+      "hit_rate": 0.0,
+      "recovery_rate": 0.0
     }
   ],
   "by_logic_version": [
     {
       "logic_version": "v14.4",
-      "period": "2026/04/05 〜 2026/10/17",
-      "active_days": 117,
-      "races": 431,
+      "period": "2026/04/05 〜 2026/10/18",
+      "active_days": 118,
+      "races": 434,
       "hits": 70,
-      "hit_rate": 16.2,
-      "investment": 442300,
+      "hit_rate": 16.1,
+      "investment": 443500,
       "return": 280940,
-      "profit": -161360,
-      "recovery_rate": 63.5
+      "profit": -162560,
+      "recovery_rate": 63.3
     },
     {
       "logic_version": "v14.3.1",
@@ -2413,6 +2425,16 @@
       "recovery_rate": 0.0
     },
     {
+      "venue": "京都",
+      "races": 26,
+      "hits": 0,
+      "hit_rate": 0.0,
+      "investment": 18200,
+      "return": 0,
+      "profit": -18200,
+      "recovery_rate": 0.0
+    },
+    {
       "venue": "高知",
       "races": 25,
       "hits": 4,
@@ -2421,16 +2443,6 @@
       "return": 11830,
       "profit": -25270,
       "recovery_rate": 31.9
-    },
-    {
-      "venue": "京都",
-      "races": 24,
-      "hits": 0,
-      "hit_rate": 0.0,
-      "investment": 17400,
-      "return": 0,
-      "profit": -17400,
-      "recovery_rate": 0.0
     },
     {
       "venue": "水沢",
@@ -2464,12 +2476,12 @@
     },
     {
       "venue": "新潟",
-      "races": 13,
+      "races": 14,
       "hits": 0,
       "hit_rate": 0.0,
-      "investment": 10600,
+      "investment": 11000,
       "return": 0,
-      "profit": -10600,
+      "profit": -11000,
       "recovery_rate": 0.0
     },
     {
@@ -2526,22 +2538,22 @@
   "by_track": [
     {
       "track": "ダ",
-      "races": 594,
+      "races": 596,
       "hits": 127,
-      "hit_rate": 21.4,
-      "investment": 927400,
+      "hit_rate": 21.3,
+      "investment": 928200,
       "return": 494370,
-      "profit": -433030,
+      "profit": -433830,
       "recovery_rate": 53.3
     },
     {
       "track": "芝",
-      "races": 118,
+      "races": 119,
       "hits": 8,
-      "hit_rate": 6.8,
-      "investment": 216000,
+      "hit_rate": 6.7,
+      "investment": 216400,
       "return": 49040,
-      "profit": -166960,
+      "profit": -167360,
       "recovery_rate": 22.7
     },
     {
@@ -2558,13 +2570,13 @@
   "by_score_tier": [
     {
       "tier": "?",
-      "races": 639,
+      "races": 642,
       "hits": 110,
-      "hit_rate": 17.2,
-      "investment": 896300,
+      "hit_rate": 17.1,
+      "investment": 897500,
       "return": 334910,
-      "profit": -561390,
-      "recovery_rate": 37.4
+      "profit": -562590,
+      "recovery_rate": 37.3
     },
     {
       "tier": "B",
@@ -2600,105 +2612,105 @@
   "virtual_bets": [
     {
       "bet_type": "複勝_軸3",
-      "count": 92,
+      "count": 95,
       "hits": 36,
-      "hit_rate": 39.1,
-      "investment": 9200,
+      "hit_rate": 37.9,
+      "investment": 9500,
       "return": 5570,
-      "profit": -3630,
-      "recovery_rate": 60.5
+      "profit": -3930,
+      "recovery_rate": 58.6
     },
     {
       "bet_type": "馬連_軸1-2",
-      "count": 682,
+      "count": 685,
       "hits": 37,
       "hit_rate": 5.4,
-      "investment": 136200,
+      "investment": 136500,
       "return": 78980,
-      "profit": -57220,
-      "recovery_rate": 58.0
+      "profit": -57520,
+      "recovery_rate": 57.9
     },
     {
       "bet_type": "複勝_軸2",
-      "count": 682,
-      "hits": 276,
-      "hit_rate": 40.5,
-      "investment": 102200,
-      "return": 54170,
-      "profit": -48030,
+      "count": 685,
+      "hits": 277,
+      "hit_rate": 40.4,
+      "investment": 102500,
+      "return": 54320,
+      "profit": -48180,
       "recovery_rate": 53.0
     },
     {
       "bet_type": "複勝_軸1",
-      "count": 684,
-      "hits": 254,
-      "hit_rate": 37.1,
-      "investment": 102800,
-      "return": 48060,
-      "profit": -54740,
-      "recovery_rate": 46.8
+      "count": 687,
+      "hits": 256,
+      "hit_rate": 37.3,
+      "investment": 103100,
+      "return": 48400,
+      "profit": -54700,
+      "recovery_rate": 46.9
     },
     {
       "bet_type": "ワイド_軸1-2",
-      "count": 682,
+      "count": 685,
       "hits": 83,
-      "hit_rate": 12.2,
-      "investment": 136200,
+      "hit_rate": 12.1,
+      "investment": 136500,
       "return": 47020,
-      "profit": -89180,
-      "recovery_rate": 34.5
+      "profit": -89480,
+      "recovery_rate": 34.4
     },
     {
       "bet_type": "ワイド_軸2-3",
-      "count": 92,
+      "count": 95,
       "hits": 6,
-      "hit_rate": 6.5,
-      "investment": 9200,
+      "hit_rate": 6.3,
+      "investment": 9500,
       "return": 2160,
-      "profit": -7040,
-      "recovery_rate": 23.5
+      "profit": -7340,
+      "recovery_rate": 22.7
     },
     {
       "bet_type": "馬連_軸2-3",
-      "count": 92,
+      "count": 95,
       "hits": 1,
       "hit_rate": 1.1,
-      "investment": 9200,
+      "investment": 9500,
       "return": 1140,
-      "profit": -8060,
-      "recovery_rate": 12.4
+      "profit": -8360,
+      "recovery_rate": 12.0
     }
   ],
   "verification_stats": {
-    "total_verify_races": 519,
-    "axis_in_top3_rate": 69.4,
+    "total_verify_races": 522,
+    "axis_in_top3_rate": 69.5,
     "score_top1_in_top3_rate": 33.8,
-    "93rule_avg_rate": 54.2,
+    "93rule_avg_rate": 54.1,
     "miss_pattern_distribution": {
       "軸外れ": 157,
-      "穴台頭": 267,
+      "穴台頭": 270,
       "的中": 85,
       "相手外れ": 10
     },
-    "upset_rate": 22.0,
-    "avg_odds_ratio": 40.61,
-    "avg_predicted_in_top3": 1.76,
+    "upset_rate": 22.2,
+    "avg_odds_ratio": 40.517,
+    "avg_predicted_in_top3": 1.75,
     "note": "axis_in_top3 > 50%, score_top1_in_top3 > 40%, 93rule_avg > 70% が精度改善の目安",
     "by_logic_version": {
       "v14.4": {
-        "total_verify_races": 431,
-        "axis_in_top3_rate": 68.4,
+        "total_verify_races": 434,
+        "axis_in_top3_rate": 68.7,
         "score_top1_in_top3_rate": 34.6,
-        "93rule_avg_rate": 54.1,
+        "93rule_avg_rate": 54.0,
         "miss_pattern_distribution": {
           "的中": 70,
           "軸外れ": 134,
-          "穴台頭": 217,
+          "穴台頭": 220,
           "相手外れ": 10
         },
-        "upset_rate": 19.7,
-        "avg_odds_ratio": 37.891,
-        "avg_predicted_in_top3": 1.75,
+        "upset_rate": 20.0,
+        "avg_odds_ratio": 37.798,
+        "avg_predicted_in_top3": 1.74,
         "note": "axis_in_top3 > 50%, score_top1_in_top3 > 40%, 93rule_avg > 70% が精度改善の目安"
       },
       "v14.3.1": {
