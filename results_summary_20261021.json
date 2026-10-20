@@ -1,0 +1,92 @@
+{
+  "ymd": "20261021",
+  "generated_at": "2026-10-20 22:47:02",
+  "logic_version": "v12",
+  "summary": {
+    "total_races": 5,
+    "hit_count": 0,
+    "miss_count": 5,
+    "hit_rate": 0.0,
+    "total_investment": 7800,
+    "total_payout": 0,
+    "net_profit": -7800,
+    "recovery_rate": 0.0
+  },
+  "details": [
+    {
+      "race_id": "202647102110",
+      "race_name": "さそり座特別(AB)",
+      "venue": "笠松",
+      "prediction_type": "recommend",
+      "investment": 4400,
+      "combo_count": 22,
+      "per_bet_investment": 200,
+      "synthetic_odds": 5.7,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -4400,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202647102102",
+      "race_name": "C18組",
+      "venue": "笠松",
+      "prediction_type": "recommend",
+      "investment": 2200,
+      "combo_count": 22,
+      "per_bet_investment": 100,
+      "synthetic_odds": 3.85,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2200,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202642102112",
+      "race_name": "月の雫特別(B2B3)",
+      "venue": "浦和",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.1,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202647102112",
+      "race_name": "てんびん座特別(A)",
+      "venue": "笠松",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.6,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202650102110",
+      "race_name": "C2三",
+      "venue": "園田",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.05,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    }
+  ]
+}
