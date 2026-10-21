@@ -35,6 +35,7 @@ FUND_MANAGEMENT = {
     "min_synthetic_odds": 3.5,      # 合成オッズ最低ライン [精度改善v2: 4.0→3.5倍 2026-03]
     "odds_boost_threshold_5": 5.0,  # 合成オッズ5倍以上 → 賭け金2倍(100円→200円) [案B: 100/200の2段階]
     "enable_trifecta_stake_boost": False,  # 三連複の増額(100円→200円)を有効化するか [既定: 無効=100円/点]
+    "enable_rival_box": False,      # 相手ボックス(常時追加・最大3点)を有効化するか [既定: 無効=追加しない]
     "min_wide_odds": 5.0,           # ワイドオッズ最低ライン
     "min_place_odds": 2.0,          # 複勝オッズ最低ライン
     "place_odds_spread_min": 2.0,   # 複勝オッズ幅の最低値
@@ -1378,8 +1379,11 @@ def generate_betting_plan(race):
             _seen_rival.add(_n)
             _rival_unique.append(_h)
 
+    # enable_rival_box=True のときだけ追加する（既定 False では追加しない）。
+    # False の場合は rival_box_combos が空のままなので、
+    # 投資額・組み合わせ数・全買い目・相手ボックス_追加点数は自動的に整合する。
     rival_box_combos = []
-    if len(_rival_unique) >= 3:
+    if FUND_MANAGEMENT.get("enable_rival_box", False) and len(_rival_unique) >= 3:
         _rbox_nums = [_h.get('馬番') for _h in _rival_unique[:4] if _h.get('馬番')]
         for _combo in iter_combinations(_rbox_nums, 3):
             _nums = tuple(sorted([int(_n) for _n in _combo]))
@@ -1393,7 +1397,12 @@ def generate_betting_plan(race):
             _rbox_str = ['-'.join(str(n) for n in c) for c in rival_box_combos]
             print(f"[相手ボックス] {len(rival_box_combos)}点追加: {_rbox_str}")
     else:
+        # False(既定) または相手候補が3頭未満 → 追加なし（rival_box_combos は空）
         rival_box_combos = []
+        if not FUND_MANAGEMENT.get("enable_rival_box", False):
+            print("[相手ボックス] 非発動 (enable_rival_box=False)")
+        else:
+            print(f"[相手ボックス] 非発動 (相手候補{len(_rival_unique)}頭 <3頭)")
 
     # --- ワイド候補 ---
     wide_candidates = check_wide_candidates(horses_with_roles)
