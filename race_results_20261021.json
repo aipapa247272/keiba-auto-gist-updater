@@ -1,7 +1,7 @@
 {
   "date": "2026/10/21",
   "ymd": "20261021",
-  "generated_at": "2026-10-21 18:32:46",
+  "generated_at": "2026-10-21 18:46:12",
   "total_races": 5,
   "hit_count": 0,
   "miss_count": 0,
@@ -343,7 +343,8 @@
       "race_verification": {},
       "virtual_bets_result": {},
       "weather": "",
-      "track_condition": ""
+      "track_condition": "",
+      "predicted_pace": "ハイペース"
     },
     {
       "race_id": "202647102102",
@@ -651,7 +652,8 @@
       "race_verification": {},
       "virtual_bets_result": {},
       "weather": "",
-      "track_condition": ""
+      "track_condition": "",
+      "predicted_pace": "ハイペース"
     },
     {
       "race_id": "202642102112",
@@ -757,7 +759,8 @@
       "race_verification": {},
       "virtual_bets_result": {},
       "weather": "",
-      "track_condition": ""
+      "track_condition": "",
+      "predicted_pace": "ハイペース"
     },
     {
       "race_id": "202647102112",
@@ -863,7 +866,8 @@
       "race_verification": {},
       "virtual_bets_result": {},
       "weather": "",
-      "track_condition": ""
+      "track_condition": "",
+      "predicted_pace": "ハイペース"
     },
     {
       "race_id": "202650102110",
@@ -969,7 +973,8 @@
       "race_verification": {},
       "virtual_bets_result": {},
       "weather": "",
-      "track_condition": ""
+      "track_condition": "",
+      "predicted_pace": "ハイペース"
     }
   ]
 }
