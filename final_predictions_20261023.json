@@ -1,0 +1,19 @@
+{
+  "ymd": "20261023",
+  "generated_at": "2026-10-22 03:32:41",
+  "no_race": true,
+  "no_race_type": "no_race",
+  "no_race_reason": "本日は競馬の開催がありません",
+  "total_races": 0,
+  "selected_races": 0,
+  "skipped_races": 0,
+  "selected_predictions": [],
+  "summary": {
+    "turbulence": {
+      "低": 0,
+      "中": 0,
+      "高": 0
+    },
+    "total_investment": 0
+  }
+}
