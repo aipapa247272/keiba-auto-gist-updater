@@ -1833,6 +1833,12 @@ def main():
         
         # [v14.1] 日次投資上限チェック: 上限超過時は低合成オッズのレースを除外
         daily_limit = FUND_MANAGEMENT.get("daily_loss_limit", 10000)
+        # [v14.5] 日次上限トリムの記録（記録専用）
+        # - 並び順・判定方法・購入対象・買い目・単価・投資額には一切影響しない。
+        # - 除外レースは「未購入」であり、購入額・成績集計には加算しない。
+        _pre_trim_count = len(selected_races)
+        _pre_trim_total = total_investment
+        _cap_excluded = []
         if total_investment > daily_limit:
             print(f"[⚠️ 日次上限] ¥{total_investment:,} > 上限¥{daily_limit:,} → 低オッズレースを除外します")
             # 合成オッズ降順（高オッズ=高期待値を優先して残す）
@@ -1842,7 +1848,7 @@ def main():
                 reverse=True
             )
             trimmed, running_total = [], 0
-            for r in selected_races:
+            for _rank, r in enumerate(selected_races, 1):
                 if running_total + r["investment"] <= daily_limit:
                     trimmed.append(r)
                     running_total += r["investment"]
@@ -1850,9 +1856,38 @@ def main():
                     venue = r.get("venue", r.get("競馬場", "?"))
                     rname = r.get("race_name", r.get("レース名", "?"))
                     print(f"  [除外] {venue} {rname} ¥{r['investment']:,} (合成オッズ:{r.get('analysis',{}).get('合成オッズ',0):.1f}倍)")
+                    # [v14.5] 除外レースの記録のみ（未購入・成績に加算しない）
+                    _cap_excluded.append({
+                        "日付": ymd,
+                        "race_id": r.get("race_id"),
+                        "除外理由": "日次投資上限",
+                        "上限処理前の順位": _rank,
+                        "予定投資額": r["investment"],
+                        "判定時点の累計採用投資額": running_total,
+                        "上限額": daily_limit,
+                        "競馬場": venue,
+                        "レース名": rname,
+                    })
             selected_races = trimmed
             total_investment = running_total
             print(f"  [調整後] 選定レース数:{len(selected_races)} 総投資額:¥{total_investment:,}")
+
+        # [v14.5] 日次上限トリムの記録（既存キーと衝突しない専用領域）
+        # 除外レースは購入していないため、購入額・成績の集計対象には含めない。
+        daily_cap_trim_record = {
+            "発動": _pre_trim_total > daily_limit,
+            "日付": ymd,
+            "上限額": daily_limit,
+            "除外理由": "日次投資上限",
+            "処理前の選定件数": _pre_trim_count,
+            "処理前の総投資額": _pre_trim_total,
+            "処理後の選定件数": len(selected_races),
+            "処理後の総投資額": total_investment,
+            "上限除外件数": len(_cap_excluded),
+            "上限除外の予定投資額合計": sum(e["予定投資額"] for e in _cap_excluded),
+            "除外レース": _cap_excluded,
+            "備考": "除外レースは未購入。購入額・成績集計には加算しない。",
+        }
         
         old_total_investment = sum(
             r.get("旧ロジック", {}).get("旧_投資額", 0)
@@ -1893,7 +1928,10 @@ def main():
             "fund_management": FUND_MANAGEMENT,
             "selected_predictions": selected_races,
             "reference_predictions": reference_races,  # Phase1: 参考予測（⭐⭐）
-            "reference_count": len(reference_races)
+            "reference_count": len(reference_races),
+            # [v14.5] 日次上限トリムの記録（記録専用・既存キーと衝突しない）
+            # 除外レースは未購入。購入額・成績集計の対象には含めない。
+            "daily_cap_trim_record": daily_cap_trim_record,
         }
         
         with open(output_file, "w", encoding="utf-8") as f:
