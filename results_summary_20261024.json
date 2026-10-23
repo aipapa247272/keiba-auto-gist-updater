@@ -1,0 +1,32 @@
+{
+  "ymd": "20261024",
+  "generated_at": "2026-10-23 22:45:40",
+  "logic_version": "v12",
+  "summary": {
+    "total_races": 1,
+    "hit_count": 0,
+    "miss_count": 1,
+    "hit_rate": 0.0,
+    "total_investment": 400,
+    "total_payout": 0,
+    "net_profit": -400,
+    "recovery_rate": 0.0
+  },
+  "details": [
+    {
+      "race_id": "202604040309",
+      "race_name": "稲光特別",
+      "venue": "新潟",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.05,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    }
+  ]
+}
