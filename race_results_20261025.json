@@ -1,0 +1,257 @@
+{
+  "date": "2026/10/25",
+  "ymd": "20261025",
+  "generated_at": "2026-10-24 22:01:35",
+  "total_races": 2,
+  "hit_count": 0,
+  "miss_count": 0,
+  "unavailable_count": 2,
+  "no_pred_count": 0,
+  "valid_races": 0,
+  "total_investment": 0,
+  "total_return": 0,
+  "total_profit": 0,
+  "hit_rate": 0,
+  "recovery_rate": 0,
+  "summary_by_type": {
+    "recommend": {
+      "label": "推奨",
+      "total_races": 0,
+      "hit_count": 0,
+      "valid_races": 0,
+      "total_investment": 0,
+      "total_return": 0,
+      "total_profit": 0,
+      "hit_rate": 0,
+      "recovery_rate": 0
+    },
+    "reference": {
+      "label": "参考",
+      "total_races": 2,
+      "hit_count": 0,
+      "valid_races": 0,
+      "total_investment": 0,
+      "total_return": 0,
+      "total_profit": 0,
+      "hit_rate": 0,
+      "recovery_rate": 0
+    }
+  },
+  "races": [
+    {
+      "race_id": "202608040911",
+      "venue": "京都",
+      "race_num": "11",
+      "race_name": "菊花賞",
+      "prediction_type": "reference",
+      "prediction_label": "参考",
+      "ref_rank": "⭐⭐",
+      "note": "合成オッズが推奨基準未満。自己判断でご参考ください。",
+      "synthetic_odds": 2.04,
+      "score_tier": "",
+      "distance": 3000,
+      "track": "芝",
+      "start_time": "15:40",
+      "betting_plan": {
+        "軸": [
+          {
+            "馬番": 18,
+            "馬名": "ナリタエスペランサ",
+            "人気": null,
+            "補正後スコア": 73.5
+          },
+          {
+            "馬番": 10,
+            "馬名": "ダノンヒストリー",
+            "人気": null,
+            "補正後スコア": 73.0
+          },
+          {
+            "馬番": 13,
+            "馬名": "キンググローリー",
+            "人気": null,
+            "補正後スコア": 66.5
+          }
+        ],
+        "相手": [
+          {
+            "馬番": 17,
+            "馬名": "チャリングクロス",
+            "人気": null
+          }
+        ],
+        "穴": [
+          {
+            "馬番": 1,
+            "馬名": "エムズビギン",
+            "人気": null
+          },
+          {
+            "馬番": 2,
+            "馬名": "コンジェスタス",
+            "人気": null
+          },
+          {
+            "馬番": 8,
+            "馬名": "ロブチェン",
+            "人気": null
+          }
+        ],
+        "合成オッズ": 2.04,
+        "組み合わせ数": 4,
+        "全買い目": [
+          [
+            18,
+            10,
+            13
+          ],
+          [
+            18,
+            10,
+            17
+          ],
+          [
+            18,
+            13,
+            17
+          ],
+          [
+            10,
+            13,
+            17
+          ]
+        ],
+        "投資額": 400
+      },
+      "status": "結果取得不可",
+      "predicted": [
+        "18-10-13",
+        "18-10-17",
+        "18-13-17",
+        "10-13-17"
+      ],
+      "actual": [],
+      "hit": false,
+      "investment": 400,
+      "per_bet_investment": 100,
+      "return": 0,
+      "profit": 0,
+      "aggregate_excluded": true,
+      "payouts": {},
+      "horse_weights": [],
+      "all_horses_result": [],
+      "race_verification": {},
+      "virtual_bets_result": {},
+      "weather": "",
+      "track_condition": "",
+      "predicted_pace": "ミドルペース"
+    },
+    {
+      "race_id": "202608040912",
+      "venue": "京都",
+      "race_num": "12",
+      "race_name": "嵯峨野特別",
+      "prediction_type": "reference",
+      "prediction_label": "参考",
+      "ref_rank": "⭐⭐",
+      "note": "合成オッズが推奨基準未満。自己判断でご参考ください。",
+      "synthetic_odds": 2.08,
+      "score_tier": "",
+      "distance": 1400,
+      "track": "ダ",
+      "start_time": "16:30",
+      "betting_plan": {
+        "軸": [
+          {
+            "馬番": 15,
+            "馬名": "ペプチドレオン",
+            "人気": null,
+            "補正後スコア": 72.15
+          },
+          {
+            "馬番": 11,
+            "馬名": "ソニックステップ",
+            "人気": null,
+            "補正後スコア": 63.1
+          }
+        ],
+        "相手": [
+          {
+            "馬番": 2,
+            "馬名": "セールヴォラン",
+            "人気": null
+          },
+          {
+            "馬番": 9,
+            "馬名": "スーパージョック",
+            "人気": null
+          }
+        ],
+        "穴": [
+          {
+            "馬番": 4,
+            "馬名": "ニホンピロカラット",
+            "人気": null
+          },
+          {
+            "馬番": 7,
+            "馬名": "アンビシャスヨシノ",
+            "人気": null
+          },
+          {
+            "馬番": 10,
+            "馬名": "ジュルナール",
+            "人気": null
+          }
+        ],
+        "合成オッズ": 2.08,
+        "組み合わせ数": 4,
+        "全買い目": [
+          [
+            15,
+            11,
+            2
+          ],
+          [
+            15,
+            11,
+            9
+          ],
+          [
+            15,
+            2,
+            9
+          ],
+          [
+            11,
+            2,
+            9
+          ]
+        ],
+        "投資額": 400
+      },
+      "status": "結果取得不可",
+      "predicted": [
+        "15-11-2",
+        "15-11-9",
+        "15-2-9",
+        "11-2-9"
+      ],
+      "actual": [],
+      "hit": false,
+      "investment": 400,
+      "per_bet_investment": 100,
+      "return": 0,
+      "profit": 0,
+      "aggregate_excluded": true,
+      "payouts": {},
+      "horse_weights": [],
+      "all_horses_result": [],
+      "race_verification": {},
+      "virtual_bets_result": {},
+      "weather": "",
+      "track_condition": "",
+      "predicted_pace": "スローペース"
+    }
+  ]
+}
