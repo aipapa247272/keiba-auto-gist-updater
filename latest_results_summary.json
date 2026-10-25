@@ -1,32 +1,47 @@
 {
-  "ymd": "20261024",
-  "generated_at": "2026-10-24 19:42:49",
+  "ymd": "20261025",
+  "generated_at": "2026-10-25 17:01:06",
   "logic_version": "v12",
   "summary": {
-    "total_races": 1,
+    "total_races": 2,
     "hit_count": 0,
-    "miss_count": 1,
+    "miss_count": 2,
     "hit_rate": 0.0,
-    "total_investment": 400,
+    "total_investment": 800,
     "total_payout": 0,
-    "net_profit": -400,
+    "net_profit": -800,
     "recovery_rate": 0.0
   },
   "details": [
     {
-      "race_id": "202604040309",
-      "race_name": "稲光特別",
-      "venue": "新潟",
+      "race_id": "202608040911",
+      "race_name": "菊花賞",
+      "venue": "京都",
       "prediction_type": "reference",
       "investment": 400,
       "combo_count": 4,
       "per_bet_investment": 100,
-      "synthetic_odds": 2.05,
+      "synthetic_odds": 2.04,
       "hit": false,
       "hit_type": null,
       "payout": 0,
       "profit": -400,
-      "reason": "不的中 (実際: 13-5-7, 4点中)"
+      "reason": "不的中 (実際: 9-6-10, 4点中)"
+    },
+    {
+      "race_id": "202608040912",
+      "race_name": "嵯峨野特別",
+      "venue": "京都",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.08,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "不的中 (実際: 5-12-7, 4点中)"
     }
   ]
 }
