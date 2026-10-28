@@ -1,6 +1,6 @@
 {
   "ymd": "20261028",
-  "generated_at": "2026-10-27 23:18:08",
+  "generated_at": "2026-10-28 18:47:08",
   "logic_version": "v12",
   "summary": {
     "total_races": 8,
@@ -26,7 +26,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -2300,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 12-8-4, 23点中)"
     },
     {
       "race_id": "202650102807",
@@ -41,7 +41,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -2100,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 2-9-10, 21点中)"
     },
     {
       "race_id": "202644102806",
@@ -56,7 +56,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -2100,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 3-11-13, 21点中)"
     },
     {
       "race_id": "202644102811",
@@ -71,7 +71,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -400,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 3-7-13, 4点中)"
     },
     {
       "race_id": "202648102802",
@@ -86,7 +86,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -400,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 8-7-5, 4点中)"
     },
     {
       "race_id": "202648102803",
@@ -101,7 +101,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -400,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 9-12-5, 4点中)"
     },
     {
       "race_id": "202648102811",
@@ -116,7 +116,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -400,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 11-10-7, 4点中)"
     },
     {
       "race_id": "202650102802",
@@ -131,7 +131,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -400,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 10-8-9, 4点中)"
     }
   ]
 }
