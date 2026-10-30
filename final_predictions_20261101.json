@@ -1,0 +1,55 @@
+{
+  "ymd": "20261101",
+  "logic_version": "v14.4_93法則条件化・穴保護枠・合成オッズ閾値動的化",
+  "generated_at": "2026-10-31 04:10:39 (JST)",
+  "total_races": 24,
+  "selected_races": 0,
+  "skipped_races": 24,
+  "summary": {
+    "turbulence": {
+      "低": 0,
+      "中": 0,
+      "高": 0
+    },
+    "total_investment": 0,
+    "old_total_investment": 0,
+    "investment_reduction": "100.0%削減",
+    "skip_breakdown": {
+      "断層なし(フラット)": 6,
+      "合成オッズ不足": 2,
+      "その他": 16
+    },
+    "skip_breakdown_detailed": {
+      "若馬戦": 16,
+      "合成オッズ不足": 2,
+      "断層なし": 6
+    },
+    "reference_count": 0
+  },
+  "fund_management": {
+    "base_stake_trifecta": 100,
+    "base_stake_wide": 500,
+    "base_stake_place": 300,
+    "max_combos_trifecta": 20,
+    "max_combos_wide": 2,
+    "max_combos_place": 3,
+    "min_synthetic_odds": 3.5,
+    "odds_boost_threshold_5": 5.0,
+    "enable_trifecta_stake_boost": false,
+    "min_wide_odds": 5.0,
+    "min_place_odds": 2.0,
+    "place_odds_spread_min": 2.0,
+    "daily_loss_limit": 10000,
+    "weekly_loss_limit": 30000,
+    "consecutive_loss_stop": 3,
+    "odds_layer_threshold": 2.0,
+    "max_popularity_place": 5,
+    "hole_horse_min_popularity": 5,
+    "reference_min_odds": 2.0,
+    "reference_max_odds": 3.5,
+    "reference_stake_ratio": 1.0
+  },
+  "selected_predictions": [],
+  "reference_predictions": [],
+  "reference_count": 0
+}
