@@ -1,16 +1,16 @@
 {
   "ymd": "20261030",
-  "generated_at": "2026-10-29 23:43:52",
+  "generated_at": "2026-10-30 18:31:30",
   "logic_version": "v12",
   "summary": {
     "total_races": 6,
-    "hit_count": 0,
-    "miss_count": 6,
-    "hit_rate": 0.0,
+    "hit_count": 1,
+    "miss_count": 5,
+    "hit_rate": 16.7,
     "total_investment": 6000,
-    "total_payout": 0,
-    "net_profit": -6000,
-    "recovery_rate": 0.0
+    "total_payout": 2680,
+    "net_profit": -3320,
+    "recovery_rate": 44.7
   },
   "details": [
     {
@@ -26,7 +26,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -2300,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 12-11-6, 23点中)"
     },
     {
       "race_id": "202648103004",
@@ -37,11 +37,11 @@
       "combo_count": 21,
       "per_bet_investment": 100,
       "synthetic_odds": 4.45,
-      "hit": false,
-      "hit_type": null,
-      "payout": 0,
-      "profit": -2100,
-      "reason": "着順データなし"
+      "hit": true,
+      "hit_type": "三連複",
+      "payout": 2680,
+      "profit": 580,
+      "reason": "的中 3-7-11"
     },
     {
       "race_id": "202644103001",
@@ -56,7 +56,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -400,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 5-11-10, 4点中)"
     },
     {
       "race_id": "202644103007",
@@ -71,7 +71,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -400,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 11-10-12, 4点中)"
     },
     {
       "race_id": "202646103003",
@@ -86,7 +86,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -400,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 8-9-2, 4点中)"
     },
     {
       "race_id": "202650103005",
@@ -101,7 +101,7 @@
       "hit_type": null,
       "payout": 0,
       "profit": -400,
-      "reason": "着順データなし"
+      "reason": "不的中 (実際: 2-8-6, 4点中)"
     }
   ]
 }
