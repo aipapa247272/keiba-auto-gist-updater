@@ -1,32 +1,16 @@
 {
-  "ymd": "20261031",
-  "generated_at": "2026-10-31 20:38:26",
+  "ymd": "20261101",
+  "generated_at": "2026-10-31 22:44:12",
   "logic_version": "v12",
   "summary": {
-    "total_races": 1,
+    "total_races": 0,
     "hit_count": 0,
-    "miss_count": 1,
-    "hit_rate": 0.0,
-    "total_investment": 400,
+    "miss_count": 0,
+    "hit_rate": 0,
+    "total_investment": 0,
     "total_payout": 0,
-    "net_profit": -400,
-    "recovery_rate": 0.0
+    "net_profit": 0,
+    "recovery_rate": 0
   },
-  "details": [
-    {
-      "race_id": "202608041010",
-      "race_name": "ハロウィンS",
-      "venue": "京都",
-      "prediction_type": "reference",
-      "investment": 400,
-      "combo_count": 4,
-      "per_bet_investment": 100,
-      "synthetic_odds": 2.01,
-      "hit": false,
-      "hit_type": null,
-      "payout": 0,
-      "profit": -400,
-      "reason": "不的中 (実際: 3-11-9, 4点中)"
-    }
-  ]
+  "details": []
 }
