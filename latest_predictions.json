@@ -1,10 +1,10 @@
 {
-  "ymd": "20261107",
+  "ymd": "20261108",
   "logic_version": "v14.4_93法則条件化・穴保護枠・合成オッズ閾値動的化",
-  "generated_at": "2026-11-06 06:34:51 (JST)",
-  "total_races": 36,
+  "generated_at": "2026-11-07 05:24:34 (JST)",
+  "total_races": 35,
   "selected_races": 0,
-  "skipped_races": 36,
+  "skipped_races": 35,
   "summary": {
     "turbulence": {
       "低": 0,
@@ -15,14 +15,14 @@
     "old_total_investment": 0,
     "investment_reduction": "100.0%削減",
     "skip_breakdown": {
-      "断層なし(フラット)": 5,
-      "合成オッズ不足": 4,
-      "その他": 27
+      "断層なし(フラット)": 7,
+      "合成オッズ不足": 2,
+      "その他": 26
     },
     "skip_breakdown_detailed": {
-      "若馬戦": 27,
-      "断層なし": 5,
-      "合成オッズ不足": 4
+      "若馬戦": 26,
+      "断層なし": 7,
+      "合成オッズ不足": 2
     },
     "reference_count": 0
   },
