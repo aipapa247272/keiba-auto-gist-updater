@@ -1,9 +1,10 @@
 {
-  "generated_at": "2026-11-07 19:35:40",
-  "base_ymd": "20261107",
+  "generated_at": "2026-11-07 21:03:41",
+  "base_ymd": "20261108",
   "lookback_days": 14,
-  "latest_complete_ymd": "20261107",
+  "latest_complete_ymd": "20261108",
   "complete_dates": [
+    "20261108",
     "20261107",
     "20261106",
     "20261105",
@@ -16,8 +17,7 @@
     "20261029",
     "20261028",
     "20261027",
-    "20261026",
-    "20261025"
+    "20261026"
   ],
   "partial_dates": [
     "20261106",
@@ -30,11 +30,35 @@
     "20261029",
     "20261028",
     "20261027",
-    "20261026",
-    "20261025"
+    "20261026"
   ],
   "unresolved_dates": [],
   "rows": [
+    {
+      "ymd": "20261108",
+      "has_predictions": true,
+      "had_result_before": true,
+      "refetched": false,
+      "fetch_rc": null,
+      "status_before": {
+        "ymd": "20261108",
+        "total_races": 0,
+        "hit_count": 0,
+        "miss_count": 0,
+        "unavailable_count": 0,
+        "total_profit": 0
+      },
+      "status_after": {
+        "ymd": "20261108",
+        "total_races": 0,
+        "hit_count": 0,
+        "miss_count": 0,
+        "unavailable_count": 0,
+        "total_profit": 0
+      },
+      "is_complete": true,
+      "is_partial": false
+    },
     {
       "ymd": "20261107",
       "has_predictions": true,
@@ -356,31 +380,6 @@
         "miss_count": 4,
         "unavailable_count": 0,
         "total_profit": -2550
-      },
-      "is_complete": true,
-      "is_partial": true
-    },
-    {
-      "ymd": "20261025",
-      "has_predictions": true,
-      "had_result_before": true,
-      "refetched": false,
-      "fetch_rc": null,
-      "status_before": {
-        "ymd": "20261025",
-        "total_races": 2,
-        "hit_count": 0,
-        "miss_count": 2,
-        "unavailable_count": 0,
-        "total_profit": -800
-      },
-      "status_after": {
-        "ymd": "20261025",
-        "total_races": 2,
-        "hit_count": 0,
-        "miss_count": 2,
-        "unavailable_count": 0,
-        "total_profit": -800
       },
       "is_complete": true,
       "is_partial": true
