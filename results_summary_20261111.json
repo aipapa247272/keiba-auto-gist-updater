@@ -1,0 +1,92 @@
+{
+  "ymd": "20261111",
+  "generated_at": "2026-11-10 21:37:56",
+  "logic_version": "v12",
+  "summary": {
+    "total_races": 5,
+    "hit_count": 0,
+    "miss_count": 5,
+    "hit_rate": 0.0,
+    "total_investment": 3700,
+    "total_payout": 0,
+    "net_profit": -3700,
+    "recovery_rate": 0.0
+  },
+  "details": [
+    {
+      "race_id": "202650111109",
+      "race_name": "C2一",
+      "venue": "園田",
+      "prediction_type": "recommend",
+      "investment": 2100,
+      "combo_count": 21,
+      "per_bet_investment": 100,
+      "synthetic_odds": 5.75,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2100,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202645111109",
+      "race_name": "初霜特別(B3二)",
+      "venue": "川崎",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 3.0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202645111112",
+      "race_name": "2026川崎ジョッキーズカップ第5戦(C2)",
+      "venue": "川崎",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.25,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202648111103",
+      "race_name": "C14組",
+      "venue": "名古屋",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 3.1,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202650111108",
+      "race_name": "C2二",
+      "venue": "園田",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.5,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    }
+  ]
+}
