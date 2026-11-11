@@ -1,0 +1,257 @@
+{
+  "date": "2026/11/12",
+  "ymd": "20261112",
+  "generated_at": "2026-11-11 22:27:15",
+  "total_races": 2,
+  "hit_count": 0,
+  "miss_count": 0,
+  "unavailable_count": 2,
+  "no_pred_count": 0,
+  "valid_races": 0,
+  "total_investment": 0,
+  "total_return": 0,
+  "total_profit": 0,
+  "hit_rate": 0,
+  "recovery_rate": 0,
+  "summary_by_type": {
+    "recommend": {
+      "label": "推奨",
+      "total_races": 0,
+      "hit_count": 0,
+      "valid_races": 0,
+      "total_investment": 0,
+      "total_return": 0,
+      "total_profit": 0,
+      "hit_rate": 0,
+      "recovery_rate": 0
+    },
+    "reference": {
+      "label": "参考",
+      "total_races": 2,
+      "hit_count": 0,
+      "valid_races": 0,
+      "total_investment": 0,
+      "total_return": 0,
+      "total_profit": 0,
+      "hit_rate": 0,
+      "recovery_rate": 0
+    }
+  },
+  "races": [
+    {
+      "race_id": "202645111201",
+      "venue": "川崎",
+      "race_num": "01",
+      "race_name": "C3三四",
+      "prediction_type": "reference",
+      "prediction_label": "参考",
+      "ref_rank": "⭐⭐",
+      "note": "合成オッズが推奨基準未満。自己判断でご参考ください。",
+      "synthetic_odds": 3.05,
+      "score_tier": "",
+      "distance": 1400,
+      "track": "ダ",
+      "start_time": "14:45",
+      "betting_plan": {
+        "軸": [
+          {
+            "馬番": 11,
+            "馬名": "ヒナタスカイ",
+            "人気": 3,
+            "補正後スコア": 79.5
+          },
+          {
+            "馬番": 4,
+            "馬名": "プロンプトノア",
+            "人気": 4,
+            "補正後スコア": 72.65
+          }
+        ],
+        "相手": [
+          {
+            "馬番": 2,
+            "馬名": "オーロファルコン",
+            "人気": 2
+          },
+          {
+            "馬番": 12,
+            "馬名": "ミカエンブレイス",
+            "人気": 8
+          }
+        ],
+        "穴": [
+          {
+            "馬番": 8,
+            "馬名": "アンリ",
+            "人気": 12
+          },
+          {
+            "馬番": 7,
+            "馬名": "ボンマティ",
+            "人気": 11
+          },
+          {
+            "馬番": 6,
+            "馬名": "アンジェラカフェ",
+            "人気": 6
+          }
+        ],
+        "合成オッズ": 3.05,
+        "組み合わせ数": 4,
+        "全買い目": [
+          [
+            11,
+            4,
+            2
+          ],
+          [
+            11,
+            4,
+            12
+          ],
+          [
+            11,
+            2,
+            12
+          ],
+          [
+            4,
+            2,
+            12
+          ]
+        ],
+        "投資額": 400
+      },
+      "status": "結果取得不可",
+      "predicted": [
+        "11-4-2",
+        "11-4-12",
+        "11-2-12",
+        "4-2-12"
+      ],
+      "actual": [],
+      "hit": false,
+      "investment": 400,
+      "per_bet_investment": 100,
+      "return": 0,
+      "profit": 0,
+      "aggregate_excluded": true,
+      "payouts": {},
+      "horse_weights": [],
+      "all_horses_result": [],
+      "race_verification": {},
+      "virtual_bets_result": {},
+      "weather": "",
+      "track_condition": "",
+      "predicted_pace": "ミドルペース"
+    },
+    {
+      "race_id": "202645111210",
+      "venue": "川崎",
+      "race_num": "10",
+      "race_name": "「ご縁の国しまね」特別(B3二)",
+      "prediction_type": "reference",
+      "prediction_label": "参考",
+      "ref_rank": "⭐⭐",
+      "note": "合成オッズが推奨基準未満。自己判断でご参考ください。",
+      "synthetic_odds": 2.15,
+      "score_tier": "",
+      "distance": 1400,
+      "track": "ダ",
+      "start_time": "19:30",
+      "betting_plan": {
+        "軸": [
+          {
+            "馬番": 13,
+            "馬名": "カルダモンロール",
+            "人気": 3,
+            "補正後スコア": 91.0
+          },
+          {
+            "馬番": 1,
+            "馬名": "アオイハナミチ",
+            "人気": 4,
+            "補正後スコア": 91.0
+          },
+          {
+            "馬番": 9,
+            "馬名": "ペッパーミル",
+            "人気": 1,
+            "補正後スコア": 89.5
+          }
+        ],
+        "相手": [
+          {
+            "馬番": 6,
+            "馬名": "エンゲルリート",
+            "人気": 2
+          }
+        ],
+        "穴": [
+          {
+            "馬番": 5,
+            "馬名": "サラサチャレンジ",
+            "人気": 10
+          },
+          {
+            "馬番": 11,
+            "馬名": "アイルプロテクト",
+            "人気": 9
+          },
+          {
+            "馬番": 2,
+            "馬名": "バルジェロ",
+            "人気": 5
+          }
+        ],
+        "合成オッズ": 2.15,
+        "組み合わせ数": 4,
+        "全買い目": [
+          [
+            13,
+            1,
+            9
+          ],
+          [
+            13,
+            1,
+            6
+          ],
+          [
+            13,
+            9,
+            6
+          ],
+          [
+            1,
+            9,
+            6
+          ]
+        ],
+        "投資額": 400
+      },
+      "status": "結果取得不可",
+      "predicted": [
+        "13-1-9",
+        "13-1-6",
+        "13-9-6",
+        "1-9-6"
+      ],
+      "actual": [],
+      "hit": false,
+      "investment": 400,
+      "per_bet_investment": 100,
+      "return": 0,
+      "profit": 0,
+      "aggregate_excluded": true,
+      "payouts": {},
+      "horse_weights": [],
+      "all_horses_result": [],
+      "race_verification": {},
+      "virtual_bets_result": {},
+      "weather": "",
+      "track_condition": "",
+      "predicted_pace": "ハイペース"
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "ymd": "20261112",
+  "generated_at": "2026-11-11 22:27:15",
+  "logic_version": "v12",
+  "summary": {
+    "total_races": 2,
+    "hit_count": 0,
+    "miss_count": 2,
+    "hit_rate": 0.0,
+    "total_investment": 800,
+    "total_payout": 0,
+    "net_profit": -800,
+    "recovery_rate": 0.0
+  },
+  "details": [
+    {
+      "race_id": "202645111201",
+      "race_name": "C3三四",
+      "venue": "川崎",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 3.05,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202645111210",
+      "race_name": "「ご縁の国しまね」特別(B3二)",
+      "venue": "川崎",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.15,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    }
+  ]
+}
