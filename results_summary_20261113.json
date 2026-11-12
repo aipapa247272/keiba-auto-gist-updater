@@ -1,0 +1,77 @@
+{
+  "ymd": "20261113",
+  "generated_at": "2026-11-12 22:07:41",
+  "logic_version": "v12",
+  "summary": {
+    "total_races": 4,
+    "hit_count": 0,
+    "miss_count": 4,
+    "hit_rate": 0.0,
+    "total_investment": 7100,
+    "total_payout": 0,
+    "net_profit": -7100,
+    "recovery_rate": 0.0
+  },
+  "details": [
+    {
+      "race_id": "202648111310",
+      "race_name": "冬隣特別(A)",
+      "venue": "名古屋",
+      "prediction_type": "recommend",
+      "investment": 2300,
+      "combo_count": 23,
+      "per_bet_investment": 100,
+      "synthetic_odds": 3.15,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2300,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202650111309",
+      "race_name": "C3",
+      "venue": "園田",
+      "prediction_type": "recommend",
+      "investment": 2200,
+      "combo_count": 22,
+      "per_bet_investment": 100,
+      "synthetic_odds": 3.55,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2200,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202648111311",
+      "race_name": "モービル・シティ特別(C)",
+      "venue": "名古屋",
+      "prediction_type": "recommend",
+      "investment": 2200,
+      "combo_count": 22,
+      "per_bet_investment": 100,
+      "synthetic_odds": 7.05,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2200,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202650111312",
+      "race_name": "C2一",
+      "venue": "園田",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.4,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    }
+  ]
+}
