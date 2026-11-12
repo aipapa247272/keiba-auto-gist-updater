@@ -1,0 +1,223 @@
+{
+  "ymd": "20261114",
+  "logic_version": "v14.4_93法則条件化・穴保護枠・合成オッズ閾値動的化",
+  "generated_at": "2026-11-13 06:27:09 (JST)",
+  "total_races": 36,
+  "selected_races": 0,
+  "skipped_races": 35,
+  "summary": {
+    "turbulence": {
+      "低": 0,
+      "中": 0,
+      "高": 0
+    },
+    "total_investment": 0,
+    "old_total_investment": 0,
+    "investment_reduction": "100.0%削減",
+    "skip_breakdown": {
+      "断層なし(フラット)": 5,
+      "合成オッズ不足": 3,
+      "その他": 27
+    },
+    "skip_breakdown_detailed": {
+      "若馬戦": 27,
+      "断層なし": 5,
+      "合成オッズ不足": 3
+    },
+    "reference_count": 1
+  },
+  "fund_management": {
+    "base_stake_trifecta": 100,
+    "base_stake_wide": 500,
+    "base_stake_place": 300,
+    "max_combos_trifecta": 20,
+    "max_combos_wide": 2,
+    "max_combos_place": 3,
+    "min_synthetic_odds": 3.5,
+    "odds_boost_threshold_5": 5.0,
+    "enable_trifecta_stake_boost": false,
+    "min_wide_odds": 5.0,
+    "min_place_odds": 2.0,
+    "place_odds_spread_min": 2.0,
+    "daily_loss_limit": 10000,
+    "weekly_loss_limit": 30000,
+    "consecutive_loss_stop": 3,
+    "odds_layer_threshold": 2.0,
+    "max_popularity_place": 5,
+    "hole_horse_min_popularity": 5,
+    "reference_min_odds": 2.0,
+    "reference_max_odds": 3.5,
+    "reference_stake_ratio": 1.0
+  },
+  "selected_predictions": [],
+  "reference_predictions": [
+    {
+      "race_id": "202608050309",
+      "race_name": "天橋立S",
+      "venue": "京都",
+      "distance": 1800,
+      "track": "ダ",
+      "start_time": "14:30",
+      "grade": "",
+      "ref_rank": "⭐⭐",
+      "ref_label": "参考",
+      "synthetic_odds": 2.07,
+      "investment": 400,
+      "note": "合成オッズが推奨基準未満。自己判断でご参考ください。",
+      "断層分析": {
+        "断層数": 2,
+        "断層詳細": [
+          {
+            "position": 1,
+            "change_rate": 1.18,
+            "boundary_odds": null,
+            "from_horse": "リベッチオ",
+            "to_horse": "ダンツシタン",
+            "estimated": true,
+            "method": "score_diff"
+          },
+          {
+            "position": 5,
+            "change_rate": 1.33,
+            "boundary_odds": null,
+            "from_horse": "ベルダイナフェロー",
+            "to_horse": "ロフティストーリー",
+            "estimated": true,
+            "method": "score_diff"
+          }
+        ],
+        "レースタイプ": "double_layer",
+        "実オッズ使用": false,
+        "合成オッズ_基準値": 3.5,
+        "合成オッズ_基準値_通常": 3.5,
+        "93ルール_強制頭数": 3,
+        "93ルール_理由": "通常レースのため人気1-3を維持",
+        "穴保護枠": 1,
+        "穴保護対象": [
+          "6"
+        ],
+        "合成オッズ": 2.07,
+        "合成オッズ_全体": 0.82,
+        "合成オッズ_方法": "estimated",
+        "スキップ理由": "合成オッズ不足(参考枠へ)(コア:2.07倍 < 3.5倍)",
+        "参考予測": true,
+        "参考_合成オッズ": 2.07,
+        "軸馬候補": [
+          {
+            "馬番": 12,
+            "馬名": "リベッチオ",
+            "人気": null,
+            "補正後スコア": 72.5
+          },
+          {
+            "馬番": 11,
+            "馬名": "ダンツシタン",
+            "人気": null,
+            "補正後スコア": 61.4
+          }
+        ],
+        "相手馬候補": [
+          {
+            "馬番": 7,
+            "馬名": "ヤマニンバロネス",
+            "人気": null
+          },
+          {
+            "馬番": 10,
+            "馬名": "タガノアバンドーネ",
+            "人気": null
+          }
+        ],
+        "穴馬候補": [
+          {
+            "馬番": 6,
+            "馬名": "ロフティストーリー",
+            "人気": null
+          },
+          {
+            "馬番": 5,
+            "馬名": "ルクスフレンジー",
+            "人気": null
+          },
+          {
+            "馬番": 2,
+            "馬名": "メイショウソウタ",
+            "人気": null
+          }
+        ],
+        "スキップ種別": "合成オッズ不足"
+      },
+      "betting_plan": {
+        "軸": [
+          {
+            "馬番": 12,
+            "馬名": "リベッチオ",
+            "人気": null,
+            "補正後スコア": 72.5
+          },
+          {
+            "馬番": 11,
+            "馬名": "ダンツシタン",
+            "人気": null,
+            "補正後スコア": 61.4
+          }
+        ],
+        "相手": [
+          {
+            "馬番": 7,
+            "馬名": "ヤマニンバロネス",
+            "人気": null
+          },
+          {
+            "馬番": 10,
+            "馬名": "タガノアバンドーネ",
+            "人気": null
+          }
+        ],
+        "穴": [
+          {
+            "馬番": 6,
+            "馬名": "ロフティストーリー",
+            "人気": null
+          },
+          {
+            "馬番": 5,
+            "馬名": "ルクスフレンジー",
+            "人気": null
+          },
+          {
+            "馬番": 2,
+            "馬名": "メイショウソウタ",
+            "人気": null
+          }
+        ],
+        "合成オッズ": 2.07,
+        "組み合わせ数": 4,
+        "全買い目": [
+          [
+            12,
+            11,
+            7
+          ],
+          [
+            12,
+            11,
+            10
+          ],
+          [
+            12,
+            7,
+            10
+          ],
+          [
+            11,
+            7,
+            10
+          ]
+        ],
+        "投資額": 400
+      }
+    }
+  ],
+  "reference_count": 1
+}
