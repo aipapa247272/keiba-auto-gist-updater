@@ -1,0 +1,257 @@
+{
+  "date": "2026/11/15",
+  "ymd": "20261115",
+  "generated_at": "2026-11-14 21:52:28",
+  "total_races": 2,
+  "hit_count": 0,
+  "miss_count": 0,
+  "unavailable_count": 2,
+  "no_pred_count": 0,
+  "valid_races": 0,
+  "total_investment": 0,
+  "total_return": 0,
+  "total_profit": 0,
+  "hit_rate": 0,
+  "recovery_rate": 0,
+  "summary_by_type": {
+    "recommend": {
+      "label": "推奨",
+      "total_races": 0,
+      "hit_count": 0,
+      "valid_races": 0,
+      "total_investment": 0,
+      "total_return": 0,
+      "total_profit": 0,
+      "hit_rate": 0,
+      "recovery_rate": 0
+    },
+    "reference": {
+      "label": "参考",
+      "total_races": 2,
+      "hit_count": 0,
+      "valid_races": 0,
+      "total_investment": 0,
+      "total_return": 0,
+      "total_profit": 0,
+      "hit_rate": 0,
+      "recovery_rate": 0
+    }
+  },
+  "races": [
+    {
+      "race_id": "202608050409",
+      "venue": "京都",
+      "race_num": "09",
+      "race_name": "黄菊賞",
+      "prediction_type": "reference",
+      "prediction_label": "参考",
+      "ref_rank": "⭐⭐",
+      "note": "合成オッズが推奨基準未満。自己判断でご参考ください。",
+      "synthetic_odds": 2.19,
+      "score_tier": "",
+      "distance": 2000,
+      "track": "芝",
+      "start_time": "14:20",
+      "betting_plan": {
+        "軸": [
+          {
+            "馬番": 5,
+            "馬名": "ロマノヴェリテ",
+            "人気": null,
+            "補正後スコア": 68.5
+          },
+          {
+            "馬番": 2,
+            "馬名": "マンナット",
+            "人気": null,
+            "補正後スコア": 66.0
+          },
+          {
+            "馬番": 4,
+            "馬名": "タイヴァス",
+            "人気": null,
+            "補正後スコア": 64.5
+          }
+        ],
+        "相手": [
+          {
+            "馬番": 3,
+            "馬名": "サイモンレガシー",
+            "人気": null
+          }
+        ],
+        "穴": [
+          {
+            "馬番": 7,
+            "馬名": "チカバリエンテ",
+            "人気": null
+          },
+          {
+            "馬番": 10,
+            "馬名": "キトゥンズクラフト",
+            "人気": null
+          },
+          {
+            "馬番": 6,
+            "馬名": "トロカアニマダ",
+            "人気": null
+          }
+        ],
+        "合成オッズ": 2.19,
+        "組み合わせ数": 4,
+        "全買い目": [
+          [
+            5,
+            2,
+            4
+          ],
+          [
+            5,
+            2,
+            3
+          ],
+          [
+            5,
+            4,
+            3
+          ],
+          [
+            2,
+            4,
+            3
+          ]
+        ],
+        "投資額": 400
+      },
+      "status": "結果取得不可",
+      "predicted": [
+        "5-2-4",
+        "5-2-3",
+        "5-4-3",
+        "2-4-3"
+      ],
+      "actual": [],
+      "hit": false,
+      "investment": 400,
+      "per_bet_investment": 100,
+      "return": 0,
+      "profit": 0,
+      "aggregate_excluded": true,
+      "payouts": {},
+      "horse_weights": [],
+      "all_horses_result": [],
+      "race_verification": {},
+      "virtual_bets_result": {},
+      "weather": "",
+      "track_condition": "",
+      "predicted_pace": "ハイペース"
+    },
+    {
+      "race_id": "202603030410",
+      "venue": "福島",
+      "race_num": "10",
+      "race_name": "三陸特別",
+      "prediction_type": "reference",
+      "prediction_label": "参考",
+      "ref_rank": "⭐⭐",
+      "note": "合成オッズが推奨基準未満。自己判断でご参考ください。",
+      "synthetic_odds": 2.23,
+      "score_tier": "",
+      "distance": 2600,
+      "track": "芝",
+      "start_time": "14:35",
+      "betting_plan": {
+        "軸": [
+          {
+            "馬番": 22,
+            "馬名": "レーヴドロペラ",
+            "人気": null,
+            "補正後スコア": 73.25
+          },
+          {
+            "馬番": 11,
+            "馬名": "ドッビアーコ",
+            "人気": null,
+            "補正後スコア": 66.5
+          }
+        ],
+        "相手": [
+          {
+            "馬番": 17,
+            "馬名": "ジュンライデン",
+            "人気": null
+          },
+          {
+            "馬番": 14,
+            "馬名": "バースライト",
+            "人気": null
+          }
+        ],
+        "穴": [
+          {
+            "馬番": 19,
+            "馬名": "ゲンジ",
+            "人気": null
+          },
+          {
+            "馬番": 18,
+            "馬名": "ダノンピクチャー",
+            "人気": null
+          },
+          {
+            "馬番": 7,
+            "馬名": "オルトパラティウム",
+            "人気": null
+          }
+        ],
+        "合成オッズ": 2.23,
+        "組み合わせ数": 4,
+        "全買い目": [
+          [
+            22,
+            11,
+            17
+          ],
+          [
+            22,
+            11,
+            14
+          ],
+          [
+            22,
+            17,
+            14
+          ],
+          [
+            11,
+            17,
+            14
+          ]
+        ],
+        "投資額": 400
+      },
+      "status": "結果取得不可",
+      "predicted": [
+        "22-11-17",
+        "22-11-14",
+        "22-17-14",
+        "11-17-14"
+      ],
+      "actual": [],
+      "hit": false,
+      "investment": 400,
+      "per_bet_investment": 100,
+      "return": 0,
+      "profit": 0,
+      "aggregate_excluded": true,
+      "payouts": {},
+      "horse_weights": [],
+      "all_horses_result": [],
+      "race_verification": {},
+      "virtual_bets_result": {},
+      "weather": "",
+      "track_condition": "",
+      "predicted_pace": "ミドルペース"
+    }
+  ]
+}
