@@ -1,32 +1,47 @@
 {
-  "ymd": "20261114",
-  "generated_at": "2026-11-14 20:03:31",
+  "ymd": "20261115",
+  "generated_at": "2026-11-15 19:19:20",
   "logic_version": "v12",
   "summary": {
-    "total_races": 1,
+    "total_races": 2,
     "hit_count": 0,
-    "miss_count": 1,
+    "miss_count": 2,
     "hit_rate": 0.0,
-    "total_investment": 400,
+    "total_investment": 800,
     "total_payout": 0,
-    "net_profit": -400,
+    "net_profit": -800,
     "recovery_rate": 0.0
   },
   "details": [
     {
-      "race_id": "202608050309",
-      "race_name": "天橋立S",
+      "race_id": "202608050409",
+      "race_name": "黄菊賞",
       "venue": "京都",
       "prediction_type": "reference",
       "investment": 400,
       "combo_count": 4,
       "per_bet_investment": 100,
-      "synthetic_odds": 2.07,
+      "synthetic_odds": 2.19,
       "hit": false,
       "hit_type": null,
       "payout": 0,
       "profit": -400,
-      "reason": "不的中 (実際: 6-10-8, 4点中)"
+      "reason": "不的中 (実際: 1-2-9, 4点中)"
+    },
+    {
+      "race_id": "202603030410",
+      "race_name": "三陸特別",
+      "venue": "福島",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.23,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "不的中 (実際: 9-7-13, 4点中)"
     }
   ]
 }
