@@ -1,0 +1,62 @@
+{
+  "ymd": "20261117",
+  "generated_at": "2026-11-16 23:03:31",
+  "logic_version": "v12",
+  "summary": {
+    "total_races": 3,
+    "hit_count": 0,
+    "miss_count": 3,
+    "hit_rate": 0.0,
+    "total_investment": 4600,
+    "total_payout": 0,
+    "net_profit": -4600,
+    "recovery_rate": 0.0
+  },
+  "details": [
+    {
+      "race_id": "202644111701",
+      "race_name": "C3一二",
+      "venue": "大井",
+      "prediction_type": "recommend",
+      "investment": 2100,
+      "combo_count": 21,
+      "per_bet_investment": 100,
+      "synthetic_odds": 4.3,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2100,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202644111708",
+      "race_name": "ミカド賞(C211)",
+      "venue": "大井",
+      "prediction_type": "recommend",
+      "investment": 2100,
+      "combo_count": 21,
+      "per_bet_investment": 100,
+      "synthetic_odds": 13.15,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2100,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202644111706",
+      "race_name": "C2十1112(C211)",
+      "venue": "大井",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.65,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    }
+  ]
+}
