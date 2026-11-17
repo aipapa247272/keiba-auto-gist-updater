@@ -1,0 +1,77 @@
+{
+  "ymd": "20261118",
+  "generated_at": "2026-11-17 21:53:30",
+  "logic_version": "v12",
+  "summary": {
+    "total_races": 4,
+    "hit_count": 0,
+    "miss_count": 4,
+    "hit_rate": 0.0,
+    "total_investment": 7100,
+    "total_payout": 0,
+    "net_profit": -7100,
+    "recovery_rate": 0.0
+  },
+  "details": [
+    {
+      "race_id": "202650111809",
+      "race_name": "C1",
+      "venue": "園田",
+      "prediction_type": "recommend",
+      "investment": 2300,
+      "combo_count": 23,
+      "per_bet_investment": 100,
+      "synthetic_odds": 3.5,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2300,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202650111807",
+      "race_name": "C1",
+      "venue": "園田",
+      "prediction_type": "recommend",
+      "investment": 2100,
+      "combo_count": 21,
+      "per_bet_investment": 100,
+      "synthetic_odds": 4.05,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2100,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202650111806",
+      "race_name": "C2一",
+      "venue": "園田",
+      "prediction_type": "recommend",
+      "investment": 2300,
+      "combo_count": 23,
+      "per_bet_investment": 100,
+      "synthetic_odds": 5.55,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2300,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202650111810",
+      "race_name": "JRA交流 水晶山特別",
+      "venue": "園田",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.0,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    }
+  ]
+}
