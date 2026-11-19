@@ -1,0 +1,62 @@
+{
+  "ymd": "20261120",
+  "generated_at": "2026-11-19 21:35:09",
+  "logic_version": "v12",
+  "summary": {
+    "total_races": 3,
+    "hit_count": 0,
+    "miss_count": 3,
+    "hit_rate": 0.0,
+    "total_investment": 1200,
+    "total_payout": 0,
+    "net_profit": -1200,
+    "recovery_rate": 0.0
+  },
+  "details": [
+    {
+      "race_id": "202644112008",
+      "race_name": "バロン賞(C1五)",
+      "venue": "大井",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.05,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202647112008",
+      "race_name": "B5組",
+      "venue": "笠松",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.3,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202650112009",
+      "race_name": "C2二",
+      "venue": "園田",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.5,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    }
+  ]
+}

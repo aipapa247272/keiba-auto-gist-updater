@@ -1,0 +1,364 @@
+{
+  "date": "2026/11/20",
+  "ymd": "20261120",
+  "generated_at": "2026-11-19 21:35:09",
+  "total_races": 3,
+  "hit_count": 0,
+  "miss_count": 0,
+  "unavailable_count": 3,
+  "no_pred_count": 0,
+  "valid_races": 0,
+  "total_investment": 0,
+  "total_return": 0,
+  "total_profit": 0,
+  "hit_rate": 0,
+  "recovery_rate": 0,
+  "summary_by_type": {
+    "recommend": {
+      "label": "推奨",
+      "total_races": 0,
+      "hit_count": 0,
+      "valid_races": 0,
+      "total_investment": 0,
+      "total_return": 0,
+      "total_profit": 0,
+      "hit_rate": 0,
+      "recovery_rate": 0
+    },
+    "reference": {
+      "label": "参考",
+      "total_races": 3,
+      "hit_count": 0,
+      "valid_races": 0,
+      "total_investment": 0,
+      "total_return": 0,
+      "total_profit": 0,
+      "hit_rate": 0,
+      "recovery_rate": 0
+    }
+  },
+  "races": [
+    {
+      "race_id": "202644112008",
+      "venue": "大井",
+      "race_num": "08",
+      "race_name": "バロン賞(C1五)",
+      "prediction_type": "reference",
+      "prediction_label": "参考",
+      "ref_rank": "⭐⭐",
+      "note": "合成オッズが推奨基準未満。自己判断でご参考ください。",
+      "synthetic_odds": 2.05,
+      "score_tier": "",
+      "distance": 1600,
+      "track": "ダ",
+      "start_time": "18:20",
+      "betting_plan": {
+        "軸": [
+          {
+            "馬番": 12,
+            "馬名": "グレン",
+            "人気": 2,
+            "補正後スコア": 95.0
+          },
+          {
+            "馬番": 11,
+            "馬名": "スカイイズユアーズ",
+            "人気": 6,
+            "補正後スコア": 81.5
+          }
+        ],
+        "相手": [
+          {
+            "馬番": 4,
+            "馬名": "タイセツレーヴ",
+            "人気": 1
+          },
+          {
+            "馬番": 1,
+            "馬名": "ヴァルチャースター",
+            "人気": 3
+          }
+        ],
+        "穴": [
+          {
+            "馬番": 6,
+            "馬名": "ユウユウスターリー",
+            "人気": 12
+          },
+          {
+            "馬番": 8,
+            "馬名": "ヴァンビー",
+            "人気": 11
+          },
+          {
+            "馬番": 7,
+            "馬名": "ミノコクシュタルク",
+            "人気": 13
+          }
+        ],
+        "合成オッズ": 2.05,
+        "組み合わせ数": 4,
+        "全買い目": [
+          [
+            12,
+            11,
+            4
+          ],
+          [
+            12,
+            11,
+            1
+          ],
+          [
+            12,
+            4,
+            1
+          ],
+          [
+            11,
+            4,
+            1
+          ]
+        ],
+        "投資額": 400
+      },
+      "status": "結果取得不可",
+      "predicted": [
+        "12-11-4",
+        "12-11-1",
+        "12-4-1",
+        "11-4-1"
+      ],
+      "actual": [],
+      "hit": false,
+      "investment": 400,
+      "per_bet_investment": 100,
+      "return": 0,
+      "profit": 0,
+      "aggregate_excluded": true,
+      "payouts": {},
+      "horse_weights": [],
+      "all_horses_result": [],
+      "race_verification": {},
+      "virtual_bets_result": {},
+      "weather": "",
+      "track_condition": "",
+      "predicted_pace": "ハイペース"
+    },
+    {
+      "race_id": "202647112008",
+      "venue": "笠松",
+      "race_num": "08",
+      "race_name": "B5組",
+      "prediction_type": "reference",
+      "prediction_label": "参考",
+      "ref_rank": "⭐⭐",
+      "note": "合成オッズが推奨基準未満。自己判断でご参考ください。",
+      "synthetic_odds": 2.3,
+      "score_tier": "",
+      "distance": 1400,
+      "track": "ダ",
+      "start_time": "14:00",
+      "betting_plan": {
+        "軸": [
+          {
+            "馬番": 3,
+            "馬名": "ヴァサヴォワール",
+            "人気": 2,
+            "補正後スコア": 79.0
+          },
+          {
+            "馬番": 5,
+            "馬名": "サイモンカーチス",
+            "人気": 4,
+            "補正後スコア": 75.4
+          },
+          {
+            "馬番": 2,
+            "馬名": "ナデシコザクラ",
+            "人気": 1,
+            "補正後スコア": 72.75
+          }
+        ],
+        "相手": [
+          {
+            "馬番": 11,
+            "馬名": "リケアペンネ",
+            "人気": 3
+          }
+        ],
+        "穴": [
+          {
+            "馬番": 6,
+            "馬名": "カンナリリー",
+            "人気": 11
+          },
+          {
+            "馬番": 7,
+            "馬名": "チュウワギフト",
+            "人気": 10
+          },
+          {
+            "馬番": 4,
+            "馬名": "アルマヘクトール",
+            "人気": 12
+          }
+        ],
+        "合成オッズ": 2.3,
+        "組み合わせ数": 4,
+        "全買い目": [
+          [
+            3,
+            5,
+            2
+          ],
+          [
+            3,
+            5,
+            11
+          ],
+          [
+            3,
+            2,
+            11
+          ],
+          [
+            5,
+            2,
+            11
+          ]
+        ],
+        "投資額": 400
+      },
+      "status": "結果取得不可",
+      "predicted": [
+        "3-5-2",
+        "3-5-11",
+        "3-2-11",
+        "5-2-11"
+      ],
+      "actual": [],
+      "hit": false,
+      "investment": 400,
+      "per_bet_investment": 100,
+      "return": 0,
+      "profit": 0,
+      "aggregate_excluded": true,
+      "payouts": {},
+      "horse_weights": [],
+      "all_horses_result": [],
+      "race_verification": {},
+      "virtual_bets_result": {},
+      "weather": "",
+      "track_condition": "",
+      "predicted_pace": "ハイペース"
+    },
+    {
+      "race_id": "202650112009",
+      "venue": "園田",
+      "race_num": "09",
+      "race_name": "C2二",
+      "prediction_type": "reference",
+      "prediction_label": "参考",
+      "ref_rank": "⭐⭐",
+      "note": "合成オッズが推奨基準未満。自己判断でご参考ください。",
+      "synthetic_odds": 2.5,
+      "score_tier": "",
+      "distance": 1400,
+      "track": "ダ",
+      "start_time": "14:45",
+      "betting_plan": {
+        "軸": [
+          {
+            "馬番": 3,
+            "馬名": "フォーウィンド",
+            "人気": 2,
+            "補正後スコア": 102.6
+          },
+          {
+            "馬番": 10,
+            "馬名": "シナモンショコラ",
+            "人気": 4,
+            "補正後スコア": 87.5
+          }
+        ],
+        "相手": [
+          {
+            "馬番": 9,
+            "馬名": "テーオーニコラス",
+            "人気": 3
+          },
+          {
+            "馬番": 2,
+            "馬名": "コワモテハマー",
+            "人気": 1
+          }
+        ],
+        "穴": [
+          {
+            "馬番": 8,
+            "馬名": "エムザックドリーム",
+            "人気": 7
+          },
+          {
+            "馬番": 11,
+            "馬名": "リゴートゥー",
+            "人気": 8
+          },
+          {
+            "馬番": 6,
+            "馬名": "ララアンセストラル",
+            "人気": 10
+          }
+        ],
+        "合成オッズ": 2.5,
+        "組み合わせ数": 4,
+        "全買い目": [
+          [
+            3,
+            10,
+            9
+          ],
+          [
+            3,
+            10,
+            2
+          ],
+          [
+            3,
+            9,
+            2
+          ],
+          [
+            10,
+            9,
+            2
+          ]
+        ],
+        "投資額": 400
+      },
+      "status": "結果取得不可",
+      "predicted": [
+        "3-10-9",
+        "3-10-2",
+        "3-9-2",
+        "10-9-2"
+      ],
+      "actual": [],
+      "hit": false,
+      "investment": 400,
+      "per_bet_investment": 100,
+      "return": 0,
+      "profit": 0,
+      "aggregate_excluded": true,
+      "payouts": {},
+      "horse_weights": [],
+      "all_horses_result": [],
+      "race_verification": {},
+      "virtual_bets_result": {},
+      "weather": "",
+      "track_condition": "",
+      "predicted_pace": "ハイペース"
+    }
+  ]
+}
