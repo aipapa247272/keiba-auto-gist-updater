@@ -1,47 +1,16 @@
 {
-  "ymd": "20261122",
-  "generated_at": "2026-11-22 20:16:36",
+  "ymd": "20261123",
+  "generated_at": "2026-11-22 21:14:07",
   "logic_version": "v12",
   "summary": {
-    "total_races": 2,
+    "total_races": 0,
     "hit_count": 0,
-    "miss_count": 2,
-    "hit_rate": 0.0,
-    "total_investment": 800,
+    "miss_count": 0,
+    "hit_rate": 0,
+    "total_investment": 0,
     "total_payout": 0,
-    "net_profit": -800,
-    "recovery_rate": 0.0
+    "net_profit": 0,
+    "recovery_rate": 0
   },
-  "details": [
-    {
-      "race_id": "202605050509",
-      "race_name": "赤松賞",
-      "venue": "東京",
-      "prediction_type": "reference",
-      "investment": 400,
-      "combo_count": 4,
-      "per_bet_investment": 100,
-      "synthetic_odds": 2.08,
-      "hit": false,
-      "hit_type": null,
-      "payout": 0,
-      "profit": -400,
-      "reason": "不的中 (実際: 2-6-8, 4点中)"
-    },
-    {
-      "race_id": "202605050511",
-      "race_name": "霜月S",
-      "venue": "東京",
-      "prediction_type": "reference",
-      "investment": 400,
-      "combo_count": 4,
-      "per_bet_investment": 100,
-      "synthetic_odds": 2.01,
-      "hit": false,
-      "hit_type": null,
-      "payout": 0,
-      "profit": -400,
-      "reason": "不的中 (実際: 9-5-6, 4点中)"
-    }
-  ]
+  "details": []
 }
