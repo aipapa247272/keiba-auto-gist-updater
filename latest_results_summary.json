@@ -1,16 +1,92 @@
 {
-  "ymd": "20261123",
-  "generated_at": "2026-11-23 00:25:28",
+  "ymd": "20261124",
+  "generated_at": "2026-11-24 04:36:37",
   "logic_version": "v12",
   "summary": {
-    "total_races": 0,
+    "total_races": 5,
     "hit_count": 0,
-    "miss_count": 0,
-    "hit_rate": 0,
-    "total_investment": 0,
+    "miss_count": 5,
+    "hit_rate": 0.0,
+    "total_investment": 5700,
     "total_payout": 0,
-    "net_profit": 0,
-    "recovery_rate": 0
+    "net_profit": -5700,
+    "recovery_rate": 0.0
   },
-  "details": []
+  "details": [
+    {
+      "race_id": "202636112406",
+      "race_name": "C1",
+      "venue": "水沢",
+      "prediction_type": "recommend",
+      "investment": 2300,
+      "combo_count": 23,
+      "per_bet_investment": 100,
+      "synthetic_odds": 4.6,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2300,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202648112405",
+      "race_name": "C19組",
+      "venue": "名古屋",
+      "prediction_type": "recommend",
+      "investment": 2200,
+      "combo_count": 22,
+      "per_bet_investment": 100,
+      "synthetic_odds": 3.7,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -2200,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202636112407",
+      "race_name": "C1七組",
+      "venue": "水沢",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.1,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202636112411",
+      "race_name": "山茶花特別(A)",
+      "venue": "水沢",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.65,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202642112411",
+      "race_name": "栃木県畜産協会長賞特別(B3)",
+      "venue": "浦和",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.6,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    }
+  ]
 }
