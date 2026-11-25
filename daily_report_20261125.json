@@ -1,21 +1,40 @@
 {
   "report_type": "daily",
-  "target_date": "2026-11-25",
-  "generated_at": "2026-11-25 00:07:17",
+  "target_date": "20261125",
+  "generated_at": "2026-11-25 22:37:12",
   "summary": {
-    "total_races": 5,
+    "total_races": 9,
     "hits": 0,
-    "misses": 5,
+    "misses": 9,
     "hit_rate": 0.0,
-    "total_investment": 5700,
+    "total_investment": 9000,
     "total_payout": 0,
-    "profit": -5700,
+    "profit": -9000,
     "recovery_rate": 0.0
   },
   "race_analysis": [
     {
-      "race_id": "202636112406",
-      "venue": "水沢",
+      "race_id": "202650112510",
+      "venue": "園田",
+      "race_number": "",
+      "is_hit": false,
+      "investment": 2100,
+      "payout": 0,
+      "profit": -2100,
+      "num_horses": 0,
+      "track": "ダ",
+      "distance": 820,
+      "turbulence": "中",
+      "predicted_pace": "ミドルペース",
+      "axis_runstyles": [
+        "不明",
+        "不明"
+      ],
+      "hole_count": 5
+    },
+    {
+      "race_id": "202650112509",
+      "venue": "園田",
       "race_number": "",
       "is_hit": false,
       "investment": 2300,
@@ -23,7 +42,7 @@
       "profit": -2300,
       "num_horses": 0,
       "track": "ダ",
-      "distance": 850,
+      "distance": 1400,
       "turbulence": "中",
       "predicted_pace": "ミドルペース",
       "axis_runstyles": [
@@ -34,8 +53,8 @@
       "hole_count": 4
     },
     {
-      "race_id": "202648112405",
-      "venue": "名古屋",
+      "race_id": "202642112509",
+      "venue": "浦和",
       "race_number": "",
       "is_hit": false,
       "investment": 2200,
@@ -43,7 +62,7 @@
       "profit": -2200,
       "num_horses": 0,
       "track": "ダ",
-      "distance": 1500,
+      "distance": 1400,
       "turbulence": "中",
       "predicted_pace": "ミドルペース",
       "axis_runstyles": [
@@ -56,23 +75,23 @@
   "performance_by_segment": {
     "by_num_horses": {
       "0": {
-        "races": 5,
+        "races": 9,
         "hits": 0,
         "hit_rate": 0.0,
-        "investment": 5700,
+        "investment": 9000,
         "payout": 0,
-        "profit": -5700,
+        "profit": -9000,
         "recovery_rate": 0.0
       }
     },
     "by_track": {
       "ダ": {
-        "races": 2,
+        "races": 3,
         "hits": 0,
         "hit_rate": 0.0,
-        "investment": 4500,
+        "investment": 6600,
         "payout": 0,
-        "profit": -4500,
+        "profit": -6600,
         "recovery_rate": 0.0
       }
     },
@@ -81,23 +100,12 @@
         "races": 1,
         "hits": 0,
         "hit_rate": 0.0,
-        "investment": 2300,
+        "investment": 2100,
         "payout": 0,
-        "profit": -2300,
+        "profit": -2100,
         "recovery_rate": 0.0
       },
       "マイル": {
-        "races": 1,
-        "hits": 0,
-        "hit_rate": 0.0,
-        "investment": 2200,
-        "payout": 0,
-        "profit": -2200,
-        "recovery_rate": 0.0
-      }
-    },
-    "by_turbulence": {
-      "中": {
         "races": 2,
         "hits": 0,
         "hit_rate": 0.0,
@@ -107,26 +115,37 @@
         "recovery_rate": 0.0
       }
     },
-    "by_venue": {
-      "水沢": {
+    "by_turbulence": {
+      "中": {
         "races": 3,
         "hits": 0,
         "hit_rate": 0.0,
-        "investment": 3100,
+        "investment": 6600,
         "payout": 0,
-        "profit": -3100,
+        "profit": -6600,
         "recovery_rate": 0.0
-      },
-      "名古屋": {
-        "races": 1,
+      }
+    },
+    "by_venue": {
+      "園田": {
+        "races": 4,
         "hits": 0,
         "hit_rate": 0.0,
-        "investment": 2200,
+        "investment": 5200,
         "payout": 0,
-        "profit": -2200,
+        "profit": -5200,
         "recovery_rate": 0.0
       },
       "浦和": {
+        "races": 4,
+        "hits": 0,
+        "hit_rate": 0.0,
+        "investment": 3400,
+        "payout": 0,
+        "profit": -3400,
+        "recovery_rate": 0.0
+      },
+      "名古屋": {
         "races": 1,
         "hits": 0,
         "hit_rate": 0.0,
@@ -137,6 +156,15 @@
       }
     },
     "by_hole_count": {
+      "5": {
+        "races": 2,
+        "hits": 0,
+        "hit_rate": 0.0,
+        "investment": 4300,
+        "payout": 0,
+        "profit": -4300,
+        "recovery_rate": 0.0
+      },
       "4": {
         "races": 1,
         "hits": 0,
@@ -145,30 +173,21 @@
         "payout": 0,
         "profit": -2300,
         "recovery_rate": 0.0
-      },
-      "5": {
-        "races": 1,
-        "hits": 0,
-        "hit_rate": 0.0,
-        "investment": 2200,
-        "payout": 0,
-        "profit": -2200,
-        "recovery_rate": 0.0
       }
     }
   },
   "pace_analysis": {
     "ミドルペース": {
-      "races": 2,
+      "races": 3,
       "hits": 0,
       "hit_rate": 0.0,
-      "investment": 4500,
+      "investment": 6600,
       "payout": 0,
-      "profit": -4500,
+      "profit": -6600,
       "recovery_rate": 0.0,
       "axis_runstyle_performance": {
         "不明": {
-          "races": 5,
+          "races": 7,
           "hits": 0,
           "hit_rate": 0.0
         }
