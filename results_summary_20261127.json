@@ -1,0 +1,62 @@
+{
+  "ymd": "20261127",
+  "generated_at": "2026-11-26 22:27:00",
+  "logic_version": "v12",
+  "summary": {
+    "total_races": 3,
+    "hit_count": 0,
+    "miss_count": 3,
+    "hit_rate": 0.0,
+    "total_investment": 1200,
+    "total_payout": 0,
+    "net_profit": -1200,
+    "recovery_rate": 0.0
+  },
+  "details": [
+    {
+      "race_id": "202642112706",
+      "race_name": "C2選抜馬イ",
+      "venue": "浦和",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.6,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202642112711",
+      "race_name": "’26まがたま盃(A2)",
+      "venue": "浦和",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.85,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202650112704",
+      "race_name": "アルビレオ賞C3一",
+      "venue": "園田",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.55,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    }
+  ]
+}
