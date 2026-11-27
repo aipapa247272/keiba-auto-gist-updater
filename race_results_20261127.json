@@ -1,7 +1,7 @@
 {
   "date": "2026/11/27",
   "ymd": "20261127",
-  "generated_at": "2026-11-26 22:27:00",
+  "generated_at": "2026-11-27 00:00:08",
   "total_races": 3,
   "hit_count": 0,
   "miss_count": 0,
@@ -143,8 +143,7 @@
       "race_verification": {},
       "virtual_bets_result": {},
       "weather": "",
-      "track_condition": "",
-      "predicted_pace": "ハイペース"
+      "track_condition": ""
     },
     {
       "race_id": "202642112711",
@@ -250,8 +249,7 @@
       "race_verification": {},
       "virtual_bets_result": {},
       "weather": "",
-      "track_condition": "",
-      "predicted_pace": "ハイペース"
+      "track_condition": ""
     },
     {
       "race_id": "202650112704",
@@ -357,8 +355,7 @@
       "race_verification": {},
       "virtual_bets_result": {},
       "weather": "",
-      "track_condition": "",
-      "predicted_pace": "スローペース"
+      "track_condition": ""
     }
   ]
 }
