@@ -1,0 +1,47 @@
+{
+  "ymd": "20261128",
+  "generated_at": "2026-11-27 22:07:21",
+  "logic_version": "v12",
+  "summary": {
+    "total_races": 2,
+    "hit_count": 0,
+    "miss_count": 2,
+    "hit_rate": 0.0,
+    "total_investment": 800,
+    "total_payout": 0,
+    "net_profit": -800,
+    "recovery_rate": 0.0
+  },
+  "details": [
+    {
+      "race_id": "202605050710",
+      "race_name": "シャングリラS",
+      "venue": "東京",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.11,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    },
+    {
+      "race_id": "202608050710",
+      "race_name": "東山S",
+      "venue": "京都",
+      "prediction_type": "reference",
+      "investment": 400,
+      "combo_count": 4,
+      "per_bet_investment": 100,
+      "synthetic_odds": 2.26,
+      "hit": false,
+      "hit_type": null,
+      "payout": 0,
+      "profit": -400,
+      "reason": "着順データなし"
+    }
+  ]
+}

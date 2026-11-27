@@ -1,0 +1,257 @@
+{
+  "date": "2026/11/28",
+  "ymd": "20261128",
+  "generated_at": "2026-11-27 22:07:21",
+  "total_races": 2,
+  "hit_count": 0,
+  "miss_count": 0,
+  "unavailable_count": 2,
+  "no_pred_count": 0,
+  "valid_races": 0,
+  "total_investment": 0,
+  "total_return": 0,
+  "total_profit": 0,
+  "hit_rate": 0,
+  "recovery_rate": 0,
+  "summary_by_type": {
+    "recommend": {
+      "label": "推奨",
+      "total_races": 0,
+      "hit_count": 0,
+      "valid_races": 0,
+      "total_investment": 0,
+      "total_return": 0,
+      "total_profit": 0,
+      "hit_rate": 0,
+      "recovery_rate": 0
+    },
+    "reference": {
+      "label": "参考",
+      "total_races": 2,
+      "hit_count": 0,
+      "valid_races": 0,
+      "total_investment": 0,
+      "total_return": 0,
+      "total_profit": 0,
+      "hit_rate": 0,
+      "recovery_rate": 0
+    }
+  },
+  "races": [
+    {
+      "race_id": "202605050710",
+      "venue": "東京",
+      "race_num": "10",
+      "race_name": "シャングリラS",
+      "prediction_type": "reference",
+      "prediction_label": "参考",
+      "ref_rank": "⭐⭐",
+      "note": "合成オッズが推奨基準未満。自己判断でご参考ください。",
+      "synthetic_odds": 2.11,
+      "score_tier": "",
+      "distance": 1400,
+      "track": "ダ",
+      "start_time": "14:50",
+      "betting_plan": {
+        "軸": [
+          {
+            "馬番": 1,
+            "馬名": "レッドラパルマ",
+            "人気": null,
+            "補正後スコア": 71.0
+          },
+          {
+            "馬番": 19,
+            "馬名": "メイショウツヨキ",
+            "人気": null,
+            "補正後スコア": 69.5
+          }
+        ],
+        "相手": [
+          {
+            "馬番": 21,
+            "馬名": "モーニングマジック",
+            "人気": null
+          },
+          {
+            "馬番": 20,
+            "馬名": "セギレエルビエント",
+            "人気": null
+          }
+        ],
+        "穴": [
+          {
+            "馬番": 12,
+            "馬名": "バルダンツァ",
+            "人気": null
+          },
+          {
+            "馬番": 15,
+            "馬名": "カルパ",
+            "人気": null
+          },
+          {
+            "馬番": 23,
+            "馬名": "ジャンヌドゥレーヴ",
+            "人気": null
+          }
+        ],
+        "合成オッズ": 2.11,
+        "組み合わせ数": 4,
+        "全買い目": [
+          [
+            1,
+            19,
+            21
+          ],
+          [
+            1,
+            19,
+            20
+          ],
+          [
+            1,
+            21,
+            20
+          ],
+          [
+            19,
+            21,
+            20
+          ]
+        ],
+        "投資額": 400
+      },
+      "status": "結果取得不可",
+      "predicted": [
+        "1-19-21",
+        "1-19-20",
+        "1-21-20",
+        "19-21-20"
+      ],
+      "actual": [],
+      "hit": false,
+      "investment": 400,
+      "per_bet_investment": 100,
+      "return": 0,
+      "profit": 0,
+      "aggregate_excluded": true,
+      "payouts": {},
+      "horse_weights": [],
+      "all_horses_result": [],
+      "race_verification": {},
+      "virtual_bets_result": {},
+      "weather": "",
+      "track_condition": "",
+      "predicted_pace": "スローペース"
+    },
+    {
+      "race_id": "202608050710",
+      "venue": "京都",
+      "race_num": "10",
+      "race_name": "東山S",
+      "prediction_type": "reference",
+      "prediction_label": "参考",
+      "ref_rank": "⭐⭐",
+      "note": "合成オッズが推奨基準未満。自己判断でご参考ください。",
+      "synthetic_odds": 2.26,
+      "score_tier": "",
+      "distance": 1400,
+      "track": "芝",
+      "start_time": "15:05",
+      "betting_plan": {
+        "軸": [
+          {
+            "馬番": 16,
+            "馬名": "ラージギャラリー",
+            "人気": null,
+            "補正後スコア": 66.5
+          },
+          {
+            "馬番": 2,
+            "馬名": "コスモアディラート",
+            "人気": null,
+            "補正後スコア": 64.5
+          },
+          {
+            "馬番": 14,
+            "馬名": "シャイフ",
+            "人気": null,
+            "補正後スコア": 59.75
+          }
+        ],
+        "相手": [
+          {
+            "馬番": 12,
+            "馬名": "サンタンカ",
+            "人気": null
+          }
+        ],
+        "穴": [
+          {
+            "馬番": 5,
+            "馬名": "フライングブレード",
+            "人気": null
+          },
+          {
+            "馬番": 7,
+            "馬名": "セブンマジシャン",
+            "人気": null
+          },
+          {
+            "馬番": 1,
+            "馬名": "トーホウディアス",
+            "人気": null
+          }
+        ],
+        "合成オッズ": 2.26,
+        "組み合わせ数": 4,
+        "全買い目": [
+          [
+            16,
+            2,
+            14
+          ],
+          [
+            16,
+            2,
+            12
+          ],
+          [
+            16,
+            14,
+            12
+          ],
+          [
+            2,
+            14,
+            12
+          ]
+        ],
+        "投資額": 400
+      },
+      "status": "結果取得不可",
+      "predicted": [
+        "16-2-14",
+        "16-2-12",
+        "16-14-12",
+        "2-14-12"
+      ],
+      "actual": [],
+      "hit": false,
+      "investment": 400,
+      "per_bet_investment": 100,
+      "return": 0,
+      "profit": 0,
+      "aggregate_excluded": true,
+      "payouts": {},
+      "horse_weights": [],
+      "all_horses_result": [],
+      "race_verification": {},
+      "virtual_bets_result": {},
+      "weather": "",
+      "track_condition": "",
+      "predicted_pace": "ハイペース"
+    }
+  ]
+}
